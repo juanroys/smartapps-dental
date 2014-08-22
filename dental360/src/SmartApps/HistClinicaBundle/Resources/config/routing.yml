@@ -1,0 +1,3 @@
+hist_clinica_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: HistClinicaBundle:Default:index }
