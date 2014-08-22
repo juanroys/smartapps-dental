@@ -1,0 +1,8 @@
+usuario:
+    resource: "@UsuarioBundle/Resources/config/routing.yml"
+    prefix:   /
+
+hist_clinica:
+    resource: "@HistClinicaBundle/Resources/config/routing.yml"
+    prefix:   /
+
