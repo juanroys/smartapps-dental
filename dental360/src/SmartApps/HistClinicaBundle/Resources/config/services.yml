@@ -1,0 +1,7 @@
+parameters:
+#    hist_clinica.example.class: SmartApps\HistClinicaBundle\Example
+
+services:
+#    hist_clinica.example:
+#        class: %hist_clinica.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
