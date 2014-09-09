@@ -1,0 +1,66 @@
+{% extends '::extranet.html.twig' %}
+{% block body -%}
+<h1>Historia Clinica</h1>
+
+<form action="{{path('historiaClinica_create')}}" method="post">
+    <input type="hidden" name="paciente_id" value="{{paciente.id}}">
+{% for grupo in grupos %}
+    <div class="grupo">
+    {{grupo.titulo}}
+        <div class="pregunta">
+            <table>
+    {% for pregunta in grupo.preguntas %}
+                {%if errores is defined and attribute(errores,pregunta.id) is defined%}
+                <tr>
+                    <td>{{attribute(errores,pregunta.id)}}</td>
+                </tr>
+                {%endif%}
+                <tr> 
+                    <td>{{pregunta.enunciado}}</td>
+                 {%if pregunta.tipoPregunta.id==1%}
+                    {%for opcionRespuesta in pregunta.tipoPregunta.opcionesRespuesta%}
+                    <td>
+                        {%if opcionRespuesta.valorTexto is defined%}
+                        <p class="">{{opcionRespuesta.valorTexto}}</p>
+                        {%endif%}
+                        <input type="text" name="{{pregunta.id}}" class=""
+                    </td>
+                 {%endfor%}
+                 {%elseif pregunta.tipoPregunta.id in [2,3,4,6]%}
+                     {%for opcionRespuesta in pregunta.tipoPregunta.opcionesRespuesta%}
+                    <td>
+                        <input type="radio" name="{{pregunta.id}}" class="" value="{{opcionRespuesta.valorTexto}}">{{opcionRespuesta.valorTexto}}
+                    </td>
+                     {%endfor%} 
+                 {%elseif pregunta.tipoPregunta.id ==5 %}
+                     {%for opcionRespuesta in pregunta.tipoPregunta.opcionesRespuesta%}
+                    <td>
+                        <input required="{{pregunta.obligatoria ? 'true' : 'false' }}" type="number" name="{{pregunta.id}}" class="" value="{{opcionRespuesta.valorNumero}}" min="0">{{opcionRespuesta.valorTexto}}
+                    </td>
+                     {%endfor%} 
+                 {%endif%}
+                </tr>
+    {% else %}
+                <tr>
+                <p>No hay preguntas para este grupo</p>
+                </tr>
+    {% endfor %}
+            </table>
+        </div>
+    </div>
+{% else %}
+    <div class="grupo">
+        <p> No hay grupos de preguntas guardados</p>
+    </div>
+{% endfor%}
+    <input type="submit">
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('historiaClinica') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}

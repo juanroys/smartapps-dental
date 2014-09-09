@@ -1,0 +1,148 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Paciente</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Apellido1</th>
+                <td>{{ entity.apellido1 }}</td>
+            </tr>
+            <tr>
+                <th>Apellido2</th>
+                <td>{{ entity.apellido2 }}</td>
+            </tr>
+            <tr>
+                <th>Nombres</th>
+                <td>{{ entity.nombres }}</td>
+            </tr>
+            <tr>
+                <th>Fechanacimiento</th>
+                <td>{{ entity.fechaNacimiento|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Lugarnacimiento</th>
+                <td>{{ entity.lugarNacimiento }}</td>
+            </tr>
+            <tr>
+                <th>Tipoidentificacion</th>
+                <td>{{ entity.tipoIdentificacion }}</td>
+            </tr>
+            <tr>
+                <th>Noidentificacion</th>
+                <td>{{ entity.noIdentificacion }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ entity.email }}</td>
+            </tr>
+            <tr>
+                <th>Estadocivil</th>
+                <td>{{ entity.estadoCivil }}</td>
+            </tr>
+            <tr>
+                <th>Sexo</th>
+                <td>{{ entity.sexo }}</td>
+            </tr>
+            <tr>
+                <th>Ocupacion</th>
+                <td>{{ entity.ocupacion }}</td>
+            </tr>
+            <tr>
+                <th>Empresa</th>
+                <td>{{ entity.empresa }}</td>
+            </tr>
+            <tr>
+                <th>Cargo</th>
+                <td>{{ entity.cargo }}</td>
+            </tr>
+            <tr>
+                <th>Eps</th>
+                <td>{{ entity.ePS }}</td>
+            </tr>
+            <tr>
+                <th>Cotizantebeneficiario</th>
+                <td>{{ entity.cotizanteBeneficiario }}</td>
+            </tr>
+            <tr>
+                <th>Responnombrecompleto</th>
+                <td>{{ entity.responNombreCompleto }}</td>
+            </tr>
+            <tr>
+                <th>Responnoidentificacion</th>
+                <td>{{ entity.responNoIdentificacion }}</td>
+            </tr>
+            <tr>
+                <th>Responparentesco</th>
+                <td>{{ entity.responParentesco }}</td>
+            </tr>
+            <tr>
+                <th>Residenciamunicipio</th>
+                <td>{{ entity.residenciaMunicipio }}</td>
+            </tr>
+            <tr>
+                <th>Residenciadepartamento</th>
+                <td>{{ entity.residenciaDepartamento }}</td>
+            </tr>
+            <tr>
+                <th>Residenciadireccion</th>
+                <td>{{ entity.residenciaDireccion }}</td>
+            </tr>
+            <tr>
+                <th>Residenciatelefono</th>
+                <td>{{ entity.residenciaTelefono }}</td>
+            </tr>
+            <tr>
+                <th>Trabajomunicipio</th>
+                <td>{{ entity.trabajoMunicipio }}</td>
+            </tr>
+            <tr>
+                <th>Trabajodepartamento</th>
+                <td>{{ entity.trabajoDepartamento }}</td>
+            </tr>
+            <tr>
+                <th>Trabajodireccion</th>
+                <td>{{ entity.trabajoDireccion }}</td>
+            </tr>
+            <tr>
+                <th>Trabajotelefono</th>
+                <td>{{ entity.trabajoTelefono }}</td>
+            </tr>
+            <tr>
+                <th>Responubicaciondepartamento</th>
+                <td>{{ entity.responUbicacionDepartamento }}</td>
+            </tr>
+            <tr>
+                <th>Responubicacionmunicipio</th>
+                <td>{{ entity.responUbicacionMunicipio }}</td>
+            </tr>
+            <tr>
+                <th>Responubicaciondireccion</th>
+                <td>{{ entity.responUbicacionDireccion }}</td>
+            </tr>
+            <tr>
+                <th>Responubicaciontelefono</th>
+                <td>{{ entity.responUbicacionTelefono }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('paciente') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('paciente_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

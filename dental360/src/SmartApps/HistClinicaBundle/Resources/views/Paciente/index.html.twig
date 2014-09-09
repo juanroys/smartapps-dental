@@ -1,0 +1,102 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Paciente list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Apellido1</th>
+                <th>Apellido2</th>
+                <th>Nombres</th>
+                <th>Fechanacimiento</th>
+                <th>Lugarnacimiento</th>
+                <th>Tipoidentificacion</th>
+                <th>Noidentificacion</th>
+                <th>Email</th>
+                <th>Estadocivil</th>
+                <th>Sexo</th>
+                <th>Ocupacion</th>
+                <th>Empresa</th>
+                <th>Cargo</th>
+                <th>Eps</th>
+                <th>Cotizantebeneficiario</th>
+                <th>Responnombrecompleto</th>
+                <th>Responnoidentificacion</th>
+                <th>Responparentesco</th>
+                <th>Residenciamunicipio</th>
+                <th>Residenciadepartamento</th>
+                <th>Residenciadireccion</th>
+                <th>Residenciatelefono</th>
+                <th>Trabajomunicipio</th>
+                <th>Trabajodepartamento</th>
+                <th>Trabajodireccion</th>
+                <th>Trabajotelefono</th>
+                <th>Responubicaciondepartamento</th>
+                <th>Responubicacionmunicipio</th>
+                <th>Responubicaciondireccion</th>
+                <th>Responubicaciontelefono</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('paciente_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.apellido1 }}</td>
+                <td>{{ entity.apellido2 }}</td>
+                <td>{{ entity.nombres }}</td>
+                <td>{% if entity.fechaNacimiento %}{{ entity.fechaNacimiento|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.lugarNacimiento }}</td>
+                <td>{{ entity.tipoIdentificacion }}</td>
+                <td>{{ entity.noIdentificacion }}</td>
+                <td>{{ entity.email }}</td>
+                <td>{{ entity.estadoCivil }}</td>
+                <td>{{ entity.sexo }}</td>
+                <td>{{ entity.ocupacion }}</td>
+                <td>{{ entity.empresa }}</td>
+                <td>{{ entity.cargo }}</td>
+                <td>{{ entity.ePS }}</td>
+                <td>{{ entity.cotizanteBeneficiario }}</td>
+                <td>{{ entity.responNombreCompleto }}</td>
+                <td>{{ entity.responNoIdentificacion }}</td>
+                <td>{{ entity.responParentesco }}</td>
+                <td>{{ entity.residenciaMunicipio }}</td>
+                <td>{{ entity.residenciaDepartamento }}</td>
+                <td>{{ entity.residenciaDireccion }}</td>
+                <td>{{ entity.residenciaTelefono }}</td>
+                <td>{{ entity.trabajoMunicipio }}</td>
+                <td>{{ entity.trabajoDepartamento }}</td>
+                <td>{{ entity.trabajoDireccion }}</td>
+                <td>{{ entity.trabajoTelefono }}</td>
+                <td>{{ entity.responUbicacionDepartamento }}</td>
+                <td>{{ entity.responUbicacionMunicipio }}</td>
+                <td>{{ entity.responUbicacionDireccion }}</td>
+                <td>{{ entity.responUbicacionTelefono }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('paciente_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('paciente_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('historiaClinica_new', { 'id': entity.id }) }}">Historia</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('paciente_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

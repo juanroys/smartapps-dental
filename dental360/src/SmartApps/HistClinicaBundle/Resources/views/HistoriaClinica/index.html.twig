@@ -1,0 +1,43 @@
+{% extends '::extranet.html.twig' %}
+
+{% block body -%}
+    <h1>Historias Clinicas</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Numero</th>
+                <th>Paciente</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ entity.id }}</a></td>
+                <td>{{ entity.paciente.nombres }}</td>
+                <td>
+                <!--<ul>
+                    <li>
+                        <a href="{{ path('convenio_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('convenio_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>-->
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    
+    {{ simple_paginator_render('historiaClinica')}}
+
+        <ul>
+        <li>
+            <a href="{{ path('historiaClinica') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

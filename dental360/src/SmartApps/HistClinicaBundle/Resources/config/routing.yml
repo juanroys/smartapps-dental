@@ -1,3 +1,35 @@
 hist_clinica_homepage:
     path:     /hello/{name}
     defaults: { _controller: HistClinicaBundle:Default:index }
+    
+HistClinicaBundle_grupo:
+    resource: "@HistClinicaBundle/Resources/config/routing/grupo.yml"
+    prefix: /grupo
+
+HistClinicaBundle_convenio:
+        resource: "@HistClinicaBundle/Resources/config/routing/convenio.yml"
+        prefix:   /convenio
+
+HistClinicaBundle_pregunta:
+        resource: "@HistClinicaBundle/Resources/config/routing/pregunta.yml"
+        prefix:   /pregunta
+
+HistClinicaBundle_procedimiento:
+        resource: "@HistClinicaBundle/Resources/config/routing/procedimiento.yml"
+        prefix:   /procedimiento
+        
+HistClinicaBundle_historiaClinica:
+        resource: "@HistClinicaBundle/Resources/config/routing/historiaClinica.yml"
+        prefix: /historiaClinica
+        
+HistClinicaBundle_tipoPregunta:
+        resource: "@HistClinicaBundle/Resources/config/routing/tipopregunta.yml"
+        prefix:   /tipoPregunta
+        
+HistClinicaBundle_opcionrespuesta:
+        resource: "@HistClinicaBundle/Resources/config/routing/opcionrespuesta.yml"
+        prefix:   /opcionRespuesta
+
+HistClinicaBundle_paciente:
+        resource: "@HistClinicaBundle/Resources/config/routing/paciente.yml"
+        prefix:   /paciente

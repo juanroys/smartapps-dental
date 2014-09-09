@@ -1,0 +1,30 @@
+convenio:
+    path:     /
+    defaults: { _controller: "HistClinicaBundle:Convenio:index" }
+
+convenio_show:
+    path:     /{id}/show
+    defaults: { _controller: "HistClinicaBundle:Convenio:show" }
+
+convenio_new:
+    path:     /new
+    defaults: { _controller: "HistClinicaBundle:Convenio:new" }
+
+convenio_create:
+    path:     /create
+    defaults: { _controller: "HistClinicaBundle:Convenio:create" }
+    requirements: { _method: post }
+
+convenio_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "HistClinicaBundle:Convenio:edit" }
+
+convenio_update:
+    path:     /{id}/update
+    defaults: { _controller: "HistClinicaBundle:Convenio:update" }
+    requirements: { _method: post|put }
+
+convenio_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "HistClinicaBundle:Convenio:delete" }
+    requirements: { _method: post|delete }
