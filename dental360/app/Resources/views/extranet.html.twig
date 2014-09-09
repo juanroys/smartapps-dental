@@ -1,0 +1,17 @@
+
+{% extends '::base.html.twig' %}
+{% block body %}
+<header>
+    <h1><a href="{{ path('#') }}">DENTAL 360</a></h1>
+    <nav>
+        <ul>
+            <li><a href="{{ path('#') }}">Item 1</a></li>
+            <li><a href="#">Item 2</a></li>
+            <li><a href="#">Item 3</a></li>
+        </ul>
+    </nav>
+</header>
+<article>
+{% block article %}{% endblock %}
+</article>
+{% endblock%}
