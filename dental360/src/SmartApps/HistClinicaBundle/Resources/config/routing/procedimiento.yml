@@ -1,0 +1,30 @@
+procedimiento:
+    path:     /
+    defaults: { _controller: "HistClinicaBundle:Procedimiento:index" }
+
+procedimiento_show:
+    path:     /{id}/show
+    defaults: { _controller: "HistClinicaBundle:Procedimiento:show" }
+
+procedimiento_new:
+    path:     /new
+    defaults: { _controller: "HistClinicaBundle:Procedimiento:new" }
+
+procedimiento_create:
+    path:     /create
+    defaults: { _controller: "HistClinicaBundle:Procedimiento:create" }
+    requirements: { _method: post }
+
+procedimiento_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "HistClinicaBundle:Procedimiento:edit" }
+
+procedimiento_update:
+    path:     /{id}/update
+    defaults: { _controller: "HistClinicaBundle:Procedimiento:update" }
+    requirements: { _method: post|put }
+
+procedimiento_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "HistClinicaBundle:Procedimiento:delete" }
+    requirements: { _method: post|delete }

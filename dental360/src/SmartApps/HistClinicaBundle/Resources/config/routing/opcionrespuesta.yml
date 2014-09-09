@@ -1,0 +1,30 @@
+opcionRespuesta:
+    path:     /
+    defaults: { _controller: "HistClinicaBundle:OpcionRespuesta:index" }
+
+opcionRespuesta_show:
+    path:     /{id}/show
+    defaults: { _controller: "HistClinicaBundle:OpcionRespuesta:show" }
+
+opcionRespuesta_new:
+    path:     /new
+    defaults: { _controller: "HistClinicaBundle:OpcionRespuesta:new" }
+
+opcionRespuesta_create:
+    path:     /create
+    defaults: { _controller: "HistClinicaBundle:OpcionRespuesta:create" }
+    requirements: { _method: post }
+
+opcionRespuesta_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "HistClinicaBundle:OpcionRespuesta:edit" }
+
+opcionRespuesta_update:
+    path:     /{id}/update
+    defaults: { _controller: "HistClinicaBundle:OpcionRespuesta:update" }
+    requirements: { _method: post|put }
+
+opcionRespuesta_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "HistClinicaBundle:OpcionRespuesta:delete" }
+    requirements: { _method: post|delete }

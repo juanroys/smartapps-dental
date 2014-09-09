@@ -1,0 +1,12 @@
+historiaClinica:
+    path:     /
+    defaults: { _controller: "HistClinicaBundle:HistoriaClinica:index" }
+
+historiaClinica_new:
+    path:     /new/{id}
+    defaults: { _controller: "HistClinicaBundle:HistoriaClinica:new" }
+
+historiaClinica_create:
+    path:     /create
+    defaults: { _controller: "HistClinicaBundle:HistoriaClinica:create" }
+    requirements: { _method: post|get }
