@@ -16,11 +16,12 @@ class PreguntaType extends AbstractType
     {
         $builder
             ->add('enunciado')
-            ->add('obligatoria','checkbox',array('required'=>false))
+            ->add('obligatoria')
             ->add('orden')
-            ->add('filaCompleta','checkbox',array('required'=>false))
+            ->add('colspan')
+            ->add('rowspan')
             ->add('noColumna')
-            ->add('estaActiva','checkbox',array('required'=>false))
+            ->add('estaActiva')
             ->add('tipoPregunta')
             ->add('grupo')
         ;

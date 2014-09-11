@@ -21,7 +21,7 @@ class HistoriaClinicaController extends Controller {
 
     public function newAction($id) {
         $em = $this->getDoctrine()->getManager();
-        $grupos = $em->getRepository('HistClinicaBundle:Grupo')->findAll();
+        $grupos = $em->getRepository('HistClinicaBundle:Grupo')->findGruposOrdenados();
         $paciente = $em->getRepository('HistClinicaBundle:Paciente')->find($id);
         return $this->render('HistClinicaBundle:HistoriaClinica:new.html.twig', array(
                     'grupos' => $grupos,
@@ -49,7 +49,7 @@ class HistoriaClinicaController extends Controller {
             }
         }else{
             $paciente = $em->getRepository('HistClinicaBundle:Paciente')->find($paciente_id);
-            $grupos = $em->getRepository('HistClinicaBundle:Grupo')->findAll();
+            $grupos = $em->getRepository('HistClinicaBundle:Grupo')->findGruposOrdenados();
             return $this->render('HistClinicaBundle:HistoriaClinica:new.html.twig', array(
                     'grupos' => $grupos,
                     'paciente' => $paciente,
