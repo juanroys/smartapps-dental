@@ -36,14 +36,14 @@ class Pregunta
     /**
      * @var string
      *
-     * @ORM\Column(name="enunciado", type="string", length=1024)
+     * @ORM\Column(name="enunciado", type="string", length=1024, nullable=true)
      */
     private $enunciado;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="obligatoria", type="boolean")
+     * @ORM\Column(name="obligatoria", type="boolean", nullable=true)
      */
     private $obligatoria;
 
@@ -78,7 +78,7 @@ class Pregunta
     /**
      * @var boolean
      *
-     * @ORM\Column(name="estaActiva", type="boolean")
+     * @ORM\Column(name="estaActiva", type="boolean",nullable=true)
      */
     private $estaActiva;
 

@@ -22,11 +22,8 @@ class PreguntaController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        //$entities = $em->getRepository('HistClinicaBundle:Grupo')->findAll();
-        $paginador=  $this->get('ideup.simple_paginator');
-        $entities=$paginador->paginate(
-                $em->getRepository("HistClinicaBundle:Pregunta")->queryTodasLasPreguntas()
-                )->getResult();
+
+        $entities = $em->getRepository('HistClinicaBundle:Pregunta')->findAll();
 
         return $this->render('HistClinicaBundle:Pregunta:index.html.twig', array(
             'entities' => $entities,
