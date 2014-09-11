@@ -29,6 +29,17 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    globals:
+        tipo:
+            string: 1
+            si_no_nosabe: 2
+            si_no: 3
+            buena_regular_mala: 4
+            numero_entero: 5
+            normal_anormal: 6
+            enunciado: 7
+            si_no_casillas: 8
+            diagnostico_radio: 9
 
 # Assetic Configuration
 assetic:
