@@ -1,0 +1,30 @@
+costoProcedimiento:
+    path:     /
+    defaults: { _controller: "HistClinicaBundle:CostoProcedimiento:index" }
+
+costoProcedimiento_show:
+    path:     /{id}/show
+    defaults: { _controller: "HistClinicaBundle:CostoProcedimiento:show" }
+
+costoProcedimiento_new:
+    path:     /new
+    defaults: { _controller: "HistClinicaBundle:CostoProcedimiento:new" }
+
+costoProcedimiento_create:
+    path:     /create
+    defaults: { _controller: "HistClinicaBundle:CostoProcedimiento:create" }
+    requirements: { _method: post }
+
+costoProcedimiento_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "HistClinicaBundle:CostoProcedimiento:edit" }
+
+costoProcedimiento_update:
+    path:     /{id}/update
+    defaults: { _controller: "HistClinicaBundle:CostoProcedimiento:update" }
+    requirements: { _method: post|put }
+
+costoProcedimiento_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "HistClinicaBundle:CostoProcedimiento:delete" }
+    requirements: { _method: post|delete }

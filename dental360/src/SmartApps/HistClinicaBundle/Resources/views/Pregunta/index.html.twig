@@ -2,7 +2,6 @@
 
 {% block body -%}
     <h1>Pregunta list</h1>
-
     <table class="records_list">
         <thead>
             <tr>
@@ -42,7 +41,7 @@
         {% endfor %}
         </tbody>
     </table>
-
+    {{ simple_paginator_render('pregunta')}}
         <ul>
         <li>
             <a href="{{ path('pregunta_new') }}">

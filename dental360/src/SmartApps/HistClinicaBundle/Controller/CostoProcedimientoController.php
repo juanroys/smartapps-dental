@@ -5,18 +5,18 @@ namespace SmartApps\HistClinicaBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use SmartApps\HistClinicaBundle\Entity\Pregunta;
-use SmartApps\HistClinicaBundle\Form\PreguntaType;
+use SmartApps\HistClinicaBundle\Entity\CostoProcedimiento;
+use SmartApps\HistClinicaBundle\Form\CostoProcedimientoType;
 
 /**
- * Pregunta controller.
+ * CostoProcedimiento controller.
  *
  */
-class PreguntaController extends Controller
+class CostoProcedimientoController extends Controller
 {
 
     /**
-     * Lists all Pregunta entities.
+     * Lists all CostoProcedimiento entities.
      *
      */
     public function indexAction()
@@ -26,19 +26,19 @@ class PreguntaController extends Controller
         //$entities = $em->getRepository('HistClinicaBundle:Procedimiento')->findAll();
         $paginador=  $this->get('ideup.simple_paginator');
         $entities=$paginador->paginate(
-                $em->getRepository("HistClinicaBundle:Pregunta")->queryTodasLasPreguntas()
+                $em->getRepository("HistClinicaBundle:CostoProcedimiento")->queryTodosLosCostos()
                 )->getResult();
-        return $this->render('HistClinicaBundle:Pregunta:index.html.twig', array(
+        return $this->render('HistClinicaBundle:CostoProcedimiento:index.html.twig', array(
             'entities' => $entities,
         ));
     }
     /**
-     * Creates a new Pregunta entity.
+     * Creates a new CostoProcedimiento entity.
      *
      */
     public function createAction(Request $request)
     {
-        $entity = new Pregunta();
+        $entity = new CostoProcedimiento();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
@@ -47,26 +47,26 @@ class PreguntaController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('pregunta_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('costoProcedimiento_show', array('id' => $entity->getId())));
         }
 
-        return $this->render('HistClinicaBundle:Pregunta:new.html.twig', array(
+        return $this->render('HistClinicaBundle:CostoProcedimiento:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
     }
 
     /**
-     * Creates a form to create a Pregunta entity.
+     * Creates a form to create a CostoProcedimiento entity.
      *
-     * @param Pregunta $entity The entity
+     * @param CostoProcedimiento $entity The entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Pregunta $entity)
+    private function createCreateForm(CostoProcedimiento $entity)
     {
-        $form = $this->createForm(new PreguntaType(), $entity, array(
-            'action' => $this->generateUrl('pregunta_create'),
+        $form = $this->createForm(new CostoProcedimientoType(), $entity, array(
+            'action' => $this->generateUrl('costoProcedimiento_create'),
             'method' => 'POST',
         ));
 
@@ -76,60 +76,60 @@ class PreguntaController extends Controller
     }
 
     /**
-     * Displays a form to create a new Pregunta entity.
+     * Displays a form to create a new CostoProcedimiento entity.
      *
      */
     public function newAction()
     {
-        $entity = new Pregunta();
+        $entity = new CostoProcedimiento();
         $form   = $this->createCreateForm($entity);
 
-        return $this->render('HistClinicaBundle:Pregunta:new.html.twig', array(
+        return $this->render('HistClinicaBundle:CostoProcedimiento:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
     }
 
     /**
-     * Finds and displays a Pregunta entity.
+     * Finds and displays a CostoProcedimiento entity.
      *
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('HistClinicaBundle:Pregunta')->find($id);
+        $entity = $em->getRepository('HistClinicaBundle:CostoProcedimiento')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Pregunta entity.');
+            throw $this->createNotFoundException('Unable to find CostoProcedimiento entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('HistClinicaBundle:Pregunta:show.html.twig', array(
+        return $this->render('HistClinicaBundle:CostoProcedimiento:show.html.twig', array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
-     * Displays a form to edit an existing Pregunta entity.
+     * Displays a form to edit an existing CostoProcedimiento entity.
      *
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('HistClinicaBundle:Pregunta')->find($id);
+        $entity = $em->getRepository('HistClinicaBundle:CostoProcedimiento')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Pregunta entity.');
+            throw $this->createNotFoundException('Unable to find CostoProcedimiento entity.');
         }
 
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('HistClinicaBundle:Pregunta:edit.html.twig', array(
+        return $this->render('HistClinicaBundle:CostoProcedimiento:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -137,16 +137,16 @@ class PreguntaController extends Controller
     }
 
     /**
-    * Creates a form to edit a Pregunta entity.
+    * Creates a form to edit a CostoProcedimiento entity.
     *
-    * @param Pregunta $entity The entity
+    * @param CostoProcedimiento $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Pregunta $entity)
+    private function createEditForm(CostoProcedimiento $entity)
     {
-        $form = $this->createForm(new PreguntaType(), $entity, array(
-            'action' => $this->generateUrl('pregunta_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new CostoProcedimientoType(), $entity, array(
+            'action' => $this->generateUrl('costoProcedimiento_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -155,17 +155,17 @@ class PreguntaController extends Controller
         return $form;
     }
     /**
-     * Edits an existing Pregunta entity.
+     * Edits an existing CostoProcedimiento entity.
      *
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('HistClinicaBundle:Pregunta')->find($id);
+        $entity = $em->getRepository('HistClinicaBundle:CostoProcedimiento')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Pregunta entity.');
+            throw $this->createNotFoundException('Unable to find CostoProcedimiento entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -175,17 +175,17 @@ class PreguntaController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('pregunta_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('costoProcedimiento_edit', array('id' => $id)));
         }
 
-        return $this->render('HistClinicaBundle:Pregunta:edit.html.twig', array(
+        return $this->render('HistClinicaBundle:CostoProcedimiento:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
     /**
-     * Deletes a Pregunta entity.
+     * Deletes a CostoProcedimiento entity.
      *
      */
     public function deleteAction(Request $request, $id)
@@ -195,21 +195,21 @@ class PreguntaController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('HistClinicaBundle:Pregunta')->find($id);
+            $entity = $em->getRepository('HistClinicaBundle:CostoProcedimiento')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Pregunta entity.');
+                throw $this->createNotFoundException('Unable to find CostoProcedimiento entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('pregunta'));
+        return $this->redirect($this->generateUrl('costoProcedimiento'));
     }
 
     /**
-     * Creates a form to delete a Pregunta entity by id.
+     * Creates a form to delete a CostoProcedimiento entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -218,7 +218,7 @@ class PreguntaController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('pregunta_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('costoProcedimiento_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
