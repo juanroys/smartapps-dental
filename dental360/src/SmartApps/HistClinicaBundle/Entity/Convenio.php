@@ -62,4 +62,8 @@ class Convenio
     {
         return $this->nombreConvenio;
     }
+    
+    public function __toString() {
+        return $this->nombreConvenio;
+    }
 }

@@ -119,7 +119,20 @@
                         <input required="{{pregunta.obligatoria ? 'true' : 'false' }}" type="number" name="{{pregunta.id}}" class="" value="{{opcionRespuesta.valorNumero}}" min="0">{{opcionRespuesta.valorTexto}}
                     {%endfor%} 
                     </td>
+                    
+                 {%elseif pregunta.tipoPregunta.id == tipo.check%}
+                    <td rowspan="{{pregunta.rowspan}}" colspan="{{pregunta.colspan}}">
+                        {{pregunta.enunciado}}
+                        {%if error is defined and error!=''%}
+                        <img src="{{ asset('bundles/histclinica/images/advertencia.png') }}" height="20" width="20" title="{{error}}">
+                        {%endif%}
+                    {%for opcionRespuesta in pregunta.tipoPregunta.opcionesRespuesta%}
+                        <input type="checkbox" name="{{pregunta.id}}" class="" >
+                    </td>
+                    {%endfor%}
+                  
                  {%endif%}
+                    
                  {# Aumenta cada vez que se dibuja un <td>#}
                  {%set columnaDibujada= columnaDibujada +1%}
     {% endfor %}

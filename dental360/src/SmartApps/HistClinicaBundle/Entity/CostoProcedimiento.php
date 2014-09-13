@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * CostoProcedimiento
  *
- * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Table() 
+ * @ORM\Entity(repositoryClass="SmartApps\HistClinicaBundle\Entity\CostoProcedimientoRepository")
  */
 class CostoProcedimiento
 {
