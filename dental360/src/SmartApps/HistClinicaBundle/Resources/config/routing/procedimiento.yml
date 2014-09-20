@@ -26,5 +26,4 @@ procedimiento_update:
 
 procedimiento_delete:
     path:     /{id}/delete
-    defaults: { _controller: "HistClinicaBundle:Procedimiento:delete" }
-    requirements: { _method: post|delete }
+    defaults: { _controller: "HistClinicaBundle:Procedimiento:delete" }    
