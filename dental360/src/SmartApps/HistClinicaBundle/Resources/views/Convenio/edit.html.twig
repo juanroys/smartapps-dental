@@ -1,27 +1,27 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h2>Convenio</h2>
-
-    {# {{ form(edit_form) }} #}
-    {{ form_start(edit_form) }}            
-        {{form_label(edit_form.nombreConvenio) }}
-        {{form_widget(edit_form.nombreConvenio) }}        
-        {{form_row(edit_form.submit, {'label': 'Guardar'}) }}    
-        
+    <h2>Editar Convenio</h2>
+    {{ form_start(edit_form) }}        
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(edit_form.nombreConvenio) }}</div>
+        <div class="col-md-4">{{form_widget(edit_form.nombreConvenio) }}        </div>    
+    </div>
+    <div class="row formulario-row">
+        <div class="col-md-12">        
+        <ul class="list-inline">
+                <li >
+                    {{form_row(edit_form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default' } }) }}                
+                </li>                
+                <li >
+                    <a href="{{ path('convenio') }}" class="btn btn-default">
+                        Volver al listado
+                    </a>
+                </li>                
+            </ul>        
+        </div>
+    </div>
     {{ form_end(edit_form)}}
-    {{ form_start(delete_form) }} 
-            {{form_row(delete_form.submit, {'label': 'Borrar'}) }}  
-         {{ form_end(delete_form) }} 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('convenio') }}">
-            Back to the list
-        </a>
-    </li>
     
     
-     
-     
-</ul>
 {% endblock %}

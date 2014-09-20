@@ -1,14 +1,27 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Convenio list</h1>
-
-    <table class="records_list">
+    <div class="row">
+        <div class="col-md-7">
+            <h2>Convenios</h2>
+        </div>
+        <div class="col-md-5" style="padding-top: 20px; text-align: right;">
+            <ul class="list-inline">
+                <li >
+                    <a href="{{ path('convenio_new') }}" class="btn btn-default">
+                        Registrar convenio
+                    </a>
+                </li>                
+            </ul>
+        </div>
+    </div>
+        
+    <table class="records_list table table-striped table-condensed table-bordered">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Nombreconvenio</th>
-                <th>Actions</th>
+                <th>Codigo</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -17,12 +30,12 @@
                 <td><a href="{{ path('convenio_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.nombreConvenio }}</td>
                 <td>
-                <ul>
+                <ul class="list-inline">
                     <li>
-                        <a href="{{ path('convenio_show', { 'id': entity.id }) }}">show</a>
+                        <a href="{{ path('convenio_edit', { 'id': entity.id }) }}">Editar</a>
                     </li>
                     <li>
-                        <a href="{{ path('convenio_edit', { 'id': entity.id }) }}">edit</a>
+                        <a href="{{ path('convenio_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar el convenio?');" >Borrar</a>
                     </li>
                 </ul>
                 </td>
@@ -32,12 +45,5 @@
     </table>
     
     {{ simple_paginator_render('convenio')}}
-
-        <ul>
-        <li>
-            <a href="{{ path('convenio_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
+        
     {% endblock %}
