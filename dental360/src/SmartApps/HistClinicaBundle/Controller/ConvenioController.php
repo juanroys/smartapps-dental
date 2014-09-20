@@ -191,10 +191,6 @@ class ConvenioController extends Controller
      */
     public function deleteAction($id)
     {
-        /*$form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) { */
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('HistClinicaBundle:Convenio')->find($id);
 
@@ -204,7 +200,7 @@ class ConvenioController extends Controller
 
             $em->remove($entity);
             $em->flush();
-      /*  }*/
+      
 
         return $this->redirect($this->generateUrl('convenio'));
     }
