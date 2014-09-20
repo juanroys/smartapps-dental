@@ -1,0 +1,4 @@
+new:
+    path: /new/{idHistoria}
+    defaults: { _controller: "HistClinicaBundle:Sugerencia:new" }
+    

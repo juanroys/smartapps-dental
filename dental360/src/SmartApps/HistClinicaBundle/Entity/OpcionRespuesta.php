@@ -23,7 +23,7 @@ class OpcionRespuesta
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\TipoPregunta")
+     * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\TipoPregunta", inversedBy="opcionesRespuesta")
      * @ORM\JoinColumn(name="tipoPreguntaId",referencedColumnName="tipoPreguntaId")
      */
     private $tipoPregunta;

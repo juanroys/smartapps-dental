@@ -4,13 +4,16 @@ namespace SmartApps\HistClinicaBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SmartApps\HistClinicaBundle\Entity\Procedimiento;
 use SmartApps\HistClinicaBundle\Form\ProcedimientoType;
 
 /**
  * Procedimiento controller.
  *
+ * @Route("/procedimiento")
  */
 class ProcedimientoController extends Controller
 {
@@ -18,6 +21,9 @@ class ProcedimientoController extends Controller
     /**
      * Lists all Procedimiento entities.
      *
+     * @Route("/", name="procedimiento")
+     * @Method("GET")
+     * @Template()
      */
     public function indexAction()
     {
@@ -35,6 +41,9 @@ class ProcedimientoController extends Controller
     /**
      * Creates a new Procedimiento entity.
      *
+     * @Route("/", name="procedimiento_create")
+     * @Method("POST")
+     * @Template("HistClinicaBundle:Procedimiento:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -50,10 +59,10 @@ class ProcedimientoController extends Controller
             return $this->redirect($this->generateUrl('procedimiento_show', array('id' => $entity->getId())));
         }
 
-        return $this->render('HistClinicaBundle:Procedimiento:new.html.twig', array(
+        return array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        ));
+        );
     }
 
     /**
@@ -78,21 +87,27 @@ class ProcedimientoController extends Controller
     /**
      * Displays a form to create a new Procedimiento entity.
      *
+     * @Route("/new", name="procedimiento_new")
+     * @Method("GET")
+     * @Template()
      */
     public function newAction()
     {
         $entity = new Procedimiento();
         $form   = $this->createCreateForm($entity);
 
-        return $this->render('HistClinicaBundle:Procedimiento:new.html.twig', array(
+        return array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        ));
+        );
     }
 
     /**
      * Finds and displays a Procedimiento entity.
      *
+     * @Route("/{id}", name="procedimiento_show")
+     * @Method("GET")
+     * @Template()
      */
     public function showAction($id)
     {
@@ -106,15 +121,18 @@ class ProcedimientoController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('HistClinicaBundle:Procedimiento:show.html.twig', array(
+        return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
-        ));
+        );
     }
 
     /**
      * Displays a form to edit an existing Procedimiento entity.
      *
+     * @Route("/{id}/edit", name="procedimiento_edit")
+     * @Method("GET")
+     * @Template()
      */
     public function editAction($id)
     {
@@ -129,11 +147,11 @@ class ProcedimientoController extends Controller
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('HistClinicaBundle:Procedimiento:edit.html.twig', array(
+        return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        );
     }
 
     /**
@@ -157,6 +175,9 @@ class ProcedimientoController extends Controller
     /**
      * Edits an existing Procedimiento entity.
      *
+     * @Route("/{id}", name="procedimiento_update")
+     * @Method("PUT")
+     * @Template("HistClinicaBundle:Procedimiento:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
@@ -178,15 +199,17 @@ class ProcedimientoController extends Controller
             return $this->redirect($this->generateUrl('procedimiento_edit', array('id' => $id)));
         }
 
-        return $this->render('HistClinicaBundle:Procedimiento:edit.html.twig', array(
+        return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        );
     }
     /**
      * Deletes a Procedimiento entity.
      *
+     * @Route("/{id}", name="procedimiento_delete")
+     * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
     {

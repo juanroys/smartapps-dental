@@ -41,13 +41,8 @@
                         {%if error is defined and error!=''%}
                         <img src="{{ asset('bundles/histclinica/images/advertencia.png') }}" height="20" width="20" title="{{error}}">
                         {%endif%}
-                    {%for opcionRespuesta in pregunta.tipoPregunta.opcionesRespuesta%}
-                        {%if opcionRespuesta.valorTexto is defined%}
-                        <p class="">{{opcionRespuesta.valorTexto}}</p>
-                        {%endif%}
-                        <input type="text" name="{{pregunta.id}}" class=""
+                    <input type="text" name="{{pregunta.id}}" class=""/>
                     </td>
-                    {%endfor%}
                     
                  {%elseif pregunta.tipoPregunta.id == tipo.si_no_nosabe%}
                     <td rowspan="{{pregunta.rowspan}}" colspan="{{pregunta.colspan}}">
@@ -58,7 +53,7 @@
                     </td>
                     {%for opcionRespuesta in pregunta.tipoPregunta.opcionesRespuesta%}
                     <td>
-                        <input type="radio" name="{{pregunta.id}}" class="" value="{{opcionRespuesta.valorTexto}}">
+                        <input type="radio" name="{{pregunta.id}}" class="" value="{{opcionRespuesta.valorTexto}}"/>
                     </td>
                     {%endfor%} 
                  
@@ -70,7 +65,8 @@
                     </td>
                     <td rowspan="{{pregunta.rowspan}}" colspan="{{pregunta.colspan}}">
                     {%for opcionRespuesta in pregunta.tipoPregunta.opcionesRespuesta%}
-                        {{opcionRespuesta.valorTexto}}<input type="radio" name="{{pregunta.id}}" class="" value="{{opcionRespuesta.valorTexto}}">
+                        {{opcionRespuesta.valorTexto}}
+                        <input type="radio" name="{{pregunta.id}}" class="" value="{{opcionRespuesta.valorTexto}}"/>
                     {%endfor%} 
                     </td>
                   
@@ -80,7 +76,8 @@
                         <img src="{{ asset('bundles/histclinica/images/advertencia.png') }}" height="20" width="20" title="{{error}}">
                         {%endif%}
                     {%for opcionRespuesta in pregunta.tipoPregunta.opcionesRespuesta%}
-                        {{opcionRespuesta.valorTexto}}<input type="radio" name="{{pregunta.id}}" class="" value="{{opcionRespuesta.valorTexto}}">
+                        {{opcionRespuesta.valorTexto}}
+                        <input type="radio" name="{{pregunta.id}}" class="" value="{{opcionRespuesta.valorTexto}}"/>
                     {%endfor%} 
                     </td>
                     
@@ -93,7 +90,7 @@
                     </td>
                     {%for opcionRespuesta in pregunta.tipoPregunta.opcionesRespuesta%}
                     <td>
-                        <input required="{{pregunta.obligatoria ? 'true' : 'false' }}" type="radio" name="{{pregunta.id}}" class="" value="{{opcionRespuesta.valorTexto}}">
+                        <input required="{{pregunta.obligatoria ? 'true' : 'false' }}" type="radio" name="{{pregunta.id}}" class="" value="{{opcionRespuesta.valorTexto}}"/>
                     </td>
                     {%endfor%} 
                   
@@ -115,9 +112,7 @@
                         {%if error is defined and error!=''%}
                         <img src="{{ asset('bundles/histclinica/images/advertencia.png') }}" height="20" width="20" title="{{error}}">
                         {%endif%}
-                    {%for opcionRespuesta in pregunta.tipoPregunta.opcionesRespuesta%}
-                        <input required="{{pregunta.obligatoria ? 'true' : 'false' }}" type="number" name="{{pregunta.id}}" class="" value="{{opcionRespuesta.valorNumero}}" min="0">{{opcionRespuesta.valorTexto}}
-                    {%endfor%} 
+                        <input required="{{pregunta.obligatoria ? 'true' : 'false' }}" type="number" name="{{pregunta.id}}" class="" min="0"/>
                     </td>
                     
                  {%elseif pregunta.tipoPregunta.id == tipo.check%}
@@ -126,10 +121,8 @@
                         {%if error is defined and error!=''%}
                         <img src="{{ asset('bundles/histclinica/images/advertencia.png') }}" height="20" width="20" title="{{error}}">
                         {%endif%}
-                    {%for opcionRespuesta in pregunta.tipoPregunta.opcionesRespuesta%}
                         <input type="checkbox" name="{{pregunta.id}}" class="" >
-                    </td>
-                    {%endfor%}
+                     </td>
                   
                  {%endif%}
                     
