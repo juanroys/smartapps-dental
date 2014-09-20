@@ -12,6 +12,8 @@
               rel="stylesheet" type="text/css" />
         <link href="{{ asset('bundles/histclinica/css/navbar.css') }}"
               rel="stylesheet" type="text/css" />
+        <link href="{{ asset('bundles/histclinica/css/general.css') }}"
+              rel="stylesheet" type="text/css" />
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
@@ -32,7 +34,7 @@
           </div>
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Link</a></li>
+              <li class="active"><a href="{{ path('convenio') }}">Convenios</a></li>
               <li><a href="#">Link</a></li>
               <li><a href="#">Link</a></li>
               <li class="dropdown">
@@ -68,6 +70,10 @@
             <script src="{{ asset('bundles/histclinica/js/jquery.js') }}"></script>
             <script src="{{ asset('bundles/histclinica/js/bootstrap.js') }}"></script>
         {% endblock %}
+        
+        <div style="font-size: 10px; margin-top: 20px;">            
+                Copyright &copy; 2014 <a href="http://smartapps.com.co/">SmartApps </a>                                     
+        </div>
         </div>        
     </body>
 </html>
