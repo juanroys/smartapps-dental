@@ -8,5 +8,20 @@ and open the template in the editor.
     Author     : Faabian Ruano
 */
 
+.formulario-row{
+    margin-top: 5px;
+}
+
+.records_list th
+{
+    text-align: center;    
+    background-image: linear-gradient(to bottom, #FFF 0%, #E0E0E0 100%);
+    color: #333;
+}
+
+table.records_list
+{
+    border-radius: 5px;
+}
 
 

@@ -48,7 +48,7 @@ class ConvenioController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('convenio_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('convenio'));
         }
 
         return $this->render('HistClinicaBundle:Convenio:new.html.twig', array(
@@ -176,9 +176,9 @@ class ConvenioController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('convenio_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('convenio'));
         }
-
+            
         return $this->render('HistClinicaBundle:Convenio:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
@@ -189,12 +189,12 @@ class ConvenioController extends Controller
      * Deletes a Convenio entity.
      *
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
-        $form = $this->createDeleteForm($id);
+        /*$form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isValid()) { */
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('HistClinicaBundle:Convenio')->find($id);
 
@@ -204,7 +204,7 @@ class ConvenioController extends Controller
 
             $em->remove($entity);
             $em->flush();
-        }
+      /*  }*/
 
         return $this->redirect($this->generateUrl('convenio'));
     }
