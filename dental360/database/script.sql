@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 09-09-2014 a las 06:42:50
+-- Tiempo de generación: 20-09-2014 a las 17:19:29
 -- Versión del servidor: 5.6.16
 -- Versión de PHP: 5.5.11
 
@@ -28,18 +28,19 @@ USE `dentalapp`;
 -- Estructura de tabla para la tabla `Convenio`
 --
 
+DROP TABLE IF EXISTS `Convenio`;
 CREATE TABLE IF NOT EXISTS `Convenio` (
   `convenioId` bigint(20) NOT NULL AUTO_INCREMENT,
   `nombreConvenio` varchar(56) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`convenioId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `CostoProcedimiento`
 --
 
+DROP TABLE IF EXISTS `CostoProcedimiento`;
 CREATE TABLE IF NOT EXISTS `CostoProcedimiento` (
   `costoProcedimientoId` bigint(20) NOT NULL AUTO_INCREMENT,
   `valor` bigint(20) NOT NULL,
@@ -48,14 +49,7 @@ CREATE TABLE IF NOT EXISTS `CostoProcedimiento` (
   PRIMARY KEY (`costoProcedimientoId`),
   KEY `IDX_BE6B3BFC42C7B7FD` (`procedimientoId`),
   KEY `IDX_BE6B3BFCA3FCB4` (`convenioId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
-
---
--- Volcado de datos para la tabla `CostoProcedimiento`
---
-
-INSERT INTO `CostoProcedimiento` (`costoProcedimientoId`, `valor`, `procedimientoId`, `convenioId`) VALUES
-(1, 50000, 1, 2);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -63,6 +57,7 @@ INSERT INTO `CostoProcedimiento` (`costoProcedimientoId`, `valor`, `procedimient
 -- Estructura de tabla para la tabla `DiagnosticoDiente`
 --
 
+DROP TABLE IF EXISTS `DiagnosticoDiente`;
 CREATE TABLE IF NOT EXISTS `DiagnosticoDiente` (
   `diagnosticoDienteId` bigint(20) NOT NULL AUTO_INCREMENT,
   `tipoDiagnostico` int(11) NOT NULL,
@@ -80,6 +75,7 @@ CREATE TABLE IF NOT EXISTS `DiagnosticoDiente` (
 -- Estructura de tabla para la tabla `Grupo`
 --
 
+DROP TABLE IF EXISTS `Grupo`;
 CREATE TABLE IF NOT EXISTS `Grupo` (
   `grupoId` bigint(20) NOT NULL AUTO_INCREMENT,
   `titulo` varchar(124) COLLATE utf8_unicode_ci NOT NULL,
@@ -109,6 +105,7 @@ INSERT INTO `Grupo` (`grupoId`, `titulo`, `orden`) VALUES
 -- Estructura de tabla para la tabla `HistoriaClinica`
 --
 
+DROP TABLE IF EXISTS `HistoriaClinica`;
 CREATE TABLE IF NOT EXISTS `HistoriaClinica` (
   `historiaClinicaId` bigint(20) NOT NULL AUTO_INCREMENT,
   `pacienteId` bigint(20) DEFAULT NULL,
@@ -129,6 +126,7 @@ INSERT INTO `HistoriaClinica` (`historiaClinicaId`, `pacienteId`) VALUES
 -- Estructura de tabla para la tabla `ItemOdontograma`
 --
 
+DROP TABLE IF EXISTS `ItemOdontograma`;
 CREATE TABLE IF NOT EXISTS `ItemOdontograma` (
   `itemOdontogramaId` bigint(20) NOT NULL AUTO_INCREMENT,
   `noCuadrante` int(11) NOT NULL,
@@ -144,6 +142,7 @@ CREATE TABLE IF NOT EXISTS `ItemOdontograma` (
 -- Estructura de tabla para la tabla `Odontograma`
 --
 
+DROP TABLE IF EXISTS `Odontograma`;
 CREATE TABLE IF NOT EXISTS `Odontograma` (
   `odontogramaId` bigint(20) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -158,6 +157,7 @@ CREATE TABLE IF NOT EXISTS `Odontograma` (
 -- Estructura de tabla para la tabla `OpcionRespuesta`
 --
 
+DROP TABLE IF EXISTS `OpcionRespuesta`;
 CREATE TABLE IF NOT EXISTS `OpcionRespuesta` (
   `opcRtaId` bigint(20) NOT NULL AUTO_INCREMENT,
   `orden` int(11) NOT NULL,
@@ -166,21 +166,19 @@ CREATE TABLE IF NOT EXISTS `OpcionRespuesta` (
   `tipoPreguntaId` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`opcRtaId`),
   KEY `IDX_A199ED9546E25505` (`tipoPreguntaId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=20 ;
 
 --
 -- Volcado de datos para la tabla `OpcionRespuesta`
 --
 
 INSERT INTO `OpcionRespuesta` (`opcRtaId`, `orden`, `valorTexto`, `valorNumero`, `tipoPreguntaId`) VALUES
-(1, 1, NULL, NULL, 1),
 (2, 1, 'SI', NULL, 2),
 (3, 2, 'NO', NULL, 2),
 (4, 3, 'NO SABE', NULL, 2),
 (5, 1, 'BUENA', NULL, 4),
 (6, 2, 'REGULAR', NULL, 4),
 (7, 3, 'MALA', NULL, 4),
-(8, 1, NULL, '0', 5),
 (9, 1, 'SI', NULL, 3),
 (10, 2, 'NO', NULL, 3),
 (11, 1, 'NORMAL', NULL, 6),
@@ -191,8 +189,7 @@ INSERT INTO `OpcionRespuesta` (`opcRtaId`, `orden`, `valorTexto`, `valorNumero`,
 (16, 2, 'DE TEJIDOS DUROS', NULL, 9),
 (17, 3, 'ENDODONTICO', NULL, 9),
 (18, 4, 'PERIODONTAL', NULL, 9),
-(19, 5, 'OCLUSIÓN Y ATM', NULL, 9),
-(20, 1, NULL, NULL, 10);
+(19, 5, 'OCLUSIÓN Y ATM', NULL, 9);
 
 -- --------------------------------------------------------
 
@@ -200,6 +197,7 @@ INSERT INTO `OpcionRespuesta` (`opcRtaId`, `orden`, `valorTexto`, `valorNumero`,
 -- Estructura de tabla para la tabla `Paciente`
 --
 
+DROP TABLE IF EXISTS `Paciente`;
 CREATE TABLE IF NOT EXISTS `Paciente` (
   `pacienteId` bigint(20) NOT NULL AUTO_INCREMENT,
   `apellido1` varchar(56) COLLATE utf8_unicode_ci NOT NULL,
@@ -248,13 +246,14 @@ INSERT INTO `Paciente` (`pacienteId`, `apellido1`, `apellido2`, `nombres`, `fech
 -- Estructura de tabla para la tabla `Pregunta`
 --
 
+DROP TABLE IF EXISTS `Pregunta`;
 CREATE TABLE IF NOT EXISTS `Pregunta` (
   `preguntaId` bigint(20) NOT NULL AUTO_INCREMENT,
-  `enunciado` varchar(1024) COLLATE utf8_unicode_ci NOT NULL DEFAULT ' ',
-  `obligatoria` tinyint(1) NOT NULL,
+  `enunciado` varchar(1024) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `obligatoria` tinyint(1) NOT NULL DEFAULT '0',
   `orden` int(11) NOT NULL,
-  `noColumna` int(11) NOT NULL,
-  `estaActiva` tinyint(1) NOT NULL,
+  `noColumna` int(11) NOT NULL DEFAULT '1',
+  `estaActiva` tinyint(1) NOT NULL DEFAULT '0',
   `grupoId` bigint(20) DEFAULT NULL,
   `tipoPreguntaId` bigint(20) DEFAULT NULL,
   `colspan` int(11) NOT NULL DEFAULT '1',
@@ -383,18 +382,19 @@ INSERT INTO `Pregunta` (`preguntaId`, `enunciado`, `obligatoria`, `orden`, `noCo
 -- Estructura de tabla para la tabla `Procedimiento`
 --
 
+DROP TABLE IF EXISTS `Procedimiento`;
 CREATE TABLE IF NOT EXISTS `Procedimiento` (
   `procedimientoId` bigint(20) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`procedimientoId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `Respuesta`
 --
 
+DROP TABLE IF EXISTS `Respuesta`;
 CREATE TABLE IF NOT EXISTS `Respuesta` (
   `respuestaId` bigint(20) NOT NULL AUTO_INCREMENT,
   `respuestaTexto` varchar(2048) COLLATE utf8_unicode_ci NOT NULL,
@@ -412,6 +412,7 @@ CREATE TABLE IF NOT EXISTS `Respuesta` (
 -- Estructura de tabla para la tabla `Sugerencia`
 --
 
+DROP TABLE IF EXISTS `Sugerencia`;
 CREATE TABLE IF NOT EXISTS `Sugerencia` (
   `sugerenciaId` bigint(20) NOT NULL AUTO_INCREMENT,
   `fechaPlanificacion` datetime NOT NULL,
@@ -428,6 +429,7 @@ CREATE TABLE IF NOT EXISTS `Sugerencia` (
 -- Estructura de tabla para la tabla `TipoPregunta`
 --
 
+DROP TABLE IF EXISTS `TipoPregunta`;
 CREATE TABLE IF NOT EXISTS `TipoPregunta` (
   `tipoPreguntaId` bigint(20) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -456,6 +458,7 @@ INSERT INTO `TipoPregunta` (`tipoPreguntaId`, `descripcion`) VALUES
 -- Estructura de tabla para la tabla `Tratamiento`
 --
 
+DROP TABLE IF EXISTS `Tratamiento`;
 CREATE TABLE IF NOT EXISTS `Tratamiento` (
   `tratamientoId` bigint(20) NOT NULL AUTO_INCREMENT,
   `fechaHora` datetime NOT NULL,
@@ -477,6 +480,7 @@ CREATE TABLE IF NOT EXISTS `Tratamiento` (
 -- Estructura de tabla para la tabla `Usuario`
 --
 
+DROP TABLE IF EXISTS `Usuario`;
 CREATE TABLE IF NOT EXISTS `Usuario` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
