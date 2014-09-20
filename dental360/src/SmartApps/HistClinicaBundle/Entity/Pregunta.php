@@ -28,7 +28,7 @@ class Pregunta
      */
     private $tipoPregunta;
     /**
-     * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\Grupo")
+     * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\Grupo", inversedBy="preguntas")
      * @ORM\JoinColumn(name="grupoId",referencedColumnName="grupoId")
      */
     private $grupo;
@@ -36,14 +36,14 @@ class Pregunta
     /**
      * @var string
      *
-     * @ORM\Column(name="enunciado", type="string", length=1024, nullable=true)
+     * @ORM\Column(name="enunciado", type="string", length=1024, nullable=false,options={"default":""})
      */
     private $enunciado;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="obligatoria", type="boolean", nullable=true)
+     * @ORM\Column(name="obligatoria", type="boolean", nullable=false,options={"default":0})
      */
     private $obligatoria;
 
@@ -57,28 +57,28 @@ class Pregunta
     /**
      * @var integer
      *
-     * @ORM\Column(name="colspan", type="integer")
+     * @ORM\Column(name="colspan", type="integer",nullable=false,options={"default":1})
      */
     private $colspan;
     
     /**
      * @var integer
      *
-     * @ORM\Column(name="rowspan", type="integer")
+     * @ORM\Column(name="rowspan", type="integer",nullable=false,options={"default":1})
      */
     private $rowspan;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="noColumna", type="integer")
+     * @ORM\Column(name="noColumna", type="integer",nullable=false,options={"default":1})
      */
     private $noColumna;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="estaActiva", type="boolean",nullable=true)
+     * @ORM\Column(name="estaActiva", type="boolean",nullable=false,options={"default":0})
      */
     private $estaActiva;
 

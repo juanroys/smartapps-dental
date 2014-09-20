@@ -21,6 +21,11 @@ class Procedimiento
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+    
+     /**
+     * @ORM\OneToMany(targetEntity="SmartApps\HistClinicaBundle\Entity\CostoProcedimiento", mappedBy="procedimiento")
+     */
+    private $costoProcedimiento;
 
     /**
      * @var string
@@ -29,6 +34,10 @@ class Procedimiento
      */
     private $descripcion;
 
+    public function __construct() {
+        $this->costoProcedimiento=new \Doctrine\Common\Collections\ArrayCollection();
+        $this->convenios=new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -40,6 +49,14 @@ class Procedimiento
         return $this->id;
     }
 
+    public function setCostoProcedimiento(\Doctrine\Common\Collections\ArrayCollection $costoProcedimiento){
+        $this->costoProcedimiento=$costoProcedimiento;
+        return $this;
+    }
+    
+    public function getCostoProcedimiento(){
+        return $this->costoProcedimiento;
+    }
     /**
      * Set descripcion
      *

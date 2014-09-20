@@ -1,0 +1,28 @@
+{% extends '::base.html.twig' %}
+{% block body%}
+<div>
+<table class="records_list">
+        <thead>
+            <tr>
+                <th>FECHA</th>
+                <th>PLAN DE TRATAMIENTO</th>
+                <th>VALOR</th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+</table>
+</div>
+<div>
+    <spam>convenio </spam>
+    <select name="convenio" >
+        {%for convenio in convenios%}
+        <option value="{{convenio.id}}">
+            {{convenio.nombreConvenio}}
+        </option>
+        {%endfor%}
+    </select>
+</div>
+{% endblock%}
