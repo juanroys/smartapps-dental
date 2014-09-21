@@ -232,6 +232,11 @@ class Paciente
      */
     private $responUbicacionTelefono;
 
+      /**
+     * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\Convenio")
+     * @ORM\JoinColumn(name="convenioId",referencedColumnName="convenioId")
+     */
+    private $convenio;
 
     /**
      * Get id
@@ -931,5 +936,28 @@ class Paciente
     public function getResponUbicacionTelefono()
     {
         return $this->responUbicacionTelefono;
+    }
+    
+    /**
+     * Set convenio
+     *
+     * @param string $convenio
+     * @return CostoProcedimiento
+     */
+    public function setConvenio(\SmartApps\HistClinicaBundle\Entity\Convenio $convenio)
+    {
+        $this->convenio = $convenio;
+
+        return $this;
+    }
+
+    /**
+     * Get convenio
+     *
+     * @return string 
+     */
+    public function getConvenio()
+    {
+        return $this->convenio;
     }
 }
