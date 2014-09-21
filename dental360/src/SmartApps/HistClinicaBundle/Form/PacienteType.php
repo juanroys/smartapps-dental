@@ -14,22 +14,39 @@ class PacienteType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+       
         $builder
             ->add('apellido1')
             ->add('apellido2')
             ->add('nombres')
-            ->add('fechaNacimiento')
+            ->add('fechaNacimiento', 'birthday')
             ->add('lugarNacimiento')
-            ->add('tipoIdentificacion')
+            ->add('tipoIdentificacion', 'choice', array(
+                   'empty_value' => '',
+                    'choices' => \SmartApps\HistClinicaBundle\Util\Util::TipoIdentificacionEnum(),
+                    'attr' => array('style' => 'width:300px'),
+                ))
             ->add('noIdentificacion')
-            ->add('email')
-            ->add('estadoCivil')
-            ->add('sexo')
+            ->add('email', 'email')
+            ->add('estadoCivil', 'choice', array(
+                   'empty_value' => '',
+                    'choices' => \SmartApps\HistClinicaBundle\Util\Util::EstadoCivilEnum(),
+                    'attr' => array('style' => 'width:300px'),
+                ))
+            ->add('sexo', 'choice', array(
+                   'empty_value' => '',
+                    'choices' => \SmartApps\HistClinicaBundle\Util\Util::GeneroEnum(),
+                    'attr' => array('style' => 'width:300px'),
+                ))
             ->add('ocupacion')
             ->add('empresa')
             ->add('cargo')
             ->add('ePS')
-            ->add('cotizanteBeneficiario')
+            ->add('cotizanteBeneficiario', 'choice', array(
+                   'empty_value' => '',
+                    'choices' => \SmartApps\HistClinicaBundle\Util\Util::TipoAfiliacionEnum(),
+                    'attr' => array('style' => 'width:300px'),
+                ))
             ->add('responNombreCompleto')
             ->add('responNoIdentificacion')
             ->add('responParentesco')
