@@ -58,12 +58,13 @@
                 <td>{{ entity.nombres }} {{ entity.apellido1 }} {{ entity.apellido2 }}</td>                
                 <!-- <td>{% if entity.fechaNacimiento %}{{ entity.fechaNacimiento|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ entity.lugarNacimiento }}</td> -->
-                <td>{{ entity.tipoIdentificacion }}</td>
+                <td>{{ tipoIdentificacion[entity.tipoIdentificacion] }}  </td>                
+                 
                 <td>{{ entity.noIdentificacion }}</td>
-                <td>{{ entity.email }}</td>
-                <td>{{ entity.estadoCivil }}</td>
-                <td> {{ entity.sexo }}</td>
-                <!-- <td>{{ entity.ocupacion }}</td>
+                <td>{{ entity.email }}</td>                
+                <td>{{ estadoCivil[entity.estadoCivil] }}</td> 
+                <td> {{ genero[entity.sexo] }}</td>
+               <!--  <td>{{ entity.ocupacion }}</td>
                 <td>{{ entity.empresa }}</td>
                 <td>{{ entity.cargo }}</td> -->
                 
