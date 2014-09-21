@@ -1,27 +1,39 @@
 {% extends '::base.html.twig' %}
 
-{% block body -%}
-    <h1>Paciente list</h1>
+{% block body -%}   
 
-    <table class="records_list">
+    <div class="row">
+        <div class="col-md-7">
+            <h2>Pacientes</h2>
+        </div>
+        <div class="col-md-5" style="padding-top: 20px; text-align: right;">
+            <ul class="list-inline">
+                <li >
+                    <a href="{{ path('paciente_new') }}" class="btn btn-default">
+                        Registrar paciente
+                    </a>
+                </li>                
+            </ul>
+        </div>
+    </div>
+        
+    <table class="records_list table table-striped table-condensed table-bordered">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Apellido1</th>
-                <th>Apellido2</th>
-                <th>Nombres</th>
-                <th>Fechanacimiento</th>
-                <th>Lugarnacimiento</th>
-                <th>Tipoidentificacion</th>
-                <th>Noidentificacion</th>
+                <th>C&oacute;digo</th>
+                <th>Nombre Completo</th>
+               <!-- <th>Fechanacimiento</th>
+                <th>Lugarnacimiento</th> -->
+                <th>Tipo Id.</th>
+                <th>No Id.</th>
                 <th>Email</th>
-                <th>Estadocivil</th>
+                <th>Estado civil</th>
                 <th>Sexo</th>
-                <th>Ocupacion</th>
+              <!--  <th>Ocupacion</th>
                 <th>Empresa</th>
-                <th>Cargo</th>
+                <th>Cargo</th> -->
                 <th>Eps</th>
-                <th>Cotizantebeneficiario</th>
+               <!-- <th>Cotizantebeneficiario</th>
                 <th>Responnombrecompleto</th>
                 <th>Responnoidentificacion</th>
                 <th>Responparentesco</th>
@@ -36,29 +48,28 @@
                 <th>Responubicaciondepartamento</th>
                 <th>Responubicacionmunicipio</th>
                 <th>Responubicaciondireccion</th>
-                <th>Responubicaciontelefono</th>
-                <th>Actions</th>
+                <th>Responubicaciontelefono</th>-->
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
                 <td><a href="{{ path('paciente_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.apellido1 }}</td>
-                <td>{{ entity.apellido2 }}</td>
-                <td>{{ entity.nombres }}</td>
-                <td>{% if entity.fechaNacimiento %}{{ entity.fechaNacimiento|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ entity.lugarNacimiento }}</td>
+                <td>{{ entity.nombres }} {{ entity.apellido1 }} {{ entity.apellido2 }}</td>                
+                <!-- <td>{% if entity.fechaNacimiento %}{{ entity.fechaNacimiento|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.lugarNacimiento }}</td> -->
                 <td>{{ entity.tipoIdentificacion }}</td>
                 <td>{{ entity.noIdentificacion }}</td>
                 <td>{{ entity.email }}</td>
                 <td>{{ entity.estadoCivil }}</td>
-                <td>{{ entity.sexo }}</td>
-                <td>{{ entity.ocupacion }}</td>
+                <td> {{ entity.sexo }}</td>
+                <!-- <td>{{ entity.ocupacion }}</td>
                 <td>{{ entity.empresa }}</td>
-                <td>{{ entity.cargo }}</td>
+                <td>{{ entity.cargo }}</td> -->
+                
                 <td>{{ entity.ePS }}</td>
-                <td>{{ entity.cotizanteBeneficiario }}</td>
+             <!--   <td>{{ entity.cotizanteBeneficiario }}</td>
                 <td>{{ entity.responNombreCompleto }}</td>
                 <td>{{ entity.responNoIdentificacion }}</td>
                 <td>{{ entity.responParentesco }}</td>
@@ -73,17 +84,18 @@
                 <td>{{ entity.responUbicacionDepartamento }}</td>
                 <td>{{ entity.responUbicacionMunicipio }}</td>
                 <td>{{ entity.responUbicacionDireccion }}</td>
-                <td>{{ entity.responUbicacionTelefono }}</td>
+                <td>{{ entity.responUbicacionTelefono }}</td> -->
                 <td>
-                <ul>
+                
+                   <ul class="list-inline">
                     <li>
-                        <a href="{{ path('paciente_show', { 'id': entity.id }) }}">show</a>
+                        <a href="{{ path('paciente_edit', { 'id': entity.id }) }}">Editar</a>
                     </li>
                     <li>
-                        <a href="{{ path('paciente_edit', { 'id': entity.id }) }}">edit</a>
+                        <a href="{{ path('paciente_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar el paciente?');" >Borrar</a>
                     </li>
                     <li>
-                        <a href="{{ path('historiaClinica_new', { 'id': entity.id }) }}">Historia</a>
+                        <a href="{{ path('historiaClinica_new', { 'id': entity.id }) }}">[Historia Cl&iacute;nica]</a>
                     </li>
                 </ul>
                 </td>
@@ -92,11 +104,4 @@
         </tbody>
     </table>
 
-        <ul>
-        <li>
-            <a href="{{ path('paciente_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
     {% endblock %}
