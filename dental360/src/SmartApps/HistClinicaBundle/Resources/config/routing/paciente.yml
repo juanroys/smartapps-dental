@@ -27,3 +27,4 @@ paciente_update:
 paciente_delete:
     path:     /{id}/delete
     defaults: { _controller: "HistClinicaBundle:Paciente:delete" }
+    
