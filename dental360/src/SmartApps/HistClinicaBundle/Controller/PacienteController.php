@@ -13,8 +13,7 @@ use SmartApps\HistClinicaBundle\Form\PacienteType;
  *
  */
 class PacienteController extends Controller
-{
-
+{   
     /**
      * Lists all Paciente entities.
      *
@@ -44,7 +43,7 @@ class PacienteController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('paciente_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('paciente', array('id' => $entity->getId())));
         }
 
         return $this->render('HistClinicaBundle:Paciente:new.html.twig', array(
@@ -61,7 +60,7 @@ class PacienteController extends Controller
      * @return \Symfony\Component\Form\Form The form
      */
     private function createCreateForm(Paciente $entity)
-    {
+    {        
         $form = $this->createForm(new PacienteType(), $entity, array(
             'action' => $this->generateUrl('paciente_create'),
             'method' => 'POST',
@@ -172,7 +171,7 @@ class PacienteController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('paciente_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('paciente', array('id' => $id)));
         }
 
         return $this->render('HistClinicaBundle:Paciente:edit.html.twig', array(
@@ -187,10 +186,7 @@ class PacienteController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
+        
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('HistClinicaBundle:Paciente')->find($id);
 
@@ -200,7 +196,7 @@ class PacienteController extends Controller
 
             $em->remove($entity);
             $em->flush();
-        }
+        
 
         return $this->redirect($this->generateUrl('paciente'));
     }
