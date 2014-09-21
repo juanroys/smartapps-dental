@@ -49,6 +49,13 @@ class OpcionRespuesta
      */
     private $valorNumero;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="opciones", type="string", length=512, nullable=false,options={"default":""})
+     */
+    private $opciones;
+    
 
     /**
      * Get id
@@ -140,5 +147,28 @@ class OpcionRespuesta
     public function getValorNumero()
     {
         return $this->valorNumero;
+    }
+    
+    /**
+     * Set opciones
+     *
+     * @param string $opciones
+     * @return Pregunta
+     */
+    public function setOpciones($opciones)
+    {
+        $this->opciones = $opciones;
+
+        return $this;
+    }
+
+    /**
+     * Get opciones
+     *
+     * @return string 
+     */
+    public function getOpciones()
+    {
+        return $this->opciones;
     }
 }
