@@ -45,6 +45,7 @@ class PacienteType extends AbstractType
             ->add('responUbicacionMunicipio')
             ->add('responUbicacionDireccion')
             ->add('responUbicacionTelefono')
+            ->add('convenio')
         ;
     }
     

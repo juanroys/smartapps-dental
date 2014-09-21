@@ -13,7 +13,8 @@ use SmartApps\HistClinicaBundle\Form\PacienteType;
  *
  */
 class PacienteController extends Controller
-{   
+{
+
     /**
      * Lists all Paciente entities.
      *
@@ -60,7 +61,7 @@ class PacienteController extends Controller
      * @return \Symfony\Component\Form\Form The form
      */
     private function createCreateForm(Paciente $entity)
-    {        
+    {
         $form = $this->createForm(new PacienteType(), $entity, array(
             'action' => $this->generateUrl('paciente_create'),
             'method' => 'POST',
@@ -184,9 +185,9 @@ class PacienteController extends Controller
      * Deletes a Paciente entity.
      *
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction( $id)
     {
-        
+      
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('HistClinicaBundle:Paciente')->find($id);
 
