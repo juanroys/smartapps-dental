@@ -22,11 +22,14 @@ class PacienteController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
+                
         $entities = $em->getRepository('HistClinicaBundle:Paciente')->findAll();
 
         return $this->render('HistClinicaBundle:Paciente:index.html.twig', array(
             'entities' => $entities,
+            'tipoIdentificacion' => \SmartApps\HistClinicaBundle\Util\Util::TipoIdentificacionEnum(),
+            'estadoCivil' => \SmartApps\HistClinicaBundle\Util\Util::EstadoCivilEnum(),
+            'genero' => \SmartApps\HistClinicaBundle\Util\Util::GeneroEnum(),
         ));
     }
     /**
@@ -125,7 +128,7 @@ class PacienteController extends Controller
 
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
-
+        
         return $this->render('HistClinicaBundle:Paciente:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
