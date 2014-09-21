@@ -81,6 +81,13 @@ class Pregunta
      * @ORM\Column(name="estaActiva", type="boolean",nullable=false,options={"default":0})
      */
     private $estaActiva;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="opciones", type="string", length=512, nullable=false,options={"default":""})
+     */
+    private $opciones;
 
     /**
      * Get id
@@ -271,5 +278,28 @@ class Pregunta
     public function getEstaActiva()
     {
         return $this->estaActiva;
+    }
+    
+    /**
+     * Set opciones
+     *
+     * @param string $opciones
+     * @return Pregunta
+     */
+    public function setOpciones($opciones)
+    {
+        $this->opciones = $opciones;
+
+        return $this;
+    }
+
+    /**
+     * Get opciones
+     *
+     * @return string 
+     */
+    public function getOpciones()
+    {
+        return $this->opciones;
     }
 }
