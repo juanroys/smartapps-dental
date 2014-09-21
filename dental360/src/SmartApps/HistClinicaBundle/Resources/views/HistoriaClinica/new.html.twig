@@ -6,10 +6,13 @@
 {% for grupo in grupos %}
     {%set ban=1%}
     {%set columnaDibujada = 1%}
-    <div class="grupo">
-    {{grupo.titulo}}
-        <div class="pregunta">
-            <table>
+    <div class="grupo panel panel-default" >
+        <div  class="panel-heading">
+    {{grupo.titulo}}        
+        </div>
+    
+        <div class="pregunta"><!-- <div class="pregunta panel-body">-->
+            <table class="records_list table table-striped table-condensed table-bordered">
     {% for pregunta in grupo.preguntas %}
                 {# Imprimir Errores#}
                 {%if errores is defined and attribute(errores,pregunta.id) is defined%}
