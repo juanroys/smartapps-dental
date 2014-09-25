@@ -22,6 +22,16 @@ class HistoriaClinicaController extends Controller {
     public function newAction($id) {
         $em = $this->getDoctrine()->getManager();
         $grupos = $em->getRepository('HistClinicaBundle:Grupo')->findGruposOrdenados();
+        /*
+        foreach ($grupos as $grupo) {
+            foreach ($grupo->getPreguntas() as $pregunta) {
+                
+                foreach ($pregunta->getPreguntaOpciones() as $opcion) {
+                    echo $opcion->getOrden();
+                }
+            }
+        }*/
+        
         $paciente = $em->getRepository('HistClinicaBundle:Paciente')->find($id);
         return $this->render('HistClinicaBundle:HistoriaClinica:new.html.twig', array(
                     'grupos' => $grupos,

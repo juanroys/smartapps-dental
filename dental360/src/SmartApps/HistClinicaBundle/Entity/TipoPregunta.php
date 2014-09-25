@@ -21,6 +21,14 @@ class TipoPregunta
      */
     private $id;
 
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="tipoEntrada", type="integer")
+     */
+    private $tipoEntrada;
+    
     /**
      * @var string
      *
@@ -78,5 +86,28 @@ class TipoPregunta
     
     public function __toString() {
         return $this->descripcion;
+    }
+    
+    /**
+     * Set orden
+     *
+     * @param integer $tipoEntrada
+     * @return Pregunta
+     */
+    public function setTipoEntrada($tipoEntrada)
+    {
+        $this->tipoEntrada = $tipoEntrada;
+
+        return $this;
+    }
+
+    /**
+     * Get orden
+     *
+     * @return integer 
+     */
+    public function getTipoEntrada()
+    {
+        return $this->tipoEntrada;
     }
 }

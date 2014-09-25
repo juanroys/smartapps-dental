@@ -23,11 +23,16 @@ class PreguntaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('HistClinicaBundle:Pregunta')->findAll();
-
+       $paginador=  $this->get('ideup.simple_paginator');
+        $entities=$paginador->paginate(
+                $em->getRepository("HistClinicaBundle:Pregunta")->queryTodasLasPreguntas()
+                )->getResult();
         return $this->render('HistClinicaBundle:Pregunta:index.html.twig', array(
             'entities' => $entities,
+            'sinoenum' => \SmartApps\HistClinicaBundle\Util\Util::SiNoEnum(),
+            'tipoentrada' => \SmartApps\HistClinicaBundle\Util\Util::TipoPreguntaEnum(),
         ));
+        
     }
     /**
      * Creates a new Pregunta entity.
@@ -44,7 +49,7 @@ class PreguntaController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('pregunta_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('pregunta', array('id' => $entity->getId())));
         }
 
         return $this->render('HistClinicaBundle:Pregunta:new.html.twig', array(
@@ -172,7 +177,7 @@ class PreguntaController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('pregunta_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('pregunta', array('id' => $id)));
         }
 
         return $this->render('HistClinicaBundle:Pregunta:edit.html.twig', array(
@@ -187,10 +192,7 @@ class PreguntaController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
+        
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('HistClinicaBundle:Pregunta')->find($id);
 
@@ -200,7 +202,7 @@ class PreguntaController extends Controller
 
             $em->remove($entity);
             $em->flush();
-        }
+        
 
         return $this->redirect($this->generateUrl('pregunta'));
     }

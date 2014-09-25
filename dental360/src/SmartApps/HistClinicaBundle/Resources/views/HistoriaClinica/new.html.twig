@@ -36,8 +36,40 @@
                 {%else%}
                  {%set orden = pregunta.orden%}
                 {%endif%}
-                            
-                 {# Define como se muetra cada tipo de preunta#}
+                {%if pregunta.estaActiva %}
+                    <td rowspan="{{pregunta.rowspan}}" colspan="{{pregunta.colspan}}">
+                        <table cellspacing="0" cellpadding="0" ><tr>
+                    {%if pregunta.enunciado != '' %}
+                        <td style="width: 180px; ">{{ pregunta.enunciado }}</td>
+                    {%endif%}
+                    
+                    {%if pregunta.tipoEntrada == tipoEntrada.Texto %}
+                        <td>
+                        <input type="text" name="{{ pregunta.id }}" />
+                        </td>
+                    {%elseif pregunta.tipoEntrada == tipoEntrada.Numero %}
+                        <td>    
+                        <input required="{{pregunta.obligatoria ? 'true' : 'false' }}" type="number" name="{{pregunta.id}}" class="" min="0"/>
+                        </td>
+                    {%elseif pregunta.tipoEntrada == tipoEntrada.Radio %}
+                        {%for preguntaopcion in pregunta.preguntaOpciones%}
+                        <td>
+                            <input type="radio" name="{{pregunta.id}}" class="" value="{{preguntaopcion.valorTexto}}" /> {{preguntaopcion.valorTexto}}
+                        </td>
+                        {%endfor%} 
+                    {%endif%}
+                    
+               {#     Radio: 3
+            Check: 4
+            AreaTexto: 5
+            ComboBox: 6 #}
+                    
+                    
+                        </tr>
+                    </table>
+                    </td>                
+                {%endif%}
+                 {# Define como se muetra cada tipo de preunta
                  {%if pregunta.tipoPregunta.id==tipo.string%}
                     <td rowspan="{{pregunta.rowspan}}" colspan="{{pregunta.colspan}}">
                         {{pregunta.enunciado}}
@@ -127,7 +159,7 @@
                         <input type="checkbox" name="{{pregunta.id}}" class="" >
                      </td>
                   
-                 {%endif%}
+                 {%endif%}#}
                     
                  {# Aumenta cada vez que se dibuja un <td>#}
                  {%set columnaDibujada= columnaDibujada +1%}

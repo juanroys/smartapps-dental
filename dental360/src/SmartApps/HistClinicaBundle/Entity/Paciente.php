@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Paciente
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="SmartApps\HistClinicaBundle\Entity\PacienteRepository")
  */
 class Paciente
 {

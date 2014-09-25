@@ -1,19 +1,33 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Pregunta list</h1>
-
-    <table class="records_list">
+    <div class="row">
+        <div class="col-md-7">
+            <h2>Preguntas</h2>
+        </div>
+        <div class="col-md-5" style="padding-top: 20px; text-align: right;">
+            <ul class="list-inline">
+                <li >
+                    <a href="{{ path('pregunta_new') }}" class="btn btn-default">
+                        Registrar pregunta
+                    </a>
+                </li>                
+            </ul>
+        </div>
+    </div>
+        
+    <table class="records_list table table-striped table-condensed table-bordered">
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Tipoentrada</th>
                 <th>Enunciado</th>
                 <th>Obligatoria</th>
                 <th>Orden</th>
                 <th>Colspan</th>
                 <th>Rowspan</th>
-                <th>Nocolumna</th>
-                <th>Estaactiva</th>
+                <th>No columna</th>
+                <th>Esta activa</th>
                 <th>Opciones</th>
                 <th>Actions</th>
             </tr>
@@ -22,21 +36,28 @@
         {% for entity in entities %}
             <tr>
                 <td><a href="{{ path('pregunta_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ tipoentrada[entity.tipoEntrada] }}</td>
+                
                 <td>{{ entity.enunciado }}</td>
-                <td>{{ entity.obligatoria }}</td>
+                <td>{{ sinoenum[entity.obligatoria] }}</td>
+                
                 <td>{{ entity.orden }}</td>
                 <td>{{ entity.colspan }}</td>
                 <td>{{ entity.rowspan }}</td>
                 <td>{{ entity.noColumna }}</td>
-                <td>{{ entity.estaActiva }}</td>
+                <td>{{ sinoenum[entity.estaActiva] }}</td>
                 <td>{{ entity.opciones }}</td>
                 <td>
-                <ul>
+                <ul class="list-inline">
+                    
                     <li>
-                        <a href="{{ path('pregunta_show', { 'id': entity.id }) }}">show</a>
+                        <a href="{{ path('pregunta_edit', { 'id': entity.id }) }}">Editar</a>
                     </li>
                     <li>
-                        <a href="{{ path('pregunta_edit', { 'id': entity.id }) }}">edit</a>
+                        <a href="{{ path('pregunta_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar la pregunta?');" >Borrar</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('preguntaopcion_listado', { 'id': entity.id }) }}">Opciones</a>
                     </li>
                 </ul>
                 </td>
@@ -45,11 +66,6 @@
         </tbody>
     </table>
 
-        <ul>
-        <li>
-            <a href="{{ path('pregunta_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
+                
+                {{ simple_paginator_render('pregunta')}}
     {% endblock %}

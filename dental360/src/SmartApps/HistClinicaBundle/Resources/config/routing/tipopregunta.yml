@@ -1,30 +1,30 @@
-tipoPregunta:
+tipopregunta:
     path:     /
     defaults: { _controller: "HistClinicaBundle:TipoPregunta:index" }
 
-tipoPregunta_show:
+tipopregunta_show:
     path:     /{id}/show
     defaults: { _controller: "HistClinicaBundle:TipoPregunta:show" }
 
-tipoPregunta_new:
+tipopregunta_new:
     path:     /new
     defaults: { _controller: "HistClinicaBundle:TipoPregunta:new" }
 
-tipoPregunta_create:
+tipopregunta_create:
     path:     /create
     defaults: { _controller: "HistClinicaBundle:TipoPregunta:create" }
     requirements: { _method: post }
 
-tipoPregunta_edit:
+tipopregunta_edit:
     path:     /{id}/edit
     defaults: { _controller: "HistClinicaBundle:TipoPregunta:edit" }
 
-tipoPregunta_update:
+tipopregunta_update:
     path:     /{id}/update
     defaults: { _controller: "HistClinicaBundle:TipoPregunta:update" }
     requirements: { _method: post|put }
 
-tipoPregunta_delete:
+tipopregunta_delete:
     path:     /{id}/delete
     defaults: { _controller: "HistClinicaBundle:TipoPregunta:delete" }
     requirements: { _method: post|delete }

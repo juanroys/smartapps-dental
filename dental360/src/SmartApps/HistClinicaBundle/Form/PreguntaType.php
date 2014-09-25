@@ -15,15 +15,24 @@ class PreguntaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('tipoEntrada', 'choice', array(
+                    'choices' => \SmartApps\HistClinicaBundle\Util\Util::TipoPreguntaEnum(),
+                    'attr' => array('style' => 'width:300px'),
+                ))
             ->add('enunciado')
-            ->add('obligatoria')
+            ->add('obligatoria', 'choice', array(
+                    'choices' => \SmartApps\HistClinicaBundle\Util\Util::SiNoEnum(),
+                    'attr' => array('style' => 'width:300px'),
+                ))
             ->add('orden')
             ->add('colspan')
             ->add('rowspan')
             ->add('noColumna')
-            ->add('estaActiva')
-            ->add('opciones')
-            ->add('tipoPregunta')
+            ->add('estaActiva', 'choice', array(
+                    'choices' => \SmartApps\HistClinicaBundle\Util\Util::SiNoEnum(),
+                    'attr' => array('style' => 'width:300px'),
+                ))
+            ->add('opciones', 'text', array('required' => false))
             ->add('grupo')
         ;
     }

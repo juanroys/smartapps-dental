@@ -23,15 +23,17 @@ class Pregunta
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\TipoPregunta")
-     * @ORM\JoinColumn(name="tipoPreguntaId",referencedColumnName="tipoPreguntaId")
-     */
-    private $tipoPregunta;
-    /**
      * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\Grupo", inversedBy="preguntas")
      * @ORM\JoinColumn(name="grupoId",referencedColumnName="grupoId")
      */
     private $grupo;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="tipoEntrada", type="integer")
+     */
+    private $tipoEntrada;
     
     /**
      * @var string
@@ -85,10 +87,20 @@ class Pregunta
     /**
      * @var string
      *
-     * @ORM\Column(name="opciones", type="string", length=512, nullable=false,options={"default":""})
+     * @ORM\Column(name="opciones", type="string", length=512, nullable=true,options={"default":""})
      */
     private $opciones;
+    
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="PreguntaOpcion", mappedBy="pregunta")
+     */
+    private $preguntaOpciones;
 
+    public function __construct() {
+        $this->preguntaOpciones=new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     /**
      * Get id
      *
@@ -97,14 +109,6 @@ class Pregunta
     public function getId()
     {
         return $this->id;
-    }
-    
-    public function getTipoPregunta(){
-        return $this->tipoPregunta;
-    }
-    
-    public function setTipoPregunta(\SmartApps\HistClinicaBundle\Entity\TipoPregunta $tipoPregunta){
-        $this->tipoPregunta=$tipoPregunta;
     }
     
     public function setGrupo(\SmartApps\HistClinicaBundle\Entity\Grupo $grupo)
@@ -301,5 +305,38 @@ class Pregunta
     public function getOpciones()
     {
         return $this->opciones;
+    }
+    
+     public function getPreguntaOpciones(){
+        return $this->preguntaOpciones;
+    }
+    
+    
+    public function __toString() {
+        return $this->enunciado;
+    }
+    
+    
+    /**
+     * Set orden
+     *
+     * @param integer $tipoEntrada
+     * @return Pregunta
+     */
+    public function setTipoEntrada($tipoEntrada)
+    {
+        $this->tipoEntrada = $tipoEntrada;
+
+        return $this;
+    }
+
+    /**
+     * Get orden
+     *
+     * @return integer 
+     */
+    public function getTipoEntrada()
+    {
+        return $this->tipoEntrada;
     }
 }

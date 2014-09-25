@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class TipoPreguntaType extends AbstractType
+class PreguntaOpcionType extends AbstractType
 {
         /**
      * @param FormBuilderInterface $builder
@@ -15,8 +15,10 @@ class TipoPreguntaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('tipoEntrada')
-            ->add('descripcion')
+            ->add('orden')
+            ->add('valorTexto')
+            ->add('valorNumero')
+            ->add('opciones', 'text', array( 'required' => false))            
         ;
     }
     
@@ -26,7 +28,7 @@ class TipoPreguntaType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'SmartApps\HistClinicaBundle\Entity\TipoPregunta'
+            'data_class' => 'SmartApps\HistClinicaBundle\Entity\PreguntaOpcion'
         ));
     }
 
@@ -35,6 +37,6 @@ class TipoPreguntaType extends AbstractType
      */
     public function getName()
     {
-        return 'smartapps_histclinicabundle_tipopregunta';
+        return 'smartapps_histclinicabundle_preguntaopcion';
     }
 }
