@@ -1,0 +1,38 @@
+preguntaopcion:
+    path:     /
+    defaults: { _controller: "HistClinicaBundle:PreguntaOpcion:index" }
+
+preguntaopcion_show:
+    path:     /{id}/show
+    defaults: { _controller: "HistClinicaBundle:PreguntaOpcion:show" }
+
+preguntaopcion_new:
+    path:     /new
+    defaults: { _controller: "HistClinicaBundle:PreguntaOpcion:new" }
+
+preguntaopcion_create:
+    path:     /create
+    defaults: { _controller: "HistClinicaBundle:PreguntaOpcion:create" }
+    requirements: { _method: post }
+
+preguntaopcion_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "HistClinicaBundle:PreguntaOpcion:edit" }
+
+preguntaopcion_update:
+    path:     /{id}/update
+    defaults: { _controller: "HistClinicaBundle:PreguntaOpcion:update" }
+    requirements: { _method: post|put }
+
+preguntaopcion_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "HistClinicaBundle:PreguntaOpcion:delete" }
+    
+preguntaopcion_listado:
+    path:     /{id}/listado
+    defaults: { _controller: "HistClinicaBundle:PreguntaOpcion:listado" }
+
+preguntaopcion_newopcion:
+    path:     /{idpreg}/newopcion
+    defaults: { _controller: "HistClinicaBundle:PreguntaOpcion:newopcion" }
+    

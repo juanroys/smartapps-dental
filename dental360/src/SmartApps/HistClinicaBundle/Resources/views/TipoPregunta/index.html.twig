@@ -7,6 +7,7 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Tipoentrada</th>
                 <th>Descripcion</th>
                 <th>Actions</th>
             </tr>
@@ -14,15 +15,16 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('tipoPregunta_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td><a href="{{ path('tipopregunta_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.tipoEntrada }}</td>
                 <td>{{ entity.descripcion }}</td>
                 <td>
                 <ul>
                     <li>
-                        <a href="{{ path('tipoPregunta_show', { 'id': entity.id }) }}">show</a>
+                        <a href="{{ path('tipopregunta_show', { 'id': entity.id }) }}">show</a>
                     </li>
                     <li>
-                        <a href="{{ path('tipoPregunta_edit', { 'id': entity.id }) }}">edit</a>
+                        <a href="{{ path('tipopregunta_edit', { 'id': entity.id }) }}">edit</a>
                     </li>
                 </ul>
                 </td>
@@ -33,7 +35,7 @@
 
         <ul>
         <li>
-            <a href="{{ path('tipoPregunta_new') }}">
+            <a href="{{ path('tipopregunta_new') }}">
                 Create a new entry
             </a>
         </li>

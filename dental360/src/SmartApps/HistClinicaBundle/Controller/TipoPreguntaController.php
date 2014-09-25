@@ -44,7 +44,7 @@ class TipoPreguntaController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tipoPregunta_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('tipopregunta_show', array('id' => $entity->getId())));
         }
 
         return $this->render('HistClinicaBundle:TipoPregunta:new.html.twig', array(
@@ -63,7 +63,7 @@ class TipoPreguntaController extends Controller
     private function createCreateForm(TipoPregunta $entity)
     {
         $form = $this->createForm(new TipoPreguntaType(), $entity, array(
-            'action' => $this->generateUrl('tipoPregunta_create'),
+            'action' => $this->generateUrl('tipopregunta_create'),
             'method' => 'POST',
         ));
 
@@ -143,7 +143,7 @@ class TipoPreguntaController extends Controller
     private function createEditForm(TipoPregunta $entity)
     {
         $form = $this->createForm(new TipoPreguntaType(), $entity, array(
-            'action' => $this->generateUrl('tipoPregunta_update', array('id' => $entity->getId())),
+            'action' => $this->generateUrl('tipopregunta_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -172,7 +172,7 @@ class TipoPreguntaController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tipoPregunta_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('tipopregunta_edit', array('id' => $id)));
         }
 
         return $this->render('HistClinicaBundle:TipoPregunta:edit.html.twig', array(
@@ -202,7 +202,7 @@ class TipoPreguntaController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('tipoPregunta'));
+        return $this->redirect($this->generateUrl('tipopregunta'));
     }
 
     /**
@@ -215,7 +215,7 @@ class TipoPreguntaController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('tipoPregunta_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('tipopregunta_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()

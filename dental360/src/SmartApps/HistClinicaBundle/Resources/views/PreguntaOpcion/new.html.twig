@@ -1,0 +1,36 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h2>Registrar Opcion</h2>
+    {{ form_start(form) }}        
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(form.orden) }}</div>
+        <div class="col-md-4">{{form_widget(form.orden) }}        </div>    
+            <div class="col-md-2">{{form_label(form.valorTexto) }}</div>
+        <div class="col-md-4">{{form_widget(form.valorTexto) }}        </div>    
+    </div>
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(form.valorNumero) }}</div>
+        <div class="col-md-4">{{form_widget(form.valorNumero) }}        </div>    
+            <div class="col-md-2">{{form_label(form.opciones) }}</div>
+        <div class="col-md-4">{{form_widget(form.opciones) }}        </div>    
+    </div>
+    <input type="hidden" value="{{ idpreg }}" name="idpreg" id="idpreg"/>
+    <div class="row formulario-row">
+        <div class="col-md-12">        
+        <ul class="list-inline">
+                <li >
+                    {{form_row(form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default' } }) }}                
+                </li>                
+                <li >
+                    <a href="{{ path('preguntaopcion_listado', { 'id': idpreg }) }}" class="btn btn-default">
+                        Volver al listado
+                    </a>
+                </li>                
+            </ul>        
+        </div>
+    </div>
+    
+   
+    {{ form_end(form)}}
+{% endblock %}

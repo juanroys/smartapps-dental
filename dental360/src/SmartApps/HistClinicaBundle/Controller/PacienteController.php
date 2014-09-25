@@ -23,8 +23,11 @@ class PacienteController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
                 
-        $entities = $em->getRepository('HistClinicaBundle:Paciente')->findAll();
-
+       // $entities = $em->getRepository('HistClinicaBundle:Paciente')->findAll();
+        $paginador=  $this->get('ideup.simple_paginator');
+        $entities=$paginador->paginate(
+                $em->getRepository("HistClinicaBundle:Paciente")->queryTodosLosPacientes()
+                )->getResult(); 
         return $this->render('HistClinicaBundle:Paciente:index.html.twig', array(
             'entities' => $entities,
             'tipoIdentificacion' => \SmartApps\HistClinicaBundle\Util\Util::TipoIdentificacionEnum(),

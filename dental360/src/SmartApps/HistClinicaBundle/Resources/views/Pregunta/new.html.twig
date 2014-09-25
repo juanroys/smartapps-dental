@@ -1,15 +1,55 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Pregunta creation</h1>
-
-    {{ form(form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('pregunta') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+           
+        
+        <h2>Registrar Pregunta</h2>
+    {{ form_start(form) }}        
+    
+     <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(form.grupo) }}</div>
+        <div class="col-md-4">{{form_widget(form.grupo) }}        </div>    
+            <div class="col-md-2">{{form_label(form.tipoEntrada) }}</div>
+        <div class="col-md-4">{{form_widget(form.tipoEntrada) }}        </div>    
+    </div>
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(form.enunciado) }}</div>
+        <div class="col-md-4">{{form_widget(form.enunciado) }}        </div>    
+            <div class="col-md-2">{{form_label(form.obligatoria) }}</div>
+        <div class="col-md-4">{{form_widget(form.obligatoria) }}        </div>    
+    </div>
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(form.orden) }}</div>
+        <div class="col-md-4">{{form_widget(form.orden) }}        </div>    
+            <div class="col-md-2">{{form_label(form.noColumna) }}</div>
+        <div class="col-md-4">{{form_widget(form.noColumna) }}        </div>    
+    </div>
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(form.colspan) }}</div>
+        <div class="col-md-4">{{form_widget(form.colspan) }}        </div>    
+            <div class="col-md-2">{{form_label(form.rowspan) }}</div>
+        <div class="col-md-4">{{form_widget(form.rowspan) }}        </div>    
+    </div>
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(form.estaActiva) }}</div>
+        <div class="col-md-4">{{form_widget(form.estaActiva) }}        </div>    
+            <div class="col-md-2">{{form_label(form.opciones) }}</div>
+        <div class="col-md-4">{{form_widget(form.opciones) }}        </div>    
+    </div>
+    <div class="row formulario-row">
+        <div class="col-md-12">        
+        <ul class="list-inline">
+                <li >
+                    {{form_row(form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default' } }) }}                
+                </li>                
+                <li >
+                    <a href="{{ path('pregunta') }}" class="btn btn-default">
+                        Volver al listado
+                    </a>
+                </li>                
+            </ul>        
+        </div>
+    </div>
+    {{ form_end(form)}}
+        
 {% endblock %}

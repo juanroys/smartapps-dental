@@ -4,7 +4,7 @@ namespace SmartApps\HistClinicaBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class TipoPreguntaControllerTest extends WebTestCase
+class PreguntaOpcionControllerTest extends WebTestCase
 {
     /*
     public function testCompleteScenario()
@@ -13,13 +13,13 @@ class TipoPreguntaControllerTest extends WebTestCase
         $client = static::createClient();
 
         // Create a new entry in the database
-        $crawler = $client->request('GET', '/tipopregunta/');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /tipopregunta/");
+        $crawler = $client->request('GET', '/preguntaopcion/');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /preguntaopcion/");
         $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
 
         // Fill in the form and submit it
         $form = $crawler->selectButton('Create')->form(array(
-            'smartapps_histclinicabundle_tipopregunta[field_name]'  => 'Test',
+            'smartapps_histclinicabundle_preguntaopcion[field_name]'  => 'Test',
             // ... other fields to fill
         ));
 
@@ -33,7 +33,7 @@ class TipoPreguntaControllerTest extends WebTestCase
         $crawler = $client->click($crawler->selectLink('Edit')->link());
 
         $form = $crawler->selectButton('Update')->form(array(
-            'smartapps_histclinicabundle_tipopregunta[field_name]'  => 'Foo',
+            'smartapps_histclinicabundle_preguntaopcion[field_name]'  => 'Foo',
             // ... other fields to fill
         ));
 

@@ -15,7 +15,9 @@ class GrupoRepository extends EntityRepository{
     public function findGruposOrdenados(){
         $em=  $this->getEntityManager();
         $consulta = $em->createQuery("SELECT g,p FROM HistClinicaBundle:Grupo g "
-                . "JOIN g.preguntas p ORDER BY g.orden , p.orden, p.noColumna");
+                . "JOIN g.preguntas p "                
+                . "ORDER BY g.orden , p.orden, p.noColumna");
+        //. "JOIN p.preguntaOpciones po "
         return $consulta->getResult();
     }
 }

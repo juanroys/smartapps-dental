@@ -41,3 +41,7 @@ HistClinicaBundle_costoProcedimiento:
 HistClinicaBundle_sugerencia:
         resource: "@HistClinicaBundle/Resources/config/routing/sugerencia.yml"
         prefix:   /sugerencia
+
+HistClinicaBundle_preguntaopcion:
+        resource: "@HistClinicaBundle/Resources/config/routing/preguntaopcion.yml"
+        prefix:   /preguntaopcion
