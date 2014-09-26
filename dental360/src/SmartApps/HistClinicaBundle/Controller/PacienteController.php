@@ -20,9 +20,8 @@ class PacienteController extends Controller
      *
      */
     public function indexAction()
-    {
+    {  
         $em = $this->getDoctrine()->getManager();
-                
        // $entities = $em->getRepository('HistClinicaBundle:Paciente')->findAll();
         $paginador=  $this->get('ideup.simple_paginator');
         $entities=$paginador->paginate(
