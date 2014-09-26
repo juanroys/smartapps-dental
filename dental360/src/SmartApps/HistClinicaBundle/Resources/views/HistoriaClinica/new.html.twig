@@ -12,7 +12,7 @@
         </div>
     
         <div class="pregunta"><!-- <div class="pregunta panel-body">-->
-            <table class="records_list table table-striped table-condensed table-bordered" style="width: 100%;">
+            <table class="records_list table table-striped table-bordered" >
     {% for pregunta in grupo.preguntas %}
                 {# Imprimir Errores#}
                 {%if errores is defined and attribute(errores,pregunta.id) is defined%}
@@ -36,44 +36,65 @@
                     {%set orden = pregunta.orden%}
                 {%endif%}
                 {%if pregunta.estaActiva %}
-                    <td rowspan="{{pregunta.rowspan}}" colspan="{{pregunta.colspan}}">
-                        <table cellspacing="0" cellpadding="0" width="100%" >
+                    <td rowspan="{{pregunta.rowspan}}" colspan="{{pregunta.colspan}}"  >
+                        <table cellspacing="0" cellpadding="0" >
                             <tr>
                             {%if pregunta.enunciado != '' %}
-                                <td style="width: 180px; ">{{ pregunta.enunciado }}</td>
+                                <td style="width: 150px; ">{{ pregunta.enunciado }}</td>
                             {%endif%}
 
                             {%if pregunta.tipoEntrada == tipoEntrada.Texto %}
                                 <td>
-                                <input type="text" name="{{ pregunta.id }}" />
+                                <input type="text" name="{{ pregunta.id }}" 
+                                       {%if respuestas[pregunta.id] is defined  %}
+                                            value="{{respuestas[pregunta.id]}}"
+                                       {%endif%}
+                                       />
                                 </td>
                             {%elseif pregunta.tipoEntrada == tipoEntrada.Numero %}
                                 <td>    
-                                <input required="{{pregunta.obligatoria ? 'true' : 'false' }}" type="number" name="{{pregunta.id}}" class="" min="0"/>
+                                <input required="{{pregunta.obligatoria ? 'true' : 'false' }}" type="number" name="{{pregunta.id}}" class="" min="0"
+                                       {%if respuestas[pregunta.id] is defined  %}
+                                            value="{{respuestas[pregunta.id]}}"
+                                       {%endif%}
+                                       />
                                 </td>
                             {%elseif pregunta.tipoEntrada == tipoEntrada.Radio %}
                                 <td style="display: inline; white-space: nowrap;">
-                                {%for preguntaopcion in pregunta.preguntaOpciones%}                                
-                                    <input type="radio" name="{{pregunta.id}}" class="" value="{{preguntaopcion.valorTexto}}" /> {{preguntaopcion.enunciado}}                                
+                                {%for preguntaopcion in pregunta.preguntaOpciones%}                                                                        
+                                    <input type="radio" name="{{pregunta.id}}" class="" value="{{preguntaopcion.valorTexto}}" 
+                                           {%if respuestas[pregunta.id] is defined and respuestas[pregunta.id] == preguntaopcion.valorTexto  %}
+                                               checked="checked"
+                                           {%endif%}
+                                           /> {{preguntaopcion.enunciado}}                                
                                 {%endfor%} 
+                                    
                                 </td>
                             {%elseif pregunta.tipoEntrada == tipoEntrada.Check %}    
                                 {% set contador = 0 %}
                                 <td  style="display: inline">
                                 {%for preguntaopcion in pregunta.preguntaOpciones%}                                
-                                    <input type="radio" name="{{pregunta.id}}|{{contador}}" class="" value="{{preguntaopcion.valorTexto}}" /> {{preguntaopcion.enunciado}}
+                                    <input type="checkbox" name="{{pregunta.id}}|{{contador}}" class="" value="{{preguntaopcion.valorTexto}}" 
+                                           {%if respuestas[pregunta.id ~ "|" ~ preguntaopcion.valorTexto|replace({ (' '): '_' }) ] is defined %}
+                                               checked="checked"
+                                           {%endif%}
+                                           /> {{preguntaopcion.enunciado}}
                                     {% set contador = contador + 1 %}                                
                                 {%endfor%}  
                                 </td>
                             {%elseif pregunta.tipoEntrada == tipoEntrada.AreaTexto %}    
                                 <td>
-                                    <textarea name="{{pregunta.id}}"  rows="4" cols="50"></textarea>
+                                    <textarea name="{{pregunta.id}}"  rows="4" cols="50">{%if respuestas[pregunta.id] is defined  %}{{respuestas[pregunta.id]}}{%endif%}</textarea>
                                 </td>
                             {%elseif pregunta.tipoEntrada == tipoEntrada.ComboBox %}    
                                 <td>
                                     <select name="{{pregunta.id}}">
                                 {%for preguntaopcion in pregunta.preguntaOpciones%}                                
-                                    <option class="" value="{{preguntaopcion.valorTexto}}"> {{preguntaopcion.enunciado}}</option>
+                                    <option class="" value="{{preguntaopcion.valorTexto}}"
+                                            {%if respuestas[pregunta.id] is defined and respuestas[pregunta.id] == preguntaopcion.valorTexto  %}
+                                               selected
+                                           {%endif%}
+                                            > {{preguntaopcion.enunciado}}</option>
                                 {%endfor%}          
                                     </select>
                                     
