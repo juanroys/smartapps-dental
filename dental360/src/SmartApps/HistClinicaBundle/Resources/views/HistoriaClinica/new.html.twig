@@ -70,7 +70,14 @@
                                     <textarea name="{{pregunta.id}}"  rows="4" cols="50"></textarea>
                                 </td>
                             {%elseif pregunta.tipoEntrada == tipoEntrada.ComboBox %}    
-                                
+                                <td>
+                                    <select name="{{pregunta.id}}">
+                                {%for preguntaopcion in pregunta.preguntaOpciones%}                                
+                                    <option class="" value="{{preguntaopcion.valorTexto}}"> {{preguntaopcion.enunciado}}</option>
+                                {%endfor%}          
+                                    </select>
+                                    
+                                </td>
                             {%endif%}                    
                             </tr>
                     </table>
