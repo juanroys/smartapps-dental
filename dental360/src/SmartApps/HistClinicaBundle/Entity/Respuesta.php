@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Respuesta
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="SmartApps\HistClinicaBundle\Entity\RespuestaRepository")
  */
 class Respuesta
 {
@@ -44,7 +44,7 @@ class Respuesta
     /**
      * @var string
      *
-     * @ORM\Column(name="respuestaNumerica", type="decimal")
+     * @ORM\Column(name="respuestaNumerica", type="decimal", nullable=true)
      */
     private $respuestaNumerica;
 
