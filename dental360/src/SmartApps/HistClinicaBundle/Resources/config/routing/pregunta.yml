@@ -27,4 +27,4 @@ pregunta_update:
 pregunta_delete:
     path:     /{id}/delete
     defaults: { _controller: "HistClinicaBundle:Pregunta:delete" }
-    requirements: { _method: post|delete }
+    

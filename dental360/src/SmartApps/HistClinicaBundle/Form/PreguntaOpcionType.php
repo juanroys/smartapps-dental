@@ -18,7 +18,8 @@ class PreguntaOpcionType extends AbstractType
             ->add('orden')
             ->add('valorTexto')
             ->add('valorNumero')
-            ->add('opciones', 'text', array( 'required' => false))            
+            ->add('opciones', 'text', array( 'required' => false)) 
+            ->add('enunciado')
         ;
     }
     

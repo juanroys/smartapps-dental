@@ -56,6 +56,13 @@ class PreguntaOpcion
      */
     private $opciones;
     
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="enunciado", type="string", length=2048, nullable=true)
+     */
+    private $enunciado;
+    
 
     /**
      * Get id
@@ -170,5 +177,28 @@ class PreguntaOpcion
     public function getOpciones()
     {
         return $this->opciones;
+    }
+    
+    /**
+     * Set enunciado
+     *
+     * @param string $enunciado
+     * @return OpcionRespuesta
+     */
+    public function setEnunciado($enunciado)
+    {
+        $this->enunciado = $enunciado;
+
+        return $this;
+    }
+
+    /**
+     * Get enunciado
+     *
+     * @return string 
+     */
+    public function getEnunciado()
+    {
+        return $this->enunciado;
     }
 }
