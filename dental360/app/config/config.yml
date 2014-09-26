@@ -41,6 +41,13 @@ twig:
             si_no_casillas: 8
             diagnostico_radio: 9
             check: 10
+        tipoEntrada:
+            Texto: 1 
+            Numero: 2
+            Radio: 3
+            Check: 4
+            AreaTexto: 5
+            ComboBox: 6
 
 # Assetic Configuration
 assetic:
