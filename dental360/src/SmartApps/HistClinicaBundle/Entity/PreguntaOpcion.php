@@ -191,7 +191,7 @@ class PreguntaOpcion
 
         return $this;
     }
-
+ 
     /**
      * Get enunciado
      *
