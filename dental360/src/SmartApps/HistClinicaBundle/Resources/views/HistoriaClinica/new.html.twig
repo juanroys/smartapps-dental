@@ -12,7 +12,7 @@
         </div>
     
         <div class="pregunta"><!-- <div class="pregunta panel-body">-->
-            <table class="records_list table table-striped table-condensed table-bordered">
+            <table class="records_list table table-striped table-condensed table-bordered" style="width: 100%;">
     {% for pregunta in grupo.preguntas %}
                 {# Imprimir Errores#}
                 {%if errores is defined and attribute(errores,pregunta.id) is defined%}
@@ -25,144 +25,59 @@
                 {%if orden is defined%}
                     {%if orden != pregunta.orden%}
                         {%if ban==1%}
-                        {%set ban=0%}
+                            {%set ban=0%}
                         {%else%}
-                         </tr>
+                             </tr>
                         {%endif%}
                         <tr>
-                       {%set columnaDibujada=1%}
-                        {%set orden=pregunta.orden%}
+                       {%set orden=pregunta.orden%}
                     {%endif%}
                 {%else%}
-                 {%set orden = pregunta.orden%}
+                    {%set orden = pregunta.orden%}
                 {%endif%}
                 {%if pregunta.estaActiva %}
                     <td rowspan="{{pregunta.rowspan}}" colspan="{{pregunta.colspan}}">
-                        <table cellspacing="0" cellpadding="0" ><tr>
-                    {%if pregunta.enunciado != '' %}
-                        <td style="width: 180px; ">{{ pregunta.enunciado }}</td>
-                    {%endif%}
-                    
-                    {%if pregunta.tipoEntrada == tipoEntrada.Texto %}
-                        <td>
-                        <input type="text" name="{{ pregunta.id }}" />
-                        </td>
-                    {%elseif pregunta.tipoEntrada == tipoEntrada.Numero %}
-                        <td>    
-                        <input required="{{pregunta.obligatoria ? 'true' : 'false' }}" type="number" name="{{pregunta.id}}" class="" min="0"/>
-                        </td>
-                    {%elseif pregunta.tipoEntrada == tipoEntrada.Radio %}
-                        {%for preguntaopcion in pregunta.preguntaOpciones%}
-                        <td>
-                            <input type="radio" name="{{pregunta.id}}" class="" value="{{preguntaopcion.valorTexto}}" /> {{preguntaopcion.valorTexto}}
-                        </td>
-                        {%endfor%} 
-                    {%endif%}
-                    
-               {#     Radio: 3
-            Check: 4
-            AreaTexto: 5
-            ComboBox: 6 #}
-                    
-                    
-                        </tr>
+                        <table cellspacing="0" cellpadding="0" width="100%" >
+                            <tr>
+                            {%if pregunta.enunciado != '' %}
+                                <td style="width: 180px; ">{{ pregunta.enunciado }}</td>
+                            {%endif%}
+
+                            {%if pregunta.tipoEntrada == tipoEntrada.Texto %}
+                                <td>
+                                <input type="text" name="{{ pregunta.id }}" />
+                                </td>
+                            {%elseif pregunta.tipoEntrada == tipoEntrada.Numero %}
+                                <td>    
+                                <input required="{{pregunta.obligatoria ? 'true' : 'false' }}" type="number" name="{{pregunta.id}}" class="" min="0"/>
+                                </td>
+                            {%elseif pregunta.tipoEntrada == tipoEntrada.Radio %}
+                                <td style="display: inline; white-space: nowrap;">
+                                {%for preguntaopcion in pregunta.preguntaOpciones%}                                
+                                    <input type="radio" name="{{pregunta.id}}" class="" value="{{preguntaopcion.valorTexto}}" /> {{preguntaopcion.enunciado}}                                
+                                {%endfor%} 
+                                </td>
+                            {%elseif pregunta.tipoEntrada == tipoEntrada.Check %}    
+                                {% set contador = 0 %}
+                                <td  style="display: inline">
+                                {%for preguntaopcion in pregunta.preguntaOpciones%}                                
+                                    <input type="radio" name="{{pregunta.id}}|{{contador}}" class="" value="{{preguntaopcion.valorTexto}}" /> {{preguntaopcion.enunciado}}
+                                    {% set contador = contador + 1 %}                                
+                                {%endfor%}  
+                                </td>
+                            {%elseif pregunta.tipoEntrada == tipoEntrada.AreaTexto %}    
+                                <td>
+                                    <textarea name="{{pregunta.id}}"  rows="4" cols="50"></textarea>
+                                </td>
+                            {%elseif pregunta.tipoEntrada == tipoEntrada.ComboBox %}    
+                                
+                            {%endif%}                    
+                            </tr>
                     </table>
                     </td>                
                 {%endif%}
-                 {# Define como se muetra cada tipo de preunta
-                 {%if pregunta.tipoPregunta.id==tipo.string%}
-                    <td rowspan="{{pregunta.rowspan}}" colspan="{{pregunta.colspan}}">
-                        {{pregunta.enunciado}}
-                        {%if error is defined and error!=''%}
-                        <img src="{{ asset('bundles/histclinica/images/advertencia.png') }}" height="20" width="20" title="{{error}}">
-                        {%endif%}
-                    <input type="text" name="{{pregunta.id}}" class=""/>
-                    </td>
+                
                     
-                 {%elseif pregunta.tipoPregunta.id == tipo.si_no_nosabe%}
-                    <td rowspan="{{pregunta.rowspan}}" colspan="{{pregunta.colspan}}">
-                        {{pregunta.enunciado}}
-                        {%if error is defined and error!=''%}
-                        <img src="{{ asset('bundles/histclinica/images/advertencia.png') }}" height="20" width="20" title="{{error}}">
-                        {%endif%}
-                    </td>
-                    {%for opcionRespuesta in pregunta.tipoPregunta.opcionesRespuesta%}
-                    <td>
-                        <input type="radio" name="{{pregunta.id}}" class="" value="{{opcionRespuesta.valorTexto}}"/>
-                    </td>
-                    {%endfor%} 
-                 
-                  {%elseif pregunta.tipoPregunta.id in [tipo.buena_regular_mala, tipo.si_no_casillas]%}
-                    <td>{{pregunta.enunciado}}
-                        {%if error is defined and error!=''%}
-                        <img src="{{ asset('bundles/histclinica/images/advertencia.png') }}" height="20" width="20" title="{{error}}">
-                        {%endif%}
-                    </td>
-                    <td rowspan="{{pregunta.rowspan}}" colspan="{{pregunta.colspan}}">
-                    {%for opcionRespuesta in pregunta.tipoPregunta.opcionesRespuesta%}
-                        {{opcionRespuesta.valorTexto}}
-                        <input type="radio" name="{{pregunta.id}}" class="" value="{{opcionRespuesta.valorTexto}}"/>
-                    {%endfor%} 
-                    </td>
-                  
-                   {%elseif pregunta.tipoPregunta.id == tipo.diagnostico_radio%}
-                    <td rowspan="{{pregunta.rowspan}}" colspan="{{pregunta.colspan}}">
-                        {%if error is defined and error!=''%}
-                        <img src="{{ asset('bundles/histclinica/images/advertencia.png') }}" height="20" width="20" title="{{error}}">
-                        {%endif%}
-                    {%for opcionRespuesta in pregunta.tipoPregunta.opcionesRespuesta%}
-                        {{opcionRespuesta.valorTexto}}
-                        <input type="radio" name="{{pregunta.id}}" class="" value="{{opcionRespuesta.valorTexto}}"/>
-                    {%endfor%} 
-                    </td>
-                    
-                  {%elseif pregunta.tipoPregunta.id in [ tipo.normal_anormal,tipo.si_no]%}
-                    <td rowspan="{{pregunta.rowspan}}" colspan="{{pregunta.colspan}}">
-                        {{pregunta.enunciado}}
-                        {%if error is defined and error!=''%}
-                        <img src="{{ asset('bundles/histclinica/images/advertencia.png') }}" height="20" width="20" title="{{error}}">
-                        {%endif%}
-                    </td>
-                    {%for opcionRespuesta in pregunta.tipoPregunta.opcionesRespuesta%}
-                    <td>
-                        <input required="{{pregunta.obligatoria ? 'true' : 'false' }}" type="radio" name="{{pregunta.id}}" class="" value="{{opcionRespuesta.valorTexto}}"/>
-                    </td>
-                    {%endfor%} 
-                  
-                 {%elseif pregunta.tipoPregunta.id == tipo.enunciado %}
-                    {% if columnaDibujada < pregunta.noColumna%}  
-                            {%set diferencia=pregunta.noColumna-columnaDibujada%}
-                            {%set columnaDibujada=pregunta.noColumna%}
-                            {%for i in range(1,diferencia)%}
-                            <td></td>
-                            {%endfor%}                    
-                    {%endif%}
-                    <td rowspan="{{pregunta.rowspan}}" colspan="{{pregunta.colspan}}">
-                            {{pregunta.enunciado}}
-                    </td> 
-                    
-                 {%elseif pregunta.tipoPregunta.id ==tipo.numero_entero %}
-                    <td rowspan="{{pregunta.rowspan}}" colspan="{{pregunta.colspan}}">
-                        {{pregunta.enunciado}}
-                        {%if error is defined and error!=''%}
-                        <img src="{{ asset('bundles/histclinica/images/advertencia.png') }}" height="20" width="20" title="{{error}}">
-                        {%endif%}
-                        <input required="{{pregunta.obligatoria ? 'true' : 'false' }}" type="number" name="{{pregunta.id}}" class="" min="0"/>
-                    </td>
-                    
-                 {%elseif pregunta.tipoPregunta.id == tipo.check%}
-                    <td rowspan="{{pregunta.rowspan}}" colspan="{{pregunta.colspan}}">
-                        {{pregunta.enunciado}}
-                        {%if error is defined and error!=''%}
-                        <img src="{{ asset('bundles/histclinica/images/advertencia.png') }}" height="20" width="20" title="{{error}}">
-                        {%endif%}
-                        <input type="checkbox" name="{{pregunta.id}}" class="" >
-                     </td>
-                  
-                 {%endif%}#}
-                    
-                 {# Aumenta cada vez que se dibuja un <td>#}
-                 {%set columnaDibujada= columnaDibujada +1%}
     {% endfor %}
             </table>
         </div>

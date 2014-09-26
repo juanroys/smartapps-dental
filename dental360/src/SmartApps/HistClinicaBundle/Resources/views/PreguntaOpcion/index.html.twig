@@ -21,6 +21,7 @@
             <tr>
                 <th>Id</th>
                 <th>Orden</th>
+                <th>Enunciado</th>
                 <th>Valortexto</th>
                 <th>Valornumero</th>
                 <th>Opciones</th>
@@ -32,6 +33,7 @@
             <tr>
                 <td><a href="{{ path('preguntaopcion_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.orden }}</td>
+                <td>{{ entity.enunciado }}</td>
                 <td>{{ entity.valorTexto }}</td>
                 <td>{{ entity.valorNumero }}</td>
                 <td>{{ entity.opciones }}</td>
@@ -49,5 +51,9 @@
         {% endfor %}
         </tbody>
     </table>
+        
+        <a href="{{ path('pregunta') }}" class="btn btn-default">
+                        Listado preguntas
+                    </a>
 
     {% endblock %}
