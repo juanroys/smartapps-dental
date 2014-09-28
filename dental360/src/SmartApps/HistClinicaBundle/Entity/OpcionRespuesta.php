@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * OpcionRespuesta
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="SmartApps\HistClinicaBundle\Entity\OpcionRespuestaRepository")
  */
 class OpcionRespuesta
 {
@@ -52,9 +52,16 @@ class OpcionRespuesta
     /**
      * @var string
      *
-     * @ORM\Column(name="opciones", type="string", length=512, nullable=false,options={"default":""})
+     * @ORM\Column(name="opciones", type="string", length=512, nullable=true,options={"default":""})
      */
     private $opciones;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="enunciado", type="string", length=2048, nullable=true)
+     */
+    private $enunciado;
     
 
     /**
@@ -153,7 +160,7 @@ class OpcionRespuesta
      * Set opciones
      *
      * @param string $opciones
-     * @return Pregunta
+     * @return OpcionRespuesta
      */
     public function setOpciones($opciones)
     {
@@ -171,4 +178,28 @@ class OpcionRespuesta
     {
         return $this->opciones;
     }
+    
+    /**
+     * Set enunciado
+     *
+     * @param string $enunciado
+     * @return OpcionRespuesta
+     */
+    public function setEnunciado($valorTexto)
+    {
+        $this->enunciado = $valorTexto;
+
+        return $this;
+    }
+
+    /**
+     * Get enunciado
+     *
+     * @return string 
+     */
+    public function getEnunciado()
+    {
+        return $this->enunciado;
+    }
+    
 }

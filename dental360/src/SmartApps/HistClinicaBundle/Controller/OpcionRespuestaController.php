@@ -15,6 +15,36 @@ use SmartApps\HistClinicaBundle\Form\OpcionRespuestaType;
 class OpcionRespuestaController extends Controller
 {
 
+    public function listadoAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+         $paginador=  $this->get('ideup.simple_paginator');
+        $entities=$paginador->paginate(
+                $em->getRepository("HistClinicaBundle:OpcionRespuesta")->queryOpcionesPorTipo($id)
+                )->getResult(); 
+        return $this->render('HistClinicaBundle:OpcionRespuesta:index.html.twig', array(
+            'entities' => $entities,
+            'idpreg' => $id,
+        ));
+    }
+    
+    public function newopcionAction($idpreg)
+    {
+        $entity = new OpcionRespuesta();
+        $form   = $this->createCreateForm($entity);
+        
+        $em = $this->getDoctrine()->getManager();
+        $pregunta = $em->getRepository("HistClinicaBundle:TipoPregunta")->find($idpreg);
+        
+        $entity->setTipoPregunta($pregunta);
+        return $this->render('HistClinicaBundle:OpcionRespuesta:new.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+            'idpreg' => $idpreg,
+        ));
+    }
+    
     /**
      * Lists all OpcionRespuesta entities.
      *
@@ -34,22 +64,25 @@ class OpcionRespuestaController extends Controller
      *
      */
     public function createAction(Request $request)
-    {
+    {   
         $entity = new OpcionRespuesta();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-
+        $variablepreg =  $_POST['idpreg'] ;
+        
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $pregunta = $em->getRepository("HistClinicaBundle:TipoPregunta")->find($variablepreg);
+            $entity->setTipoPregunta($pregunta);
             $em->persist($entity);
             $em->flush();
-
-            return $this->redirect($this->generateUrl('opcionrespuesta_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('opcionrespuesta_listado', array('id' => $variablepreg)));
         }
 
         return $this->render('HistClinicaBundle:OpcionRespuesta:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'idpreg' => $variablepreg,
         ));
     }
 
@@ -118,7 +151,7 @@ class OpcionRespuestaController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('HistClinicaBundle:OpcionRespuesta')->find($id);
-
+        $idpreg = $entity->getTipoPregunta()->getId();
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find OpcionRespuesta entity.');
         }
@@ -130,6 +163,7 @@ class OpcionRespuestaController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'idpreg' => $idpreg,
         ));
     }
 
@@ -160,7 +194,7 @@ class OpcionRespuestaController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('HistClinicaBundle:OpcionRespuesta')->find($id);
-
+        $idpreg = $entity->getTipoPregunta()->getId();
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find OpcionRespuesta entity.');
         }
@@ -171,14 +205,15 @@ class OpcionRespuestaController extends Controller
 
         if ($editForm->isValid()) {
             $em->flush();
-
-            return $this->redirect($this->generateUrl('opcionrespuesta_edit', array('id' => $id)));
+            
+            return $this->redirect($this->generateUrl('opcionrespuesta_listado', array('id' => $idpreg)));
         }
 
         return $this->render('HistClinicaBundle:OpcionRespuesta:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'idpreg' => $idpreg,
         ));
     }
     /**

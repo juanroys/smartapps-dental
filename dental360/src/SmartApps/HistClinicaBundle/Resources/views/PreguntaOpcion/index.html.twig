@@ -38,12 +38,12 @@
                 <td>{{ entity.valorNumero }}</td>
                 <td>{{ entity.opciones }}</td>
                 <td>
-<ul class="list-inline">
-                    <li>
-                        <a href="{{ path('preguntaopcion_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar la opcion?');" >Borrar</a>
-                    </li>
+<ul class="list-inline">                    
                     <li>
                         <a href="{{ path('preguntaopcion_edit', { 'id': entity.id }) }}">Editar</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('preguntaopcion_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar la opcion?');" >Borrar</a>
                     </li>
                 </ul>
                 </td>

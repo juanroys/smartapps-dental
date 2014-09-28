@@ -27,4 +27,4 @@ tipopregunta_update:
 tipopregunta_delete:
     path:     /{id}/delete
     defaults: { _controller: "HistClinicaBundle:TipoPregunta:delete" }
-    requirements: { _method: post|delete }
+

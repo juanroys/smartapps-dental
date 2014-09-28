@@ -12,8 +12,7 @@ opcionrespuesta_new:
 
 opcionrespuesta_create:
     path:     /create
-    defaults: { _controller: "HistClinicaBundle:OpcionRespuesta:create" }
-    requirements: { _method: post }
+    defaults: { _controller: "HistClinicaBundle:OpcionRespuesta:create" }    
 
 opcionrespuesta_edit:
     path:     /{id}/edit
@@ -27,4 +26,13 @@ opcionrespuesta_update:
 opcionrespuesta_delete:
     path:     /{id}/delete
     defaults: { _controller: "HistClinicaBundle:OpcionRespuesta:delete" }
-    requirements: { _method: post|delete }
+
+
+opcionrespuesta_listado:
+    path:     /{id}/listado
+    defaults: { _controller: "HistClinicaBundle:OpcionRespuesta:listado" }
+
+opcionrespuesta_newopcion:
+    path:     /{idpreg}/newopcion
+    defaults: { _controller: "HistClinicaBundle:OpcionRespuesta:newopcion" }
+    

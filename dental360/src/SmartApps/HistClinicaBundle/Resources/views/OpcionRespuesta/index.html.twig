@@ -1,17 +1,30 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>OpcionRespuesta list</h1>
-
-    <table class="records_list">
+    <div class="row">
+        <div class="col-md-7">
+            <h2>Opciones de template</h2>
+        </div>
+        <div class="col-md-5" style="padding-top: 20px; text-align: right;">
+            <ul class="list-inline">
+                <li >
+                    <a href="{{ path('opcionrespuesta_newopcion', { 'idpreg': idpreg }) }}" class="btn btn-default">
+                        Registrar opcion
+                    </a>
+                </li>                
+            </ul>
+        </div>
+    </div>
+        
+    <table class="records_list table table-striped table-condensed table-bordered">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Orden</th>
-                <th>Valortexto</th>
-                <th>Valornumero</th>
+                <th>Valor texto</th>
+                <th>Valor numero</th>
                 <th>Opciones</th>
-                <th>Actions</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -23,12 +36,12 @@
                 <td>{{ entity.valorNumero }}</td>
                 <td>{{ entity.opciones }}</td>
                 <td>
-                <ul>
+                <ul class="list-inline">
                     <li>
-                        <a href="{{ path('opcionrespuesta_show', { 'id': entity.id }) }}">show</a>
+                        <a href="{{ path('opcionrespuesta_edit', { 'id': entity.id }) }}">Editar</a>
                     </li>
                     <li>
-                        <a href="{{ path('opcionrespuesta_edit', { 'id': entity.id }) }}">edit</a>
+                        <a href="{{ path('opcionrespuesta_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar la opcion?');" >Borrar</a>
                     </li>
                 </ul>
                 </td>
@@ -36,12 +49,7 @@
         {% endfor %}
         </tbody>
     </table>
-
-        <ul>
-        <li>
-            <a href="{{ path('opcionrespuesta_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
+      <a href="{{ path('tipopregunta') }}" class="btn btn-default">
+                        Listado templates
+                    </a>
     {% endblock %}

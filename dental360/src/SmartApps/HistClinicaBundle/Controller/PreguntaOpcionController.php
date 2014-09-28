@@ -55,6 +55,7 @@ class PreguntaOpcionController extends Controller
         return $this->render('HistClinicaBundle:PreguntaOpcion:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'idpreg' => $variablepreg,
         ));
     }
 
@@ -196,7 +197,7 @@ class PreguntaOpcionController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('HistClinicaBundle:PreguntaOpcion')->find($id);
-
+        $idpreg = $entity->getTipoPregunta()->getId();
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find PreguntaOpcion entity.');
         }
@@ -209,13 +210,14 @@ class PreguntaOpcionController extends Controller
                         
             $em->flush();
             
-            return $this->redirect($this->generateUrl('preguntaopcion_listado', array('id' => $entity->getPregunta()->getId())));
+            return $this->redirect($this->generateUrl('preguntaopcion_listado', array('id' => $idpreg)));
         }
 
         return $this->render('HistClinicaBundle:PreguntaOpcion:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'idpreg' => $idpreg,
         ));
     }
     /**
