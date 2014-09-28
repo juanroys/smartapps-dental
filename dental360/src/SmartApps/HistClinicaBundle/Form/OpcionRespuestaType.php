@@ -18,8 +18,8 @@ class OpcionRespuestaType extends AbstractType
             ->add('orden')
             ->add('valorTexto')
             ->add('valorNumero')
-            ->add('opciones')
-            ->add('tipoPregunta')
+            ->add('opciones', 'text', array( 'required' => false)) 
+            ->add('enunciado')
         ;
     }
     

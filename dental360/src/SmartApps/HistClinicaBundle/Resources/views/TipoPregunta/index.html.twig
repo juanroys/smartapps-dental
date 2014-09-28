@@ -1,30 +1,46 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>TipoPregunta list</h1>
-
-    <table class="records_list">
+     <div class="row">
+        <div class="col-md-7">
+            <h2>Templates de pregunta</h2>
+        </div>
+        <div class="col-md-5" style="padding-top: 20px; text-align: right;">
+            <ul class="list-inline">
+                <li >
+                    <a href="{{ path('tipopregunta_new') }}" class="btn btn-default">
+                        Registrar template
+                    </a>
+                </li>                
+            </ul>
+        </div>
+    </div>
+        
+    <table class="records_list table table-striped table-condensed table-bordered">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Tipoentrada</th>
-                <th>Descripcion</th>
-                <th>Actions</th>
+                <th>Tipo entrada</th>
+                <th>Descripci&oacute;n</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('tipopregunta_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.tipoEntrada }}</td>
+                <td><a href="{{ path('tipopregunta_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>                
+                <td>{{ tipoentrada[entity.tipoEntrada] }}</td>
                 <td>{{ entity.descripcion }}</td>
                 <td>
-                <ul>
+                <ul class="list-inline">                    
                     <li>
-                        <a href="{{ path('tipopregunta_show', { 'id': entity.id }) }}">show</a>
+                        <a href="{{ path('tipopregunta_edit', { 'id': entity.id }) }}">Editar</a>
+                    </li>   
+                    <li>
+                        <a href="{{ path('tipopregunta_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar el template?');" >Borrar</a>
                     </li>
                     <li>
-                        <a href="{{ path('tipopregunta_edit', { 'id': entity.id }) }}">edit</a>
+                        <a href="{{ path('opcionrespuesta_listado', { 'id': entity.id }) }}">Opciones</a>
                     </li>
                 </ul>
                 </td>
@@ -33,11 +49,4 @@
         </tbody>
     </table>
 
-        <ul>
-        <li>
-            <a href="{{ path('tipopregunta_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
     {% endblock %}

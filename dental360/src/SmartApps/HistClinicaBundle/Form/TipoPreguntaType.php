@@ -15,7 +15,10 @@ class TipoPreguntaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('tipoEntrada')
+             ->add('tipoEntrada', 'choice', array(
+                    'choices' => \SmartApps\HistClinicaBundle\Util\Util::TipoPreguntaEnum(),
+                    'attr' => array('style' => 'width:300px'),
+                ))
             ->add('descripcion')
         ;
     }

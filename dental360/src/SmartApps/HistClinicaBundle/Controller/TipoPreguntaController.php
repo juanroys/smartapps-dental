@@ -27,6 +27,7 @@ class TipoPreguntaController extends Controller
 
         return $this->render('HistClinicaBundle:TipoPregunta:index.html.twig', array(
             'entities' => $entities,
+            'tipoentrada' => \SmartApps\HistClinicaBundle\Util\Util::TipoPreguntaEnum(),
         ));
     }
     /**
@@ -44,7 +45,7 @@ class TipoPreguntaController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tipopregunta_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('tipopregunta', array('id' => $entity->getId())));
         }
 
         return $this->render('HistClinicaBundle:TipoPregunta:new.html.twig', array(
@@ -172,7 +173,7 @@ class TipoPreguntaController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tipopregunta_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('tipopregunta', array('id' => $id)));
         }
 
         return $this->render('HistClinicaBundle:TipoPregunta:edit.html.twig', array(
@@ -185,12 +186,8 @@ class TipoPreguntaController extends Controller
      * Deletes a TipoPregunta entity.
      *
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('HistClinicaBundle:TipoPregunta')->find($id);
 
@@ -200,7 +197,6 @@ class TipoPreguntaController extends Controller
 
             $em->remove($entity);
             $em->flush();
-        }
 
         return $this->redirect($this->generateUrl('tipopregunta'));
     }
