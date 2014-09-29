@@ -62,8 +62,11 @@ class PreguntaOpcion
      * @ORM\Column(name="enunciado", type="string", length=2048, nullable=true)
      */
     private $enunciado;
-    
 
+    public function __construct() {
+        
+    }
+    
     /**
      * Get id
      *

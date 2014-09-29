@@ -1,0 +1,15 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+        <h2>Crear pregunta desde template</h2>
+        <form action="{{ path('pregunta_savefromtemplate') }}" method="post">
+        Template:        
+        <select name="templateId">
+         {% for entity in entities %}
+                <option value="{{entity.id}}">{{entity.descripcion}}</option>
+         {% endfor %}
+        </select>
+        Enunciado: <input type="text" name="enunciado"  />
+        <input type="submit" value="Crear" />
+        </form>
+{% endblock %}

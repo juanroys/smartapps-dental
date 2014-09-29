@@ -5,6 +5,7 @@ namespace SmartApps\HistClinicaBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use SmartApps\HistClinicaBundle\Entity\HistoriaClinica;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 class HistoriaClinicaController extends Controller {
 
@@ -23,10 +24,15 @@ class HistoriaClinicaController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $grupos = $em->getRepository('HistClinicaBundle:Grupo')->findGruposOrdenados();
         $paciente = $em->getRepository('HistClinicaBundle:Paciente')->find($id);
-        $historiaClinica = $em->getRepository('HistClinicaBundle:HistoriaClinica')->findHistoriaClinicaPorPaciente($id);
+        
+        $historiaClinica = $em->getRepository('HistClinicaBundle:HistoriaClinica')->findHistoriaClinicaPorPaciente($id);    
         
         /// Se cargan todas las respuestas para la historia clinica seleccionada
-        $respuestas = $em->getRepository('HistClinicaBundle:Respuesta')->todasRespuestas($historiaClinica->getId());
+        $respuestas = Array();
+        if($historiaClinica != null)
+        {
+            $respuestas = $em->getRepository('HistClinicaBundle:Respuesta')->todasRespuestas($historiaClinica->getId());    
+        }
         $totalrtas = array();
         $preguntaactual = -1;
         $contador_respuestas = 0;
@@ -69,12 +75,14 @@ class HistoriaClinicaController extends Controller {
         $historiaClinica = $em->getRepository('HistClinicaBundle:HistoriaClinica')->findHistoriaClinicaPorPaciente($paciente_id);
         $inputs_keys = array_keys($datos);
         //$errores = $this->validarDatos($datos);
+        $rsm = new ResultSetMapping();
         
         /// Se obtienen todas las respuestsas anteriores para la HC y se borran de la base de datos
+        
         $respuestas = $em->getRepository('HistClinicaBundle:Respuesta')->todasRespuestas($historiaClinica->getId());
         foreach($respuestas as $rta)
         {
-            echo $rta->getId();
+            //echo $rta->getId();
             $em->remove($rta);
         }
         $em->flush(); 

@@ -17,6 +17,7 @@ class HistoriaClinicaRepository extends EntityRepository{
         $consulta = $em->createQuery("SELECT h FROM HistClinicaBundle:HistoriaClinica h "
                 . "JOIN h.paciente p WHERE p.id = :id");
         $consulta->setParameter('id', $id);
+                
         return $consulta->getSingleResult();
     }
 }
