@@ -43,7 +43,7 @@ class TipoPregunta
     private $opcionesRespuesta;
     
      public function __construct() {
-        $this->opcionesRespuesta=new \Doctrine\Common\Collections\ArrayCollection();
+        $this->opcionesRespuesta=new \Doctrine\Common\Collections\ArrayCollection();        
     }
 
     /**

@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use SmartApps\HistClinicaBundle\Entity\Pregunta;
 use SmartApps\HistClinicaBundle\Form\PreguntaType;
+use SmartApps\HistClinicaBundle\Entity\PreguntaOpcion;
 
 /**
  * Pregunta controller.
@@ -222,5 +223,54 @@ class PreguntaController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+    
+    public function createfromtemplateAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entities= $em->getRepository("HistClinicaBundle:TipoPregunta")->findAll();
+                
+        return $this->render('HistClinicaBundle:Pregunta:newfromtemplate.html.twig', array(
+            'entities' => $entities,                        
+        ));
+    }
+    
+    public function savefromtemplateAction()
+    {
+        $templateId =  $_POST['templateId'] ;
+        $enunciado =  $_POST['enunciado'] ;
+        
+        $em = $this->getDoctrine()->getManager();
+        $template = $em->getRepository("HistClinicaBundle:TipoPregunta")->find($templateId);
+        
+        // Se crea la nueva pregunta
+        $entity = new Pregunta();        
+        $entity->setEnunciado($enunciado);
+        $entity->setTipoEntrada($template->getTipoEntrada());
+        $entity->setObligatoria(false);
+        $entity->setOrden(1);
+        $entity->setColspan(1);
+        $entity->setRowspan(1);
+        $entity->setNoColumna(1);
+        $entity->setEstaActiva(true);
+        $em->persist($entity);
+        
+        foreach($template->getOpcionesRespuesta() as $opcionitem )
+        {
+            $opcion = new PreguntaOpcion();
+            $opcion->setPregunta($entity);
+            $opcion->setOrden($opcionitem->getOrden());
+            $opcion->setValorTexto($opcionitem->getValorTexto());
+            $opcion->setValorNumero($opcionitem->getValorNumero());
+            $opcion->setOpciones($opcionitem->getOpciones());
+            $opcion->setEnunciado($opcionitem->getEnunciado());
+            $em->persist($opcion);
+        }
+        
+        $em->flush();        
+        // fin creacion nueva pregunta       
+        
+        
+        return $this->redirect($this->generateUrl('pregunta')); 
     }
 }

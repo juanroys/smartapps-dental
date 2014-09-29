@@ -27,5 +27,12 @@ pregunta_update:
 pregunta_delete:
     path:     /{id}/delete
     defaults: { _controller: "HistClinicaBundle:Pregunta:delete" }
+
+pregunta_createfromtemplate:
+    path:     /createfromtemplate
+    defaults: { _controller: "HistClinicaBundle:Pregunta:createfromtemplate" }
     
+pregunta_savefromtemplate:
+    path:     /savefromtemplate
+    defaults: { _controller: "HistClinicaBundle:Pregunta:savefromtemplate" }
  

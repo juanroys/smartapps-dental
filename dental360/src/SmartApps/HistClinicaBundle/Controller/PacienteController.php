@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use SmartApps\HistClinicaBundle\Entity\Paciente;
+use SmartApps\HistClinicaBundle\Entity\HistoriaClinica;
 use SmartApps\HistClinicaBundle\Form\PacienteType;
 
 /**
@@ -47,6 +48,11 @@ class PacienteController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
+            
+            $historia = new HistoriaClinica();
+            $historia->setPaciente($entity);
+            $em->persist($historia);
+            
             $em->flush();
 
             return $this->redirect($this->generateUrl('paciente', array('id' => $entity->getId())));
