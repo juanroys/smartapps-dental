@@ -36,10 +36,16 @@ class Medico
      */
     private $titulosEspecialidad;
     
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pathFirma", type="string", length=1024)
+     */
+    private $pathFirma;
+    
 
     public function __construct() {
-        $this->costoProcedimiento= new \Doctrine\Common\Collections\ArrayCollection();
-        $this->Procedimientos= new \Doctrine\Common\Collections\ArrayCollection();
+        
     }
 
     /**
@@ -53,47 +59,72 @@ class Medico
     }
 
     /**
-     * Set nombreConvenio
+     * Set nombreCompleto
      *
-     * @param string $nombreConvenio
-     * @return Convenio
+     * @param string $nombreCompleto
+     * @return Medico
      */
-    public function setNombreConvenio($nombreConvenio)
+    public function setNombreCompleto($nombreCompleto)
     {
-        $this->nombreConvenio = $nombreConvenio;
-
+        $this->nombreCompleto = $nombreCompleto;
         return $this;
     }
 
     /**
-     * Get nombreConvenio
+     * Get nombreCompleto
      *
      * @return string 
      */
-    public function getNombreConvenio()
+    public function getNombreCompleto()
     {
-        return $this->nombreConvenio;
+        return $this->nombreCompleto;
     }
     
-    public function setCostoProcedimiento(\Doctrine\Common\Collections\ArrayCollection $costoProcedimiento){
-        $this->costoProcedimiento=$costoProcedimiento;
+    /**
+     * Set titulosEspecialidad
+     *
+     * @param string $titulosEspecialidad
+     * @return Medico
+     */
+    public function setTitulosEspecialidad($titulosEspecialidad)
+    {
+        $this->titulosEspecialidad = $titulosEspecialidad;
         return $this;
     }
-    
-    public function getCostoProcedimiento(){
-        return $this->costoProcedimiento;
+
+    /**
+     * Get titulosEspecialidad
+     *
+     * @return string 
+     */
+    public function getTitulosEspecialidad()
+    {
+        return $this->titulosEspecialidad;
     }
     
-    public function setProcedimientos(\Doctrine\Common\Collections\ArrayCollection $procedimientos){
-        $this->procedimientos=$procedimientos;
+    /**
+     * Set pathFirma
+     *
+     * @param string $pathFirma
+     * @return Medico
+     */
+    public function setPathFirma($pathFirma)
+    {
+        $this->pathFirma = $pathFirma;
         return $this;
     }
-    
-    public function getProcedimientos(){
-        return $this->procedimientos;
+
+    /**
+     * Get pathFirma
+     *
+     * @return string 
+     */
+    public function getPathFirma()
+    {
+        return $this->pathFirma;
     }
     
     public function __toString() {
-        return $this->nombreConvenio;
+        return $this->nombreCompleto;
     }
 }
