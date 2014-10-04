@@ -25,7 +25,7 @@ class Convenio
     /**
      * @ORM\OneToMany(targetEntity="SmartApps\HistClinicaBundle\Entity\CostoProcedimiento", mappedBy="convenio")
      */
-    private $costoProcedimiento;
+    private $costosProcedimientos;
 
     /**
      * @var string
@@ -35,7 +35,7 @@ class Convenio
     private $nombreConvenio;
 
     public function __construct() {
-        $this->costoProcedimiento= new \Doctrine\Common\Collections\ArrayCollection();
+        $this->costosProcedimientos= new \Doctrine\Common\Collections\ArrayCollection();
         $this->Procedimientos= new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -72,22 +72,13 @@ class Convenio
         return $this->nombreConvenio;
     }
     
-    public function setCostoProcedimiento(\Doctrine\Common\Collections\ArrayCollection $costoProcedimiento){
-        $this->costoProcedimiento=$costoProcedimiento;
+    public function setCostosProcedimientos(\Doctrine\Common\Collections\ArrayCollection $costosProcedimientos){
+        $this->costosProcedimientos=$costosProcedimientos;
         return $this;
     }
     
-    public function getCostoProcedimiento(){
-        return $this->costoProcedimiento;
-    }
-    
-    public function setProcedimientos(\Doctrine\Common\Collections\ArrayCollection $procedimientos){
-        $this->procedimientos=$procedimientos;
-        return $this;
-    }
-    
-    public function getProcedimientos(){
-        return $this->procedimientos;
+    public function getCostosProcedimientos(){
+        return $this->costosProcedimientos;
     }
     
     public function __toString() {

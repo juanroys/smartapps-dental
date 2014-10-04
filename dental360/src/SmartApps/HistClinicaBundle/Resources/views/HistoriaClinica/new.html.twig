@@ -99,6 +99,8 @@
                                     </select>
                                     
                                 </td>
+                            {%elseif pregunta.tipoEntrada == tipoEntrada.iframe %} 
+                            <iframe src="{{path(pregunta.opciones,{'idHistoria': historiaClinica.id})}}" width="100%" ></iframe>
                             {%endif%}                    
                             </tr>
                     </table>

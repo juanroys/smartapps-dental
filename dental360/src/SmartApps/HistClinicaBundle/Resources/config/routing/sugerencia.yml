@@ -1,4 +1,23 @@
-new:
+sugerencia_new:
     path: /new/{idHistoria}
     defaults: { _controller: "HistClinicaBundle:Sugerencia:new" }
+
+sugerencia_create:
+    path:     /create
+    defaults: { _controller: "HistClinicaBundle:Sugerencia:create" }
+
+sugerencia_cargarPrecio:
+    path: /cargarPrecio
+    defaults: {_controller: "HistClinicaBundle:Sugerencia:cargarPrecio"}
+
+sugerencia_delete:
+    path: /delete
+    defaults: {_controller: "HistClinicaBundle:Sugerencia:delete"}
+
+sugerencia_load:
+    path: /load
+    defaults: {_controller: "HistClinicaBundle:Sugerencia:load"}
     
+sugerencia_edit:
+    path: /edit
+    defaults: {_controller: "HistClinicaBundle:Sugerencia:edit"}
