@@ -11,4 +11,13 @@ class ProcedimientoRepository extends EntityRepository{
         $consulta=$em->createQuery("SELECT p FROM HistClinicaBundle:Procedimiento p");
         return $consulta;
     }
+    
+    public function findProcedimientosPorConvenio($id){
+        $em =$this->getEntityManager();
+        $consulta=$em->createQuery('SELECT p FROM HistClinicaBundle:Convenio c'
+                . 'JOIN HistClinicaBundle:CostoProcedimiento cp '
+                . 'JOIN HistClinicaBundle:Procedimiento p '
+                . 'WHERE c.id = cp.procedimiento.id AND p.id=cp.convenio.id');
+        return $consulta->getResult();
+    }
 }

@@ -64,6 +64,7 @@ class HistoriaClinicaController extends Controller {
                     'grupos' => $grupos,
                     'paciente' => $paciente,
                     'respuestas' => $totalrtas,
+                    'historiaClinica'=>$historiaClinica,
         ));
     }
 

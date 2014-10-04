@@ -23,13 +23,13 @@ class CostoProcedimiento
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\Procedimiento", inversedBy="costoProcedimiento")
+     * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\Procedimiento", inversedBy="costosProcedimientos")
      * @ORM\JoinColumn(name="procedimientoId",referencedColumnName="procedimientoId")
      */
     private $procedimiento;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\Convenio", inversedBy="costoProcedimiento")
+     * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\Convenio", inversedBy="costosProcedimientos")
      * @ORM\JoinColumn(name="convenioId",referencedColumnName="convenioId")
      */
     private $convenio;

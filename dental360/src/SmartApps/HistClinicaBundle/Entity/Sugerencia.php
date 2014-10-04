@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Sugerencia
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="SmartApps\HistClinicaBundle\Entity\SugerenciaRepository")
  */
 class Sugerencia
 {
@@ -22,6 +22,11 @@ class Sugerencia
      */
     private $id;
 
+    /**
+     * @ORM\Column(name="costo", type="bigint")
+     */
+    private $costo;
+    
     /**
      * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\Procedimiento")
      * @ORM\JoinColumn(name="procedimientoId",referencedColumnName="procedimientoId")
@@ -119,5 +124,13 @@ class Sugerencia
     public function getFechaPlanificacion()
     {
         return $this->fechaPlanificacion;
+    }
+    
+    public function setCosto($costo){
+        $this->costo=$costo;
+        return $this;
+    }
+    public function getCosto(){
+        return $this->costo;
     }
 }
