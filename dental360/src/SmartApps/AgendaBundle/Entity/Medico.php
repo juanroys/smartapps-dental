@@ -79,7 +79,7 @@ class Medico
     {
         return $this->nombreCompleto;
     }
-    
+     
     /**
      * Set titulosEspecialidad
      *
