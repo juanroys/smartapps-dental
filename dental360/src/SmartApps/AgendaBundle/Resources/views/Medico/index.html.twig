@@ -1,0 +1,52 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <div class="row">
+        <div class="col-md-7">
+            <h2>Medicos</h2>
+        </div>
+        <div class="col-md-5" style="padding-top: 20px; text-align: right;">
+            <ul class="list-inline">
+                <li >
+                    <a href="{{ path('medico_new') }}" class="btn btn-default">
+                        Registrar medico
+                    </a>
+                </li>                
+            </ul>
+        </div>
+    </div>
+        
+    <table class="records_list table table-striped table-condensed table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Titulos y/o Especialidad</th>
+                <th>Firma</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ entity.id }}</td>
+                <td>{{ entity.nombreCompleto }}</td>
+                <td>{{ entity.titulosEspecialidad }}</td>
+                <td>{{ entity.pathFirma }}</td>
+                <td>
+                <ul class="list-inline">
+                    <li>
+                        <a href="{{ path('medico_edit', { 'id': entity.id }) }}">Editar</a>
+                    </li>
+                    
+                    <li>
+                        <a href="{{ path('medico_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar el medico?');" >Borrar</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% endblock %}

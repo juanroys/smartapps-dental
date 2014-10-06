@@ -1,0 +1,30 @@
+medico:
+    path:     /
+    defaults: { _controller: "AgendaBundle:Medico:index" }
+
+medico_show:
+    path:     /{id}/show
+    defaults: { _controller: "AgendaBundle:Medico:show" }
+
+medico_new:
+    path:     /new
+    defaults: { _controller: "AgendaBundle:Medico:new" }
+
+medico_create:
+    path:     /create
+    defaults: { _controller: "AgendaBundle:Medico:create" }
+    requirements: { _method: post }
+
+medico_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AgendaBundle:Medico:edit" }
+
+medico_update:
+    path:     /{id}/update
+    defaults: { _controller: "AgendaBundle:Medico:update" }
+    requirements: { _method: post|put }
+
+medico_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AgendaBundle:Medico:delete" }
+    requirements: { _method: post|delete }
