@@ -31,7 +31,7 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('preguntaopcion_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.id }}</td>
                 <td>{{ entity.orden }}</td>
                 <td>{{ entity.enunciado }}</td>
                 <td>{{ entity.valorTexto }}</td>

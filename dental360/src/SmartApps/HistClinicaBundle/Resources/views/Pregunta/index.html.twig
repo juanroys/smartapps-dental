@@ -43,7 +43,7 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('pregunta_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.id }}</td>
                 <td>{{ tipoentrada[entity.tipoEntrada] }}</td>
                 
                 <td>{{ entity.enunciado }}</td>

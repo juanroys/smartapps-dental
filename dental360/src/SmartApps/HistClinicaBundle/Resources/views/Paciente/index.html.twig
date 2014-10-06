@@ -54,7 +54,7 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('paciente_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.id }}</td>
                 <td>{{ entity.nombres }} {{ entity.apellido1 }} {{ entity.apellido2 }}</td>                
                 <!-- <td>{% if entity.fechaNacimiento %}{{ entity.fechaNacimiento|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ entity.lugarNacimiento }}</td> -->
