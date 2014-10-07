@@ -1,14 +1,27 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>UnidadAtencion list</h1>
-
-    <table class="records_list">
+   <div class="row">
+        <div class="col-md-7">
+            <h2>Unidades de atenci&oacute;n</h2>
+        </div>
+        <div class="col-md-5" style="padding-top: 20px; text-align: right;">
+            <ul class="list-inline">
+                <li >
+                    <a href="{{ path('unidadatencion_new') }}" class="btn btn-default">
+                        Registrar unidad
+                    </a>
+                </li>                
+            </ul>
+        </div>
+    </div>
+        
+    <table class="records_list table table-striped table-condensed table-bordered">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Descripcion</th>
-                <th>Actions</th>
+                <th>Descripci&oacute;n</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -17,12 +30,13 @@
                 <td>{{ entity.id }}</td>
                 <td>{{ entity.descripcion }}</td>
                 <td>
-                <ul>
+                <ul class="list-inline">
                     <li>
-                        <a href="{{ path('unidadatencion_show', { 'id': entity.id }) }}">show</a>
+                        <a href="{{ path('unidadatencion_edit', { 'id': entity.id }) }}">Editar</a>
                     </li>
+                    
                     <li>
-                        <a href="{{ path('unidadatencion_edit', { 'id': entity.id }) }}">edit</a>
+                        <a href="{{ path('unidadatencion_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar el medico?');" >Borrar</a>
                     </li>
                 </ul>
                 </td>
@@ -30,12 +44,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-        <ul>
-        <li>
-            <a href="{{ path('unidadatencion_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
     {% endblock %}

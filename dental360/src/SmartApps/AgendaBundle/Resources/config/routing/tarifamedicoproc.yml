@@ -1,0 +1,38 @@
+tarifamedicoproc:
+    path:     /
+    defaults: { _controller: "AgendaBundle:TarifaMedicoProc:index" }
+
+tarifamedicoproc_show:
+    path:     /{id}/show
+    defaults: { _controller: "AgendaBundle:TarifaMedicoProc:show" }
+
+tarifamedicoproc_new:
+    path:     /new
+    defaults: { _controller: "AgendaBundle:TarifaMedicoProc:new" }
+
+tarifamedicoproc_create:
+    path:     /create
+    defaults: { _controller: "AgendaBundle:TarifaMedicoProc:create" }
+    requirements: { _method: post }
+
+tarifamedicoproc_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AgendaBundle:TarifaMedicoProc:edit" }
+
+tarifamedicoproc_update:
+    path:     /{id}/update
+    defaults: { _controller: "AgendaBundle:TarifaMedicoProc:update" }
+    requirements: { _method: post|put }
+
+tarifamedicoproc_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AgendaBundle:TarifaMedicoProc:delete" }
+    requirements: { _method: post|delete }
+
+tarifamedicoproc_listado:
+    path:     /{id}/listado
+    defaults: { _controller: "AgendaBundle:TarifaMedicoProc:listado" }
+    
+tarifamedicoproc_guardar:
+    path:     /guardar
+    defaults: { _controller: "AgendaBundle:TarifaMedicoProc:guardar" }

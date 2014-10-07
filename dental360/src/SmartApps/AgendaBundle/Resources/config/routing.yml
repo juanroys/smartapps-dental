@@ -1,3 +1,7 @@
+agenda_tarifamedicoproc:
+    resource: "@AgendaBundle/Resources/config/routing/tarifamedicoproc.yml"
+    prefix:   /tarifamedicoproc
+
 agenda_unidadatencion:
     resource: "@AgendaBundle/Resources/config/routing/unidadatencion.yml"
     prefix:   /unidadatencion

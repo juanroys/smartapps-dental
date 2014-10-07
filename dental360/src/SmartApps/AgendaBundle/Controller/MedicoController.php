@@ -45,7 +45,7 @@ class MedicoController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('medico_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('medico', array('id' => $entity->getId())));
         }
 
         return $this->render('AgendaBundle:Medico:new.html.twig', array(
@@ -171,9 +171,10 @@ class MedicoController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $entity->upload();
             $em->flush();
 
-            return $this->redirect($this->generateUrl('medico_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('medico', array('id' => $id)));
         }
 
         return $this->render('AgendaBundle:Medico:edit.html.twig', array(
@@ -188,10 +189,7 @@ class MedicoController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
+       
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('AgendaBundle:Medico')->find($id);
 
@@ -201,8 +199,7 @@ class MedicoController extends Controller
 
             $em->remove($entity);
             $em->flush();
-        }
-
+       
         return $this->redirect($this->generateUrl('medico'));
     }
 

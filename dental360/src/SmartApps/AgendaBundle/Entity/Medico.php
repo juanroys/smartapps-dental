@@ -150,6 +150,10 @@ class Medico
         return $this->pathFirma;
     }
     
+    public function getViewPath()
+    {
+        return  "/dental360/web/" . $this->getWebPath();
+    }
     
     public function getAbsolutePath()
     {
@@ -176,7 +180,7 @@ class Medico
     {
         // get rid of the __DIR__ so it doesn't screw up
         // when displaying uploaded doc/image in the view.
-        return 'uploads/documents';
+        return 'uploads/medicos';
     }
     
     public function __toString() {
@@ -189,19 +193,19 @@ class Medico
         if (null === $this->getFile()) {
             return;
         }
-
+        
         // use the original file name here but you should
         // sanitize it at least to avoid any security issues
-
+        $nombrefinal = $this->id . "-" . $this->getFile()->getClientOriginalName();
         // move takes the target directory and then the
         // target filename to move to
         $this->getFile()->move(
             $this->getUploadRootDir(),
-            $this->getFile()->getClientOriginalName()
+            $nombrefinal 
         );
 
         // set the path property to the filename where you've saved the file
-        $this->pathFirma = $this->getFile()->getClientOriginalName();
+        $this->pathFirma = $nombrefinal;
 
         // clean up the file property as you won't need it anymore
         $this->file = null;

@@ -37,10 +37,12 @@
                 <ul class="list-inline">
                     <li>
                         <a href="{{ path('medico_edit', { 'id': entity.id }) }}">Editar</a>
-                    </li>
-                    
+                    </li>                    
                     <li>
                         <a href="{{ path('medico_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar el medico?');" >Borrar</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('tarifamedicoproc_listado', { 'id': entity.id }) }}" >[Tarifas por procedimiento]</a>
                     </li>
                 </ul>
                 </td>
