@@ -44,7 +44,7 @@ class UnidadAtencionController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('unidadatencion_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('unidadatencion', array('id' => $entity->getId())));
         }
 
         return $this->render('AgendaBundle:UnidadAtencion:new.html.twig', array(
@@ -172,7 +172,7 @@ class UnidadAtencionController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('unidadatencion_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('unidadatencion', array('id' => $id)));
         }
 
         return $this->render('AgendaBundle:UnidadAtencion:edit.html.twig', array(
@@ -187,10 +187,6 @@ class UnidadAtencionController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('AgendaBundle:UnidadAtencion')->find($id);
 
@@ -200,8 +196,7 @@ class UnidadAtencionController extends Controller
 
             $em->remove($entity);
             $em->flush();
-        }
-
+     
         return $this->redirect($this->generateUrl('unidadatencion'));
     }
 

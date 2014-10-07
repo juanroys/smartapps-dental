@@ -76,7 +76,7 @@ class TarifaMedicoProc
         return $this->procedimiento;
     }
     
-    public function setMedico(SmartApps\AgendaBundle\Entity\Medico $medico)
+    public function setMedico(\SmartApps\AgendaBundle\Entity\Medico $medico)
     {
         $this->medico = $medico;
         return $this;

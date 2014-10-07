@@ -1,16 +1,38 @@
 {% extends '::base.html.twig' %}
 
-{% block body -%}
-    <h1>Medico edit</h1>
-
-    {{ form(edit_form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('medico') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+{% block body -%}    
+    <h2>Editar Medico</h2>
+    {{ form_start(edit_form) }}        
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(edit_form.nombreCompleto) }}</div>
+        <div class="col-md-4">{{form_widget(edit_form.nombreCompleto) }}        </div>    
+        </div>    
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(edit_form.titulosEspecialidad) }}</div>
+        <div class="col-md-4">{{form_widget(edit_form.titulosEspecialidad) }}        </div>    
+    </div>
+    
+    <div class="row formulario-row">
+        <div class="col-md-2"><strong>Firma Actual</strong></div>
+        <div class="col-md-4"><img src="{{ entity.getViewPath() }}" /></div>    
+    </div>
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(edit_form.file, 'Firma nueva') }}</div>
+        <div class="col-md-4">{{form_widget(edit_form.file) }}        </div>    
+    </div>    
+    <div class="row formulario-row">
+        <div class="col-md-12">        
+        <ul class="list-inline">
+                <li >
+                    {{form_row(edit_form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default' } }) }}                
+                </li>                
+                <li >
+                    <a href="{{ path('medico') }}" class="btn btn-default">
+                        Volver al listado
+                    </a>
+                </li>                
+            </ul>        
+        </div>
+    </div>
+    {{ form_end(edit_form)}}
 {% endblock %}

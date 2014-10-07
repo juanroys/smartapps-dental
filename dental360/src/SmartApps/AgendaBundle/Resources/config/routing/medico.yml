@@ -27,4 +27,3 @@ medico_update:
 medico_delete:
     path:     /{id}/delete
     defaults: { _controller: "AgendaBundle:Medico:delete" }
-    requirements: { _method: post|delete }

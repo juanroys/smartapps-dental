@@ -1,0 +1,54 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+     <div class="row">
+        <div class="col-md-7">
+            <h2>Tarifas por medico</h2>
+        </div>
+    </div>
+
+    <form action="{{path('tarifamedicoproc_guardar')}}" method="post">
+        <input type="hidden" name="medicoId" value="{{ medicoId }}" />
+        <table class="records_list table table-striped table-condensed table-bordered">
+        <thead>
+            <tr>
+                <th>Procedimiento</th>
+                <th>Tipo tarifa</th>
+                <th>Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for procedimiento in procedimientos %}            
+                <tr>                 
+                    <td>{{ procedimiento.descripcion }}</td>
+                    <td> 
+                        <select name="selTipoTarifa{{ procedimiento.id }}">
+                            <option value="0">Valor fijo</option>
+                            <option value="1">Porcentaje</option>
+                        </select>
+                    </td>
+                    <td>
+                       <input type="text" name="txtValor{{ procedimiento.id }}" value="0" />
+                    </td>
+            </tr>
+        {% endfor %}
+        </tbody>        
+        </table>
+        
+        <input type="submit" value="Guardar" class="btn btn-default" />
+        <a href="{{ path('medico') }}" class="btn btn-default">
+            Listado m&eacute;dicos
+        </a>
+    </form>
+    <script language="javascript" type="text/javascript">
+        jQuery(document).ready(function(){
+            {% for entity in entities %}
+                jQuery("select[name='selTipoTarifa{{ entity.procedimiento.id }}']").val('{{ entity.tipoTarifa }}');
+                jQuery("input[name='txtValor{{ entity.procedimiento.id }}']").val('{{ entity.valor }}');            
+            {% endfor %}
+        });    
+    </script>
+    
+        
+
+    {% endblock %}

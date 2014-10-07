@@ -1,15 +1,27 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>UnidadAtencion creation</h1>
+ <h2>Registrar Unidad de Atenci&oacute;n</h2>
+    {{ form_start(form) }}        
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(form.descripcion, 'Descripción') }}</div>
+        <div class="col-md-4">{{form_widget(form.descripcion) }}        </div>    
+        </div>    
+   
+    <div class="row formulario-row">
+        <div class="col-md-12">        
+        <ul class="list-inline">
+                <li >
+                    {{form_row(form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default' } }) }}                
+                </li>                
+                <li >
+                    <a href="{{ path('unidadatencion') }}" class="btn btn-default">
+                        Volver al listado
+                    </a>
+                </li>                
+            </ul>        
+        </div>
+    </div>
+    {{ form_end(form)}}    
 
-    {{ form(form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('unidadatencion') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
 {% endblock %}

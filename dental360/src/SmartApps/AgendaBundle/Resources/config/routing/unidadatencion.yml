@@ -27,4 +27,4 @@ unidadatencion_update:
 unidadatencion_delete:
     path:     /{id}/delete
     defaults: { _controller: "AgendaBundle:UnidadAtencion:delete" }
-    requirements: { _method: post|delete }
+
