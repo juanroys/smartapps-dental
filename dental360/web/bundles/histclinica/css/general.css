@@ -1,0 +1,28 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 18/09/2014, 11:35:01 PM
+    Author     : Faabian Ruano
+*/
+
+.formulario-row{
+    margin-top: 5px;
+}
+
+.records_list th
+{
+    text-align: center;    
+    background-image: linear-gradient(to bottom, #FFF 0%, #E0E0E0 100%);
+    color: #333;
+}
+
+table.records_list
+{
+    border-radius: 5px;
+}
+
+
+
