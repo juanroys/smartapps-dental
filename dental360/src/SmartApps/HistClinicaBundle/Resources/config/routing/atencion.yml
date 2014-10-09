@@ -1,0 +1,3 @@
+atencion_new:
+    path: /new/{idHistoria}
+    defaults: { _controller: "HistClinicaBundle:Atencion:new" }
