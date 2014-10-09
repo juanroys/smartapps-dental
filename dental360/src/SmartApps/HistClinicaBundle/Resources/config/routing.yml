@@ -45,3 +45,7 @@ HistClinicaBundle_sugerencia:
 HistClinicaBundle_preguntaopcion:
         resource: "@HistClinicaBundle/Resources/config/routing/preguntaopcion.yml"
         prefix:   /preguntaopcion
+
+HistClinicaBundle_atencion:
+        resource: "@HistClinicaBundle/Resources/config/routing/atencion.yml"
+        prefix:   /atencion

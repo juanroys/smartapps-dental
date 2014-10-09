@@ -10,9 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Tratamiento
-{
-    
+class Tratamiento {
+
     /**
      * @ORM\Column(name="tratamientoId", type="bigint")
      * @ORM\Id
@@ -21,23 +20,16 @@ class Tratamiento
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\HistoriaClinica")
-     * @ORM\JoinColumn(name="historiaClinicaId",referencedColumnName="historiaClinicaId")
-     */
-    private $historiaClinica;
-
-    /**
      * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\Procedimiento")
      * @ORM\JoinColumn(name="procedimientoId",referencedColumnName="procedimientoId")
      */
     private $procedimiento;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="fechaHora", type="datetime")
+     * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\Atencion", inversedBy="tratamientos")
+     * @ORM\JoinColumn(name="atencionId",referencedColumnName="atencionId")
      */
-    private $fechaHora;
+    private $atencion;
 
     /**
      * @var string
@@ -54,58 +46,12 @@ class Tratamiento
     private $costoProcedimiento;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="abono", type="bigint")
-     */
-    private $abono;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="saldo", type="bigint")
-     */
-    private $saldo;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="descripcion", type="string", length=255)
-     */
-    private $descripcion;
-
-
-    /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
-    }
-
-    /**
-     * Set historiaClinica
-     *
-     * @param string $historiaClinica
-     * @return Tratamiento
-     */
-    public function setHistoriaClinica(\SmartApps\HistClinicaBundle\Entity\HistoriaClinica $historiaClinica)
-    {
-        $this->historiaClinica = $historiaClinica;
-
-        return $this;
-    }
-
-    /**
-     * Get historiaClinica
-     *
-     * @return string 
-     */
-    public function getHistoriaClinica()
-    {
-        return $this->historiaClinica;
     }
 
     /**
@@ -114,8 +60,7 @@ class Tratamiento
      * @param string $procedimiento
      * @return Tratamiento
      */
-    public function setProcedimiento(\SmartApps\HistClinicaBundle\Entity\Procedimiento $procedimiento)
-    {
+    public function setProcedimiento(\SmartApps\HistClinicaBundle\Entity\Procedimiento $procedimiento) {
         $this->procedimiento = $procedimiento;
 
         return $this;
@@ -126,32 +71,8 @@ class Tratamiento
      *
      * @return string 
      */
-    public function getProcedimiento()
-    {
+    public function getProcedimiento() {
         return $this->procedimiento;
-    }
-
-    /**
-     * Set fechaHora
-     *
-     * @param \DateTime $fechaHora
-     * @return Tratamiento
-     */
-    public function setFechaHora($fechaHora)
-    {
-        $this->fechaHora = $fechaHora;
-
-        return $this;
-    }
-
-    /**
-     * Get fechaHora
-     *
-     * @return \DateTime 
-     */
-    public function getFechaHora()
-    {
-        return $this->fechaHora;
     }
 
     /**
@@ -160,8 +81,7 @@ class Tratamiento
      * @param string $diente
      * @return Tratamiento
      */
-    public function setDiente($diente)
-    {
+    public function setDiente($diente) {
         $this->diente = $diente;
 
         return $this;
@@ -172,8 +92,7 @@ class Tratamiento
      *
      * @return string 
      */
-    public function getDiente()
-    {
+    public function getDiente() {
         return $this->diente;
     }
 
@@ -183,8 +102,7 @@ class Tratamiento
      * @param integer $costoProcedimiento
      * @return Tratamiento
      */
-    public function setCostoProcedimiento($costoProcedimiento)
-    {
+    public function setCostoProcedimiento($costoProcedimiento) {
         $this->costoProcedimiento = $costoProcedimiento;
 
         return $this;
@@ -195,77 +113,17 @@ class Tratamiento
      *
      * @return integer 
      */
-    public function getCostoProcedimiento()
-    {
+    public function getCostoProcedimiento() {
         return $this->costoProcedimiento;
     }
 
-    /**
-     * Set abono
-     *
-     * @param integer $abono
-     * @return Tratamiento
-     */
-    public function setAbono($abono)
-    {
-        $this->abono = $abono;
-
+    public function setAtencion(\SmartApps\HistClinicaBundle\Entity\Atencion $atencion) {
+        $this->atencion = $atencion;
         return $this;
     }
 
-    /**
-     * Get abono
-     *
-     * @return integer 
-     */
-    public function getAbono()
-    {
-        return $this->abono;
+    public function getAtencion() {
+        return $this->atencion;
     }
 
-    /**
-     * Set saldo
-     *
-     * @param integer $saldo
-     * @return Tratamiento
-     */
-    public function setSaldo($saldo)
-    {
-        $this->saldo = $saldo;
-
-        return $this;
-    }
-
-    /**
-     * Get saldo
-     *
-     * @return integer 
-     */
-    public function getSaldo()
-    {
-        return $this->saldo;
-    }
-
-    /**
-     * Set descripcion
-     *
-     * @param string $descripcion
-     * @return Tratamiento
-     */
-    public function setDescripcion($descripcion)
-    {
-        $this->descripcion = $descripcion;
-
-        return $this;
-    }
-
-    /**
-     * Get descripcion
-     *
-     * @return string 
-     */
-    public function getDescripcion()
-    {
-        return $this->descripcion;
-    }
 }
