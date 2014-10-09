@@ -1,0 +1,162 @@
+{% extends '::base.html.twig' %}
+{%block barraNavegacion%}
+{%endblock%}
+{%block footer%}
+{%endblock%}
+{% block body%}
+<div style="border: 1px solid #ccc; background-color: #ddd; border-radius: 5px;">
+    <input type="hidden" name="pacienteId" id="pacienteId" value="{{paciente.id}}"/>
+    <input type="hidden" name="sugerenciaId" id="sugerenciaId" value="0"/>
+    <div class="row">
+        <div class="col-md-2">
+            Fecha
+        </div>
+        <div class="col-md-4">
+            <div id="datetimepicker" class="input-append date">
+                <input data-format="dd/MM/yyyy hh:mm:ss" type="text" name="fecha" id="fecha"></input>
+                <span class="add-on">
+                    <img src="{{ asset('bundles/histclinica/images/calendar.png') }}">
+                </span>
+            </div>
+        </div>        
+
+    </div>
+
+    <div class="row">       
+        <div class="col-md-1">Firma Paciente: </div>
+        <div class="col-md-2">
+            <input type="file" name="firmaPaciente" id="firmaPaciente" />
+        </div>  
+    </div>
+    <div id="demo">
+
+    </div>
+    <hr/>
+    <div>
+        <div>
+            <div class="row">
+                <div class="col-md-2">Procedimiento</div>
+                <div class="col-md-2">
+                    <select name="procedimiento" id="procedimiento" onchange="getCostoProcedimiento()">
+                        <option value="">Seleccionar</option>
+        {%for procedimiento in procedimientos%}
+                        <option value="{{procedimiento.id}}">
+            {{procedimiento.descripcion}}
+                        </option>
+        {%endfor%}
+                    </select>
+                </div>
+                <div class="col-md-1">Diente: </div>
+                <div class="col-md-2">
+                    <input type="text" name="diente" id="diente" />
+                </div>         
+            </div>
+            <div class="row">
+
+                <div class="col-md-1">Costo: </div>
+                <div class="col-md-2">
+                    <input type="text" readonly="true" name="costoProcedimiento" id="costoProcedimiento" />
+                </div>
+                <div class="col-md-5" style="text-align: center;">
+                    <a onclick="agregarProcedimiento(this)" class="btn btn-default" id="btnAgregarProcedimiento">
+                        Agregar
+                    </a>
+                </div>
+            </div> 
+        </div>
+    </div>
+    <hr/>
+    <div class="row">
+        <div class="col-md-1">Recibo: </div>
+        <div class="col-md-2">
+            <input type="text" name="recibo" id="recibo" />
+        </div> 
+        <div class="col-md-1">Total: </div>
+        <div class="col-md-2">
+            <input type="text" name="total" id="total" />
+        </div> 
+    </div>
+    <div class="row">
+        <div class="col-md-1">Abono: </div>
+        <div class="col-md-2">
+            <input type="text" name="abono" id="abono" />
+        </div> 
+        <div class="col-md-1">Saldo: </div>
+        <div class="col-md-2">
+            <input type="text" name="saldo" id="saldo" />
+        </div> 
+    </div>
+    <div class="row">
+        <div class="col-md-1" style="text-align: center;">
+            <a onclick="agregarProcedimiento()" class="btn btn-default" id="btnAgregarProcedimiento">
+                Guardar
+            </a>
+        </div>
+    </div>
+    <br/>
+</div>
+
+<div>
+    <table class="records_list table table-striped table-condensed table-bordered" id="sugerencias">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Diente</th>
+                <th>Hora</th>
+                <th>Tratamiento Ejecutado</th>
+                <th>Firma Paciente</th>
+                <th>Firma Odontólogo</th>
+                <th>Recibo No</th>
+                <th>Abono </th>
+                <th>Saldo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%if sugerencias is defined and sugerencias!=null%}
+            {%for sugerencia in sugerencias%}
+            <tr id="{{sugerencia.id}}">
+                <td>
+                {{sugerencia.fechaPlanificacion|date('Y-m-d')}}
+                </td>
+                <td>
+                {{sugerencia.procedimiento.descripcion}}
+                </td>
+                <td>
+                {{sugerencia.costo}}
+                </td>
+                <td>
+                    <a onclick="borrarSugerencia({{sugerencia.id}}, this)" class="btn btn-default">Borrar</a>
+                    <a onclick="editarSugerencia({{sugerencia.id}})" class="btn btn-default">Editar</a
+                </td>
+            </tr>
+            {%endfor%}
+            {%endif%}
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript" lang="javascript">
+    var numRows = 1;
+    function agregarProcedimiento(elemento) {
+        
+        if (numRows == 1) {
+            var procedimiento = document.getElementById("procedimiento").value;
+            var diente = document.getElementById("diente").value;
+            var costoProcedimiento = document.getElementById("costoProcedimiento").value;
+        }
+        var boton = elemento.parentNode;
+        var row = boton.parentNode;
+        var rowProcedimiento = row.parentNode;
+        var newRowProcedimiento = rowProcedimiento.cloneNode(true);
+        row.removeChild(boton);
+        var procedimientos = rowProcedimiento.parentNode;
+        newRowProcedimiento.setAttribute("id", "uniqueIdentifier");
+        procedimientos.appendChild(newRowProcedimiento);
+
+    }
+    $(function() {
+        $('#datetimepicker').datetimepicker({
+            language: 'es-ES'
+        });
+    });
+</script>
+{% endblock%}
