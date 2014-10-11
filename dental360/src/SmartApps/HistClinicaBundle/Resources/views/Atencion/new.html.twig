@@ -7,13 +7,17 @@
 <div style="border: 1px solid #ccc; background-color: #ddd; border-radius: 5px;">
     <input type="hidden" name="pacienteId" id="pacienteId" value="{{paciente.id}}"/>
     <input type="hidden" name="sugerenciaId" id="sugerenciaId" value="0"/>
+    <div id="demo"></div>
+    <div class="row">
+        <div class="col-md-4" id="fecha_errors"></div>
+    </div>
     <div class="row">
         <div class="col-md-2">
             Fecha
         </div>
         <div class="col-md-4">
             <div id="datetimepicker" class="input-append date">
-                <input data-format="dd/MM/yyyy hh:mm:ss" type="text" name="fecha" id="fecha"></input>
+                <input data-format="yyyy-MM-dd hh:mm:ss" type="text" name="fecha" id="fecha" readonly="true"></input>
                 <span class="add-on">
                     <img src="{{ asset('bundles/histclinica/images/calendar.png') }}">
                 </span>
@@ -21,23 +25,29 @@
         </div>        
 
     </div>
-
+    <div class="row">
+        <div class="col-md-4" id="firmaPaciente_errors">errors</div>
+    </div>
     <div class="row">       
         <div class="col-md-1">Firma Paciente: </div>
         <div class="col-md-2">
-            <input type="file" name="firmaPaciente" id="firmaPaciente" />
-        </div>  
-    </div>
-    <div id="demo">
-
+            <input type="button" name="firmaPaciente" id="firmaPaciente" value="Subir Archivo" />
+        </div>
+        <div class="col-md-2">
+            <img id="preview" src="{{ asset('bundles/histclinica/images/no_image.png') }}" height="100px">
+        </div>
     </div>
     <hr/>
     <div>
-        <div>
+        <div id="rowProcedimiento">
+            <div class="row" >
+                <div class="col-md-4" id="procedimiento_errors">error</div>
+                <div class="col-md-4" id="diente_errors">error</div>
+            </div>
             <div class="row">
                 <div class="col-md-2">Procedimiento</div>
                 <div class="col-md-2">
-                    <select name="procedimiento" id="procedimiento" onchange="getCostoProcedimiento()">
+                    <select name="procedimiento" id="procedimiento" onchange="getCostoProcedimiento(this)">
                         <option value="">Seleccionar</option>
         {%for procedimiento in procedimientos%}
                         <option value="{{procedimiento.id}}">
@@ -46,26 +56,33 @@
         {%endfor%}
                     </select>
                 </div>
-                <div class="col-md-1">Diente: </div>
+                <div class="col-md-2">Diente: </div>
                 <div class="col-md-2">
-                    <input type="text" name="diente" id="diente" />
+                    <input type="text" name="diente" id="diente"/>
                 </div>         
             </div>
             <div class="row">
-
-                <div class="col-md-1">Costo: </div>
+                <div class="col-md-2">Costo: </div>
                 <div class="col-md-2">
                     <input type="text" readonly="true" name="costoProcedimiento" id="costoProcedimiento" />
                 </div>
-                <div class="col-md-5" style="text-align: center;">
-                    <a onclick="agregarProcedimiento(this)" class="btn btn-default" id="btnAgregarProcedimiento">
-                        Agregar
-                    </a>
+                <div class="col-md-2" id="divBorrar">
+
                 </div>
-            </div> 
+            </div>
         </div>
     </div>
+    </br>
+    <div class="col-md-4" style="text-align: center;">
+        <a onclick="agregarProcedimiento()" class="btn btn-default" id="btnAgregarProcedimiento">
+            Agregar
+        </a>
+    </div>
+    </br>
     <hr/>
+    <div class="row">
+        <div class="col-md-4" id="recibo_errors"></div>
+    </div>
     <div class="row">
         <div class="col-md-1">Recibo: </div>
         <div class="col-md-2">
@@ -73,22 +90,25 @@
         </div> 
         <div class="col-md-1">Total: </div>
         <div class="col-md-2">
-            <input type="text" name="total" id="total" />
+            <input type="number" name="total" id="total" readonly="true" value="0" min="0"/>
         </div> 
+    </div>
+    <div class="row">
+        <div class="col-md-4" id="abono_errors"></div>
     </div>
     <div class="row">
         <div class="col-md-1">Abono: </div>
         <div class="col-md-2">
-            <input type="text" name="abono" id="abono" />
+            <input type="number" onchange="calcularSaldo();"onkeypress="return justNumbers(event);" name="abono" id="abono" min="0" value="0"/>
         </div> 
         <div class="col-md-1">Saldo: </div>
         <div class="col-md-2">
-            <input type="text" name="saldo" id="saldo" />
+            <input type="number" name="saldo" id="saldo" value="0" readonly="true"/>
         </div> 
     </div>
     <div class="row">
         <div class="col-md-1" style="text-align: center;">
-            <a onclick="agregarProcedimiento()" class="btn btn-default" id="btnAgregarProcedimiento">
+            <a onclick="agregarAtencion()" class="btn btn-default" id="btnAgregarProcedimiento">
                 Guardar
             </a>
         </div>
@@ -97,7 +117,7 @@
 </div>
 
 <div>
-    <table class="records_list table table-striped table-condensed table-bordered" id="sugerencias">
+    <table class="records_list table table-striped table-condensed table-bordered" id="tratamientos">
         <thead>
             <tr>
                 <th>Fecha</th>
@@ -112,23 +132,42 @@
             </tr>
         </thead>
         <tbody>
-            {%if sugerencias is defined and sugerencias!=null%}
-            {%for sugerencia in sugerencias%}
-            <tr id="{{sugerencia.id}}">
+            {%if atenciones is defined and atenciones!=null%}
+            {%for atencion in atenciones%}
+            {%for tratamiento in atencion.tratamientos%}
+            <tr id="{{tratamiento.id}}">
                 <td>
-                {{sugerencia.fechaPlanificacion|date('Y-m-d')}}
+                {{atencion.fechaHora|date('Y-m-d')}}
                 </td>
                 <td>
-                {{sugerencia.procedimiento.descripcion}}
+                {{tratamiento.diente}}
                 </td>
                 <td>
-                {{sugerencia.costo}}
+                {{atencion.fechaHora|date('H:i:s')}}
                 </td>
                 <td>
-                    <a onclick="borrarSugerencia({{sugerencia.id}}, this)" class="btn btn-default">Borrar</a>
-                    <a onclick="editarSugerencia({{sugerencia.id}})" class="btn btn-default">Editar</a
+                {{tratamiento.procedimiento.descripcion}}
+                </td>
+                <td>
+                    <img id="firmaP_{{tratamiento.id}}" src="{{asset('uploads/pacientes/'~atencion.firmaPaciente)}}"  height="50px">
+                </td>
+                <td>
+                    <img id="firmaM_{{tratamiento.id}}" src="{{asset('uploads/medicos/'~atencion.medico.pathFirma)}}"  height="50px">
+                </td>
+                <td>
+                {% if atencion.recibo!=null%}
+                    {{atencion.recibo.numero}}
+                {%endif%}
+                </td>
+                <td>
+                {{atencion.abono}}
+                </td>
+                <td>
+                {{atencion.saldo}}
                 </td>
             </tr>
+
+            {%endfor%}
             {%endfor%}
             {%endif%}
         </tbody>
@@ -136,27 +175,293 @@
 </div>
 <script type="text/javascript" lang="javascript">
     var numRows = 1;
-    function agregarProcedimiento(elemento) {
-        
-        if (numRows == 1) {
-            var procedimiento = document.getElementById("procedimiento").value;
-            var diente = document.getElementById("diente").value;
-            var costoProcedimiento = document.getElementById("costoProcedimiento").value;
-        }
-        var boton = elemento.parentNode;
-        var row = boton.parentNode;
-        var rowProcedimiento = row.parentNode;
-        var newRowProcedimiento = rowProcedimiento.cloneNode(true);
-        row.removeChild(boton);
-        var procedimientos = rowProcedimiento.parentNode;
-        newRowProcedimiento.setAttribute("id", "uniqueIdentifier");
-        procedimientos.appendChild(newRowProcedimiento);
+    var procedimiento = 'procedimiento';
+    var diente = 'diente';
+    var costoProcedimiento = 'costoProcedimiento';
+    var rorwProcedimiento = 'rowProcedimiento';
+    var pathFirma = '';
+    var msj_required = "Este Campo Es Obligatorio";
+    var divBorrar = "divBorrar";
 
+    function getCostoProcedimiento(elemento) {
+        var pacienteId = document.getElementById("pacienteId").value;
+        var procedimientoId = elemento.value;
+        var indice = elemento.id.toString().split("_")[1];
+        if (procedimientoId.trim() != "") {
+            $.post('{{path('sugerencia_cargarPrecio')}}',
+                    {pacienteId: pacienteId, procedimientoId: procedimientoId},
+            function(response) {
+                if (response.costoProcedimiento != 0) {
+                    document.getElementById(costoProcedimiento + '_' + indice).value = response.costoProcedimiento;
+
+                } else {
+                    document.getElementById(costoProcedimiento + '_' + indice).value = "";
+                }
+                var total = 0;
+                for (i = 1; i <= numRows; i++) {
+                    var inputCosto = document.getElementById(costoProcedimiento + '_' + i.toString());
+                    if (inputCosto != null && inputCosto.value.trim() != "") {
+                        var costo = inputCosto.value;
+                        total = total + Number(costo);
+                    }
+                }
+                document.getElementById('total').value = total;
+                calcularSaldo();
+            }, "json");
+        } else {
+            document.getElementById(costoProcedimiento + '_' + indice).value = "";
+            var total = 0;
+            for (i = 1; i <= numRows; i++) {
+                var inputCosto = document.getElementById(costoProcedimiento + '_' + i.toString());
+                if (inputCosto != null && inputCosto.value.trim() != "") {
+                    var costo = inputCosto.value;
+                    total = total + Number(costo);
+                }
+            }
+            document.getElementById('total').value = total;
+            calcularSaldo();
+        }
+    }
+
+    function agregarProcedimiento() {
+        //obteniendo la fila que contiene al procedimiento
+        //var boton = elemento.parentNode;
+        //var row = boton.parentNode;
+        //var rowProcedimiento = row.parentNode;
+        //se obtiene el indice con el que estan nombrados los inputs en esta fila
+        //var strIndice = rowProcedimiento.id.toString().split("_")[1];
+        //var numIndice = Number(strIndice);
+        var numIndice = 1;
+        var newIndice = numRows + 1;
+        //se accede a cada uno de los elementos con el indice obtenido
+        var inputProcedimiento = document.getElementById(procedimiento + '_' + numIndice);
+        var inputDiente = document.getElementById(diente + '_' + numIndice);
+        var inputCostoProcedimiento = document.getElementById(costoProcedimiento + '_' + numIndice);
+        var divProcedError = document.getElementById(procedimiento + '_' + numIndice + '_errors');
+        var divDienteError = document.getElementById(diente + '_' + numIndice + '_errors');
+        var divRowProcedimiento = document.getElementById(rorwProcedimiento + '_' + numIndice);
+        var div_Borrar = document.getElementById(divBorrar + '_' + numIndice);
+        //se edita cada uno de los elementos como si fuera el siguiente con el fin de clonarlo
+        inputProcedimiento.setAttribute('id', procedimiento + '_' + newIndice.toString());
+        inputDiente.setAttribute('id', diente + '_' + newIndice.toString());
+        inputCostoProcedimiento.setAttribute('id', costoProcedimiento + '_' + newIndice.toString());
+        divProcedError.setAttribute('id', procedimiento + '_' + newIndice.toString() + '_errors');
+        divProcedError.innerHTML = "";
+        divDienteError.setAttribute('id', diente + '_' + newIndice.toString() + '_errors');
+        divDienteError.innerHTML = "";
+        div_Borrar.setAttribute('id', divBorrar + '_' + newIndice.toString());
+        div_Borrar.innerHTML = '<a onclick="borrarProcedimiento(this)" class="btn btn-default" id="btnBorrarProcedimiento">Borrar</a>';
+        divRowProcedimiento.setAttribute('id', rorwProcedimiento + '_' + newIndice.toString());
+        //se crea la nueva fila para registro de pocedimiento a partir de la anterior
+        var newRowProcedimiento = divRowProcedimiento.cloneNode(true);
+        //borrando la opcion de agregar
+        //row.removeChild(boton);
+        //agregando la nueva fila
+        var procedimientos = divRowProcedimiento.parentNode;
+        procedimientos.appendChild(newRowProcedimiento);
+        //regresando el nodo clonado a su estado inicial
+        inputProcedimiento.setAttribute('id', procedimiento + '_' + numIndice.toString());
+        inputDiente.setAttribute('id', diente + '_' + numIndice.toString());
+        inputCostoProcedimiento.setAttribute('id', costoProcedimiento + '_' + numIndice.toString());
+        divProcedError.setAttribute('id', procedimiento + '_' + numIndice.toString() + '_errors');
+        divDienteError.setAttribute('id', diente + '_' + numIndice.toString() + '_errors');
+        divRowProcedimiento.setAttribute('id', rorwProcedimiento + '_' + numIndice.toString());
+        div_Borrar.setAttribute('id', divBorrar + '_' + numIndice.toString());
+        div_Borrar.innerHTML = "";
+        //dejando en blanco los nuevos inputs
+        document.getElementById(procedimiento + '_' + newIndice).selectedIndex = "0";
+        document.getElementById(diente + '_' + newIndice).value = "";
+        document.getElementById(costoProcedimiento + '_' + newIndice).value = "";
+        numRows++;
+    }
+    function justNumbers(e)
+    {
+        var keynum = window.event ? window.event.keyCode : e.which;
+        if ((keynum == 8) || (keynum == 46))
+            return true;
+
+        return /\d/.test(String.fromCharCode(keynum));
+    }
+    function agregarAtencion() {
+        var isValid = true;
+        var inputFecha = document.getElementById('fecha');
+        var inputAbono = document.getElementById('abono');
+        var inputRecibo = document.getElementById('recibo');
+        //validando los campos
+        if (inputFecha.value.toString().trim() == "") {
+            document.getElementById('fecha_errors').innerHTML = msj_required;
+            isValid = false;
+        } else {
+            document.getElementById('fecha_errors').innerHTML = "";
+        }
+        if (pathFirma.trim() == "") {
+            document.getElementById('firmaPaciente_errors').innerHTML = msj_required;
+            isValid = false;
+        } else {
+            document.getElementById('firmaPaciente_errors').innerHTML = "";
+        }
+        if (inputRecibo.value.toString().trim() == "" && inputAbono.value.toString().trim() != "0") {
+            document.getElementById('recibo_errors').innerHTML = msj_required;
+            isValid = false;
+        } else {
+            document.getElementById('recibo_errors').innerHTML = "";
+        }
+        if (inputRecibo.value.toString().trim() != "" && inputAbono.value.toString().trim() == "0") {
+            document.getElementById('abono_errors').innerHTML = msj_required;
+            isValid = false;
+        } else {
+            document.getElementById('abono_errors').innerHTML = "";
+        }
+        var contador = 0;
+        for (i = 1; i <= numRows; i++) {
+            var inputProcedimiento = document.getElementById(procedimiento + '_' + i);
+            if (inputProcedimiento != null) {
+                if (inputProcedimiento.value.toString().trim() == "") {
+                    document.getElementById(procedimiento + '_' + i + '_errors').innerHTML = msj_required;
+                    isValid = false;
+                } else {
+                    document.getElementById(procedimiento + '_' + i + '_errors').innerHTML = "";
+                }
+                var inputDiente = document.getElementById(diente + '_' + i);
+                if (inputDiente.value.toString().trim() == "") {
+                    document.getElementById(diente + '_' + i + '_errors').innerHTML = msj_required;
+                    isValid = false;
+                } else {
+                    document.getElementById(diente + '_' + i + '_errors').innerHTML = "";
+                }
+                contador++;
+            }
+        }
+        alert(contador);
+        if (isValid) {
+            var fecha = inputFecha.value;
+            var firmaPaciente = pathFirma;
+            var abono = inputAbono.value;
+            var recibo = inputRecibo.value;
+            var saldo = document.getElementById('saldo').value;
+            var total = document.getElementById('total').value;
+            var procedimientos = new Array(contador);
+            var pacienteId = document.getElementById("pacienteId").value;
+            var pos=0;
+            for (i = 1; i <=numRows; i++) {
+                var inputProcedimiento = document.getElementById(procedimiento + '_' + i.toString());
+                if (inputProcedimiento != null) {
+                    var inputDiente = document.getElementById(diente + '_' +i.toString());
+                    var inputCostoProcedimiento = document.getElementById(costoProcedimiento + '_' + i.toString());
+                    var tratamiento = new Array(3);
+                    alert(inputProcedimiento.value+inputDiente.value+inputCostoProcedimiento.value);
+                    tratamiento[0] = inputProcedimiento.value;
+                    tratamiento[1] = inputDiente.value;
+                    tratamiento[2] = inputCostoProcedimiento.value;
+                    procedimientos[pos] = tratamiento;
+                    pos++;
+                }
+            }
+            $.post('{{path('atencion_create')}}',
+                    {
+                        pacienteId: pacienteId,
+                        tratamientos: procedimientos,
+                        fecha: fecha,
+                        firmaPaciente: firmaPaciente,
+                        abono: abono,
+                        recibo: recibo,
+                        saldo: saldo,
+                        total: total
+                    },
+            function(response) {
+                var table = document.getElementById("tratamientos");
+                for (i = 0; i < response.length; i++) {
+                    var rowCount = table.rows.length;
+                    var row = table.insertRow(rowCount);
+                    row.id = response[i].tratamientoId;
+                    var fechaCell = row.insertCell(0);
+                    var dienteCell = row.insertCell(1);
+                    var horaCell = row.insertCell(2);
+                    var tratamientoCell = row.insertCell(3);
+                    var firmaPacienteCell = row.insertCell(4);
+                    var firmaOdontologoCell = row.insertCell(5);
+                    var reciboCell = row.insertCell(6);
+                    var abonoCell = row.insertCell(7);
+                    var saldoCell = row.insertCell(8);
+
+                    fechaCell.innerHTML = response[i].fecha;
+                    dienteCell.innerHTML = response[i].diente;
+                    horaCell.innerHTML = response[i].hora;
+                    tratamientoCell.innerHTML = response[i].procedimiento;
+                    var auxPath = "{{ asset('ROUTE') }}";
+                    var path = auxPath.replace('ROUTE', 'uploads/pacientes/' + response[i].firmaPaciente);
+                    firmaPacienteCell.innerHTML = '<img id="firmaP_' + response[i].tratamientoId + '" src="' + path + '"  height="50px">';
+                    auxPath = "{{ asset('ROUTE') }}";
+                    path = auxPath.replace('ROUTE', 'uploads/medicos/' + response[i].firmaOdontologo);
+                    firmaOdontologoCell.innerHTML = '<img id="firmaM_' + response[i].tratamientoId + '" src="' + path + '"  height="50px">';
+                    reciboCell.innerHTML = response[i].recibo;
+                    abonoCell.innerHTML = response[i].abono;
+                    saldoCell.innerHTML = response[i].saldo;
+                }
+            }, "json");
+        }
     }
     $(function() {
         $('#datetimepicker').datetimepicker({
             language: 'es-ES'
         });
     });
+    $(document).ready(function() {
+        var inputProcedimiento = document.getElementById('procedimiento');
+        var inputDiente = document.getElementById('diente');
+        var inputCostoProcedimiento = document.getElementById('costoProcedimiento');
+        var divProcedError = document.getElementById('procedimiento_errors');
+        var divDienteError = document.getElementById('diente_errors');
+        var divRowProcedimiento = document.getElementById('rowProcedimiento');
+        var div_Borrar = document.getElementById('divBorrar');
+        inputProcedimiento.setAttribute('id', procedimiento + '_' + numRows.toString());
+        inputDiente.setAttribute('id', diente + '_' + numRows.toString());
+        inputCostoProcedimiento.setAttribute('id', costoProcedimiento + '_' + numRows.toString());
+        divProcedError.setAttribute('id', procedimiento + '_' + numRows.toString() + '_errors');
+        divDienteError.setAttribute('id', diente + '_' + numRows.toString() + '_errors');
+        divRowProcedimiento.setAttribute('id', rorwProcedimiento + '_' + numRows.toString());
+        div_Borrar.setAttribute('id', divBorrar + '_' + numRows.toString());
+    });
+
+    var uploader = document.getElementById('firmaPaciente');
+
+    upclick(
+            {
+                element: uploader,
+                action: '{{path('atencion_loadFile')}}',
+                action_params: {pacienteId: document.getElementById("pacienteId").value},
+                oncomplete:
+                        function(response_data)
+                        {
+                            if (response_data == false) {
+                                alert("error al cargar la firma");
+                            }
+                            else {
+                                var img = document.getElementById("preview");
+                                var auxPath = "{{ asset('ROUTE') }}";
+                                response_data = JSON.parse(response_data);
+                                var path = auxPath.replace('ROUTE', 'uploads/pacientes/' + response_data);
+                                img.setAttribute('src', path);
+                                pathFirma = response_data;
+                            }
+                        }
+            });
+    function calcularSaldo() {
+        var strTotal = document.getElementById('total').value;
+        var numTotal = Number(strTotal);
+        var strAbono = document.getElementById('abono').value;
+        var numAbono = Number(strAbono);
+        var inputSaldo = document.getElementById('saldo');
+        inputSaldo.value = numTotal - numAbono;
+    }
+
+    function borrarProcedimiento(elemento) {
+        var boton = elemento.parentNode;
+        var row = boton.parentNode;
+        var rowProcedimiento = row.parentNode;
+        var procedimientos = rowProcedimiento.parentNode;
+        procedimientos.removeChild(rowProcedimiento);
+    }
+
 </script>
 {% endblock%}

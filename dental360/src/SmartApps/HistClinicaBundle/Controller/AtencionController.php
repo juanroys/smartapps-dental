@@ -12,8 +12,8 @@ class AtencionController extends Controller {
 
     public function newAction($idHistoria) {
         $em = $this->getDoctrine()->getManager();
-        $username= $this->get('security.context')->getToken()->getUser();
-        $medico=$em->getRepository('AgendaBundle:Medico')->findMedicoPorUsuario($username->getId());
+        $username = $this->get('security.context')->getToken()->getUser();
+        $medico = $em->getRepository('AgendaBundle:Medico')->findMedicoPorUsuario($username->getId());
         $procedimientos = $em->getRepository('HistClinicaBundle:Procedimiento')->findAll();
         $historiaClinica = $em->getRepository('HistClinicaBundle:HistoriaClinica')->find($idHistoria);
         $atenciones = $em->getRepository('HistClinicaBundle:Atencion')->findAtencionPorHistoria($idHistoria);
@@ -22,119 +22,99 @@ class AtencionController extends Controller {
                     'procedimientos' => $procedimientos,
                     'paciente' => $paciente,
                     'atenciones' => $atenciones,
-                    'medico'=>$medico,
+                    'medico' => $medico,
         ));
+    }
+
+    public function loadFileAction() {
+        $pacienteId = $_POST['pacienteId'];
+        $tmp_file_name = $_FILES['Filedata']['tmp_name'];
+        $today = date("Y-m-d");
+        //$name = 'uploads/pacientes/' . $_FILES['Filedata']['name'];
+        $temp = explode(".", $_FILES["Filedata"]["name"]);
+        $newfilename = 'firma_' . $pacienteId . '_' . $today . '.' . end($temp);
+        $name = 'uploads/pacientes/' . $newfilename;
+        $ok = move_uploaded_file($tmp_file_name, $name);
+        $ok = $ok ? $newfilename : false;
+        $response = $ok;
+        return new Response(json_encode($response));
     }
 
     public function createAction() {
         $datos = $_POST;
-        //recuperacion de datos
         $fechaPost = $datos["fecha"];
-        $formato = 'Y-m-d';
+        $formato = 'Y-m-d H:i:s';
         $fecha = DateTime::createFromFormat($formato, $fechaPost);
-        $costo = $datos["costoProcedimiento"];
-        $procedimientoId = $datos["procedimientoId"];
+        //se cambia el nombre de procedimientos a tratamientos solo durante el envio de los datos
+        $tratamientos = $datos["tratamientos"];
+        $firmaPaciente = $datos["firmaPaciente"];
+        $abono = $datos["abono"];
+        $reciboNo = $datos["recibo"];
+        $saldo = $datos["saldo"];
+        $total = $datos["total"];
         $pacienteId = $datos["pacienteId"];
 
         //cargando historia clinica del paciente
         $em = $this->getDoctrine()->getManager();
         $historia = $em->getRepository('HistClinicaBundle:HistoriaClinica')->findHistoriaClinicaPorPaciente($pacienteId);
-        //cargando procedimiento 
-        $procedimiento = $em->getRepository('HistClinicaBundle:Procedimiento')->find($procedimientoId);
-        ///creando y persistiendo la sugerencia
-        $sugerencia = new Sugerencia();
-        $sugerencia->setCosto($costo);
-        $sugerencia->setHistoriaClinica($historia);
-        $sugerencia->setProcedimiento($procedimiento);
-        $sugerencia->setFechaPlanificacion($fecha);
-        $em->persist($sugerencia);
-        $em->flush();
-        //respuesta como Json
-        $response = array("fecha" => $fecha->format('Y-m-d'),
-            "costo" => $costo,
-            "procedimiento" => $procedimiento->getDescripcion(),
-            "sugerenciaId" => $sugerencia->getId()
-        );
-        return new Response(json_encode($response));
-    }
-
-    public function cargarPrecioAction() {
-        $datos = $_POST;
-        $pacienteId = $datos["pacienteId"];
-        $procedimientoId = $datos["procedimientoId"];
-        $em = $this->getDoctrine()->getManager();
-        $paciente = $em->getRepository('HistClinicaBundle:Paciente')->find($pacienteId);
-        $convenioId = $paciente->getConvenio()->getId();
-        $costoProcedimiento = 0;
-        $costoProcedimientoEntity = $em->getRepository('HistClinicaBundle:CostoProcedimiento')->findCostoProcedimiento($convenioId, $procedimientoId);
-        if (isset($costoProcedimientoEntity) && $costoProcedimientoEntity->getValor() != null) {
-            $costoProcedimiento = $costoProcedimientoEntity->getValor();
+        //cargando datos del medico logueado
+        $username = $this->get('security.context')->getToken()->getUser();
+        $medico = $em->getRepository('AgendaBundle:Medico')->findMedicoPorUsuario($username->getId());
+        
+        //creando objeto atencion
+        $atencion = new Atencion();
+        $atencion->setAbono($abono);
+        $atencion->setCostoTotal($total);
+        $atencion->setFechaHora($fecha);
+        $atencion->setFirmaPaciente($firmaPaciente);
+        $atencion->setHistoriaClinica($historia);
+        $atencion->setSaldo($saldo);
+        $atencion->setMedico($medico);
+        if (intval($abono) != 0 && trim($reciboNo)!="") {
+            $recibo = new \SmartApps\ContableBundle\Entity\Recibo();
+            $recibo->setAbono($abono);
+            $recibo->setFecha($fecha);
+            $recibo->setNumero($reciboNo);
+            $recibo->setAtencion($atencion);
+            $atencion->setRecibo($recibo);
+            $em->persist($recibo);
         }
-        $response = array("costoProcedimiento" => $costoProcedimiento);
-        return new Response(json_encode($response));
-    }
-
-    public function deleteAction() {
-        $sugerenciaId = $_POST["sugerenciaId"];
-        $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('HistClinicaBundle:Sugerencia')->find($sugerenciaId);
-        $error=false;
-        if (!$entity) {
-            $error = true;
-        } else {
-            $em->remove($entity);
-            $em->flush();
+        $em->persist($atencion);
+        
+        foreach ($tratamientos as $tr){
+            $tratamiento=new \SmartApps\HistClinicaBundle\Entity\Tratamiento();
+            $procedimiento = $em->getRepository('HistClinicaBundle:Procedimiento')->find($tr[0]);    
+            $tratamiento->setProcedimiento($procedimiento);
+            $tratamiento->setDiente($tr[1]);
+            $tratamiento->setCostoProcedimiento($tr[2]);
+            $tratamiento->setAtencion($atencion);
+            $atencion->getTratamientos()->add($tratamiento);
+            $em->persist($tratamiento);
         }
-        $response = array("error" => $error);
-        return new Response(json_encode($response));
-    }
-    public function loadAction(){
-        $sugerenciaId=$_POST["sugerenciaId"];
-        $em = $this->getDoctrine()->getManager();
-        $sugerencia = $em->getRepository('HistClinicaBundle:Sugerencia')->find($sugerenciaId);
-        $error=false;
-        if (!$sugerencia) {
-            $error = true;
-            $sugerencia=new Sugerencia();
-        } 
-        $response = array(
-            "error"=>$error,
-            "fecha" => $sugerencia->getFechaPlanificacion()->format('Y-m-d'),
-            "costo" => $sugerencia->getCosto(),
-            "procedimientoId" => $sugerencia->getProcedimiento()->getId(),
-            "sugerenciaId" => $sugerencia->getId()
-        );
-        return new Response(json_encode($response));
-    }
-    public function editAction() {
-        $datos = $_POST;
-        //recuperacion de datos
-        $fechaPost = $datos["fecha"];
-        $formato = 'Y-m-d';
-        $fecha = DateTime::createFromFormat($formato, $fechaPost);
-        $costo = $datos["costoProcedimiento"];
-        $procedimientoId = $datos["procedimientoId"];
-        $pacienteId = $datos["pacienteId"];
-        $sugerenciaId=$datos["sugerenciaId"];
-
-        //cargando historia clinica del paciente
-        $em = $this->getDoctrine()->getManager();
-        $historia = $em->getRepository('HistClinicaBundle:HistoriaClinica')->findHistoriaClinicaPorPaciente($pacienteId);
-        //cargando procedimiento 
-        $procedimiento = $em->getRepository('HistClinicaBundle:Procedimiento')->find($procedimientoId);
-        ///persistiendo la sugerencia
-        $sugerencia = $em->getRepository('HistClinicaBundle:Sugerencia')->find($sugerenciaId);
-        $sugerencia->setCosto($costo);
-        $sugerencia->setHistoriaClinica($historia);
-        $sugerencia->setProcedimiento($procedimiento);
-        $sugerencia->setFechaPlanificacion($fecha);
         $em->flush();
-        //respuesta como Json
-        $response = array("fecha" => $fecha->format('Y-m-d'),
-            "costo" => $costo,
-            "procedimiento" => $procedimiento->getDescripcion(),
-            "sugerenciaId" => $sugerencia->getId()
-        );
+        $atencionPersist=$em->getRepository('HistClinicaBundle:Atencion')->find($atencion->getId());
+        //codificando respuesta para agregar a la tabla de atencion
+        $response=array();
+        $cont=0;
+        foreach ($atencionPersist->getTratamientos() as $tr){
+            $tratamiento=array();
+            $tratamiento["tratamientoId"]=$tr->getId();
+            $tratamiento["fecha"]=$atencionPersist->getFechaHora()->format('Y-m-d');
+            $tratamiento["diente"]=$tr->getDiente();
+            $tratamiento["hora"]=$atencionPersist->getFechaHora()->format('H:i:s');
+            $tratamiento["procedimiento"]=$tr->getProcedimiento()->getDescripcion();
+            $tratamiento["firmaOdontologo"]=$atencionPersist->getMedico()->getPathFirma();
+            $tratamiento["firmaPaciente"]=$atencionPersist->getFirmaPaciente();
+            if($atencionPersist->getRecibo()!=null){
+            $tratamiento["recibo"]=$atencionPersist->getRecibo()->getNumero();
+            }else{
+                $tratamiento["recibo"]='';
+            }
+            $tratamiento["abono"]=$atencionPersist->getAbono();
+            $tratamiento["saldo"]=$atencionPersist->getSaldo();
+            $response[$cont]=$tratamiento;
+            $cont++;
+        }
         return new Response(json_encode($response));
     }
 

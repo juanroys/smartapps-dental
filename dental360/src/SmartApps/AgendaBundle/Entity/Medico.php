@@ -5,15 +5,15 @@ namespace SmartApps\AgendaBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 /**
  * Medico
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="SmartApps\AgendaBundle\Entity\MedicoRepository")
  */
-class Medico
-{
-    
+class Medico {
+
     /**
      * @var integer
      *
@@ -22,28 +22,33 @@ class Medico
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-    
+
+    /**
+     * @ORM\OneToOne(targetEntity="SmartApps\UsuarioBundle\Entity\Usuario", inversedBy="medico")
+     */
+    protected $usuario;
+
     /**
      * @var string
      *
      * @ORM\Column(name="nombreCompleto", type="string", length=256)
      */
     private $nombreCompleto;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="titulosEspecialidad", type="string", length=1024)
      */
     private $titulosEspecialidad;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="pathFirma", type="string", length=1024)
      */
     private $pathFirma;
-    
+
     /**
      * @Assert\File(maxSize="6000000")
      */
@@ -54,8 +59,7 @@ class Medico
      *
      * @param UploadedFile $file
      */
-    public function setFile(UploadedFile $file = null)
-    {
+    public function setFile(UploadedFile $file = null) {
         $this->file = $file;
     }
 
@@ -64,11 +68,9 @@ class Medico
      *
      * @return UploadedFile
      */
-    public function getFile()
-    {
+    public function getFile() {
         return $this->file;
     }
-    
 
     public function __construct() {
         
@@ -79,9 +81,13 @@ class Medico
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
+    }
+    
+    public function setUsuario(\SmartApps\UsuarioBundle\Entity\Usuario $usuario){
+        $this->usuario=$usuario;
+        return $this;
     }
 
     /**
@@ -90,8 +96,7 @@ class Medico
      * @param string $nombreCompleto
      * @return Medico
      */
-    public function setNombreCompleto($nombreCompleto)
-    {
+    public function setNombreCompleto($nombreCompleto) {
         $this->nombreCompleto = $nombreCompleto;
         return $this;
     }
@@ -101,19 +106,17 @@ class Medico
      *
      * @return string 
      */
-    public function getNombreCompleto()
-    {
+    public function getNombreCompleto() {
         return $this->nombreCompleto;
     }
-     
+
     /**
      * Set titulosEspecialidad
      *
      * @param string $titulosEspecialidad
      * @return Medico
      */
-    public function setTitulosEspecialidad($titulosEspecialidad)
-    {
+    public function setTitulosEspecialidad($titulosEspecialidad) {
         $this->titulosEspecialidad = $titulosEspecialidad;
         return $this;
     }
@@ -123,19 +126,17 @@ class Medico
      *
      * @return string 
      */
-    public function getTitulosEspecialidad()
-    {
+    public function getTitulosEspecialidad() {
         return $this->titulosEspecialidad;
     }
-    
+
     /**
      * Set pathFirma
      *
      * @param string $pathFirma
      * @return Medico
      */
-    public function setPathFirma($pathFirma)
-    {
+    public function setPathFirma($pathFirma) {
         $this->pathFirma = $pathFirma;
         return $this;
     }
@@ -145,8 +146,7 @@ class Medico
      *
      * @return string 
      */
-    public function getPathFirma()
-    {
+    public function getPathFirma() {
         return $this->pathFirma;
     }
     
@@ -162,33 +162,27 @@ class Medico
             : $this->getUploadRootDir().'/'.$this->pathFirma;
     }
 
-    public function getWebPath()
-    {
-        return null === $this->pathFirma
-            ? null
-            : $this->getUploadDir().'/'.$this->pathFirma;
+    public function getWebPath() {
+        return null === $this->pathFirma ? null : $this->getUploadDir() . '/' . $this->pathFirma;
     }
 
-    protected function getUploadRootDir()
-    {
+    protected function getUploadRootDir() {
         // the absolute directory path where uploaded
         // documents should be saved
-        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+        return __DIR__ . '/../../../../web/' . $this->getUploadDir();
     }
 
-    protected function getUploadDir()
-    {
+    protected function getUploadDir() {
         // get rid of the __DIR__ so it doesn't screw up
         // when displaying uploaded doc/image in the view.
         return 'uploads/medicos';
     }
-    
+
     public function __toString() {
         return $this->nombreCompleto;
     }
-    
-    public function upload()
-    {
+
+    public function upload() {
         // the file property can be empty if the field is not required
         if (null === $this->getFile()) {
             return;
@@ -210,5 +204,6 @@ class Medico
         // clean up the file property as you won't need it anymore
         $this->file = null;
     }
+    
 
 }

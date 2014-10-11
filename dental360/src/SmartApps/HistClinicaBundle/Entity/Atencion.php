@@ -43,11 +43,15 @@ class Atencion
      * @ORM\OneToMany(targetEntity="Tratamiento", mappedBy="atencion")
      */
     private $tratamientos;
+    /**
+     * @ORM\OneToOne(targetEntity="SmartApps\ContableBundle\Entity\Recibo", inversedBy="atencion")
+     */
+    private $recibo;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="fechaHora", type="string", length=255)
+     * @ORM\Column(name="fechaHora" , type="datetime")
      */
     private $fechaHora;
 
@@ -161,6 +165,15 @@ class Atencion
     public function getCita()
     {
         return $this->cita;
+    }
+    
+    public function setRecibo(\SmartApps\ContableBundle\Entity\Recibo $recibo){
+        $this->recibo=$recibo;
+        return $this;
+    }
+    
+    public function getRecibo(){
+        return $this->recibo;
     }
 
     /**
