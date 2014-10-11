@@ -42,7 +42,10 @@
                         <a href="{{ path('medico_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar el medico?');" >Borrar</a>
                     </li>
                     <li>
-                        <a href="{{ path('tarifamedicoproc_listado', { 'id': entity.id }) }}" >[Tarifas por procedimiento]</a>
+                        <a href="{{ path('tarifamedicoproc_listado', { 'id': entity.id }) }}" >Tarifas</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('medico_disponible', { 'id': entity.id }) }}" >Disponibilidad</a>
                     </li>
                 </ul>
                 </td>

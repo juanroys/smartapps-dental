@@ -1,0 +1,34 @@
+disponibilidad:
+    path:     /
+    defaults: { _controller: "AgendaBundle:Disponibilidad:index" }
+
+disponibilidad_show:
+    path:     /{id}/show
+    defaults: { _controller: "AgendaBundle:Disponibilidad:show" }
+
+disponibilidad_new:
+    path:     /new
+    defaults: { _controller: "AgendaBundle:Disponibilidad:new" }
+
+disponibilidad_create:
+    path:     /create
+    defaults: { _controller: "AgendaBundle:Disponibilidad:create" }
+    requirements: { _method: post }
+
+disponibilidad_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AgendaBundle:Disponibilidad:edit" }
+
+disponibilidad_update:
+    path:     /{id}/update
+    defaults: { _controller: "AgendaBundle:Disponibilidad:update" }
+    requirements: { _method: post|put }
+
+disponibilidad_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AgendaBundle:Disponibilidad:delete" }
+    requirements: { _method: post|delete }
+
+disponibilidad_register:
+    path:     /register
+    defaults: { _controller: "AgendaBundle:Disponibilidad:register" }
