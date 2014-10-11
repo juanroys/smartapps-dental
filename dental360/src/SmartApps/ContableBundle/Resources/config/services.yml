@@ -1,0 +1,4 @@
+services:
+#    contable.example:
+#        class: SmartApps\ContableBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
