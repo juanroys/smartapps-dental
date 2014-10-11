@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Ideup\SimplePaginatorBundle\IdeupSimplePaginatorBundle(),
             new SmartApps\AgendaBundle\AgendaBundle(),
+            new SmartApps\ContableBundle\ContableBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
