@@ -219,4 +219,13 @@ class MedicoController extends Controller
             ->getForm()
         ;
     }
+    
+    public function disponibleAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        //$entities = $em->getRepository('AgendaBundle:Medico')->findAll();
+        return $this->render('AgendaBundle:Medico:disponible.html.twig', array(
+            'idmedico' => $id,
+        ));
+    }
 }

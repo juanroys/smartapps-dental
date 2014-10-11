@@ -27,3 +27,8 @@ medico_update:
 medico_delete:
     path:     /{id}/delete
     defaults: { _controller: "AgendaBundle:Medico:delete" }
+
+medico_disponible:
+    path:     /{id}/disponible
+    defaults: { _controller: "AgendaBundle:Medico:disponible" }
+

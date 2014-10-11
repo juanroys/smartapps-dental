@@ -1,0 +1,260 @@
+{% extends '::base.html.twig' %}
+{% block stylesheets %}
+<link href="{{ asset('bundles/histclinica/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('bundles/histclinica/css/bootstrap-theme.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('bundles/histclinica/css/navbar.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('bundles/histclinica/css/general.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('bundles/histclinica/css/fullcalendar.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('bundles/histclinica/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css" />
+<style>
+
+        body {
+            margin: 40px 10px;
+            padding: 0;
+        }
+
+        #calendar {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+    </style>
+        {% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('bundles/histclinica/js/moment.min.js') }}"></script>
+    <script src="{{ asset('bundles/histclinica/js/jquery.js') }}"></script>
+    <script src="{{ asset('bundles/histclinica/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('bundles/histclinica/js/fullcalendar.min.js') }}"></script>
+    <script src="{{ asset('bundles/histclinica/js/es.js') }}"></script>
+    <script src="{{ asset('bundles/histclinica/js/bootstrap-datetimepicker.min.js') }}"></script>
+
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function() {
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                lang: 'es',
+                defaultDate: '2014-09-12',
+                defaultView: 'agendaWeek',
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                events: [
+                    {
+                        title: 'All Day Event',
+                        start: '2014-09-01'
+                    },
+                    {
+                        title: 'Long Event',
+                        start: '2014-09-07',
+                        end: '2014-09-10'
+                    }
+                ],
+                eventClick: function(calEvent, jsEvent, view) {
+                    /*
+                     alert('Event: ' + calEvent.title);
+                     alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+                     alert('View: ' + view.name); */
+                    $("#myModal").modal('show');
+
+                    // change the border color just for fun
+                    $(this).css('background-color', 'red');
+
+                },
+                selectable: true,
+                selectHelper: true,
+                select: function(start, end) {
+                    if(start.format('YYYY-MM-DD') !== end.format('YYYY-MM-DD')){
+                        jQuery("#informativeBody").html('<h4>¡No es posible registrar disponibilidades con fecha de inicio y fin diferentes!</h4>');
+                        jQuery("#informativeModal").modal('show');
+                        return;
+                    }
+                    //var title = prompt('Event Title:');                    
+                    jQuery("input[name='fechaInicio']").val(start.format('YYYY-MM-DD'));
+                    jQuery("input[name='fechaFin']").val(end.format('YYYY-MM-DD'));                        
+                    jQuery("input[name='horaInicio']").val(start.format('hh:mm'));
+                    jQuery("input[name='horaFin']").val(end.format('hh:mm'));
+                    jQuery("#recurrente").removeAttr('checked');
+                    alterDisplayRecurrence();
+                    jQuery("#myModal").modal('show');
+                    /*var eventData;
+                    if (title) {
+                        eventData = {
+                            title: title,
+                            start: start,
+                            end: end
+                        };
+                        $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                    }
+                    $('#calendar').fullCalendar('unselect');*/
+                },
+            });
+        });
+        
+        jQuery(document).ready(function() {
+            jQuery('#datetimepickerInicio, #datetimepickerFin').datetimepicker({
+                pickTime: false
+            });
+            jQuery('#timepickerInicio, #timepickerFin').datetimepicker({
+                pickDate: false
+            });
+            
+            jQuery('#saveDispButton').click(function() {
+                
+                var fechaInicio = jQuery('#fechaInicio').val();
+                var fechaFin = jQuery('#fechaFin').val();
+                var horaInicio =  jQuery('#horaInicio').val() + ':00';
+                var horaFin = jQuery('#horaFin').val() + ':00';
+                var dias = obtenerDia();                
+                var medicoId = jQuery('#medicoId').val();                
+                
+                jQuery.post('{{path('disponibilidad_register')}}',
+                        {fechaInicio: fechaInicio, fechaFin: fechaFin, horaInicio: horaInicio, horaFin: horaFin, dias: dias, medicoId: medicoId},
+                        function(response) {
+                            alert('do something');
+                            eventData = {
+                                title: 'disponible',
+                                start: fechaInicio + ' ' + horaInicio ,
+                                end: fechaFin + ' ' + horaFin
+                            };
+                            $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                        }, "json");
+                jQuery("#myModal").modal('hide');
+            });
+        });
+
+        function obtenerDia(){
+            var diasValue = 1;
+            if( jQuery('#chklunes').is(':checked') ) diasValue = diasValue * 2;
+            if( jQuery('#chkmartes').is(':checked') ) diasValue = diasValue * 3;
+            if( jQuery('#chkmiercoles').is(':checked') ) diasValue = diasValue * 5;
+            if( jQuery('#chkjueves').is(':checked') ) diasValue = diasValue * 7;
+            if( jQuery('#chkviernes').is(':checked') ) diasValue = diasValue * 11;
+            if( jQuery('#chksabado').is(':checked') ) diasValue = diasValue * 13;
+            if( jQuery('#chkdomingo').is(':checked') ) diasValue = diasValue * 17;
+            return diasValue;
+        }
+
+        function alterDisplayRecurrence(valorcheck){
+            if(valorcheck === undefined)
+            {
+                 valorcheck = jQuery("#recurrente").get(0).checked;
+            }
+            jQuery("[tag='forRecurrence']").each(function(){                
+                if(valorcheck)
+                {
+                    jQuery(this).css('visibility', 'visible');
+                    jQuery(this).css('display', 'block');
+                    jQuery(this).attr('status', 'visible');
+                }
+                else
+                {
+                    jQuery(this).css('visibility', 'hidden');
+                    jQuery(this).css('display', 'none');
+                    jQuery(this).attr('status', 'hidden');
+                }
+                
+            });
+        }
+
+
+        </script>
+
+{% endblock %}
+
+{% block body -%}
+        <input type="hidden" value="{{ idmedico }}" id="medicoId" name="medicoId">
+        <div id="informativeModal" class="modal fade">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header" style="text-align: center">
+                <h3>Aviso</h3>
+            </div>
+            <!-- dialog body -->
+            <div class="modal-body" id="informativeBody">
+              
+            </div>
+            <!-- dialog buttons -->
+            <div class="modal-footer"><button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button></div>
+          </div>
+        </div>
+      </div>
+        
+        <div id="myModal" class="modal fade">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header" style="text-align: center">
+                        <h3>Registrar Disponibilidad</h3>
+                    </div>
+                    <div class="modal-body" style="margin-left:10px; margin-right: 10px;">
+                        
+                        <div class="row">
+                            <div class="col-md-1">Hora: </div>
+                            <div class="col-md-3" style="white-space: nowrap;">
+                                <div style="" id="timepickerInicio" class="input-append date">
+                                    <input data-format="hh:mm" type="text" name="horaInicio" id="horaInicio" ></input>
+                                    <span class="add-on">
+                                        <img src="{{ asset('bundles/histclinica/images/calendar.png') }}">
+                                    </span>
+                                </div>
+
+                            </div>
+                            <div class="col-md-1">hasta</div>
+                            <div class="col-md-3" style="white-space: nowrap;">
+                                <div style="" id="timepickerFin" class="input-append date">
+                                    <input data-format="hh:mm" type="text" name="horaFin" id="horaFin" ></input>
+                                    <span class="add-on">
+                                        <img src="{{ asset('bundles/histclinica/images/calendar.png') }}">
+                                    </span>
+                                </div>                    
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="row">
+                            <div class="col-md-8">Disponibilidad recurrente? <input type="checkbox" id="recurrente" name="recurrente" onclick="javascript: alterDisplayRecurrence(); "/> </div>
+                        </div>
+                        
+                        <div class="row" style="display: none; visibility: hidden;" tag="forRecurrence"  status="hidden" >
+                            <div class="col-md-1">Fecha: </div>
+                            <div class="col-md-3" style="white-space: nowrap;">
+                                <div style="" id="datetimepickerInicio" class="input-append date">
+                                    <input data-format="yyyy-MM-dd" type="text" name="fechaInicio" id="fechaInicio" ></input>
+                                    <span class="add-on">
+                                        <img src="{{ asset('bundles/histclinica/images/calendar.png') }}">
+                                    </span>
+                                </div>
+
+                            </div>
+                            <div class="col-md-1">hasta</div>
+                            <div class="col-md-3" style="white-space: nowrap;">
+                                <div style="" id="datetimepickerFin" class="input-append date">
+                                    <input data-format="yyyy-MM-dd" type="text" name="fechaFin" id="fechaFin" ></input>
+                                    <span class="add-on">
+                                        <img src="{{ asset('bundles/histclinica/images/calendar.png') }}">
+                                    </span>
+                                </div>                    
+                            </div>
+                        </div>
+                        
+                        <div class="row" style="display: none; visibility: hidden;" tag="forRecurrence" status="hidden" >
+                            <div class="col-md-1">Días: </div>
+                            <div class="col-md-10"><input type="checkbox" value="2" name="chklunes" /> Lunes &nbsp;&nbsp;<input type="checkbox" value="3" name="chkmartes" /> Martes&nbsp;&nbsp;<input type="checkbox" value="5" name="chkmiercoles" /> Miercoles&nbsp;&nbsp;<input type="checkbox" value="7" name="chkjueves"  /> Jueves&nbsp;&nbsp;<input type="checkbox" value="11" name="chkviernes" /> Viernes&nbsp;&nbsp;<input type="checkbox" value="13" name="chksabado" /> Sábado&nbsp;&nbsp;<input type="checkbox" value="17" name="chkdomingo" /> Domingo</div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" id="saveDispButton">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>Disponibilidad de medico</h2>
+
+        <div id='calendar'></div>
+
+{% endblock %}

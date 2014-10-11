@@ -79,7 +79,7 @@ class Disponibilidad
         return $this->id;
     }
 
-    public function setMedico(SmartApps\AgendaBundle\Entity\Medico $medico)
+    public function setMedico(\SmartApps\AgendaBundle\Entity\Medico $medico)
     {
         $this->medico = $medico;
         return $this;
