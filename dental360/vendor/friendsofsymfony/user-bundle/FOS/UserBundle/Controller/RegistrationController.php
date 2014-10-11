@@ -61,6 +61,48 @@ class RegistrationController extends ContainerAware
             'form' => $form->createView(),
         ));
     }
+    
+    public function registrarMedicoAction($medicoId=null)
+    {
+        if($medicoId==null){
+            $medicoId=$_POST["idMedico"];
+        }
+        $em = $this->container->get('doctrine')->getManager();
+        $medico=$em->getRepository("AgendaBundle:Medico")->find($medicoId);
+        $form = $this->container->get('fos_user.registration.form');
+        $formHandler = $this->container->get('fos_user.registration.form.handler');
+        $confirmationEnabled = $this->container->getParameter('fos_user.registration.confirmation.enabled');
+
+        $process = $formHandler->process($confirmationEnabled);
+        if ($process) {
+            $user = $form->getData();
+            $authUser = false;
+            if ($confirmationEnabled) {
+                $this->container->get('session')->set('fos_user_send_confirmation_email/email', $user->getEmail());
+                $route = 'fos_user_registration_check_email';
+            } else {
+                $authUser = true;
+                $route = 'medico';
+            }
+
+            $this->setFlash('fos_user_success', 'registration.flash.user_created');
+            $url = $this->container->get('router')->generate($route);
+            $response = new RedirectResponse($url);
+
+            if ($authUser) {
+                $user->addRole('ROLE_MEDICO');
+                $medico->setUsuario($user);
+                $em->flush();
+            }
+
+            return $response;
+        }
+
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:registerMedico.html.'.$this->getEngine(), array(
+            'form' => $form->createView(),
+            'medicoId'=>$medicoId,
+        ));
+    }
 
     /**
      * Tell the user to check his email provider
