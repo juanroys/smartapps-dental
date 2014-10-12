@@ -39,29 +39,28 @@
                                         <a class="navbar-brand" href="#">Dental App</a>
                                     </div>
                                     <div class="navbar-collapse collapse">
-                                        <ul class="nav navbar-nav">
-                                            <li><a href="{{ path('convenio') }}">Convenios</a></li>
+                                        <ul class="nav navbar-nav">                                        
                                             <li><a href="{{ path('procedimiento') }}">Procedimientos</a></li>
+                                            <li><a href="{{ path('convenio') }}">Convenios</a></li>
                                             <li><a href="{{ path('paciente') }}">Pacientes</a></li>
                                             <li><a href="{{ path('medico') }}">Medicos</a></li>
-                                            <!-- <li class="dropdown">
-                                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+                                            <li class="dropdown">
+                                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Configuración HC<span class="caret"></span></a>
                                               <ul class="dropdown-menu" role="menu">
-                                                <li><a href="#">Action</a></li>
-                                                <li><a href="#">Another action</a></li>
-                                                <li><a href="#">Something else here</a></li>
-                                                <li class="divider"></li>
-                                                <li class="dropdown-header">Nav header</li>
-                                                <li><a href="#">Separated link</a></li>
-                                                <li><a href="#">One more separated link</a></li>
+                                                <li><a href="{{ path('grupo') }}">Grupos preguntas</a></li>
+                                                <li><a href="{{ path('tipopregunta') }}">Templates de preguntas</a></li>
+                                                <li><a href="{{ path('pregunta') }}">Preguntas</a></li>                                                
+                                                <!--<li class="divider"></li>
+                                                <li class="dropdown-header">Nav header</li> -->
+                                                    
                                               </ul>
-                                            </li> -->
+                                            </li> 
                                         </ul>
                                             <ul class="nav navbar-nav navbar-right">
                                             {%block login%}
                                                 
                                             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                                                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+                                                    <li><a href="#">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} </a></li>
                                                 <li>        <a href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a></li>
                                             {% else %}
                                                  <li>   <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a></li>
