@@ -37,31 +37,34 @@
                     right: 'month,agendaWeek,agendaDay'
                 },
                 lang: 'es',
-                defaultDate: '2014-09-12',
                 defaultView: 'agendaWeek',
                 editable: true,
                 eventLimit: true, // allow "more" link when too many events
-                events: [
-                    {
-                        title: 'All Day Event',
-                        start: '2014-09-01'
-                    },
-                    {
-                        title: 'Long Event',
-                        start: '2014-09-07',
-                        end: '2014-09-10'
-                    }
-                ],
+                allDaySlot: false, 
+                slotDuration: '00:20:00',
+                events: {
+                    url: '{{path('disponibilidad_getEvents', { 'id': idmedico, 'conttype': 1 } )}}',                    
+                    error: function() {
+                            $('#script-warning').show();
+                    }   
+                },
                 eventClick: function(calEvent, jsEvent, view) {
-                    /*
-                     alert('Event: ' + calEvent.title);
-                     alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-                     alert('View: ' + view.name); */
-                    $("#myModal").modal('show');
-
+                    var htmlDescription = "<table cellpadding='5px'><tr><td style='padding-right: 20px;'>Inicia: </td><td>" + calEvent.start.format('HH:mm') + "</td><td style='padding-right: 20px; padding-left: 30px;'> Finaliza: </td><td>" + calEvent.end.format('HH:mm') + "</td></tr>";
+                    if(calEvent.title !== '')
+                    {
+                        htmlDescription = htmlDescription + '<tr><td colspan="4">Este evento es recurrente: </td></tr>'
+                        htmlDescription = htmlDescription +  expandirDias(calEvent.title.replace("Desde:","<tr><td style='padding-right: 20px;'>@esde:</td><td>").replace("Hasta:", "</td><td style='padding-right: 20px; padding-left: 30px;'> Hasta:</td><td>").replace("Días: ", "</td></tr><tr><td style='padding-right: 20px;'>@ías: </td><td  colspan='3' >") + "</td></tr>").replace("@","D").replace("@","D");
+                    }
+                    else{
+                        htmlDescription = htmlDescription + '<tr><td colspan="4">Este evento NO es recurrente </td></tr>'        
+                    }
+                    
+                    htmlDescription = htmlDescription + "</table>"
+                    jQuery("#dispoDescription").html(htmlDescription);
+                    jQuery("#deleteDispButton").attr('eventId', calEvent.id);
+                    $("#detailsModal").modal('show');
                     // change the border color just for fun
-                    $(this).css('background-color', 'red');
-
+                    $(this).css('background-color', '#ddd');
                 },
                 selectable: true,
                 selectHelper: true,
@@ -70,25 +73,16 @@
                         jQuery("#informativeBody").html('<h4>¡No es posible registrar disponibilidades con fecha de inicio y fin diferentes!</h4>');
                         jQuery("#informativeModal").modal('show');
                         return;
-                    }
-                    //var title = prompt('Event Title:');                    
+                    }                         
                     jQuery("input[name='fechaInicio']").val(start.format('YYYY-MM-DD'));
                     jQuery("input[name='fechaFin']").val(end.format('YYYY-MM-DD'));                        
-                    jQuery("input[name='horaInicio']").val(start.format('hh:mm'));
-                    jQuery("input[name='horaFin']").val(end.format('hh:mm'));
+                    jQuery("input[name='horaInicio']").val(start.format('HH:mm'));
+                    jQuery("input[name='horaFin']").val(end.format('HH:mm'));
                     jQuery("#recurrente").removeAttr('checked');
                     alterDisplayRecurrence();
+                    clearChecks();
+                    marcarCheks(start);
                     jQuery("#myModal").modal('show');
-                    /*var eventData;
-                    if (title) {
-                        eventData = {
-                            title: title,
-                            start: start,
-                            end: end
-                        };
-                        $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-                    }
-                    $('#calendar').fullCalendar('unselect');*/
                 },
             });
         });
@@ -99,6 +93,16 @@
             });
             jQuery('#timepickerInicio, #timepickerFin').datetimepicker({
                 pickDate: false
+            });
+            
+            jQuery('#deleteDispButton').click(function() {
+                if(!confirm('¿Esta seguro de borrar la disponibilidad?')) return;
+                jQuery.post('{{path('disponibilidad_deletedispo')}}',
+                        {eventid: jQuery(this).attr('eventId') },
+                        function(response) {
+                            $('#calendar').fullCalendar('refetchEvents'); // stick? = true
+                        }, "json");
+                jQuery("#detailsModal").modal('hide');
             });
             
             jQuery('#saveDispButton').click(function() {
@@ -113,27 +117,34 @@
                 jQuery.post('{{path('disponibilidad_register')}}',
                         {fechaInicio: fechaInicio, fechaFin: fechaFin, horaInicio: horaInicio, horaFin: horaFin, dias: dias, medicoId: medicoId},
                         function(response) {
-                            alert('do something');
-                            eventData = {
-                                title: 'disponible',
-                                start: fechaInicio + ' ' + horaInicio ,
-                                end: fechaFin + ' ' + horaFin
-                            };
-                            $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                            $('#calendar').fullCalendar('refetchEvents'); // stick? = true
                         }, "json");
                 jQuery("#myModal").modal('hide');
             });
         });
 
+        function marcarCheks(vfecha){
+            var fecha = new Date(vfecha.format('YYYY-MM-DD'));
+            var dia = fecha.getDay();
+            if(dia === 0){ jQuery('#chklunes').prop( "checked", true ); }
+            if(dia === 1){ jQuery('#chkmartes').prop( "checked", true ); }
+            if(dia === 2){ jQuery('#chkmiercoles').prop( "checked", true ); }
+            if(dia === 3){ jQuery('#chkjueves').prop( "checked", true ); }
+            if(dia === 4){ jQuery('#chkviernes').prop( "checked", true ); }
+            if(dia === 5){ jQuery('#chksabado').prop( "checked", true ); }
+            if(dia === 6){ jQuery('#chkdomingo').prop( "checked", true ); }            
+        }
+
         function obtenerDia(){
             var diasValue = 1;
-            if( jQuery('#chklunes').is(':checked') ) diasValue = diasValue * 2;
-            if( jQuery('#chkmartes').is(':checked') ) diasValue = diasValue * 3;
-            if( jQuery('#chkmiercoles').is(':checked') ) diasValue = diasValue * 5;
-            if( jQuery('#chkjueves').is(':checked') ) diasValue = diasValue * 7;
-            if( jQuery('#chkviernes').is(':checked') ) diasValue = diasValue * 11;
-            if( jQuery('#chksabado').is(':checked') ) diasValue = diasValue * 13;
-            if( jQuery('#chkdomingo').is(':checked') ) diasValue = diasValue * 17;
+            if( jQuery('#chklunes').is(':checked') ){diasValue = diasValue * 2;}
+            if( jQuery('#chkmartes').is(':checked') ) {diasValue = diasValue * 3;}
+            if( jQuery('#chkmiercoles').is(':checked') ) {diasValue = diasValue * 5;}
+            if( jQuery('#chkjueves').is(':checked') ) {diasValue = diasValue * 7;}
+            if( jQuery('#chkviernes').is(':checked') ){ diasValue = diasValue * 11;}
+            if( jQuery('#chksabado').is(':checked') ) {diasValue = diasValue * 13;}
+            if( jQuery('#chkdomingo').is(':checked') ) {diasValue = diasValue * 17;}
+            
             return diasValue;
         }
 
@@ -158,7 +169,21 @@
                 
             });
         }
-
+        
+        function clearChecks(){
+            jQuery("input[tag='chkdia']").removeAttr('checked');
+        }
+        
+        function expandirDias(texto){
+            texto = texto.replace('L', 'Lunes');
+            texto = texto.replace('Ma', 'Martes');
+            texto = texto.replace('Mi', 'Miércoles');
+            texto = texto.replace('J', 'Jueves');
+            texto = texto.replace('V', 'Viernes');
+            texto = texto.replace('S', 'Sábado');
+            texto = texto.replace('D', 'Domingo');
+            return texto;
+        }
 
         </script>
 
@@ -166,10 +191,11 @@
 
 {% block body -%}
         <input type="hidden" value="{{ idmedico }}" id="medicoId" name="medicoId">
+        <!-- Popup para presentar informacion al usuario -->
         <div id="informativeModal" class="modal fade">
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header" style="text-align: center">
+            <div class="modal-header" style="text-align: center" >
                 <h3>Aviso</h3>
             </div>
             <!-- dialog body -->
@@ -181,7 +207,7 @@
           </div>
         </div>
       </div>
-        
+        <!-- Popup para registrar una nueva disponibilidad -->
         <div id="myModal" class="modal fade">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -241,7 +267,7 @@
                         
                         <div class="row" style="display: none; visibility: hidden;" tag="forRecurrence" status="hidden" >
                             <div class="col-md-1">Días: </div>
-                            <div class="col-md-10"><input type="checkbox" value="2" name="chklunes" /> Lunes &nbsp;&nbsp;<input type="checkbox" value="3" name="chkmartes" /> Martes&nbsp;&nbsp;<input type="checkbox" value="5" name="chkmiercoles" /> Miercoles&nbsp;&nbsp;<input type="checkbox" value="7" name="chkjueves"  /> Jueves&nbsp;&nbsp;<input type="checkbox" value="11" name="chkviernes" /> Viernes&nbsp;&nbsp;<input type="checkbox" value="13" name="chksabado" /> Sábado&nbsp;&nbsp;<input type="checkbox" value="17" name="chkdomingo" /> Domingo</div>
+                            <div class="col-md-10"><input type="checkbox" value="2" id="chklunes" tag="chkdia" /> Lunes &nbsp;&nbsp;<input type="checkbox" value="3" id="chkmartes"  tag="chkdia" /> Martes&nbsp;&nbsp;<input type="checkbox" value="5" id="chkmiercoles" tag="chkdia"  /> Miercoles&nbsp;&nbsp;<input type="checkbox" value="7" id="chkjueves"  tag="chkdia"  /> Jueves&nbsp;&nbsp;<input type="checkbox" value="11" id="chkviernes" tag="chkdia"  /> Viernes&nbsp;&nbsp;<input type="checkbox" value="13" id="chksabado" tag="chkdia"  /> Sábado&nbsp;&nbsp;<input type="checkbox" value="17" id="chkdomingo" tag="chkdia"  /> Domingo</div>
                         </div>
 
                     </div>
@@ -252,9 +278,24 @@
                 </div>
             </div>
         </div>
-
-        <h2>Disponibilidad de medico</h2>
-
+        <!-- Popup para visualizar una disponibilidad -->
+        <div id="detailsModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="text-align: center">
+                        <h3>Detalles de Disponibilidad</h3>
+                    </div>
+                    <div class="modal-body" style="margin-left:10px; margin-right: 10px;" id="dispoDescription">
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary" id="deleteDispButton">Borrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h2>Disponibilidad de m&eacute;dico</h2>
         <div id='calendar'></div>
 
 {% endblock %}
