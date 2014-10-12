@@ -1,96 +1,96 @@
 # Group
 group:
     edit:
-        submit: Update group
+        submit: Actualizar grupo
     show:
-        name: Group name
+        name: Nombre de grupo
     new:
-        submit: Create group
+        submit: Crear grupo
     flash:
-        updated: The group has been updated
-        created: The group has been created
-        deleted: The group has been deleted
+        updated: El grupo ha sido actualizado
+        created: El grupo ha sido creado
+        deleted: El grupo ha sido borrado
 
 # Security
-"Bad credentials": Invalid username or password
+"Bad credentials": Usuario o contraseña incorrectos
 
 security:
     login:
-        username: "Username:"
-        password: "Password:"
-        remember_me: Remember me
-        submit: Login
+        username: "Usuario:"
+        password: "Contraseña:"
+        remember_me: Recordarme
+        submit: Ingresar
 
 # Profile
 profile:
     show:
-        username: Username
+        username: Usuario
         email: Email
     edit:
-        submit: Update
+        submit: Actualizar
     flash:
-        updated: The profile has been updated
+        updated: El perfil ha sido actualizado
 
 # Password change
 change_password:
-    submit: Change password
+    submit: Cambiar contraseña
     flash:
-        success: The password has been changed
+        success: La contraseña ha sido actualizada
 
 # Registration
 registration:
-    check_email: An email has been sent to %email%. It contains an activation link you must click to activate your account.
-    confirmed: Congrats %username%, your account is now activated.
-    back: Back to the originating page.
-    submit: Register
+    check_email: Se ha enviado un correo a %email% el cual contiene un enlace para activar su cuenta.
+    confirmed: Felicitaciones %username%, su cuenta ha sido activada.
+    back: Volver al inicio.
+    submit: Registrar
     flash:
-        user_created: The user has been created successfully
+        user_created: El usuario se ha creado satisfactoriamente
     email:
-        subject: Welcome %username%!
+        subject: Bienvenido %username%!
         message: |
-            Hello %username%!
+            Hola %username%!
 
-            To finish activating your account - please visit %confirmationUrl%
+            Para finalizar la activación de su cuenta por favor ingrese al siguiente enlace: %confirmationUrl%
 
-            Regards,
-            the Team.
+            Saludos,
+            Equipo DentalApp.
 
 # Password resetting
 resetting:
-    password_already_requested: The password for this user has already been requested within the last 24 hours.
-    check_email: An email has been sent to %email%. It contains a link you must click to reset your password.
+    password_already_requested: La contraseña para esete usuario ya ha sido solicitada en las ultimas 24 horas.
+    check_email: Se ha enviado un correo a %email% el cual contiene un enlace para reestablecer su contraseña.
     request:
-        invalid_username: The username or email address "%username%" does not exist.
-        username: "Username or email address:"
-        submit: Reset password
+        invalid_username: El usuario o email "%username%" no existe.
+        username: "Usuario o email:"
+        submit: Reestablecer contraseña
     reset:
-        submit: Change password
+        submit: Cambiar contraseña
     flash:
-        success: The password has been reset successfully
+        success: La contraseña se ha reestablecido satisfactoriamente
     email:
-        subject: Reset Password
+        subject: Reestablecer contraseña
         message: |
-            Hello %username%!
+            Hola %username%!
 
-            To reset your password - please visit %confirmationUrl%
+            Para reestablecer su contraseña por favor ingrese al siguiente enlace %confirmationUrl%
 
-            Regards,
-            the Team.
+            Saludos,
+            Equipo DentalApp.
 
 # Global strings
 layout:
-    logout: Logout
-    login: Login
-    register: Register
-    logged_in_as: Logged in as %username%
+    logout: Salir
+    login: Ingresar
+    register: Registrarse
+    logged_in_as: Bienvenido %username%
 
 # Form field labels
 form:
-    group_name: "Group name:"
-    username: "Username:"
+    group_name: "Nombre del grupo:"
+    username: "Usuario:"
     email: "Email:"
-    current_password: "Current password:"
-    password: "Password:"
-    password_confirmation: "Verification:"
-    new_password: "New password:"
-    new_password_confirmation: "Verification:"
+    current_password: "Contraseña actual:"
+    password: "Contraseña:"
+    password_confirmation: "Confirmar contraseña:"
+    new_password: "Nueva contraseña:"
+    new_password_confirmation: "Confirmar contraseña:"
