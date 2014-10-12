@@ -29,6 +29,14 @@ disponibilidad_delete:
     defaults: { _controller: "AgendaBundle:Disponibilidad:delete" }
     requirements: { _method: post|delete }
 
+disponibilidad_deletedispo:
+    path:     /deletedispo
+    defaults: { _controller: "AgendaBundle:Disponibilidad:deletedispo" }
+
 disponibilidad_register:
     path:     /register
     defaults: { _controller: "AgendaBundle:Disponibilidad:register" }
+    
+disponibilidad_getEvents:
+    path:     /{id}/getEvents/{conttype}
+    defaults: { _controller: "AgendaBundle:Disponibilidad:getEvents" }
