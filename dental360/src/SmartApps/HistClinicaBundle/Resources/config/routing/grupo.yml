@@ -26,5 +26,4 @@ grupo_update:
 
 grupo_delete:
     path:     /{id}/delete
-    defaults: { _controller: "HistClinicaBundle:Grupo:delete" }
-    requirements: { _method: post|delete }
+    defaults: { _controller: "HistClinicaBundle:Grupo:delete" }    
