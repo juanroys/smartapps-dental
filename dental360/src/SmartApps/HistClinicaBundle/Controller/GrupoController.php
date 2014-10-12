@@ -47,7 +47,7 @@ class GrupoController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('grupo_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('grupo', array('id' => $entity->getId())));
         }
 
         return $this->render('HistClinicaBundle:Grupo:new.html.twig', array(
@@ -175,7 +175,7 @@ class GrupoController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('grupo_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('grupo', array('id' => $id)));
         }
 
         return $this->render('HistClinicaBundle:Grupo:edit.html.twig', array(
@@ -188,12 +188,8 @@ class GrupoController extends Controller
      * Deletes a Grupo entity.
      *
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction( $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('HistClinicaBundle:Grupo')->find($id);
 
@@ -203,7 +199,7 @@ class GrupoController extends Controller
 
             $em->remove($entity);
             $em->flush();
-        }
+        
 
         return $this->redirect($this->generateUrl('grupo'));
     }
