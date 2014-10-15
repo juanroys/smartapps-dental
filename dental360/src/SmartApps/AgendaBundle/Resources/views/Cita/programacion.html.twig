@@ -18,6 +18,11 @@
             max-width: 900px;
             margin: 0 auto;
         }
+        
+        .jornadalaboral{
+            background-color: #a8a8ff;
+            width: 50px;
+        }
 
     </style>
         {% endblock %}
@@ -30,7 +35,8 @@
     <script src="{{ asset('bundles/histclinica/js/bootstrap-datetimepicker.min.js') }}"></script>
 
     <script language="javascript" type="text/javascript">
-        var _actualEvent = null;
+        var _actualEvent = null;        
+        
         $(document).ready(function() {
             $('#calendar').fullCalendar({
                 header: {
@@ -44,8 +50,10 @@
                 eventLimit: true, // allow "more" link when too many events
                 allDaySlot: false, 
                 slotDuration: '00:30:00',                
+                minTime: '06:00:00',
+                maxTime: '20:00:00',
                 events: {
-                    url: '{{path('disponibilidad_getEvents', { 'id': idmedico, 'conttype': 1 } )}}',                    
+                    url: '{{path('disponibilidad_getEvents', { 'id': 0, 'conttype': 1 } )}}',                    
                     error: function() {
                             $('#script-warning').show();
                     }   
@@ -89,7 +97,7 @@
                  
             });
         });
-        
+        //annotations: {{ horario|raw }} ,
         jQuery(document).ready(function() {
             jQuery('#datetimepickerInicio, #datetimepickerFin').datetimepicker({
                 pickTime: false
@@ -201,7 +209,7 @@
 {% endblock %}
 
 {% block body -%}
-        <input type="hidden" value="{{ idmedico }}" id="medicoId" name="medicoId">
+        <input type="hidden" value="0" id="medicoId" name="medicoId">
         <!-- Popup para presentar informacion al usuario -->
         <div id="informativeModal" class="modal fade">
         <div class="modal-dialog">
@@ -306,7 +314,7 @@
                 </div>
             </div>
         </div>
-        <h2>Disponibilidad de m&eacute;dico</h2>
+        <h2>Programaci&oacute;n de citas</h2>
         <div id='calendar'></div>
 
 {% endblock %}

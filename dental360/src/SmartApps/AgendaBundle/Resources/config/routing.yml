@@ -1,3 +1,7 @@
+agenda_cita:
+    resource: "@AgendaBundle/Resources/config/routing/cita.yml"
+    prefix:   /cita
+
 agenda_disponibilidad:
     resource: "@AgendaBundle/Resources/config/routing/disponibilidad.yml"
     prefix:   /disponibilidad

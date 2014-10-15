@@ -5,10 +5,10 @@ namespace SmartApps\AgendaBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Medico
+ * Cita
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="SmartApps\AgendaBundle\Entity\CitaRepository")
+ * @ORM\Entity
  */
 class Cita
 {
@@ -177,6 +177,6 @@ class Cita
     }
     
     public function __toString() {
-        return $this->nombreCompleto;
+        return $this->fechaHora->format('Y-m-d');
     }
 }

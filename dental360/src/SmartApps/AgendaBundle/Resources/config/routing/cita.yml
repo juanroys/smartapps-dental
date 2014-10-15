@@ -1,0 +1,34 @@
+cita:
+    path:     /
+    defaults: { _controller: "AgendaBundle:Cita:index" }
+
+cita_show:
+    path:     /{id}/show
+    defaults: { _controller: "AgendaBundle:Cita:show" }
+
+cita_new:
+    path:     /new
+    defaults: { _controller: "AgendaBundle:Cita:new" }
+
+cita_create:
+    path:     /create
+    defaults: { _controller: "AgendaBundle:Cita:create" }
+    requirements: { _method: post }
+
+cita_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AgendaBundle:Cita:edit" }
+
+cita_update:
+    path:     /{id}/update
+    defaults: { _controller: "AgendaBundle:Cita:update" }
+    requirements: { _method: post|put }
+
+cita_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AgendaBundle:Cita:delete" }
+    requirements: { _method: post|delete }
+
+cita_programacion:
+    path:     /programacion
+    defaults: { _controller: "AgendaBundle:Cita:programacion" }

@@ -960,4 +960,10 @@ class Paciente
     {
         return $this->convenio;
     }
+    
+    
+            
+    public function __toString() {
+        return $this->nombres . ' ' . $this->apellido1 . ' ' . $this->apellido2 ;
+    }
 }

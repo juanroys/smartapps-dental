@@ -68,6 +68,6 @@ class UnidadAtencion
     }
    
     public function __toString() {
-        return $this->nombreCompleto;
+        return $this->descripcion;
     }
 }
