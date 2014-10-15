@@ -24,5 +24,7 @@ table.records_list
     border-radius: 5px;
 }
 
-
-
+.list-inline li>a
+{
+    text-decoration: underline;
+}

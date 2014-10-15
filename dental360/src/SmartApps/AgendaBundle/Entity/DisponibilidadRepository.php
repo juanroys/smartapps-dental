@@ -17,4 +17,16 @@ class DisponibilidadRepository extends EntityRepository{
         $consulta->setParameter('fechainicio', $fechainicio);
         return $consulta->getResult();
     }    
+    
+    public function getPorFecha($fechainicio, $fechafin){
+        $em=  $this->getEntityManager();
+        $consulta=$em->createQuery(
+                "SELECT d "
+                . "FROM AgendaBundle:Disponibilidad d "
+                . "WHERE d.fechaDesde <= :fechafin AND d.fechaHasta >= :fechainicio ");
+        $consulta->setParameter('fechafin', $fechafin);
+        $consulta->setParameter('fechainicio', $fechainicio);
+        return $consulta->getResult();
+    }    
+    
 }

@@ -96,6 +96,7 @@ class CalendarEvent {
 		$array = $this->properties;
 		$array['title'] = $this->title;
                 $array['id'] = $this->id;
+                $array['backgroundColor'] = "#428BCA";
 		// Figure out the date format. This essentially encodes allDay into the date string.
 		if ($this->allDay) {
 			$format = 'Y-m-d'; // output like "2013-12-29"
@@ -369,11 +370,11 @@ class DisponibilidadController extends Controller
     public function getEventsAction($id, $conttype){
         $start = $_GET['start'];
         $end = $_GET['end'];        
-        
         $formato = 'Y-m-d';                
         $interval = new DateInterval( "P1D" ); 
         $interval->invert = 1;        
         $startDate = DateTime::createFromFormat($formato, $start)->add($interval);
+        
         $endDate = DateTime::createFromFormat($formato, $end);
         
         $em = $this->getDoctrine()->getManager();                
@@ -429,6 +430,7 @@ class DisponibilidadController extends Controller
         return new Response(json_encode($output_arrays));
         
     }
+    
     
     function includeDate($fecha, $diasValue)
     {
