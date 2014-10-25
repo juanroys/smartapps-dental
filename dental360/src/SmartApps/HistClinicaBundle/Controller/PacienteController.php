@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use SmartApps\HistClinicaBundle\Entity\Paciente;
 use SmartApps\HistClinicaBundle\Entity\HistoriaClinica;
 use SmartApps\HistClinicaBundle\Form\PacienteType;
-
+use Symfony\Component\HttpFoundation\Response;
 /**
  * Paciente controller.
  *
@@ -185,6 +185,10 @@ class PacienteController extends Controller
 
             return $this->redirect($this->generateUrl('paciente', array('id' => $id)));
         }
+        else
+        {
+            echo 'Formulario Invalido';
+        }
 
         return $this->render('HistClinicaBundle:Paciente:edit.html.twig', array(
             'entity'      => $entity,
@@ -228,5 +232,42 @@ class PacienteController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+    
+    public function registroRapidoAction()
+    {
+        $apellido1 =   $_POST['apellido1'];
+        $apellido2 = $_POST['apellido2'];
+        $nombres = $_POST['nombres'];
+        $telefonos = $_POST['telefonos'];
+        $tipoId = $_POST['tipoId'];
+        $noId = $_POST['noId'];
+        $eps = $_POST['eps'];
+        $convenio = $_POST['convenio'];
+        
+        $em = $this->getDoctrine()->getManager();        
+        $entity = new Paciente();            
+        
+        $entity->setApellido1($apellido1);
+        $entity->setApellido2($apellido2);
+        $entity->setNombres($nombres);
+        $entity->setResidenciaTelefono($telefonos);
+        $entity->setTipoIdentificacion($tipoId);
+        $entity->setNoIdentificacion($noId);
+        $entity->setEPS($eps);
+        
+        if($convenio > 0 )
+        {
+            $entity->setConvenio($em->getRepository('HistClinicaBundle:Convenio')->find($convenio));                    
+        }
+        $em->persist($entity);
+        $em->flush();            
+        
+         $response = array(
+            "sucess" => "ok",
+             "idpaciente" => $entity->getId(),
+        );
+         
+        return new Response(json_encode($response));
     }
 }

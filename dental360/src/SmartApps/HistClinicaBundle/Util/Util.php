@@ -9,16 +9,16 @@ class Util
     }
     
     static public function TipoIdentificacionEnum(){
-        return array( 1 => 'Cédula de ciudadanía', 2 => 'Registro civil', 3 => 'Cédula extrangería', 4=> 'Tarjeta de identidad');
+        return array( 0 => 'Cédula de ciudadanía', 1 => 'Registro civil', 2 => 'Cédula extrangería', 3=> 'Tarjeta de identidad');
     }
     static public function GeneroEnum(){
-        return array(  1 => 'Masculino', 2 => 'Femenino');
+        return array( '' => '', 1 => 'Masculino', 2 => 'Femenino');
     }
     static public function TipoAfiliacionEnum(){
         return array( 1 => 'Cotizante', 2 => 'Beneficiario');
     }
     static public function EstadoCivilEnum(){
-        return array(  1 => 'Soltero', 2 => 'Casado', 3 => 'Unión libre' , 4 => 'Viudo');
+        return array( '' => '', 1 => 'Soltero', 2 => 'Casado', 3 => 'Unión libre' , 4 => 'Viudo');
     }
     
     static public function SiNoEnum(){

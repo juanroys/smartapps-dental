@@ -83,14 +83,14 @@ class Paciente
      *
      * @ORM\Column(name="estadoCivil", type="integer", nullable=true)
      */
-    private $estadoCivil;
+    private $estadoCivil = -1;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="sexo", type="integer", nullable=true)
      */
-    private $sexo;
+    private $sexo = -1;
 
     /**
      * @var string

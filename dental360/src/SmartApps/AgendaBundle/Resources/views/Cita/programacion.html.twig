@@ -75,6 +75,7 @@
                         function(response) {                            
                             if(response.sucess === "ok"){
                                 clearForm();
+                                jQuery("#citaIdHidden").val(calEvent.id);
                                 jQuery('#fecha').val(response.fecha);
                                 jQuery('#horaInicio').val(response.horaInicio) ;
                                 jQuery('#horaFin').val(response.horaFin);                            
@@ -130,10 +131,11 @@
                 var estado = jQuery("#selEstado").val();
                 var unidadId = jQuery("#selUnidad").val();
                 var citaId = jQuery("#citaIdHidden").val();
+                
                 jQuery.post('{{path('cita_register')}}',
                         {   fecha: fecha, horaInicio: horaInicio, horaFin: horaFin, 
                             medicoId: medicoId, pacienteId: pacienteID,
-                            estado: estado, unidadId: unidadId, citaId: citaId},
+                            estado: estado, unidadId: unidadId, citaId: citaId },
                         function(response) {                           
                             if(response.sucess === "ok"){
                                 $('#calendar').fullCalendar('refetchEvents'); // stick? = true
@@ -157,15 +159,14 @@
                 var convenio = jQuery('#selconvenio').val();
                 
                 
-                jQuery.post('{{path('cita_getCita')}}',
+                jQuery.post('{{path('paciente_registroRapido')}}',
                         {   apellido1: apellido1, apellido2 : apellido2, nombres : nombres, telefonos : telefonos, tipoId : tipoId, noId : noId, eps : eps, convenio : convenio  },
                         function(response) {                            
                             if(response.sucess === "ok"){
-                                
+                                $("#selPaciente").append(new Option(nombres + ' ' + apellido1 + ' ' + apellido2 , response.idpaciente));
+                                 jQuery("#btnAddPaciente").show();                
+                                jQuery("#divRegistrarPaciente").hide();                          
                             }
-                            else{
-                                
-                            }                            
                         }, "json"); 
                 
             });
@@ -213,7 +214,7 @@
             jQuery("#divRegistrarPaciente").hide();           
             jQuery("#btnAddPaciente").show();
             jQuery("#selconvenio").val(-1);
-            jQuery("#seleps").val(-1);
+            jQuery("#seleps").val('');
             jQuery("#seltipoid").val(-1);
             jQuery("#txtnoid").val('');
             jQuery("#txttelefonos").val('');
@@ -221,7 +222,6 @@
             jQuery("#txtapellido2").val('');
             jQuery("#txtapellido1").val('');
         }
-
 
         </script>
 
