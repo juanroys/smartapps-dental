@@ -32,3 +32,19 @@ cita_delete:
 cita_programacion:
     path:     /programacion
     defaults: { _controller: "AgendaBundle:Cita:programacion" }
+    
+cita_register:
+    path:     /register
+    defaults: { _controller: "AgendaBundle:Cita:register" }
+    
+cita_getAllCalendar:
+    path:     /getAllCalendar
+    defaults: { _controller: "AgendaBundle:Cita:getAllCalendar" }
+
+cita_getCita:
+    path:     /getCita
+    defaults: { _controller: "AgendaBundle:Cita:getCita" }
+
+cita_remove:
+    path:     /remove
+    defaults: { _controller: "AgendaBundle:Cita:remove" }

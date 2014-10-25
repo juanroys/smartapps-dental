@@ -46,14 +46,14 @@ class Paciente
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fechaNacimiento", type="datetime")
+     * @ORM\Column(name="fechaNacimiento", type="datetime", nullable=true)
      */
     private $fechaNacimiento;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="lugarNacimiento", type="string", length=1024)
+     * @ORM\Column(name="lugarNacimiento", type="string", length=1024, nullable=true)
      */
     private $lugarNacimiento;
 
@@ -74,161 +74,161 @@ class Paciente
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255)
+     * @ORM\Column(name="email", type="string", length=255, nullable=true)
      */
     private $email;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="estadoCivil", type="integer")
+     * @ORM\Column(name="estadoCivil", type="integer", nullable=true)
      */
     private $estadoCivil;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="sexo", type="integer")
+     * @ORM\Column(name="sexo", type="integer", nullable=true)
      */
     private $sexo;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ocupacion", type="string", length=255)
+     * @ORM\Column(name="ocupacion", type="string", length=255, nullable=true)
      */
     private $ocupacion;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="empresa", type="string", length=255)
+     * @ORM\Column(name="empresa", type="string", length=255, nullable=true)
      */
     private $empresa;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="cargo", type="string", length=255)
+     * @ORM\Column(name="cargo", type="string", length=255, nullable=true)
      */
     private $cargo;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="EPS", type="string", length=255)
+     * @ORM\Column(name="EPS", type="string", length=255, nullable=true)
      */
     private $ePS;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="cotizanteBeneficiario", type="integer")
+     * @ORM\Column(name="cotizanteBeneficiario", type="integer", nullable=true)
      */
     private $cotizanteBeneficiario;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="responNombreCompleto", type="string", length=255)
+     * @ORM\Column(name="responNombreCompleto", type="string", length=255, nullable=true)
      */
     private $responNombreCompleto;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="responNoIdentificacion", type="bigint")
+     * @ORM\Column(name="responNoIdentificacion", type="bigint", nullable=true)
      */
     private $responNoIdentificacion;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="responParentesco", type="string", length=124)
+     * @ORM\Column(name="responParentesco", type="string", length=124, nullable=true)
      */
     private $responParentesco;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="residenciaMunicipio", type="string", length=255)
+     * @ORM\Column(name="residenciaMunicipio", type="string", length=255, nullable=true)
      */
     private $residenciaMunicipio;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="residenciaDepartamento", type="string", length=255)
+     * @ORM\Column(name="residenciaDepartamento", type="string", length=255, nullable=true)
      */
     private $residenciaDepartamento;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="residenciaDireccion", type="string", length=255)
+     * @ORM\Column(name="residenciaDireccion", type="string", length=255, nullable=true)
      */
     private $residenciaDireccion;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="residenciaTelefono", type="string", length=100)
+     * @ORM\Column(name="residenciaTelefono", type="string", length=100, nullable=true)
      */
     private $residenciaTelefono;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="trabajoMunicipio", type="string", length=255)
+     * @ORM\Column(name="trabajoMunicipio", type="string", length=255, nullable=true)
      */
     private $trabajoMunicipio;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="trabajoDepartamento", type="string", length=255)
+     * @ORM\Column(name="trabajoDepartamento", type="string", length=255, nullable=true)
      */
     private $trabajoDepartamento;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="trabajoDireccion", type="string", length=255)
+     * @ORM\Column(name="trabajoDireccion", type="string", length=255, nullable=true)
      */
     private $trabajoDireccion;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="trabajoTelefono", type="string", length=100)
+     * @ORM\Column(name="trabajoTelefono", type="string", length=100, nullable=true)
      */
     private $trabajoTelefono;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="responUbicacionDepartamento", type="string", length=255)
+     * @ORM\Column(name="responUbicacionDepartamento", type="string", length=255, nullable=true)
      */
     private $responUbicacionDepartamento;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="responUbicacionMunicipio", type="string", length=255)
+     * @ORM\Column(name="responUbicacionMunicipio", type="string", length=255, nullable=true)
      */
     private $responUbicacionMunicipio;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="responUbicacionDireccion", type="string", length=255)
+     * @ORM\Column(name="responUbicacionDireccion", type="string", length=255, nullable=true)
      */
     private $responUbicacionDireccion;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="responUbicacionTelefono", type="string", length=100)
+     * @ORM\Column(name="responUbicacionTelefono", type="string", length=100, nullable=true)
      */
     private $responUbicacionTelefono;
 
@@ -961,9 +961,11 @@ class Paciente
         return $this->convenio;
     }
     
-    
+    public function getNombreCompleto(){
+        return $this->nombres . ' ' . $this->apellido1 . ' ' . $this->apellido2 ;
+    }
             
     public function __toString() {
-        return $this->nombres . ' ' . $this->apellido1 . ' ' . $this->apellido2 ;
+        return $this->getNombreCompleto();
     }
 }
