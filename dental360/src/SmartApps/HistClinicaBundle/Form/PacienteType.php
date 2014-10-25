@@ -42,7 +42,7 @@ class PacienteType extends AbstractType
             ->add('empresa')
             ->add('cargo')
             ->add('ePS')
-            ->add('cotizanteBeneficiario', 'choice', array(
+            ->add('cotizanteBeneficiario', 'choice', array(                    
                    'empty_value' => '',
                     'choices' => \SmartApps\HistClinicaBundle\Util\Util::TipoAfiliacionEnum(),
                     'attr' => array('style' => 'width:300px'),
