@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Cita
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="SmartApps\AgendaBundle\Entity\CitaRepository")
  */
 class Cita
 {
@@ -43,16 +43,23 @@ class Cita
      /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fechaHora", type="datetime")
+     * @ORM\Column(name="fecha", type="datetime")
      */
-    private $fechaHora;
+    private $fecha;
     
     /**
-     * @var integer
+     * @var horainicio
      *
-     * @ORM\Column(name="duracion", type="integer")
+     * @ORM\Column(name="horainicio", type="datetime")
      */
-    private $duracion;
+    private $horainicio;
+    
+    /**
+     * @var horafin
+     *
+     * @ORM\Column(name="horafin", type="datetime")
+     */
+    private $horafin;
  
     /**
      * @var integer
@@ -77,7 +84,7 @@ class Cita
         return $this->id;
     }
     /* ***************** MEDICO ********************************* */ 
-    public function setMedico(SmartApps\AgendaBundle\Entity\Medico $medico)
+    public function setMedico(\SmartApps\AgendaBundle\Entity\Medico $medico)
     {
         $this->medico = $medico;
         return $this;
@@ -88,7 +95,7 @@ class Cita
         return $this->medico;
     }
     /* *************** UNIDAD ATENCION *********************************** */     
-    public function setUnidadAtencion(SmartApps\AgendaBundle\Entity\UnidadAtencion $unidadAtencion)
+    public function setUnidadAtencion(\SmartApps\AgendaBundle\Entity\UnidadAtencion $unidadAtencion)
     {
         $this->unidadAtencion = $unidadAtencion;
         return $this;
@@ -99,7 +106,7 @@ class Cita
         return $this->unidadAtencion;
     }
     /* ************** PACIENTE ************************************ */ 
-    public function setPaciente(SmartApps\AgendaBundle\Entity\Paciente $paciente)
+    public function setPaciente(\SmartApps\HistClinicaBundle\Entity\Paciente $paciente)
     {
         $this->paciente = $paciente;
         return $this;
@@ -111,48 +118,71 @@ class Cita
     }
     
     /**
-     * Set fechaHora
+     * Set fecha
      *
-     * @param \DateTime $fechaHora
+     * @param \DateTime $fecha
      * @return Cita
      */
-    public function setFechaHora($fechaHora)
+    public function setFecha($fecha)
     {
-        $this->fechaHora = $fechaHora;
+        $this->fecha = $fecha;
         return $this;
     }
 
     /**
-     * Get fechaHora
+     * Get fecha
      *
      * @return \DateTime 
      */
-    public function getFechaHora()
+    public function getFecha()
     {
-        return $this->fechaHora;
+        return $this->fecha;
     }
     
     /**
-     * Set duracion
+     * Set horainicio
      *
-     * @param integer $duracion
+     * @param \DateTime $horainicio
      * @return Cita
      */
-    public function setDuracion($duracion)
+    public function setHoraInicio($horainicio)
     {
-        $this->duracion = $duracion;
+        $this->horainicio = $horainicio;
         return $this;
     }
 
     /**
-     * Get duracion
+     * Get horainicio
      *
-     * @return integer 
+     * @return \DateTime 
      */
-    public function getDuracion()
+    public function getHoraInicio()
     {
-        return $this->duracion;
+        return $this->horainicio;
     }
+    
+     /**
+     * Set horafin
+     *
+     * @param \DateTime $horafin
+     * @return Cita
+     */
+    public function setHoraFin($horafin)
+    {
+        $this->horafin = $horafin;
+        return $this;
+    }
+
+    /**
+     * Get horafin
+     *
+     * @return \DateTime 
+     */
+    public function getHoraFin()
+    {
+        return $this->horafin;
+    }
+    
     
     /**
      * Set estado

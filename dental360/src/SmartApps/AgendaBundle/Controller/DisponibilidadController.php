@@ -12,15 +12,8 @@ use DateTime;
 use DateTimeZone;
 use DateInterval;
 
-//--------------------------------------------------------------------------------------------------
-// Utilities for our event-fetching scripts.
-//
-// Requires PHP 5.2.0 or higher.
-//--------------------------------------------------------------------------------------------------
-
 // PHP will fatal error if we attempt to use the DateTime class without this being set.
 date_default_timezone_set('UTC');
-
 
 // Date Utilities
 //----------------------------------------------------------------------------------------------
@@ -42,13 +35,6 @@ function parseDateTime($string, $timezone=null) {
 }
 
 
-// Takes the year/month/date values of the given DateTime and converts them to a new DateTime,
-// but in UTC.
-function stripTime($datetime) {
-	return new DateTime($datetime->format('Y-m-d'));
-}
-
-
 class CalendarEvent {
 
 	// Tests whether the given ISO8601 string has a time-of-day or not
@@ -61,7 +47,6 @@ class CalendarEvent {
 	public $properties = array(); // an array of other misc properties
         public $id;
         
-
 	public function __construct($id, $title, $start, $end, $timezone=null)
 	{
 		$this->title = $title;
@@ -69,26 +54,7 @@ class CalendarEvent {
 		$this->end = parseDateTime($end, $timezone);
                 $this->id = $id;
 	}
-        
-	// Returns whether the date range of our event intersects with the given all-day range.
-	// $rangeStart and $rangeEnd are assumed to be dates in UTC with 00:00:00 time.
-	/*public function isWithinDayRange($rangeStart, $rangeEnd) {
-
-		// Normalize our event's dates for comparison with the all-day range.
-		$eventStart = stripTime($this->start);
-		$eventEnd = isset($this->end) ? stripTime($this->end) : null;
-
-		if (!$eventEnd) {
-			// No end time? Only check if the start is within range.
-			return $eventStart < $rangeEnd && $eventStart >= $rangeStart;
-		}
-		else {
-			// Check if the two ranges intersect.
-			return $eventStart < $rangeEnd && $eventEnd > $rangeStart;
-		}
-	}
-        */
-
+      
 	// Converts this Event object back to a plain data array, to be used for generating JSON
 	public function toArray() {
 
