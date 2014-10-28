@@ -49,3 +49,7 @@ HistClinicaBundle_preguntaopcion:
 HistClinicaBundle_atencion:
         resource: "@HistClinicaBundle/Resources/config/routing/atencion.yml"
         prefix:   /atencion
+
+HistClinicaBundle_odontograma:
+        resource: "@HistClinicaBundle/Resources/config/routing/odontograma.yml"
+        prefix:   /odontograma
