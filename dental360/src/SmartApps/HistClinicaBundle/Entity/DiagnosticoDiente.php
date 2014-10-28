@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * DiagnosticoDiente
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="SmartApps\HistClinicaBundle\Entity\DiagnosticoDienteRepository")
  */
 class DiagnosticoDiente
 {
@@ -37,9 +37,23 @@ class DiagnosticoDiente
     /**
      * @var integer
      *
-     * @ORM\Column(name="tipoDiagnostico", type="integer")
+      * @ORM\Column(name="tipoDiagnostico", type="string", length=124)
      */
     private $tipoDiagnostico;
+    
+    /**
+     * @var integer
+     *
+      * @ORM\Column(name="tipoIcono", type="string", length=124)
+     */
+    private $tipoIcono;
+    
+    /**
+     * @var integer
+     *
+      * @ORM\Column(name="icono", type="string", length=124)
+     */
+    private $icono;
 
     /**
      * @var integer
@@ -87,7 +101,7 @@ class DiagnosticoDiente
     /**
      * Set tipoDiagnostico
      *
-     * @param integer $tipoDiagnostico
+     * @param string $tipoDiagnostico
      * @return DiagnosticoDiente
      */
     public function setTipoDiagnostico($tipoDiagnostico)
@@ -98,13 +112,57 @@ class DiagnosticoDiente
     }
 
     /**
-     * Get tipoDiagnostico
+     * Get tipoIcono
      *
-     * @return integer 
+     * @return string 
      */
     public function getTipoDiagnostico()
     {
         return $this->tipoDiagnostico;
+    }
+    /**
+     * Set tipoDiagnostico
+     *
+     * @param string $tipoIcono
+     * @return DiagnosticoDiente
+     */
+    public function setTipoIcono($tipoIcono)
+    {
+        $this->tipoIcono = $tipoIcono;
+
+        return $this;
+    }
+
+    /**
+     * Get icono
+     *
+     * @return string 
+     */
+    public function getTipoIcono()
+    {
+        return $this->tipoIcono;
+    }
+    /**
+     * Set tipoDiagnostico
+     *
+     * @param string $icono
+     * @return DiagnosticoDiente
+     */
+    public function setIcono($icono)
+    {
+        $this->icono = $icono;
+
+        return $this;
+    }
+
+    /**
+     * Get tipoDiagnostico
+     *
+     * @return string 
+     */
+    public function getIcono()
+    {
+        return $this->icono;
     }
 
     /**

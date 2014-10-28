@@ -1,0 +1,7 @@
+odontograma_new:
+    path: /new/{idHistoria}
+    defaults: { _controller: "HistClinicaBundle:Odontograma:new" }
+    
+odontograma_create:
+    path: /create
+    defaults: { _controller: "HistClinicaBundle:Odontograma:create" }

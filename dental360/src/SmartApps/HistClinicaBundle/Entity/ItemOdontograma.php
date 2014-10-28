@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ItemOdontograma
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="SmartApps\HistClinicaBundle\Entity\ItemOdontogramaRepository")
  */
 class ItemOdontograma
 {
@@ -41,6 +41,13 @@ class ItemOdontograma
      * @ORM\Column(name="noDiente", type="integer")
      */
     private $noDiente;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="noFila", type="integer")
+     */
+    private $noFila;
 
 
     /**
@@ -97,6 +104,28 @@ class ItemOdontograma
     public function setNoDiente($noDiente)
     {
         $this->noDiente = $noDiente;
+
+        return $this;
+    }
+
+    /**
+     * Get noFila
+     *
+     * @return integer 
+     */
+    public function getNoFila()
+    {
+        return $this->noFila;
+    }
+    /**
+     * Set noDiente
+     *
+     * @param integer $noFila
+     * @return ItemOdontograma
+     */
+    public function setNoFila($noFila)
+    {
+        $this->noFila = $noFila;
 
         return $this;
     }

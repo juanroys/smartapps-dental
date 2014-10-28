@@ -7,7 +7,6 @@
 <div style="border: 1px solid #ccc; background-color: #ddd; border-radius: 5px;">
     <input type="hidden" name="pacienteId" id="pacienteId" value="{{paciente.id}}"/>
     <input type="hidden" name="sugerenciaId" id="sugerenciaId" value="0"/>
-    <div id="demo"></div>
     <div class="row">
         <div class="col-md-4" id="fecha_errors"></div>
     </div>
@@ -224,13 +223,6 @@
     }
 
     function agregarProcedimiento() {
-        //obteniendo la fila que contiene al procedimiento
-        //var boton = elemento.parentNode;
-        //var row = boton.parentNode;
-        //var rowProcedimiento = row.parentNode;
-        //se obtiene el indice con el que estan nombrados los inputs en esta fila
-        //var strIndice = rowProcedimiento.id.toString().split("_")[1];
-        //var numIndice = Number(strIndice);
         var numIndice = 1;
         var newIndice = numRows + 1;
         //se accede a cada uno de los elementos con el indice obtenido
