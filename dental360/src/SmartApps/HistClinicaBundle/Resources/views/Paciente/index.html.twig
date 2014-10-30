@@ -1,6 +1,6 @@
 {% extends '::base.html.twig' %}
 
-{% block body -%}
+{% block body %}
    <div class="row">
         <div class="col-md-7">
             <h2>Pacientes</h2>
@@ -103,5 +103,20 @@
         {% endfor %}
         </tbody>
     </table>
-        {{ simple_paginator_render('paciente')}}
+        {{ simple_paginator_render('paciente',null,{
+                    'container_class':'pagination',
+                    'firstPageText':'|<',
+                    'firstEnabledClass':'',
+                    'firstDisabledClass':'disabled',
+                    'previousPageText': '<<',
+                    'previousEnabledClass':'',
+                    'previousDisabledClass':'disabled',
+                    'currentClass': 'active',
+                    'nextPageText': '>>',
+                    'nextEnabledClass':'',
+                    'nextDisabledClass':'disabled', 
+                    'lastPageText':'>|',
+                    'lastEnabledClass': '',
+                    'lastDisabledClass': 'disabled'
+                    })}}
     {% endblock %}

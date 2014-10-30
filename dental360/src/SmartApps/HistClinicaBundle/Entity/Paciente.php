@@ -67,7 +67,7 @@ class Paciente
     /**
      * @var integer
      *
-     * @ORM\Column(name="noIdentificacion", type="bigint")
+     * @ORM\Column(name="noIdentificacion", type="string", length=15)
      */
     private $noIdentificacion;
 
@@ -137,7 +137,7 @@ class Paciente
     /**
      * @var integer
      *
-     * @ORM\Column(name="responNoIdentificacion", type="bigint", nullable=true)
+     * @ORM\Column(name="responNoIdentificacion", type="string", length=15, nullable=true)
      */
     private $responNoIdentificacion;
 
