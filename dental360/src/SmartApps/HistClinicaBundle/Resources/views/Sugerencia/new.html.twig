@@ -46,7 +46,7 @@
 </div>
 
 <div>
-    <table class="records_list table table-striped table-condensed table-bordered" id="sugerencias">
+    <table class="records_list table table-condensed table-bordered" id="sugerencias">
         <thead>
             <tr>
                 <th>FECHA</th>
@@ -79,6 +79,7 @@
     </table>
 </div>
 <script type="text/javascript" lang="javascript">
+    var rowSelect = null;
     function agregarSugerencia() {
         var fecha = document.getElementById("fecha").value;
         var costoProcedimiento = document.getElementById("costoProcedimiento").value;
@@ -155,6 +156,9 @@
     }
 
     function borrarSugerencia(sugerenciaId, elemento) {
+        if (rowSelect != null) {
+            rowSelect.style.backgroundColor = "white";
+        }
         $.post('{{path('sugerencia_delete')}}',
                 {sugerenciaId: sugerenciaId},
         function(response) {
@@ -174,6 +178,11 @@
     }
 
     function editarSugerencia(sugerenciaId) {
+        if (rowSelect != null) {
+            rowSelect.style.backgroundColor = "white";
+        }
+        rowSelect = document.getElementById(sugerenciaId);
+        rowSelect.style.backgroundColor = "#ccc";
         $.post('{{path('sugerencia_load')}}',
                 {sugerenciaId: sugerenciaId},
         function(response) {

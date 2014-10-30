@@ -69,7 +69,7 @@
                     idAnterior = idDiente;
                     buscarIndiceDienteActual();
                     guardarDiagnostico();
-                    arrayDiagActual=new Array(8);
+                    arrayDiagActual = new Array(8);
                 }
                 //alert(idDiente);
                 var auxArray = new Array(3);
@@ -79,7 +79,9 @@
                 arrayDiagActual[{{diagnostico.ubicacion}}] = auxArray.slice(0);
                 dienteActual = document.getElementById(idDiente);
         {%endfor%}
-                guardarDiagnostico();
+                if (dienteActual != null) {
+                    guardarDiagnostico();
+                }
             }
             function reiniciarPanel() {
                 cambiarImagen('none', 'none');
@@ -379,7 +381,22 @@
 
             function cambiarColor() {
                 colorSelect = document.getElementById('colores').value;
-                imageSelect = 'none';
+                var diente_panel = document.getElementById('div-diente_panel');
+                if (imageNow != null) {
+                    diente_panel.removeChild(imageNow);
+                    var oImg = document.createElement("img");
+                    var auxPath = "{{ asset('ROUTE') }}";
+                    var path = auxPath.replace('ROUTE', 'bundles/histclinica/images/' + imageSelect + '_' + colorSelect + '.png');
+                    oImg.setAttribute('src', path);
+                    oImg.setAttribute('height', '{{medidaDientePanel*5}}px');
+                    oImg.setAttribute('width', '{{medidaDientePanel*5}}px');
+                    diente_panel.appendChild(oImg);
+                    oImg.style.position = 'absolute';
+                    oImg.style.zIndex = 4;
+                    oImg.style.top = 0;
+                    oImg.style.left = {{medidaDientePanel/2}};
+                    imageNow = oImg;
+                }
                 if (imageNowType == "color") {
                     backgroundSelect = colorSelect;
                 } else {
@@ -415,7 +432,7 @@
                     }
                     var oImg = document.createElement("img");
                     var auxPath = "{{ asset('ROUTE') }}";
-                    var path = auxPath.replace('ROUTE', 'bundles/histclinica/images/' + imageSelect + '.png');
+                    var path = auxPath.replace('ROUTE', 'bundles/histclinica/images/' + imageSelect + '_' + colorSelect + '.png');
                     oImg.setAttribute('src', path);
                     oImg.setAttribute('height', '{{medidaDientePanel*5}}px');
                     oImg.setAttribute('width', '{{medidaDientePanel*5}}px');
@@ -551,7 +568,7 @@
 
     #odontograma{
         width: 1100px; 
-        height: 700px; 
+        height: 350px; 
         margin-left: auto; 
         margin-right: auto; 
         z-index: 1;
@@ -889,16 +906,17 @@
                                  class="polygon-diente_panel" onclick="aplicar(this)"id="{{inferiorExterior}}"/>
 
                         </svg> 
-                    </div>
+                    </div>      
                     <div class="col-md-4">
-                        <div class="row"><p>Parcial</p></div>
                         <div class="row">
+                            <span>Color </span>
                             <select name="select" id="colores" onchange="cambiarColor()">                            
                             {%for color in colores%}
                                 <option value="{{color.color}}" style="background-color: {{color.color}}; color: white;">{{color.nombre}}</option>
                             {%endfor%}
                             </select>
                         </div>
+                        <div class="row"><p>Parcial</p></div>
                         <div class="row">
                             <input type="radio" name="convencionPar" id="ningunoParcial" value="none" onchange="cambiarDiagnostico('none', 'none', 'none');" checked="true"/> Ninguno
                         </div>
@@ -917,7 +935,7 @@
                         {%for convencion in convenCompleto%}
                         <div class="row">
                             <input type="radio" name="convencionCom" id="radioCompleto-{{convencion.nombre}}" value="{{convencion.nombre}}" onchange="cambiarImagen('{{convencion.nombre}}', '{{convencion.imagen}}')
-                                            ;"/>
+                                                ;"/>
                         {{convencion.nombre}}
                         </div>
                         {%endfor%}

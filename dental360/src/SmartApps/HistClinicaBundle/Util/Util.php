@@ -26,20 +26,20 @@ class Util
     static public function OdontConvenDienParcialEnum(){
         return array(
             0 => array("nombre" => "Caries", "icono"=>"none", "tipo"=>"color"),
-            1 => array("nombre" => "Obturado", "icono"=>"Obturado", "tipo"=>"imagen"),
-            2 => array("nombre" => "Sellante", "icono"=>"Sellante", "tipo"=>"imagen"),
-            3 => array("nombre" => "Prótesis", "icono"=>"Prótesis", "tipo"=>"imagen")
+            1 => array("nombre" => "Obturado", "icono"=>"obturado", "tipo"=>"imagen"),
+            2 => array("nombre" => "Sellante", "icono"=>"sellante", "tipo"=>"imagen"),
+            3 => array("nombre" => "Prótesis", "icono"=>"protPar", "tipo"=>"imagen")
             );
     }
     static public function OdontConvenDienCompletoEnum(){
         return array(
-            0 => array("nombre" => "Corona Completa", "imagen"=>"corona"),
-            1 => array("nombre" => "Ausente", "imagen"=>"advertencia"),
-            2 => array("nombre" => "Exodoncia Indicada", "imagen"=>"indicado"),
-            3 => array("nombre" => "Endodoncia", "imagen"=>"advertencia"),
-            4 => array("nombre" => "Incluido", "imagen"=>"indicado"),
-            5 => array("nombre" => "Endodoncia Indicada", "imagen"=>"indicado"),
-            6 => array("nombre" => "Sanos", "imagen"=>"bien"),
+            0 => array("nombre" => "Corona Completa", "imagen"=>"ccompleta"),
+            1 => array("nombre" => "Ausente", "imagen"=>"ausente"),
+            2 => array("nombre" => "Exodoncia Indicada", "imagen"=>"exoInd"),            
+            3 => array("nombre" => "Endodoncia", "imagen"=>"endodoncia"),            
+            4 => array("nombre" => "Incluido", "imagen"=>"incluido"),
+            5 => array("nombre" => "Endodoncia Indicada", "imagen"=>"endInd"),
+            6 => array("nombre" => "Prótesis", "imagen"=>"protCom"),
             );
     }
     static public function OdontConvenColores(){
