@@ -44,6 +44,21 @@
         </tbody>
     </table>
     
-    {{ simple_paginator_render('convenio')}}
+    {{ simple_paginator_render('convenio',null,{
+                    'container_class':'pagination',
+                    'firstPageText':'|<',
+                    'firstEnabledClass':'',
+                    'firstDisabledClass':'disabled',
+                    'previousPageText': '<<',
+                    'previousEnabledClass':'',
+                    'previousDisabledClass':'disabled',
+                    'currentClass': 'active',
+                    'nextPageText': '>>',
+                    'nextEnabledClass':'',
+                    'nextDisabledClass':'disabled', 
+                    'lastPageText':'>|',
+                    'lastEnabledClass': '',
+                    'lastDisabledClass': 'disabled'
+                    })}}
         
     {% endblock %}
