@@ -25,7 +25,7 @@
 
     </div>
     <div class="row">
-        <div class="col-md-4" id="firmaPaciente_errors">errors</div>
+        <div class="col-md-4" id="firmaPaciente_errors"></div>
     </div>
     <div class="row">       
         <div class="col-md-1">Firma Paciente: </div>
@@ -40,8 +40,8 @@
     <div>
         <div id="rowProcedimiento">
             <div class="row" >
-                <div class="col-md-4" id="procedimiento_errors">error</div>
-                <div class="col-md-4" id="diente_errors">error</div>
+                <div class="col-md-4" id="procedimiento_errors"></div>
+                <div class="col-md-4" id="diente_errors"></div>
             </div>
             <div class="row">
                 <div class="col-md-2">Procedimiento</div>
@@ -430,10 +430,13 @@
                             }
                             else {
                                 var img = document.getElementById("preview");
+                                var parent=img.parentNode;
+                                parent.removeChild(img);
                                 var auxPath = "{{ asset('ROUTE') }}";
                                 response_data = JSON.parse(response_data);
                                 var path = auxPath.replace('ROUTE', 'uploads/pacientes/' + response_data);
                                 img.setAttribute('src', path);
+                                parent.appendChild(img);
                                 pathFirma = response_data;
                             }
                         }
