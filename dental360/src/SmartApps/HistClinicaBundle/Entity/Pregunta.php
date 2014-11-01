@@ -38,7 +38,7 @@ class Pregunta
     /**
      * @var string
      *
-     * @ORM\Column(name="enunciado", type="string", length=1024, nullable=false,options={"default":""})
+     * @ORM\Column(name="enunciado", type="string", length=1024, nullable=true)
      */
     private $enunciado;
 

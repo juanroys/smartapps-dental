@@ -1,4 +1,4 @@
-odontograma_new:
+odontograma:
     path: /new/{historiaId}/{grupoId}
     defaults: { _controller: "HistClinicaBundle:Odontograma:new" }
     
