@@ -574,6 +574,10 @@ ALTER TABLE `Tratamiento`
   ADD CONSTRAINT `FK_E7382FAB42C7B7FD` FOREIGN KEY (`procedimientoId`) REFERENCES `Procedimiento` (`procedimientoId`),
   ADD CONSTRAINT `FK_E7382FAB7BC761ED` FOREIGN KEY (`historiaClinicaId`) REFERENCES `HistoriaClinica` (`historiaClinicaId`);
 
+INSERT INTO `Usuario` (`id`, `username`, `username_canonical`, `email`, `email_canonical`, `enabled`, `salt`, `password`, `last_login`, `locked`, `expired`, `expires_at`, `confirmation_token`, `password_requested_at`, `roles`, `credentials_expired`, `credentials_expire_at`) VALUES
+(1, 'admin', 'admin', 'admin@gmail.com', 'admin@gmail.com', 1, '9c58txvjkeo8wc8o048sk8sg8wkowsg', 'tHfAUQf4lWFfWbXrTdgLGkjfszX6uaUjMu5Kc7OnhGjX6VBA9zBfWmHwqn35VL1yuFuDDPuCEYMBklB51XN9hg==', '2014-11-01 20:19:10', 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:10:"ROLE_ADMIN";}', 0, NULL);
+/* admin pass admin123*/
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
