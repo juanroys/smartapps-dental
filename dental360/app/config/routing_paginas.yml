@@ -1,0 +1,11 @@
+pagina_ayuda:
+    path: /ayuda
+    defaults: { template: 'UsuarioBundle:Default:ayuda.html.twig' }
+    
+pagina_privacidad:
+    path: /privacidad
+    defaults: { template: 'UsuarioBundle:Default:privacidad.html.twig' }
+    
+pagina_condiciones:
+    path: /terminos-y-condiciones
+    defaults: { template: 'UsuarioBundle:Default:condiciones.html.twig' }
