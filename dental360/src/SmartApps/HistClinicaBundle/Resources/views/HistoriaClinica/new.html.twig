@@ -99,9 +99,11 @@
                                     </select>
                                     
                                 </td>
-                            {%elseif pregunta.tipoEntrada == tipoEntrada.iframe %} 
-                            <iframe src="{{path(pregunta.opciones,{'idHistoria': historiaClinica.id})}}" width="100%" ></iframe>
-                            {%endif%}                    
+                            {%elseif pregunta.tipoEntrada == tipoEntrada.Iframe %} 
+                            <iframe src="{{path(pregunta.opciones,{'historiaId': historiaClinica.id})}}" width="100%" ></iframe>                            
+                            {%elseif pregunta.tipoEntrada == tipoEntrada.Odontograma %} 
+                            <iframe src="{{path(pregunta.opciones,{'historiaId': historiaClinica.id, 'grupoId':grupo.id })}}" width="100%" ></iframe>
+                            {%endif%}
                             </tr>
                     </table>
                     </td>                

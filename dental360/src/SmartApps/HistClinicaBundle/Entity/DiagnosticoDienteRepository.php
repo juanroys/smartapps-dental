@@ -12,28 +12,32 @@ use Doctrine\ORM\EntityRepository;
  */
 class DiagnosticoDienteRepository extends EntityRepository {
 
-    public function findDiagnosticoPorHistoria($historiaId) {
+    public function findDiagnosticoPorHistoria($historiaId,$grupoId) {
         $em = $this->getEntityManager();
-        $consulta = $em->createQuery('SELECT d FROM HistClinicaBundle:DiagnosticoDiente d JOIN d.itemOdontograma i'
+        $consulta = $em->createQuery('SELECT d FROM HistClinicaBundle:DiagnosticoDiente d JOIN d.itemOdontograma i JOIN i.odontograma o'
                 . ' WHERE d.historiaClinica = :historiaId '
+                . ' AND o.grupo = :grupoId '
                 . 'ORDER BY i.noCuadrante, i.noDiente, i.noFila');
         $consulta->setParameter('historiaId', $historiaId);
+        $consulta->setParameter('grupoId', $grupoId);
         return $consulta->getResult();
     }
 
-    public function findDiagnosticoPorUbicacion($historiaId, $cuadrante, $numero, $fila, $ubicacion) {
+    public function findDiagnosticoPorUbicacion($historiaId, $cuadrante, $numero, $fila, $ubicacion,$odontogramaId) {
         $em = $this->getEntityManager();
         $consulta = $em->createQuery('SELECT d FROM HistClinicaBundle:DiagnosticoDiente d JOIN d.itemOdontograma i '
                 . 'WHERE d.historiaClinica = :historiaId '
                 . 'AND i.noCuadrante = :noCuadrante '
                 . 'AND i.noDiente = :noDiente '
                 . 'AND i.noFila = :noFila '
-                . 'AND d.ubicacion = :ubicacion');
+                . 'AND d.ubicacion = :ubicacion '
+                . 'AND i.odontograma = :odontograma ');
         $consulta->setParameter('historiaId', $historiaId);
         $consulta->setParameter('noCuadrante', $cuadrante);
         $consulta->setParameter('noDiente', $numero);
         $consulta->setParameter('noFila', $fila);
         $consulta->setParameter('ubicacion', $ubicacion);
+        $consulta->setParameter('odontograma', $odontogramaId);
         return $consulta->getOneOrNullResult();
     }
 
