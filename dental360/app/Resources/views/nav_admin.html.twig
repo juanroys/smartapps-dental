@@ -1,0 +1,19 @@
+
+<ul class="nav navbar-nav">                
+    <li><a href="{{ path('convenio') }}">Convenios</a></li>
+    <li><a href="{{ path('procedimiento') }}">Procedimientos</a></li>
+    <li><a href="{{ path('usuario') }}">Usuarios</a></li>
+    <li><a href="{{ path('paciente') }}">Pacientes</a></li>
+    <li><a href="{{ path('medico') }}">Medicos</a></li>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Configuración HC<span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu">
+            <li><a href="{{ path('grupo') }}">Grupos preguntas</a></li>
+            <li><a href="{{ path('tipopregunta') }}">Templates de preguntas</a></li>
+            <li><a href="{{ path('pregunta') }}">Preguntas</a></li>                                                
+            <!--<li class="divider"></li>
+            <li class="dropdown-header">Nav header</li> -->
+
+        </ul>
+    </li> 
+</ul>
