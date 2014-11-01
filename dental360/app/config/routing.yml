@@ -1,3 +1,12 @@
+_paginas_estaticas:
+    resource: routing_paginas.yml
+    prefix: /pagina
+    defaults: { _controller: FrameworkBundle:Template:template }
+
+pagina_inicio:
+    path: /
+    defaults: { _controller: FrameworkBundle:Template:template, template: 'UsuarioBundle:Default:index.html.twig'}
+    
 contable:
     resource: "@ContableBundle/Resources/config/routing.yml"
     prefix:   /
