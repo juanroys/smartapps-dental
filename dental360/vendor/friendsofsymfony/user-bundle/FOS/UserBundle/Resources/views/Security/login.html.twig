@@ -33,10 +33,7 @@
     <div class="col-md-2">
            <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
     </div>
-    </div>
-    
-       
-    
+    </div>  
 </form>
-    
+    <a href="{{path('fos_user_resetting_request')}}">[Recuperar Contraseña]</a>
 {% endblock fos_user_content %}

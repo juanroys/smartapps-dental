@@ -43,7 +43,7 @@ class RegistrationController extends ContainerAware
                 $route = 'fos_user_registration_check_email';
             } else {
                 $authUser = true;
-                $route = 'fos_user_registration_confirmed';
+                $route = 'usuario';
             }
 
             $this->setFlash('fos_user_success', 'registration.flash.user_created');
@@ -51,6 +51,7 @@ class RegistrationController extends ContainerAware
             $response = new RedirectResponse($url);
 
             if ($authUser) {
+                $user->addRole('ROLE_ASISTENTE');
                 $this->authenticateUser($user, $response);
             }
 
