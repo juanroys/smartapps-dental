@@ -1,5 +1,5 @@
 odontograma_new:
-    path: /new/{idHistoria}
+    path: /new/{historiaId}/{grupoId}
     defaults: { _controller: "HistClinicaBundle:Odontograma:new" }
     
 odontograma_create:

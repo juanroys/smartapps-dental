@@ -4,7 +4,6 @@ namespace SmartApps\HistClinicaBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use SmartApps\HistClinicaBundle\Entity\Pregunta;
 use SmartApps\HistClinicaBundle\Form\PreguntaType;
 use SmartApps\HistClinicaBundle\Entity\PreguntaOpcion;
@@ -13,40 +12,45 @@ use SmartApps\HistClinicaBundle\Entity\PreguntaOpcion;
  * Pregunta controller.
  *
  */
-class PreguntaController extends Controller
-{
+class PreguntaController extends Controller {
 
     /**
      * Lists all Pregunta entities.
      *
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
-       $paginador=  $this->get('ideup.simple_paginator');
-        $entities=$paginador->paginate(
-                $em->getRepository("HistClinicaBundle:Pregunta")->queryTodasLasPreguntas()
+        $paginador = $this->get('ideup.simple_paginator');
+        $entities = $paginador->paginate(
+                        $em->getRepository("HistClinicaBundle:Pregunta")->queryTodasLasPreguntas()
                 )->getResult();
         return $this->render('HistClinicaBundle:Pregunta:index.html.twig', array(
-            'entities' => $entities,
-            'sinoenum' => \SmartApps\HistClinicaBundle\Util\Util::SiNoEnum(),
-            'tipoentrada' => \SmartApps\HistClinicaBundle\Util\Util::TipoPreguntaEnum(),
+                    'entities' => $entities,
+                    'sinoenum' => \SmartApps\HistClinicaBundle\Util\Util::SiNoEnum(),
+                    'tipoentrada' => \SmartApps\HistClinicaBundle\Util\Util::TipoPreguntaEnum(),
         ));
-        
     }
+
     /**
      * Creates a new Pregunta entity.
      *
      */
-    public function createAction(Request $request)
-    {
+    public function createAction(Request $request) {
         $entity = new Pregunta();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            //si es un tipo odontograma
+            if ($entity->getTipoEntrada() == 8) {
+                $odontograma = $em->getRepository('HistClinicaBundle:Odontograma')->findBy(array('grupo' => $entity->getGrupo()));
+                //si no existe algun odontograma en ese grupo entonces se crean sus items y el odontograma
+                if ($odontograma == null || !$odontograma) {
+                    $this->crearOdontograma($entity->getGrupo(),$em);
+                }
+            }
             $em->persist($entity);
             $em->flush();
 
@@ -54,9 +58,39 @@ class PreguntaController extends Controller
         }
 
         return $this->render('HistClinicaBundle:Pregunta:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+                    'entity' => $entity,
+                    'form' => $form->createView(),
         ));
+    }
+
+    private function crearOdontograma($grupo,$em) {    
+        $odontograma=new \SmartApps\HistClinicaBundle\Entity\Odontograma();
+        $odontograma->setGrupo($grupo);
+        $odontograma->setDescripcion($grupo->getTitulo());
+        $em->persist($odontograma);
+        for ($i = 1; $i <= 4; $i++) {
+            if ($i <= 2) {
+                for ($k = 1; $k <= 2; $k++)
+                    for ($j = 1; $j <= 8; $j++) {
+                        $item = new \SmartApps\HistClinicaBundle\Entity\ItemOdontograma();
+                        $item->setNoFila($i);
+                        $item->setNoCuadrante($k);
+                        $item->setNoDiente($j);
+                        $item->setOdontograma($odontograma);
+                        $em->persist($item);
+                    }
+            } else {
+                for ($k = 3; $k <= 4; $k++)
+                    for ($j = 1; $j <= 8; $j++) {
+                        $item = new \SmartApps\HistClinicaBundle\Entity\ItemOdontograma();
+                        $item->setNoFila($i);
+                        $item->setNoCuadrante($k);
+                        $item->setNoDiente($j);
+                        $item->setOdontograma($odontograma);
+                        $em->persist($item);
+                    }
+            }
+        }        
     }
 
     /**
@@ -66,8 +100,7 @@ class PreguntaController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Pregunta $entity)
-    {
+    private function createCreateForm(Pregunta $entity) {
         $form = $this->createForm(new PreguntaType(), $entity, array(
             'action' => $this->generateUrl('pregunta_create'),
             'method' => 'POST',
@@ -82,14 +115,13 @@ class PreguntaController extends Controller
      * Displays a form to create a new Pregunta entity.
      *
      */
-    public function newAction()
-    {
+    public function newAction() {
         $entity = new Pregunta();
-        $form   = $this->createCreateForm($entity);
+        $form = $this->createCreateForm($entity);
 
         return $this->render('HistClinicaBundle:Pregunta:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+                    'entity' => $entity,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -97,8 +129,7 @@ class PreguntaController extends Controller
      * Finds and displays a Pregunta entity.
      *
      */
-    public function showAction($id)
-    {
+    public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('HistClinicaBundle:Pregunta')->find($id);
@@ -110,8 +141,8 @@ class PreguntaController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('HistClinicaBundle:Pregunta:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
+                    'entity' => $entity,
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -119,8 +150,7 @@ class PreguntaController extends Controller
      * Displays a form to edit an existing Pregunta entity.
      *
      */
-    public function editAction($id)
-    {
+    public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('HistClinicaBundle:Pregunta')->find($id);
@@ -133,21 +163,20 @@ class PreguntaController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('HistClinicaBundle:Pregunta:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
-    * Creates a form to edit a Pregunta entity.
-    *
-    * @param Pregunta $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Pregunta $entity)
-    {
+     * Creates a form to edit a Pregunta entity.
+     *
+     * @param Pregunta $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(Pregunta $entity) {
         $form = $this->createForm(new PreguntaType(), $entity, array(
             'action' => $this->generateUrl('pregunta_update', array('id' => $entity->getId())),
             'method' => 'PUT',
@@ -157,12 +186,12 @@ class PreguntaController extends Controller
 
         return $form;
     }
+
     /**
      * Edits an existing Pregunta entity.
      *
      */
-    public function updateAction(Request $request, $id)
-    {
+    public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('HistClinicaBundle:Pregunta')->find($id);
@@ -182,28 +211,28 @@ class PreguntaController extends Controller
         }
 
         return $this->render('HistClinicaBundle:Pregunta:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
+
     /**
      * Deletes a Pregunta entity.
      *
      */
-    public function deleteAction(Request $request, $id)
-    {
-        
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('HistClinicaBundle:Pregunta')->find($id);
+    public function deleteAction(Request $request, $id) {
 
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Pregunta entity.');
-            }
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('HistClinicaBundle:Pregunta')->find($id);
 
-            $em->remove($entity);
-            $em->flush();
-        
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Pregunta entity.');
+        }
+
+        $em->remove($entity);
+        $em->flush();
+
 
         return $this->redirect($this->generateUrl('pregunta'));
     }
@@ -215,36 +244,33 @@ class PreguntaController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
-    {
+    private function createDeleteForm($id) {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('pregunta_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
+                        ->setAction($this->generateUrl('pregunta_delete', array('id' => $id)))
+                        ->setMethod('DELETE')
+                        ->add('submit', 'submit', array('label' => 'Delete'))
+                        ->getForm()
         ;
     }
-    
-    public function createfromtemplateAction()
-    {
+
+    public function createfromtemplateAction() {
         $em = $this->getDoctrine()->getManager();
-        $entities= $em->getRepository("HistClinicaBundle:TipoPregunta")->findAll();
-                
+        $entities = $em->getRepository("HistClinicaBundle:TipoPregunta")->findAll();
+
         return $this->render('HistClinicaBundle:Pregunta:newfromtemplate.html.twig', array(
-            'entities' => $entities,                        
+                    'entities' => $entities,
         ));
     }
-    
-    public function savefromtemplateAction()
-    {
-        $templateId =  $_POST['templateId'] ;
-        $enunciado =  $_POST['enunciado'] ;
-        
+
+    public function savefromtemplateAction() {
+        $templateId = $_POST['templateId'];
+        $enunciado = $_POST['enunciado'];
+
         $em = $this->getDoctrine()->getManager();
         $template = $em->getRepository("HistClinicaBundle:TipoPregunta")->find($templateId);
-        
+
         // Se crea la nueva pregunta
-        $entity = new Pregunta();        
+        $entity = new Pregunta();
         $entity->setEnunciado($enunciado);
         $entity->setTipoEntrada($template->getTipoEntrada());
         $entity->setObligatoria(false);
@@ -254,9 +280,8 @@ class PreguntaController extends Controller
         $entity->setNoColumna(1);
         $entity->setEstaActiva(true);
         $em->persist($entity);
-        
-        foreach($template->getOpcionesRespuesta() as $opcionitem )
-        {
+
+        foreach ($template->getOpcionesRespuesta() as $opcionitem) {
             $opcion = new PreguntaOpcion();
             $opcion->setPregunta($entity);
             $opcion->setOrden($opcionitem->getOrden());
@@ -266,11 +291,12 @@ class PreguntaController extends Controller
             $opcion->setEnunciado($opcionitem->getEnunciado());
             $em->persist($opcion);
         }
-        
-        $em->flush();        
+
+        $em->flush();
         // fin creacion nueva pregunta       
-        
-        
-        return $this->redirect($this->generateUrl('pregunta')); 
+
+
+        return $this->redirect($this->generateUrl('pregunta'));
     }
+
 }

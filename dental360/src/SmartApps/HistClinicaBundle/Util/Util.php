@@ -5,7 +5,15 @@ namespace SmartApps\HistClinicaBundle\Util;
 class Util
 {
     static public function TipoPreguntaEnum(){
-        return array( 0 => 'Sin definir', 1 => 'Texto', 2 => 'Numero', 3 => 'Radio', 4=> 'Check', 5 => 'AreaTexto', 6 => 'ComboBox');
+        return array( 0 => 'Sin definir', 
+            1 => 'Texto', 
+            2 => 'Numero', 
+            3 => 'Radio', 
+            4=> 'Check', 
+            5 => 'AreaTexto', 
+            6 => 'ComboBox',
+            7 => 'Iframe',
+            8 => 'Odontograma');
     }
     
     static public function TipoIdentificacionEnum(){

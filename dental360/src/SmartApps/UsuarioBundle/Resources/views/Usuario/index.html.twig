@@ -1,0 +1,35 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+<div class="row">
+    <div class="col-md-7">
+        <h2>Usuarios</h2>
+    </div>
+    <div class="col-md-5" style="padding-top: 20px; text-align: right;">
+        <ul class="list-inline">
+            <li >
+                <a href="{{ path('fos_user_registration_register') }}" class="btn btn-default">
+                    Registrar Usuario
+                </a>
+            </li>                
+        </ul>
+    </div>
+</div>
+
+<table class="records_list table table-striped table-condensed table-bordered">
+    <thead>
+        <tr>                
+            <th>Username</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entity in entities %}
+        <tr>
+            <td>{{entity.username}}</td>
+            <td>{{entity.email}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+    {% endblock %}

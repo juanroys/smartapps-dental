@@ -12,15 +12,17 @@ use Doctrine\ORM\EntityRepository;
  */
 class ItemOdontogramaRepository extends EntityRepository
 {
-    public function findItemPorUbicacion($cuadrante, $numero, $fila){
+    public function findItemPorUbicacion($cuadrante, $numero, $fila,$odontogramaId){
         $em =$this->getEntityManager();
         $consulta=$em->createQuery('SELECT i FROM HistClinicaBundle:ItemOdontograma i '
                 . 'WHERE i.noCuadrante = :noCuadrante '
                 . 'AND i.noDiente = :noDiente '
-                . 'AND i.noFila = :noFila ');
+                . 'AND i.noFila = :noFila '
+                . 'AND i.odontograma = :odontograma');
           $consulta->setParameter('noCuadrante',$cuadrante );
           $consulta->setParameter('noDiente',$numero );
           $consulta->setParameter('noFila',$fila );
+          $consulta->setParameter('odontograma',$odontogramaId );
         return $consulta->getOneOrNullResult();
     }
 }

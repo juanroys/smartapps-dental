@@ -11,10 +11,11 @@ use SmartApps\HistClinicaBundle\Util\Util;
 
 class OdontogramaController extends Controller {
 
-    public function newAction($idHistoria) {
+    public function newAction($historiaId, $grupoId) {
         $em = $this->getDoctrine()->getManager();
-        $historiaClinica = $em->getRepository('HistClinicaBundle:HistoriaClinica')->find($idHistoria);
-        $diagnosticos = $em->getRepository('HistClinicaBundle:DiagnosticoDiente')->findDiagnosticoPorHistoria($idHistoria);
+        $historiaClinica = $em->getRepository('HistClinicaBundle:HistoriaClinica')->find($historiaId);
+        $diagnosticos = $em->getRepository('HistClinicaBundle:DiagnosticoDiente')->findDiagnosticoPorHistoria($historiaId, $grupoId);
+        $odontograma = $em->getRepository('HistClinicaBundle:Odontograma')->findOneBy(array('grupo' => $grupoId));
         $convenParcial = Util::OdontConvenDienParcialEnum();
         $convenCompleto = Util::OdontConvenDienCompletoEnum();
         $colores = Util::OdontConvenColores();
@@ -23,21 +24,23 @@ class OdontogramaController extends Controller {
                     'diagnosticos' => $diagnosticos,
                     'convenParcial' => $convenParcial,
                     'convenCompleto' => $convenCompleto,
-                    'colores' => $colores
+                    'colores' => $colores,
+                    'odontograma' => $odontograma
         ));
     }
 
     public function createAction() {
         $datos = $_POST;
-        $idDiente = $datos["idDiente"];
+        $dienteId = $datos["dienteId"];
         $indiceActual = $datos["indiceActual"];
         $arrayDiagActual = $datos["arrayDiagActual"];
-        $idHistoria = $datos["idHistoria"];
-        list($cuadrante, $numero, $fila) = split('_', $idDiente);
+        $historiaId = $datos["historiaId"];
+        $odontogramaId=$datos["odontogramaId"];
+        list($cuadrante, $numero, $fila) = split('_', $dienteId);
         $em = $this->getDoctrine()->getManager();
-        $historiaClinica = $em->getRepository('HistClinicaBundle:HistoriaClinica')->find($idHistoria);
+        $historiaClinica = $em->getRepository('HistClinicaBundle:HistoriaClinica')->find($historiaId);
         for ($i = 0; $i < count($arrayDiagActual); $i++) {
-            $diagnostico = $em->getRepository('HistClinicaBundle:DiagnosticoDiente')->findDiagnosticoPorUbicacion($idHistoria, $cuadrante, $numero, $fila, $i);
+            $diagnostico = $em->getRepository('HistClinicaBundle:DiagnosticoDiente')->findDiagnosticoPorUbicacion($historiaId, $cuadrante, $numero, $fila, $i,$odontogramaId);
             if ($diagnostico != null) {
                 if ($arrayDiagActual[$i] != null && strcmp($arrayDiagActual[$i][0], 'none') != 0) {
                     $diagnostico->setTipoIcono($arrayDiagActual[$i][1]);
@@ -50,7 +53,7 @@ class OdontogramaController extends Controller {
                 if ($arrayDiagActual[$i] != null && strcmp($arrayDiagActual[$i][0], 'none') != 0) {
                     $nuevoDiagnostico = new \SmartApps\HistClinicaBundle\Entity\DiagnosticoDiente();
                     $nuevoDiagnostico->setHistoriaClinica($historiaClinica);
-                    $item = $em->getRepository('HistClinicaBundle:ItemOdontograma')->findItemPorUbicacion($cuadrante, $numero, $fila);
+                    $item = $em->getRepository('HistClinicaBundle:ItemOdontograma')->findItemPorUbicacion($cuadrante, $numero, $fila,$odontogramaId);
                     if ($item != null) {
                         $nuevoDiagnostico->setItemOdontograma($item);
                     }
@@ -63,28 +66,6 @@ class OdontogramaController extends Controller {
             }
         }
         $em->flush();
-
-        /* for ($i = 1; $i <= 4; $i++) {
-          if($i<=2){
-          for($k=1;$k<=2;$k++)
-          for ($j = 1; $j <= 8; $j++) {
-          $item=new \SmartApps\HistClinicaBundle\Entity\ItemOdontograma();
-          $item->setNoFila($i);
-          $item->setNoCuadrante($k);
-          $item->setNoDiente($j);
-          $em->persist($item);
-          }
-          }else{
-          for($k=3;$k<=4;$k++)
-          for ($j = 1; $j <= 8; $j++) {
-          $item=new \SmartApps\HistClinicaBundle\Entity\ItemOdontograma();
-          $item->setNoFila($i);
-          $item->setNoCuadrante($k);
-          $item->setNoDiente($j);
-          $em->persist($item);
-          }
-          }
-          } */
         $response = array("ok" => true);
         return new Response(json_encode($response));
     }

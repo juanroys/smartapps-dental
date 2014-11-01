@@ -10,13 +10,13 @@ use DateTime;
 
 class AtencionController extends Controller {
 
-    public function newAction($idHistoria) {
+    public function newAction($historiaId) {
         $em = $this->getDoctrine()->getManager();
         $username = $this->get('security.context')->getToken()->getUser();
         $medico = $em->getRepository('AgendaBundle:Medico')->findMedicoPorUsuario($username->getId());
         $procedimientos = $em->getRepository('HistClinicaBundle:Procedimiento')->findAll();
-        $historiaClinica = $em->getRepository('HistClinicaBundle:HistoriaClinica')->find($idHistoria);
-        $atenciones = $em->getRepository('HistClinicaBundle:Atencion')->findAtencionPorHistoria($idHistoria);
+        $historiaClinica = $em->getRepository('HistClinicaBundle:HistoriaClinica')->find($historiaId);
+        $atenciones = $em->getRepository('HistClinicaBundle:Atencion')->findAtencionPorHistoria($historiaId);
         $paciente = $historiaClinica->getPaciente();
         return $this->render('HistClinicaBundle:Atencion:new.html.twig', array(
                     'procedimientos' => $procedimientos,

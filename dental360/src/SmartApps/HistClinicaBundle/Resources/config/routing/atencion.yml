@@ -1,5 +1,5 @@
 atencion_new:
-    path: /new/{idHistoria}
+    path: /new/{historiaId}
     defaults: { _controller: "HistClinicaBundle:Atencion:new" }
     
 atencion_loadFile:
