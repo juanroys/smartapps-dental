@@ -3,6 +3,7 @@
 namespace SmartApps\HistClinicaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Convenio
@@ -31,6 +32,7 @@ class Convenio
      * @var string
      *
      * @ORM\Column(name="nombreConvenio", type="string", length=56)
+     * @Assert\NotBlank()
      */
     private $nombreConvenio;
 

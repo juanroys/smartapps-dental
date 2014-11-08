@@ -17,4 +17,13 @@ class CostoProcedimientoRepository extends EntityRepository{
                 . $convenioId." AND c.procedimiento = ".$procedimientoId);
         return $consulta->getOneOrNullResult();
     }
+    
+    
+    public function queryFindCostosPorConvenio($convenioId){
+        $em=  $this->getEntityManager();
+        $consulta=$em->createQuery("SELECT c FROM HistClinicaBundle:CostoProcedimiento c"
+                . " WHERE c.convenio = :convenioId");
+        $consulta->setParameter('convenioId',$convenioId);
+        return $consulta;
+    }
 }
