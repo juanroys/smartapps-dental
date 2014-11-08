@@ -28,3 +28,11 @@ costoProcedimiento_delete:
     path:     /{id}/delete
     defaults: { _controller: "HistClinicaBundle:CostoProcedimiento:delete" }
     requirements: { _method: post|delete }
+
+costoProcedimiento_listado:
+    path:     /{id}/listado
+    defaults: { _controller: "HistClinicaBundle:CostoProcedimiento:listado" }
+    
+costoProcedimiento_guardar:
+    path:     /guardar
+    defaults: { _controller: "HistClinicaBundle:CostoProcedimiento:guardar" }

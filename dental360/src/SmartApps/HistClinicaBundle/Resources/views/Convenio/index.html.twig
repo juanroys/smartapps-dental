@@ -37,6 +37,9 @@
                     <li>
                         <a href="{{ path('convenio_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar el convenio?');" >Borrar</a>
                     </li>
+                    <li>
+                        <a href="{{ path('costoProcedimiento_listado', { 'id': entity.id }) }}" >Tarifas</a>
+                    </li>
                 </ul>
                 </td>
             </tr>

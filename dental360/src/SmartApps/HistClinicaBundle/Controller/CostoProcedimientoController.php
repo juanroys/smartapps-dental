@@ -224,4 +224,46 @@ class CostoProcedimientoController extends Controller
             ->getForm()
         ;
     }
+    
+    public function listadoAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $entities = $em->getRepository('HistClinicaBundle:CostoProcedimiento')->getCostosPorConvenio($id);
+        $procedimientos = $em->getRepository("HistClinicaBundle:Procedimiento")->findAll();        
+        return $this->render('HistClinicaBundle:CostoProcedimiento:listado.html.twig', array(
+            'entities' => $entities,
+            'procedimientos' => $procedimientos,
+            'convenioId' => $id,
+        ));
+    }
+    
+    public function guardarAction(){
+        $em = $this->getDoctrine()->getManager();        
+        $convenioId = $_POST["convenioId"];
+        
+        $convenio = $em->getRepository('HistClinicaBundle:Convenio')->find($convenioId);
+        $tarifas = $em->getRepository('HistClinicaBundle:CostoProcedimiento')->getCostosPorConvenio($convenioId);
+        foreach($tarifas as $tarifa)
+        {
+            $em->remove($tarifa);
+        }
+        $em->flush(); 
+        
+        $procedimientos = $em->getRepository("HistClinicaBundle:Procedimiento")->findAll();        
+        foreach($procedimientos as $procedim)
+        {
+            if (!empty($_POST["txtValor" . $procedim->getId() ])) {
+                $valor = $_POST["txtValor" . $procedim->getId() ];                                
+                
+                $tarifa = new \SmartApps\HistClinicaBundle\Entity\CostoProcedimiento();
+                $tarifa->setConvenio($convenio);
+                $tarifa->setProcedimiento($procedim);   
+                $tarifa->setValor($valor);
+                $em->persist($tarifa);
+            }
+        }
+        $em->flush();
+        return $this->redirect($this->generateUrl('costoProcedimiento_listado', array('id' => $convenioId)));
+    }
 }
