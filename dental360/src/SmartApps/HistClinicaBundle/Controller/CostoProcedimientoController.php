@@ -175,7 +175,7 @@ class CostoProcedimientoController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('costoProcedimiento_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('costoProcedimiento'));
         }
 
         return $this->render('HistClinicaBundle:CostoProcedimiento:edit.html.twig', array(

@@ -1,12 +1,26 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>CostoProcedimiento list</h1>
+    <div class="row">
+        <div class="col-md-7">
+            <h2>Costos de Procedimientos</h2>
+        </div>
+        <div class="col-md-5" style="padding-top: 20px; text-align: right;">
+            <ul class="list-inline">
+                <li >
+                    <a href="{{ path('costoProcedimiento_new') }}" class="btn btn-default">
+                        Registrar Costo
+                    </a>
+                </li>                
+            </ul>
+        </div>
+    </div>
 
-    <table class="records_list">
+    <table class="records_list table table-striped table-condensed table-bordered">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>Convenio</th>
+                <th>Procedimiento</th>
                 <th>Valor</th>
                 <th>Actions</th>
             </tr>
@@ -14,15 +28,16 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td>{{ entity.id }}</td>
+                <td>{{entity.convenio.nombreConvenio}}</td>
+                <td>{{ entity.procedimiento.descripcion }}</td>
                 <td>{{ entity.valor }}</td>
                 <td>
-                <ul>
+                <ul class="list-inline">
                     <li>
-                        <a href="{{ path('costoProcedimiento_show', { 'id': entity.id }) }}">show</a>
+                        <a href="{{ path('costoProcedimiento_edit', { 'id': entity.id }) }}">Editar</a>
                     </li>
                     <li>
-                        <a href="{{ path('costoProcedimiento_edit', { 'id': entity.id }) }}">edit</a>
+                        <a href="{{ path('costoProcedimiento_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar el convenio?');" >Borrar</a>
                     </li>
                 </ul>
                 </td>
@@ -46,14 +61,4 @@
                     'lastEnabledClass': '',
                     'lastDisabledClass': 'disabled'
                     })}}
-    
-    
-    
-        <ul>
-        <li>
-            <a href="{{ path('costoProcedimiento_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
     {% endblock %}

@@ -3,6 +3,7 @@
 namespace SmartApps\HistClinicaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Atencion
@@ -52,6 +53,7 @@ class Atencion
      * @var string
      *
      * @ORM\Column(name="fechaHora" , type="datetime")
+     * @Assert\DateTime()
      */
     private $fechaHora;
 

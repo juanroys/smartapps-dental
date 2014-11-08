@@ -2,10 +2,11 @@
 
 {% block body -%}
     <h2>Registrar Convenio</h2>
-    {{ form_start(form) }}        
+    {{ form_start(form) }}       
     <div class="row formulario-row">
         <div class="col-md-2">{{form_label(form.nombreConvenio) }}</div>
-        <div class="col-md-4">{{form_widget(form.nombreConvenio) }}        </div>    
+        <div class="col-md-4">{{form_widget(form.nombreConvenio) }}</div>           
+        <div class= "col-md-4 ">{{form_errors(form.nombreConvenio)}}</div>
     </div>
     <div class="row formulario-row">
         <div class="col-md-12">        

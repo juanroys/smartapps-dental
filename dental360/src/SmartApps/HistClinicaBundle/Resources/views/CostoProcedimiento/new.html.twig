@@ -1,15 +1,32 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>CostoProcedimiento creation</h1>
-
-    {{ form(form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('costoProcedimiento') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+<h2>Registrar Costo</h2>
+    {{ form_start(form) }}        
+    
+     <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(form.convenio) }}</div>
+        <div class="col-md-4">{{form_widget(form.convenio) }}        </div>    
+            <div class="col-md-2">{{form_label(form.procedimiento) }}</div>
+        <div class="col-md-4">{{form_widget(form.procedimiento) }}        </div>    
+    </div>
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(form.valor) }}</div>
+        <div class="col-md-4">{{form_widget(form.valor) }}        </div>       
+    </div>    
+    <div class="row formulario-row">
+        <div class="col-md-12">        
+        <ul class="list-inline">
+                <li >
+                    {{form_row(form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default' } }) }}                
+                </li>                
+                <li >
+                    <a href="{{ path('costoProcedimiento') }}" class="btn btn-default">
+                        Volver al listado
+                    </a>
+                </li>                
+            </ul>        
+        </div>
+    </div>
+    {{ form_end(form)}}
 {% endblock %}
