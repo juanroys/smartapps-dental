@@ -3,6 +3,7 @@
 namespace SmartApps\HistClinicaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Procedimiento
@@ -31,6 +32,7 @@ class Procedimiento
      * @var string
      *
      * @ORM\Column(name="descripcion", type="string", length=255)
+     *  @Assert\NotBlank(message = "Por favor, escribe una descripción")
      */
     private $descripcion;
 

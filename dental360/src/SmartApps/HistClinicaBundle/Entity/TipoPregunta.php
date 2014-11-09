@@ -3,6 +3,7 @@
 namespace SmartApps\HistClinicaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * TipoPregunta
@@ -25,7 +26,9 @@ class TipoPregunta
     /**
      * @var integer
      *
-     * @ORM\Column(name="tipoEntrada", type="integer")
+     * @ORM\Column(name="tipoEntrada", type="integer") 
+     *  @Assert\NotBlank(message = "Por favor, selecciona un tipo de entrada")
+     * @Assert\NotEqualTo(value=0, message = "Por favor, selecciona un tipo de entrada")
      */
     private $tipoEntrada;
     
@@ -33,6 +36,7 @@ class TipoPregunta
      * @var string
      *
      * @ORM\Column(name="descripcion", type="string", length=255)
+     *  @Assert\NotBlank(message = "Por favor, escribe una descripción")
      */
     private $descripcion;
 

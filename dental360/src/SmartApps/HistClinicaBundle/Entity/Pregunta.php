@@ -3,6 +3,7 @@
 namespace SmartApps\HistClinicaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Pregunta
@@ -10,9 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="SmartApps\HistClinicaBundle\Entity\PreguntaRepository")
  */
-class Pregunta
-{
-    
+class Pregunta {
+
     /**
      * @var integer
      *
@@ -25,16 +25,19 @@ class Pregunta
     /**
      * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\Grupo", inversedBy="preguntas")
      * @ORM\JoinColumn(name="grupoId",referencedColumnName="grupoId")
+     *  @Assert\NotBlank(message = "Por favor, selecciona un grupo")
      */
     private $grupo;
-    
+
     /**
      * @var integer
      *
      * @ORM\Column(name="tipoEntrada", type="integer")
+     *  @Assert\NotBlank(message = "Por favor, selecciona un tipo de entrada")
+     * @Assert\NotEqualTo(value=0, message = "Por favor, selecciona un tipo de entrada")
      */
     private $tipoEntrada;
-    
+
     /**
      * @var string
      *
@@ -46,6 +49,7 @@ class Pregunta
      * @var boolean
      *
      * @ORM\Column(name="obligatoria", type="boolean", nullable=false,options={"default":0})
+     *  @Assert\NotBlank(message = "Por favor, selecciona una opción")
      */
     private $obligatoria;
 
@@ -53,6 +57,8 @@ class Pregunta
      * @var integer
      *
      * @ORM\Column(name="orden", type="integer")
+     *  @Assert\NotBlank(message = "Por favor, escribe un orden")
+     * @Assert\Type(type="integer")
      */
     private $orden;
 
@@ -60,13 +66,17 @@ class Pregunta
      * @var integer
      *
      * @ORM\Column(name="colspan", type="integer",nullable=false,options={"default":1})
+     *  @Assert\NotBlank(message = "Por favor, escribe un colspan")
+     * @Assert\Type(type="integer")
      */
     private $colspan;
-    
+
     /**
      * @var integer
      *
      * @ORM\Column(name="rowspan", type="integer",nullable=false,options={"default":1})
+     *  @Assert\NotBlank(message = "Por favor, escribe un rowspan")
+     * @Assert\Type(type="integer")
      */
     private $rowspan;
 
@@ -74,6 +84,8 @@ class Pregunta
      * @var integer
      *
      * @ORM\Column(name="noColumna", type="integer",nullable=false,options={"default":1})
+     *  @Assert\NotBlank(message = "Por favor, escribe un numero de columna")
+     * @Assert\Type(type="integer")
      */
     private $noColumna;
 
@@ -81,16 +93,17 @@ class Pregunta
      * @var boolean
      *
      * @ORM\Column(name="estaActiva", type="boolean",nullable=false,options={"default":0})
+     *  @Assert\NotBlank(message = "Por favor, selecciona una opción")
      */
     private $estaActiva;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="opciones", type="string", length=512, nullable=true,options={"default":""})
      */
     private $opciones;
-    
+
     /**
      *
      * @ORM\OneToMany(targetEntity="PreguntaOpcion", mappedBy="pregunta")
@@ -98,28 +111,25 @@ class Pregunta
     private $preguntaOpciones;
 
     public function __construct() {
-        $this->preguntaOpciones=new \Doctrine\Common\Collections\ArrayCollection();
+        $this->preguntaOpciones = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
-    
-    public function setGrupo(\SmartApps\HistClinicaBundle\Entity\Grupo $grupo)
-    {
+
+    public function setGrupo(\SmartApps\HistClinicaBundle\Entity\Grupo $grupo) {
         $this->grupo = $grupo;
 
         return $this;
     }
 
-    public function getGrupo()
-    {
+    public function getGrupo() {
         return $this->grupo;
     }
 
@@ -129,8 +139,7 @@ class Pregunta
      * @param string $enunciado
      * @return Pregunta
      */
-    public function setEnunciado($enunciado)
-    {
+    public function setEnunciado($enunciado) {
         $this->enunciado = $enunciado;
 
         return $this;
@@ -141,8 +150,7 @@ class Pregunta
      *
      * @return string 
      */
-    public function getEnunciado()
-    {
+    public function getEnunciado() {
         return $this->enunciado;
     }
 
@@ -152,8 +160,7 @@ class Pregunta
      * @param boolean $obligatoria
      * @return Pregunta
      */
-    public function setObligatoria($obligatoria)
-    {
+    public function setObligatoria($obligatoria) {
         $this->obligatoria = $obligatoria;
 
         return $this;
@@ -164,8 +171,7 @@ class Pregunta
      *
      * @return boolean 
      */
-    public function getObligatoria()
-    {
+    public function getObligatoria() {
         return $this->obligatoria;
     }
 
@@ -175,8 +181,7 @@ class Pregunta
      * @param integer $orden
      * @return Pregunta
      */
-    public function setOrden($orden)
-    {
+    public function setOrden($orden) {
         $this->orden = $orden;
 
         return $this;
@@ -187,8 +192,7 @@ class Pregunta
      *
      * @return integer 
      */
-    public function getOrden()
-    {
+    public function getOrden() {
         return $this->orden;
     }
 
@@ -198,8 +202,7 @@ class Pregunta
      * @param integer $colspan
      * @return Pregunta
      */
-    public function setColspan($colspan)
-    {
+    public function setColspan($colspan) {
         $this->colspan = $colspan;
 
         return $this;
@@ -210,19 +213,17 @@ class Pregunta
      *
      * @return integer 
      */
-    public function getColspan()
-    {
+    public function getColspan() {
         return $this->colspan;
     }
-    
+
     /**
      * Set rowspan
      *
      * @param integer $rowspan
      * @return Pregunta
      */
-    public function setRowspan($rowspan)
-    {
+    public function setRowspan($rowspan) {
         $this->rowspan = $rowspan;
 
         return $this;
@@ -233,8 +234,7 @@ class Pregunta
      *
      * @return boolean 
      */
-    public function getRowspan()
-    {
+    public function getRowspan() {
         return $this->rowspan;
     }
 
@@ -244,8 +244,7 @@ class Pregunta
      * @param integer $noColumna
      * @return Pregunta
      */
-    public function setNoColumna($noColumna)
-    {
+    public function setNoColumna($noColumna) {
         $this->noColumna = $noColumna;
 
         return $this;
@@ -256,8 +255,7 @@ class Pregunta
      *
      * @return integer 
      */
-    public function getNoColumna()
-    {
+    public function getNoColumna() {
         return $this->noColumna;
     }
 
@@ -267,8 +265,7 @@ class Pregunta
      * @param boolean $estaActiva
      * @return Pregunta
      */
-    public function setEstaActiva($estaActiva)
-    {
+    public function setEstaActiva($estaActiva) {
         $this->estaActiva = $estaActiva;
 
         return $this;
@@ -279,19 +276,17 @@ class Pregunta
      *
      * @return boolean 
      */
-    public function getEstaActiva()
-    {
+    public function getEstaActiva() {
         return $this->estaActiva;
     }
-    
+
     /**
      * Set opciones
      *
      * @param string $opciones
      * @return Pregunta
      */
-    public function setOpciones($opciones)
-    {
+    public function setOpciones($opciones) {
         $this->opciones = $opciones;
 
         return $this;
@@ -302,29 +297,25 @@ class Pregunta
      *
      * @return string 
      */
-    public function getOpciones()
-    {
+    public function getOpciones() {
         return $this->opciones;
     }
-    
-     public function getPreguntaOpciones(){
+
+    public function getPreguntaOpciones() {
         return $this->preguntaOpciones;
     }
-    
-    
+
     public function __toString() {
         return $this->enunciado;
     }
-    
-    
+
     /**
      * Set orden
      *
      * @param integer $tipoEntrada
      * @return Pregunta
      */
-    public function setTipoEntrada($tipoEntrada)
-    {
+    public function setTipoEntrada($tipoEntrada) {
         $this->tipoEntrada = $tipoEntrada;
 
         return $this;
@@ -335,8 +326,8 @@ class Pregunta
      *
      * @return integer 
      */
-    public function getTipoEntrada()
-    {
+    public function getTipoEntrada() {
         return $this->tipoEntrada;
     }
+
 }

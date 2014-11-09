@@ -3,6 +3,7 @@
 namespace SmartApps\HistClinicaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Paciente
@@ -10,9 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="SmartApps\HistClinicaBundle\Entity\PacienteRepository")
  */
-class Paciente
-{
-    
+class Paciente {
+
     /**
      * @var integer
      *
@@ -26,6 +26,8 @@ class Paciente
      * @var string
      *
      * @ORM\Column(name="apellido1", type="string", length=56)
+     * @Assert\NotBlank(message = "Por favor, escribe un apellido")
+     * 
      */
     private $apellido1;
 
@@ -33,6 +35,7 @@ class Paciente
      * @var string
      *
      * @ORM\Column(name="apellido2", type="string", length=56)
+     *  @Assert\NotBlank(message = "Por favor, escribe un apellido")
      */
     private $apellido2;
 
@@ -40,6 +43,7 @@ class Paciente
      * @var string
      *
      * @ORM\Column(name="nombres", type="string", length=128)
+     *  @Assert\NotBlank(message = "Por favor, escribe un nombre")
      */
     private $nombres;
 
@@ -61,6 +65,7 @@ class Paciente
      * @var integer
      *
      * @ORM\Column(name="tipoIdentificacion", type="integer")
+     * @Assert\NotBlank(message = "Por favor, selecciona el tipo de indentificación")
      */
     private $tipoIdentificacion;
 
@@ -68,6 +73,7 @@ class Paciente
      * @var integer
      *
      * @ORM\Column(name="noIdentificacion", type="string", length=15)
+     * @Assert\NotBlank(message = "Por favor, escribe el numero de identificación")
      */
     private $noIdentificacion;
 
@@ -75,6 +81,7 @@ class Paciente
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
+     * @Assert\Email(message= "Debes ingresar una direccion de Email válida")
      */
     private $email;
 
@@ -232,9 +239,10 @@ class Paciente
      */
     private $responUbicacionTelefono;
 
-      /**
+    /**
      * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\Convenio")
      * @ORM\JoinColumn(name="convenioId",referencedColumnName="convenioId")
+     *  @Assert\NotBlank(message = "Por favor, selecciona un convenio")
      */
     private $convenio;
 
@@ -243,8 +251,7 @@ class Paciente
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -254,8 +261,7 @@ class Paciente
      * @param string $apellido1
      * @return Paciente
      */
-    public function setApellido1($apellido1)
-    {
+    public function setApellido1($apellido1) {
         $this->apellido1 = $apellido1;
 
         return $this;
@@ -266,8 +272,7 @@ class Paciente
      *
      * @return string 
      */
-    public function getApellido1()
-    {
+    public function getApellido1() {
         return $this->apellido1;
     }
 
@@ -277,8 +282,7 @@ class Paciente
      * @param string $apellido2
      * @return Paciente
      */
-    public function setApellido2($apellido2)
-    {
+    public function setApellido2($apellido2) {
         $this->apellido2 = $apellido2;
 
         return $this;
@@ -289,8 +293,7 @@ class Paciente
      *
      * @return string 
      */
-    public function getApellido2()
-    {
+    public function getApellido2() {
         return $this->apellido2;
     }
 
@@ -300,8 +303,7 @@ class Paciente
      * @param string $nombres
      * @return Paciente
      */
-    public function setNombres($nombres)
-    {
+    public function setNombres($nombres) {
         $this->nombres = $nombres;
 
         return $this;
@@ -312,8 +314,7 @@ class Paciente
      *
      * @return string 
      */
-    public function getNombres()
-    {
+    public function getNombres() {
         return $this->nombres;
     }
 
@@ -323,8 +324,7 @@ class Paciente
      * @param \DateTime $fechaNacimiento
      * @return Paciente
      */
-    public function setFechaNacimiento($fechaNacimiento)
-    {
+    public function setFechaNacimiento($fechaNacimiento) {
         $this->fechaNacimiento = $fechaNacimiento;
 
         return $this;
@@ -335,8 +335,7 @@ class Paciente
      *
      * @return \DateTime 
      */
-    public function getFechaNacimiento()
-    {
+    public function getFechaNacimiento() {
         return $this->fechaNacimiento;
     }
 
@@ -346,8 +345,7 @@ class Paciente
      * @param string $lugarNacimiento
      * @return Paciente
      */
-    public function setLugarNacimiento($lugarNacimiento)
-    {
+    public function setLugarNacimiento($lugarNacimiento) {
         $this->lugarNacimiento = $lugarNacimiento;
 
         return $this;
@@ -358,8 +356,7 @@ class Paciente
      *
      * @return string 
      */
-    public function getLugarNacimiento()
-    {
+    public function getLugarNacimiento() {
         return $this->lugarNacimiento;
     }
 
@@ -369,8 +366,7 @@ class Paciente
      * @param integer $tipoIdentificacion
      * @return Paciente
      */
-    public function setTipoIdentificacion($tipoIdentificacion)
-    {
+    public function setTipoIdentificacion($tipoIdentificacion) {
         $this->tipoIdentificacion = $tipoIdentificacion;
 
         return $this;
@@ -381,8 +377,7 @@ class Paciente
      *
      * @return integer 
      */
-    public function getTipoIdentificacion()
-    {
+    public function getTipoIdentificacion() {
         return $this->tipoIdentificacion;
     }
 
@@ -392,8 +387,7 @@ class Paciente
      * @param integer $noIdentificacion
      * @return Paciente
      */
-    public function setNoIdentificacion($noIdentificacion)
-    {
+    public function setNoIdentificacion($noIdentificacion) {
         $this->noIdentificacion = $noIdentificacion;
 
         return $this;
@@ -404,8 +398,7 @@ class Paciente
      *
      * @return integer 
      */
-    public function getNoIdentificacion()
-    {
+    public function getNoIdentificacion() {
         return $this->noIdentificacion;
     }
 
@@ -415,8 +408,7 @@ class Paciente
      * @param string $email
      * @return Paciente
      */
-    public function setEmail($email)
-    {
+    public function setEmail($email) {
         $this->email = $email;
 
         return $this;
@@ -427,8 +419,7 @@ class Paciente
      *
      * @return string 
      */
-    public function getEmail()
-    {
+    public function getEmail() {
         return $this->email;
     }
 
@@ -438,8 +429,7 @@ class Paciente
      * @param integer $estadoCivil
      * @return Paciente
      */
-    public function setEstadoCivil($estadoCivil)
-    {
+    public function setEstadoCivil($estadoCivil) {
         $this->estadoCivil = $estadoCivil;
 
         return $this;
@@ -450,8 +440,7 @@ class Paciente
      *
      * @return integer 
      */
-    public function getEstadoCivil()
-    {
+    public function getEstadoCivil() {
         return $this->estadoCivil;
     }
 
@@ -461,8 +450,7 @@ class Paciente
      * @param integer $sexo
      * @return Paciente
      */
-    public function setSexo($sexo)
-    {
+    public function setSexo($sexo) {
         $this->sexo = $sexo;
 
         return $this;
@@ -473,8 +461,7 @@ class Paciente
      *
      * @return integer 
      */
-    public function getSexo()
-    {
+    public function getSexo() {
         return $this->sexo;
     }
 
@@ -484,8 +471,7 @@ class Paciente
      * @param string $ocupacion
      * @return Paciente
      */
-    public function setOcupacion($ocupacion)
-    {
+    public function setOcupacion($ocupacion) {
         $this->ocupacion = $ocupacion;
 
         return $this;
@@ -496,8 +482,7 @@ class Paciente
      *
      * @return string 
      */
-    public function getOcupacion()
-    {
+    public function getOcupacion() {
         return $this->ocupacion;
     }
 
@@ -507,8 +492,7 @@ class Paciente
      * @param string $empresa
      * @return Paciente
      */
-    public function setEmpresa($empresa)
-    {
+    public function setEmpresa($empresa) {
         $this->empresa = $empresa;
 
         return $this;
@@ -519,8 +503,7 @@ class Paciente
      *
      * @return string 
      */
-    public function getEmpresa()
-    {
+    public function getEmpresa() {
         return $this->empresa;
     }
 
@@ -530,8 +513,7 @@ class Paciente
      * @param string $cargo
      * @return Paciente
      */
-    public function setCargo($cargo)
-    {
+    public function setCargo($cargo) {
         $this->cargo = $cargo;
 
         return $this;
@@ -542,8 +524,7 @@ class Paciente
      *
      * @return string 
      */
-    public function getCargo()
-    {
+    public function getCargo() {
         return $this->cargo;
     }
 
@@ -553,8 +534,7 @@ class Paciente
      * @param string $ePS
      * @return Paciente
      */
-    public function setEPS($ePS)
-    {
+    public function setEPS($ePS) {
         $this->ePS = $ePS;
 
         return $this;
@@ -565,8 +545,7 @@ class Paciente
      *
      * @return string 
      */
-    public function getEPS()
-    {
+    public function getEPS() {
         return $this->ePS;
     }
 
@@ -576,8 +555,7 @@ class Paciente
      * @param integer $cotizanteBeneficiario
      * @return Paciente
      */
-    public function setCotizanteBeneficiario($cotizanteBeneficiario)
-    {
+    public function setCotizanteBeneficiario($cotizanteBeneficiario) {
         $this->cotizanteBeneficiario = $cotizanteBeneficiario;
 
         return $this;
@@ -588,8 +566,7 @@ class Paciente
      *
      * @return integer 
      */
-    public function getCotizanteBeneficiario()
-    {
+    public function getCotizanteBeneficiario() {
         return $this->cotizanteBeneficiario;
     }
 
@@ -599,8 +576,7 @@ class Paciente
      * @param string $responNombreCompleto
      * @return Paciente
      */
-    public function setResponNombreCompleto($responNombreCompleto)
-    {
+    public function setResponNombreCompleto($responNombreCompleto) {
         $this->responNombreCompleto = $responNombreCompleto;
 
         return $this;
@@ -611,8 +587,7 @@ class Paciente
      *
      * @return string 
      */
-    public function getResponNombreCompleto()
-    {
+    public function getResponNombreCompleto() {
         return $this->responNombreCompleto;
     }
 
@@ -622,8 +597,7 @@ class Paciente
      * @param integer $responNoIdentificacion
      * @return Paciente
      */
-    public function setResponNoIdentificacion($responNoIdentificacion)
-    {
+    public function setResponNoIdentificacion($responNoIdentificacion) {
         $this->responNoIdentificacion = $responNoIdentificacion;
 
         return $this;
@@ -634,8 +608,7 @@ class Paciente
      *
      * @return integer 
      */
-    public function getResponNoIdentificacion()
-    {
+    public function getResponNoIdentificacion() {
         return $this->responNoIdentificacion;
     }
 
@@ -645,8 +618,7 @@ class Paciente
      * @param string $responParentesco
      * @return Paciente
      */
-    public function setResponParentesco($responParentesco)
-    {
+    public function setResponParentesco($responParentesco) {
         $this->responParentesco = $responParentesco;
 
         return $this;
@@ -657,8 +629,7 @@ class Paciente
      *
      * @return string 
      */
-    public function getResponParentesco()
-    {
+    public function getResponParentesco() {
         return $this->responParentesco;
     }
 
@@ -668,8 +639,7 @@ class Paciente
      * @param string $residenciaMunicipio
      * @return Paciente
      */
-    public function setResidenciaMunicipio($residenciaMunicipio)
-    {
+    public function setResidenciaMunicipio($residenciaMunicipio) {
         $this->residenciaMunicipio = $residenciaMunicipio;
 
         return $this;
@@ -680,8 +650,7 @@ class Paciente
      *
      * @return string 
      */
-    public function getResidenciaMunicipio()
-    {
+    public function getResidenciaMunicipio() {
         return $this->residenciaMunicipio;
     }
 
@@ -691,8 +660,7 @@ class Paciente
      * @param string $residenciaDepartamento
      * @return Paciente
      */
-    public function setResidenciaDepartamento($residenciaDepartamento)
-    {
+    public function setResidenciaDepartamento($residenciaDepartamento) {
         $this->residenciaDepartamento = $residenciaDepartamento;
 
         return $this;
@@ -703,8 +671,7 @@ class Paciente
      *
      * @return string 
      */
-    public function getResidenciaDepartamento()
-    {
+    public function getResidenciaDepartamento() {
         return $this->residenciaDepartamento;
     }
 
@@ -714,8 +681,7 @@ class Paciente
      * @param string $residenciaDireccion
      * @return Paciente
      */
-    public function setResidenciaDireccion($residenciaDireccion)
-    {
+    public function setResidenciaDireccion($residenciaDireccion) {
         $this->residenciaDireccion = $residenciaDireccion;
 
         return $this;
@@ -726,8 +692,7 @@ class Paciente
      *
      * @return string 
      */
-    public function getResidenciaDireccion()
-    {
+    public function getResidenciaDireccion() {
         return $this->residenciaDireccion;
     }
 
@@ -737,8 +702,7 @@ class Paciente
      * @param string $residenciaTelefono
      * @return Paciente
      */
-    public function setResidenciaTelefono($residenciaTelefono)
-    {
+    public function setResidenciaTelefono($residenciaTelefono) {
         $this->residenciaTelefono = $residenciaTelefono;
 
         return $this;
@@ -749,8 +713,7 @@ class Paciente
      *
      * @return string 
      */
-    public function getResidenciaTelefono()
-    {
+    public function getResidenciaTelefono() {
         return $this->residenciaTelefono;
     }
 
@@ -760,8 +723,7 @@ class Paciente
      * @param string $trabajoMunicipio
      * @return Paciente
      */
-    public function setTrabajoMunicipio($trabajoMunicipio)
-    {
+    public function setTrabajoMunicipio($trabajoMunicipio) {
         $this->trabajoMunicipio = $trabajoMunicipio;
 
         return $this;
@@ -772,8 +734,7 @@ class Paciente
      *
      * @return string 
      */
-    public function getTrabajoMunicipio()
-    {
+    public function getTrabajoMunicipio() {
         return $this->trabajoMunicipio;
     }
 
@@ -783,8 +744,7 @@ class Paciente
      * @param string $trabajoDepartamento
      * @return Paciente
      */
-    public function setTrabajoDepartamento($trabajoDepartamento)
-    {
+    public function setTrabajoDepartamento($trabajoDepartamento) {
         $this->trabajoDepartamento = $trabajoDepartamento;
 
         return $this;
@@ -795,8 +755,7 @@ class Paciente
      *
      * @return string 
      */
-    public function getTrabajoDepartamento()
-    {
+    public function getTrabajoDepartamento() {
         return $this->trabajoDepartamento;
     }
 
@@ -806,8 +765,7 @@ class Paciente
      * @param string $trabajoDireccion
      * @return Paciente
      */
-    public function setTrabajoDireccion($trabajoDireccion)
-    {
+    public function setTrabajoDireccion($trabajoDireccion) {
         $this->trabajoDireccion = $trabajoDireccion;
 
         return $this;
@@ -818,8 +776,7 @@ class Paciente
      *
      * @return string 
      */
-    public function getTrabajoDireccion()
-    {
+    public function getTrabajoDireccion() {
         return $this->trabajoDireccion;
     }
 
@@ -829,8 +786,7 @@ class Paciente
      * @param string $trabajoTelefono
      * @return Paciente
      */
-    public function setTrabajoTelefono($trabajoTelefono)
-    {
+    public function setTrabajoTelefono($trabajoTelefono) {
         $this->trabajoTelefono = $trabajoTelefono;
 
         return $this;
@@ -841,8 +797,7 @@ class Paciente
      *
      * @return string 
      */
-    public function getTrabajoTelefono()
-    {
+    public function getTrabajoTelefono() {
         return $this->trabajoTelefono;
     }
 
@@ -852,8 +807,7 @@ class Paciente
      * @param string $responUbicacionDepartamento
      * @return Paciente
      */
-    public function setResponUbicacionDepartamento($responUbicacionDepartamento)
-    {
+    public function setResponUbicacionDepartamento($responUbicacionDepartamento) {
         $this->responUbicacionDepartamento = $responUbicacionDepartamento;
 
         return $this;
@@ -864,8 +818,7 @@ class Paciente
      *
      * @return string 
      */
-    public function getResponUbicacionDepartamento()
-    {
+    public function getResponUbicacionDepartamento() {
         return $this->responUbicacionDepartamento;
     }
 
@@ -875,8 +828,7 @@ class Paciente
      * @param string $responUbicacionMunicipio
      * @return Paciente
      */
-    public function setResponUbicacionMunicipio($responUbicacionMunicipio)
-    {
+    public function setResponUbicacionMunicipio($responUbicacionMunicipio) {
         $this->responUbicacionMunicipio = $responUbicacionMunicipio;
 
         return $this;
@@ -887,8 +839,7 @@ class Paciente
      *
      * @return string 
      */
-    public function getResponUbicacionMunicipio()
-    {
+    public function getResponUbicacionMunicipio() {
         return $this->responUbicacionMunicipio;
     }
 
@@ -898,8 +849,7 @@ class Paciente
      * @param string $responUbicacionDireccion
      * @return Paciente
      */
-    public function setResponUbicacionDireccion($responUbicacionDireccion)
-    {
+    public function setResponUbicacionDireccion($responUbicacionDireccion) {
         $this->responUbicacionDireccion = $responUbicacionDireccion;
 
         return $this;
@@ -910,8 +860,7 @@ class Paciente
      *
      * @return string 
      */
-    public function getResponUbicacionDireccion()
-    {
+    public function getResponUbicacionDireccion() {
         return $this->responUbicacionDireccion;
     }
 
@@ -921,8 +870,7 @@ class Paciente
      * @param string $responUbicacionTelefono
      * @return Paciente
      */
-    public function setResponUbicacionTelefono($responUbicacionTelefono)
-    {
+    public function setResponUbicacionTelefono($responUbicacionTelefono) {
         $this->responUbicacionTelefono = $responUbicacionTelefono;
 
         return $this;
@@ -933,19 +881,17 @@ class Paciente
      *
      * @return string 
      */
-    public function getResponUbicacionTelefono()
-    {
+    public function getResponUbicacionTelefono() {
         return $this->responUbicacionTelefono;
     }
-    
+
     /**
      * Set convenio
      *
      * @param string $convenio
      * @return CostoProcedimiento
      */
-    public function setConvenio(\SmartApps\HistClinicaBundle\Entity\Convenio $convenio)
-    {
+    public function setConvenio(\SmartApps\HistClinicaBundle\Entity\Convenio $convenio) {
         $this->convenio = $convenio;
 
         return $this;
@@ -956,16 +902,16 @@ class Paciente
      *
      * @return string 
      */
-    public function getConvenio()
-    {
+    public function getConvenio() {
         return $this->convenio;
     }
-    
-    public function getNombreCompleto(){
-        return $this->nombres . ' ' . $this->apellido1 . ' ' . $this->apellido2 ;
+
+    public function getNombreCompleto() {
+        return $this->nombres . ' ' . $this->apellido1 . ' ' . $this->apellido2;
     }
-            
+
     public function __toString() {
         return $this->getNombreCompleto();
     }
+
 }
