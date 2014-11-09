@@ -32,7 +32,7 @@ class Convenio
      * @var string
      *
      * @ORM\Column(name="nombreConvenio", type="string", length=56)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "Por favor, escribe un nombre")
      */
     private $nombreConvenio;
 

@@ -3,6 +3,7 @@
 namespace SmartApps\HistClinicaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Grupo
@@ -30,6 +31,7 @@ class Grupo
      * @var string
      *
      * @ORM\Column(name="titulo", type="string", length=124)
+     * @Assert\NotBlank(message = "Por favor, escribe un titulo")
      */
     private $titulo;
 
@@ -37,6 +39,8 @@ class Grupo
      * @var integer
      *
      * @ORM\Column(name="orden", type="integer")
+     * @Assert\NotBlank(message = "Por favor, escribe un orden")
+     * @Assert\Type(type="integer")
      */
     private $orden;
 

@@ -3,6 +3,7 @@
 namespace SmartApps\HistClinicaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CostoProcedimiento
@@ -38,6 +39,7 @@ class CostoProcedimiento
      * @var integer
      *
      * @ORM\Column(name="valor", type="bigint")
+     * @Assert\NotBlank(message = "Por favor, escribe un valor")
      */
     private $valor;
 
