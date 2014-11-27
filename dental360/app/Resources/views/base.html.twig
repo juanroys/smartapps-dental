@@ -7,14 +7,19 @@
 	{% endblock %}
         </title>
         {% block stylesheets %}
+        {%block pacejs%}
+        <link href="{{ asset('bundles/histclinica/css/pace.css') }}" rel="stylesheet" type="text/css" />
+        {%endblock%}
         <link href="{{ asset('bundles/histclinica/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('bundles/histclinica/css/bootstrap-theme.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('bundles/histclinica/css/navbar.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('bundles/histclinica/css/general.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('bundles/histclinica/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css" />
         {% endblock %}
-
         {% block javascripts %}
+        {%block pacecss%}
+         <script src="{{ asset('bundles/histclinica/js/pace.min.js') }}"></script>
+        {%endblock%}
         <script src="{{ asset('bundles/histclinica/js/jquery.js') }}"></script>
         <script src="{{ asset('bundles/histclinica/js/bootstrap.js') }}"></script>
         <script src="{{ asset('bundles/histclinica/js/bootstrap-datetimepicker.min.js') }}"></script>
