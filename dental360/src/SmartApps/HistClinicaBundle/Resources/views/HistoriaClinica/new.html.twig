@@ -1,18 +1,39 @@
 {% extends '::extranet.html.twig' %}
 {% block body -%}
+<script>
+    function iframeLoaded(iFrameID) {
+        var minHeight=350;
+        if (iFrameID) {
+            iFrameID.width = iFrameID.contentWindow.document.body.scrollWidth + "px";
+            var actHeight = iFrameID.contentWindow.document.body.scrollHeight;
+            if(actHeight >  minHeight){
+                 iFrameID.height=actHeight+"px";
+            }else{
+                iFrameID.height=minHeight+"px";
+            }
+        }
+    }
+</script>
 <h1>Historia Clinica</h1>
 <form action="{{path('historiaClinica_create')}}" method="post">
     <input type="hidden" name="paciente_id" value="{{paciente.id}}">
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 {% for grupo in grupos %}
     {%set ban=1%}
     {%set columnaDibujada = 1%}
-    <div class="grupo panel panel-default" >
-        <div  class="panel-heading">
-    {{grupo.titulo}}        
-        </div>
-    
-        <div class="pregunta"><!-- <div class="pregunta panel-body">-->
-            <table class="records_list table table-striped table-bordered" >
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{grupo.titulo|replace({" ":"_","(":"-",")":"-"})}}{{loop.index}}" aria-expanded="true" aria-controls="collapse{{grupo.titulo|replace({" ":"_","(":"-",")":"-"})}}{{loop.index}}">
+                        {{grupo.titulo}} 
+                    </a>
+                </h4>
+            </div>       
+            <div id="collapse{{grupo.titulo|replace({" ":"_","(":"-",")":"-"})}}{{loop.index}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading{{grupo.titulo|replace({" ":"_","(":"-",")":"-"})}}{{loop.index}}">
+                <div class="panel-body">
+
+                    <div class="pregunta"><!-- <div class="pregunta panel-body">-->
+                        <table class="records_list table table-striped table-bordered" >
     {% for pregunta in grupo.preguntas %}
                 {# Imprimir Errores#}
                 {%if errores is defined and attribute(errores,pregunta.id) is defined%}
@@ -20,113 +41,108 @@
                 {%else%}
                     {%set error=''%}
                 {%endif%}
-                    
+
                 {# Bajar de Colunmna cuando la pregunta pertenezca a el siguiente orden#}
                 {%if orden is defined%}
                     {%if orden != pregunta.orden%}
                         {%if ban==1%}
                             {%set ban=0%}
                         {%else%}
-                             </tr>
+                            </tr>
                         {%endif%}
-                        <tr>
+                            <tr>
                        {%set orden=pregunta.orden%}
                     {%endif%}
                 {%else%}
                     {%set orden = pregunta.orden%}
                 {%endif%}
                 {%if pregunta.estaActiva %}
-                    <td rowspan="{{pregunta.rowspan}}" colspan="{{pregunta.colspan}}"  >
-                        <table cellspacing="0" cellpadding="0" >
-                            <tr>
+                                <td rowspan="{{pregunta.rowspan}}" colspan="{{pregunta.colspan}}"  >
+                                    <table cellspacing="0" cellpadding="0" >
+                                        <tr>
                             {%if pregunta.enunciado != null and pregunta.enunciado!='' %}
-                                <td style="width: 150px; ">{{ pregunta.enunciado }}</td>
+                                            <td style="width: 150px; ">{{ pregunta.enunciado }}</td>
                             {%endif%}
 
                             {%if pregunta.tipoEntrada == tipoEntrada.Texto %}
-                                <td>
-                                <input type="text" name="{{ pregunta.id }}" 
+                                            <td>
+                                                <input required="{{pregunta.obligatoria ? 'true' : 'false' }}" type="text" name="{{ pregunta.id }}" 
                                        {%if respuestas[pregunta.id] is defined  %}
-                                            value="{{respuestas[pregunta.id]}}"
+                                                       value="{{respuestas[pregunta.id]}}"
                                        {%endif%}
-                                       />
-                                </td>
+                                                       />
+                                            </td>
                             {%elseif pregunta.tipoEntrada == tipoEntrada.Numero %}
-                                <td>    
-                                <input required="{{pregunta.obligatoria ? 'true' : 'false' }}" type="number" name="{{pregunta.id}}" class="" min="0"
+                                            <td>    
+                                                <input required="{{pregunta.obligatoria ? 'true' : 'false' }}" type="number" name="{{pregunta.id}}" class="" min="0"
                                        {%if respuestas[pregunta.id] is defined  %}
-                                            value="{{respuestas[pregunta.id]}}"
+                                                       value="{{respuestas[pregunta.id]}}"
                                        {%endif%}
-                                       />
-                                </td>
+                                                       />
+                                            </td>
                             {%elseif pregunta.tipoEntrada == tipoEntrada.Radio %}
-                                <td style="display: inline; white-space: nowrap;">
+                                            <td style="display: inline; white-space: nowrap;">
                                 {%for preguntaopcion in pregunta.preguntaOpciones%}                                                                        
-                                    <input type="radio" name="{{pregunta.id}}" class="" value="{{preguntaopcion.valorTexto}}" 
+                                                <input required="{{pregunta.obligatoria ? 'true' : 'false' }}" type="radio" name="{{pregunta.id}}" class="" value="{{preguntaopcion.valorTexto}}" 
                                            {%if respuestas[pregunta.id] is defined and respuestas[pregunta.id] == preguntaopcion.valorTexto  %}
-                                               checked="checked"
+                                                       checked="checked"
                                            {%endif%}
-                                           /> {{preguntaopcion.enunciado}}                                
+                                                       /> {{preguntaopcion.enunciado}}                                
                                 {%endfor%} 
-                                    
-                                </td>
+
+                                            </td>
                             {%elseif pregunta.tipoEntrada == tipoEntrada.Check %}    
                                 {% set contador = 0 %}
-                                <td  style="display: inline">
+                                            <td  style="display: inline">
                                 {%for preguntaopcion in pregunta.preguntaOpciones%}                                
-                                    <input type="checkbox" name="{{pregunta.id}}|{{contador}}" class="" value="{{preguntaopcion.valorTexto}}" 
+                                                <input required="{{pregunta.obligatoria ? 'true' : 'false' }}" type="checkbox" name="{{pregunta.id}}|{{contador}}" class="" value="{{preguntaopcion.valorTexto}}" 
                                            {%if respuestas[pregunta.id ~ "|" ~ preguntaopcion.valorTexto|replace({ (' '): '_' }) ] is defined %}
-                                               checked="checked"
+                                                       checked="checked"
                                            {%endif%}
-                                           /> {{preguntaopcion.enunciado}}
+                                                       /> {{preguntaopcion.enunciado}}
                                     {% set contador = contador + 1 %}                                
                                 {%endfor%}  
-                                </td>
+                                            </td>
                             {%elseif pregunta.tipoEntrada == tipoEntrada.AreaTexto %}    
-                                <td>
-                                    <textarea name="{{pregunta.id}}"  rows="4" cols="50">{%if respuestas[pregunta.id] is defined  %}{{respuestas[pregunta.id]}}{%endif%}</textarea>
-                                </td>
+                                            <td>
+                                                <textarea required="{{pregunta.obligatoria ? 'true' : 'false' }}" name="{{pregunta.id}}"  rows="4" cols="50">{%if respuestas[pregunta.id] is defined  %}{{respuestas[pregunta.id]}}{%endif%}</textarea>
+                                            </td>
                             {%elseif pregunta.tipoEntrada == tipoEntrada.ComboBox %}    
-                                <td>
-                                    <select name="{{pregunta.id}}">
+                                            <td>
+                                                <select name="{{pregunta.id}}">
                                 {%for preguntaopcion in pregunta.preguntaOpciones%}                                
-                                    <option class="" value="{{preguntaopcion.valorTexto}}"
+                                                    <option class="" value="{{preguntaopcion.valorTexto}}"
                                             {%if respuestas[pregunta.id] is defined and respuestas[pregunta.id] == preguntaopcion.valorTexto  %}
-                                               selected
+                                                            selected
                                            {%endif%}
-                                            > {{preguntaopcion.enunciado}}</option>
+                                                            > {{preguntaopcion.enunciado}}</option>
                                 {%endfor%}          
-                                    </select>
-                                    
-                                </td>
+                                                </select>
+
+                                            </td>
                             {%elseif pregunta.tipoEntrada == tipoEntrada.Iframe %} 
-                            <iframe src="{{path(pregunta.opciones,{'historiaId': historiaClinica.id})}}" width="100%" ></iframe>                            
+                                        <iframe onload="iframeLoaded(this)"src="{{path(pregunta.opciones,{'historiaId': historiaClinica.id})}}" width="100%" ></iframe>                            
                             {%elseif pregunta.tipoEntrada == tipoEntrada.Odontograma %} 
-                            <iframe src="{{path(pregunta.opciones,{'historiaId': historiaClinica.id, 'grupoId':grupo.id })}}" width="100%" height="430" frameborder="0"></iframe>
+                                        <iframe onload="iframeLoaded(this)" src="{{path(pregunta.opciones,{'historiaId': historiaClinica.id, 'grupoId':grupo.id })}}" width="100%" height="430" frameborder="0"></iframe>
                             {%endif%}
                             </tr>
-                    </table>
-                    </td>                
+                        </table>
+                        </td>                
                 {%endif%}
-                
-                    
-    {% endfor %}
-            </table>
-        </div>
-    </div>
-{% else %}
-    <div class="grupo">
-        <p> No hay grupos de preguntas guardados</p>
-    </div>
-{% endfor%}
-<input type="submit" value="Guardar" class="btn btn-default" />
-</form>
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('historiaClinica') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+
+    {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% else %}
+        <div class="grupo">
+            <p> No hay grupos de preguntas guardados</p>
+        </div>
+{% endfor%}
+    </div>
+    <input type="submit" value="Guardar" class="btn btn-default" />
+</form>
 {% endblock %}

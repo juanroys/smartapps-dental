@@ -3,81 +3,84 @@
 {%endblock%}
 {%block footer%}
 {%endblock%}
+{%block pacejs%}{%endblock%}
+{%block pacecss%}{%endblock%}
 {% block body%}
-<div style="border: 1px solid #ccc; background-color: #ddd; border-radius: 5px;">
     <input type="hidden" name="pacienteId" id="pacienteId" value="{{paciente.id}}"/>
     <input type="hidden" name="sugerenciaId" id="sugerenciaId" value="0"/>
-    <div class="row">
-        <div class="col-md-2">
-            Fecha
+    <div style="width: 80%; margin-left: 10%; margin-right: 10%"class="form-inline" role="form" >
+        <div class="form-group">
+            <div class="input-group">
+                <label class="sr-only" for="fecha">Email address</label>
+                <div id="datetimepicker" class="input-append date">
+                    <input data-format="yyyy-MM-dd" type="text" name="fecha" id="fecha" readonly="true" placeholder="Fecha"></input>
+                    <span class="add-on">
+                        <img src="{{ asset('bundles/histclinica/images/calendar.png') }}">
+                    </span>
+                </div>
+            </div>
         </div>
-        <div class="col-md-4">
-            <div id="datetimepicker" class="input-append date">
-                <input data-format="yyyy-MM-dd" type="text" name="fecha" id="fecha" readonly="true"></input>
-                <span class="add-on">
-                    <img src="{{ asset('bundles/histclinica/images/calendar.png') }}">
-                </span>
+        <div class="form-group">
+            <div class="input-group">
+                <label class="sr-only" for="procedimientoId">Procedimiento</label>
+                <select class="form-control" name="procedimiento" id="procedimientoId" onchange="getCostoProcedimiento()">
+                    <option value="">Seleccionar</option>
+        {%for procedimiento in procedimientos%}
+                    <option value="{{procedimiento.id}}">
+            {{procedimiento.descripcion}}
+                    </option>
+        {%endfor%}
+                </select>
             </div>
         </div>        
-
-    </div>
-    <div class="row">
-        <div class="col-md-2">Procedimiento</div>
-        <div class="col-md-2"><select name="procedimiento" id="procedimientoId" onchange="getCostoProcedimiento()">
-                <option value="">Seleccionar</option>
-        {%for procedimiento in procedimientos%}
-                <option value="{{procedimiento.id}}">
-            {{procedimiento.descripcion}}
-                </option>
-        {%endfor%}
-            </select></div>        
-        <div class="col-md-1">Costo: </div>
-        <div class="col-md-2"><input type="text" readonly="true" name="costoProcedimiento" id="costoProcedimiento" /></div>        
-        <div class="col-md-1" style="text-align: center;">
-            <a onclick="agregarSugerencia()" class="btn btn-default" id="boton">
-                Guardar
-            </a>
+        <div class="form-group">
+            <div class="input-group">
+                <label class="sr-only" for="costoProcedimiento">Costo</label>
+                <input placeholder="Costo" class="form-control" type="text" readonly="true" name="costoProcedimiento" id="costoProcedimiento" />
+            </div>        
+        </div>
+        <div class="form-group">
+            <div class="input-group">                
+                <a onclick="agregarSugerencia()" class="btn btn-default" id="boton">
+                    Guardar
+                </a>
+            </div>        
         </div>
     </div>
-    <div class="row">
-
-    </div>
-    <br/>
-</div>
-
-<div>
-    <table class="records_list table table-condensed table-bordered" id="sugerencias">
-        <thead>
-            <tr>
-                <th>FECHA</th>
-                <th>PLAN DE TRATAMIENTO</th>
-                <th>VALOR</th>
-                <th>ACCIONES</th>
-            </tr>
-        </thead>
-        <tbody>
+    <hr>
+    <div class="row form-row">
+        <table style="width: 80%; margin-left: 10%; margin-right: 10%"class="records_list table table-condensed table-bordered" id="sugerencias">
+            <thead>
+                <tr>
+                    <th>FECHA</th>
+                    <th>PLAN DE TRATAMIENTO</th>
+                    <th>VALOR</th>
+                    <th>ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
             {%if sugerencias is defined and sugerencias!=null%}
             {%for sugerencia in sugerencias%}
-            <tr id="{{sugerencia.id}}">
-                <td>
+                <tr id="{{sugerencia.id}}">
+                    <td>
                 {{sugerencia.fechaPlanificacion|date('Y-m-d')}}
-                </td>
-                <td>
+                    </td>
+                    <td>
                 {{sugerencia.procedimiento.descripcion}}
-                </td>
-                <td>
+                    </td>
+                    <td>
                 {{sugerencia.costo}}
-                </td>
-                <td>
-                    <a onclick="borrarSugerencia({{sugerencia.id}}, this)" class="btn btn-default">Borrar</a>
-                    <a onclick="editarSugerencia({{sugerencia.id}})" class="btn btn-default">Editar</a
-                </td>
-            </tr>
+                    </td>
+                    <td>
+                        <a onclick="borrarSugerencia({{sugerencia.id}}, this)" class="btn btn-default">Borrar</a>
+                        <a onclick="editarSugerencia({{sugerencia.id}})" class="btn btn-default">Editar</a
+                    </td>
+                </tr>
             {%endfor%}
             {%endif%}
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+    </div>
 <script type="text/javascript" lang="javascript">
     var rowSelect = null;
     function agregarSugerencia() {
