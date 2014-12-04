@@ -1,18 +1,22 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
- <h2>Registrar Unidad de Atenci&oacute;n</h2>
+<div  class="headerdiv">
+    <h3>Registrar Unidad de Atenci&oacute;n</h3>
+</div>
+ 
     {{ form_start(form) }}        
+<div class="formbody">
     <div class="row formulario-row">
         <div class="col-md-2">{{form_label(form.descripcion, 'Descripción') }}</div>
         <div class="col-md-4">{{form_widget(form.descripcion) }}        </div>    
         </div>    
-   
+   </div>
     <div class="row formulario-row">
         <div class="col-md-12">        
         <ul class="list-inline">
                 <li >
-                    {{form_row(form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default' } }) }}                
+                    {{form_row(form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default btn-success' } }) }}                
                 </li>                
                 <li >
                     <a href="{{ path('unidadatencion') }}" class="btn btn-default">

@@ -1,8 +1,11 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}    
-    <h2>Editar Medico</h2>
+<div  class="headerdiv">
+    <h3>Editar Medico</h3>
+</div>
     {{ form_start(edit_form) }}        
+<div class="formbody">
     <div class="row formulario-row">
         <div class="col-md-2">{{form_label(edit_form.nombreCompleto) }}</div>
         <div class="col-md-4">{{form_widget(edit_form.nombreCompleto) }}        </div>    
@@ -13,18 +16,19 @@
     </div>
     
     <div class="row formulario-row">
-        <div class="col-md-2"><strong>Firma Actual</strong></div>
+        <div class="col-md-2"><label>Firma Actual</label>  </div>
         <div class="col-md-4"><img src="{{ entity.getViewPath() }}" /></div>    
     </div>
     <div class="row formulario-row">
         <div class="col-md-2">{{form_label(edit_form.file, 'Firma nueva') }}</div>
         <div class="col-md-4">{{form_widget(edit_form.file) }}        </div>    
     </div>    
+        </div>
     <div class="row formulario-row">
         <div class="col-md-12">        
         <ul class="list-inline">
                 <li >
-                    {{form_row(edit_form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default' } }) }}                
+                    {{form_row(edit_form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default btn-success' } }) }}                
                 </li>                
                 <li >
                     <a href="{{ path('medico') }}" class="btn btn-default">

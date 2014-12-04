@@ -2,18 +2,21 @@
 
 {% block body -%}
 
-<h2>Editar Unidad de Atenci&oacute;n</h2>
+<div  class="headerdiv">
+    <h3>Editar Unidad de Atenci&oacute;n</h3>
+</div>
     {{ form_start(edit_form) }}        
+<div class="formbody">
     <div class="row formulario-row">
         <div class="col-md-2">{{form_label(edit_form.descripcion, 'Descripción') }}</div>
         <div class="col-md-4">{{form_widget(edit_form.descripcion) }}        </div>    
         </div>    
-   
+   </div>
     <div class="row formulario-row">
         <div class="col-md-12">        
         <ul class="list-inline">
                 <li >
-                    {{form_row(edit_form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default' } }) }}                
+                    {{form_row(edit_form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default btn-success' } }) }}                
                 </li>                
                 <li >
                     <a href="{{ path('unidadatencion') }}" class="btn btn-default">
