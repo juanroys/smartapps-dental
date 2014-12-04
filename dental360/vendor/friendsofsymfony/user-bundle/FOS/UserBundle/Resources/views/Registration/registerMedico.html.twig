@@ -1,10 +1,48 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
 {% block fos_user_content %}
-<form action="{{ path('usuario_registrar_medico',{'medicoId':medicoId}) }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register">
-    {{ form_widget(form) }}
-    <div>
-        <input type="submit" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" />
+
+<div  class="headerdiv">
+    <h3>Registrar usuario a medico</h3>
+</div>
+ {{ form_start(form) }}        
+<div class="formbody">
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(form.username) }}</div>
+        <div class="col-md-4">{{form_widget(form.username) }}        </div>    
+        </div>    
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(form.email) }}</div>
+        <div class="col-md-4">{{form_widget(form.email) }}        </div>    
     </div>
-</form>
+    <div class="row formulario-row">
+        <div class="col-md-6">{{form_widget(form.plainPassword) }}        </div>    
+    </div>    
+            
+        </div>
+    <div class="row formulario-row">
+        <div class="col-md-12">        
+        <ul class="list-inline">
+                <li >
+<input type="submit" value="Guardar"  class="btn btn-default btn-success"/>
+                </li>                
+                <li >
+                    <a href="{{ path('medico') }}" class="btn btn-default">
+                        Volver al listado
+                    </a>
+                </li>                
+            </ul>        
+        </div>
+    </div>
+    {{ form_end(form)}}
+<script src="{{ asset('bundles/histclinica/js/jquery.js') }}"></script>
+<script>   
+    jQuery(document).ready(function(){        
+        
+        jQuery("input[type='text']").attr('class','form-control');
+        jQuery("input[type='password']").attr('class','form-control');
+        jQuery("input[type='email']").attr('class','form-control');        
+    });
+    </script>
+
 {% endblock fos_user_content %}
