@@ -1,25 +1,26 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
+    <div class="headerdiv">
     <div class="row">
-        <div class="col-md-7">
-            <h2>Medicos</h2>
+        <div class="col-md-10">
+            <h3>Medicos</h3>
         </div>
-        <div class="col-md-5" style="padding-top: 20px; text-align: right;">
+        <div class="col-md-2" style="padding-top: 0px; text-align: right;">
             <ul class="list-inline">
                 <li >
-                    <a href="{{ path('medico_new') }}" class="btn btn-default">
+                    <a href="{{ path('medico_new') }}" class="btn btn-default btn-register">
+                        <img src="{{ asset('bundles/histclinica/images/icons/plus-20.png') }}" width="20px" alt="Crear" title="Crear"/>
                         Registrar medico
                     </a>
                 </li>                
             </ul>
         </div>
     </div>
-        
+        </div>
     <table class="records_list table table-striped table-condensed table-bordered">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Nombre</th>
                 <th>Titulos y/o Especialidad</th>
                 <th>Firma</th>
@@ -29,26 +30,26 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td>{{ entity.id }}</td>
                 <td>{{ entity.nombreCompleto }}</td>
                 <td>{{ entity.titulosEspecialidad }}</td>
                 <td>{{ entity.pathFirma }}</td>
-                <td>
+                <td class="tdactions">
                 <ul class="list-inline">
                     <li>
-                        <a href="{{ path('medico_edit', { 'id': entity.id }) }}">Editar</a>
+                        <a href="{{ path('medico_edit', { 'id': entity.id }) }}"><img src="{{ asset('bundles/histclinica/images/icons/edit-20.png') }}" width="20px" alt="Editar" title="Editar"/></a>
                     </li>                    
                     <li>
-                        <a href="{{ path('medico_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar el medico?');" >Borrar</a>
+                        <a href="{{ path('medico_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar el medico?');" ><img src="{{ asset('bundles/histclinica/images/icons/cancel-22.png') }}" width="20px" alt="Borrar"  title="Borrar"/></a>
                     </li>
                     <li>
-                        <a href="{{ path('usuario_registrar_medico', { 'medicoId': entity.id }) }}">[Crear Usuario]</a>
+                        <a href="{{ path('usuario_registrar_medico', { 'medicoId': entity.id }) }}">
+                            <img src="{{ asset('bundles/histclinica/images/icons/login.png') }}" width="20px" alt="Crear Usuario"  title="Crear Usuario"/></a>                            
                     </li>
                     <li>
-                        <a href="{{ path('tarifamedicoproc_listado', { 'id': entity.id }) }}" >Tarifas</a>
+                        <a href="{{ path('tarifamedicoproc_listado', { 'id': entity.id }) }}" ><img src="{{ asset('bundles/histclinica/images/icons/money24.png') }}" width="20px" alt="Tarifas" title="Tarifas"/></a>
                     </li>
                     <li>
-                        <a href="{{ path('medico_disponible', { 'id': entity.id }) }}" >Disponibilidad</a>
+                        <a href="{{ path('medico_disponible', { 'id': entity.id }) }}" ><img src="{{ asset('bundles/histclinica/images/icons/calendar.png') }}" width="20px" alt="Disponibilidad" title="Disponibilidad"/></a>
                     </li>
                 </ul>
                 </td>

@@ -1,11 +1,13 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
+<div class="headerdiv">
      <div class="row">
-        <div class="col-md-7">
-            <h2>Tarifas por medico</h2>
+        <div class="col-md-12">
+            <h3>Tarifas por medico</h3>
         </div>
     </div>
+        </div>
 
     <form action="{{path('tarifamedicoproc_guardar')}}" method="post">
         <input type="hidden" name="medicoId" value="{{ medicoId }}" />
@@ -35,7 +37,7 @@
         </tbody>        
         </table>
         
-        <input type="submit" value="Guardar" class="btn btn-default" />
+        <input type="submit" value="Guardar" class="btn btn-default btn-success" />
         <a href="{{ path('medico') }}" class="btn btn-default">
             Listado m&eacute;dicos
         </a>

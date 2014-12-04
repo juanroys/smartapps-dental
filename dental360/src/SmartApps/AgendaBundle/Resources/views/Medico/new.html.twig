@@ -1,8 +1,11 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-<h2>Registrar Medico</h2>
+ <div  class="headerdiv">
+    <h3>Registrar Medico</h3>
+</div>
     {{ form_start(form) }}        
+<div class="formbody">
     <div class="row formulario-row">
         <div class="col-md-2">{{form_label(form.nombreCompleto) }}</div>
         <div class="col-md-4">{{form_widget(form.nombreCompleto) }}        </div>    
@@ -15,11 +18,12 @@
         <div class="col-md-2">{{form_label(form.file, 'Firma') }}</div>
         <div class="col-md-4">{{form_widget(form.file) }}        </div>    
     </div>    
+        </div>
     <div class="row formulario-row">
         <div class="col-md-12">        
         <ul class="list-inline">
                 <li >
-                    {{form_row(form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default' } }) }}                
+                    {{form_row(form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default  btn-success' } }) }}                
                 </li>                
                 <li >
                     <a href="{{ path('medico') }}" class="btn btn-default">
