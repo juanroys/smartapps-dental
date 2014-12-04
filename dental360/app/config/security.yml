@@ -32,6 +32,10 @@ security:
         - { path: ^/preguntaopcion/*, role: ROLE_ADMIN }
         - { path: ^/usuario/*, role: ROLE_ADMIN }
         - { path: ^/register/*, role: ROLE_ADMIN }
+        - { path: ^/historiaClinica/*, role: [ROLE_MEDICO, ROLE_ADMIN]}
+        - { path: ^/cita/*, role: [ROLE_MEDICO, ROLE_ASISTENTE, ROLE_ADMIN]}
+        - { path: ^/unidadatencion/*, role: [ROLE_ADMIN]}
+        - { path: ^/tarifamedicoproc/*, role: [ROLE_MEDICO, ROLE_ADMIN]}
 
     role_hierarchy:
         ROLE_ADMIN:       [ROLE_ASISTENTE, ROLE_MEDICO]
