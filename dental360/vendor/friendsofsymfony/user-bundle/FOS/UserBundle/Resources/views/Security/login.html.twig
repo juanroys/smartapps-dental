@@ -1,39 +1,57 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
 {% block fos_user_content %}
-{% if error %}
-    <div>{{ error|trans({}, 'FOSUserBundle') }}</div>
-{% endif %}    
-    <div class="row">
-        <div class="col-md-4" >
-            <h3>Ingresar a DentalApp</h3>
+<br/>
+<br/>
+<div class="row">
+    <div class="col-md-6" style="background-color: #1CA9A3; border-color: #1CA9A3; border-top-left-radius: 8px; border-top-right-radius: 8px; color: white; padding-top: 5px; padding-bottom: 5px; text-align: center;"  >
+        <h3>Ingresar a DentalApp</h3>
+    </div>
+</div>
+<div class="row">
+
+
+    <div  class="col-md-6" style="border: 1 #ccc solid; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
+        <form action="{{ path("fos_user_security_check") }}" method="post" id="myForm">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+            <div class="row formulario-row">
+                <div class="col-md-2">
+                    <label for="username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
+                </div>
+                <div class="col-md-2">
+                    <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" class="form-control" style=" width: 300px;" />
+                </div>
+            </div>
+            <div class="row formulario-row"   style="margin-bottom: 8px;">
+                <div class="col-md-2"><label for="password">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
+                </div>
+                <div class="col-md-2"><input type="password" id="password" name="_password" required="required" class="form-control" style=" width: 300px;"/>
+                </div>
+            </div>
+
+    {% if error %}
+            <div class="row formulario-row"   style="margin-bottom: 8px;">
+                <div class="col-md-6">     
+                    <div class="alert-block alert alert-danger" style="padding-top: 6px; padding-bottom: 6px; padding-left: 15px; padding-right: 15px; margin-bottom: 0px;" >
+{{ error|trans({}, 'FOSUserBundle') }}
+                        </div>
+                    </div>
+                </div>
+{% endif %}  
+
+                <table>
+                    <tr>
+                        <td style="padding-right: 10px;" ><input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                            <label for="remember_me">{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label></td>                        
+                        <td style="padding-right: 10px;"><a href="{{path('fos_user_resetting_request')}}" class="btn btn-default">
+                                Recuperar Contraseña
+                            </a></td>
+                            <td style="padding-right: 10px;"><input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" class="btn btn-default btn-success" />           </td>
+                    </tr>
+                </table>
+
+            </form>
         </div>
+
     </div>
-<form action="{{ path("fos_user_security_check") }}" method="post">
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-    <div class="row formulario-row">
-    <div class="col-md-2">
-    <label for="username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
-    </div>
-    <div class="col-md-2">
-    <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
-    </div>
-    </div>
-    <div class="row formulario-row">
-    <div class="col-md-2"><label for="password">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
-    </div>
-    <div class="col-md-2"><input type="password" id="password" name="_password" required="required" />
-    </div>
-    </div>
-    <div class="row formulario-row">
-    <div class="col-md-2">
-        <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-    <label for="remember_me">{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label>
-    </div>
-    <div class="col-md-2">
-           <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
-    </div>
-    </div>  
-</form>
-    <a href="{{path('fos_user_resetting_request')}}">[Recuperar Contraseña]</a>
 {% endblock fos_user_content %}
