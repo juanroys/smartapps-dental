@@ -1,25 +1,26 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
+<div class="headerdiv">
     <div class="row">
-        <div class="col-md-7">
-            <h2>Convenios</h2>
+        <div class="col-md-10">
+            <h3>Convenios</h3>
         </div>
-        <div class="col-md-5" style="padding-top: 20px; text-align: right;">
+        <div class="col-md-2" style="padding-top: 0px; text-align: right;">
             <ul class="list-inline">
                 <li >
-                    <a href="{{ path('convenio_new') }}" class="btn btn-default">
-                        Registrar convenio
+                    <a href="{{ path('convenio_new') }}" class="btn btn-default btn-register">
+                        <img src="{{ asset('bundles/histclinica/images/icons/plus-20.png') }}" width="20px" alt="Crear" title="Crear"/>
+                        Registrar
                     </a>
                 </li>                
             </ul>
         </div>
     </div>
-        
+        </div>
     <table class="records_list table table-striped table-condensed table-bordered">
         <thead>
             <tr>
-                <th>Codigo</th>
                 <th>Nombre</th>
                 <th>Acciones</th>
             </tr>
@@ -27,18 +28,17 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td>{{ entity.id }}</td>
                 <td>{{ entity.nombreConvenio }}</td>
-                <td>
+                <td class="tdactions">
                 <ul class="list-inline">
                     <li>
-                        <a href="{{ path('convenio_edit', { 'id': entity.id }) }}">Editar</a>
+                        <a href="{{ path('convenio_edit', { 'id': entity.id }) }}"><img src="{{ asset('bundles/histclinica/images/icons/edit-20.png') }}" width="20px" alt="Editar" title="Editar"/></a>
                     </li>
                     <li>
-                        <a href="{{ path('convenio_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar el convenio?');" >Borrar</a>
+                        <a href="{{ path('convenio_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar el convenio?');" ><img src="{{ asset('bundles/histclinica/images/icons/cancel-22.png') }}" width="20px" alt="Borrar"  title="Borrar"/></a>
                     </li>
                     <li>
-                        <a href="{{ path('costoProcedimiento_listado', { 'id': entity.id }) }}" >Tarifas</a>
+                        <a href="{{ path('costoProcedimiento_listado', { 'id': entity.id }) }}" ><img src="{{ asset('bundles/histclinica/images/icons/money24.png') }}" width="20px" alt="Tarifas" title="Tarifas"/></a>
                     </li>
                 </ul>
                 </td>

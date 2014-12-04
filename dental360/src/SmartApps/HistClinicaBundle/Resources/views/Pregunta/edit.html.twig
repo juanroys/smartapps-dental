@@ -2,8 +2,11 @@
 
 {% block body -%}
 {% form_theme edit_form 'HistClinicaBundle:Form:form_template.html.twig' %}
-<h2>Editar Pregunta</h2>
+<div  class="headerdiv">
+    <h3>Editar Pregunta</h3>
+</div>
     {{ form_start(edit_form) }} 
+<div class="formbody">
 <div class="row formulario-row">            
     <div class= "col-md-6">{{form_errors(edit_form.grupo)}}</div>
     <div class= "col-md-6">{{form_errors(edit_form.tipoEntrada)}}</div>
@@ -54,11 +57,12 @@
     <div class="col-md-2">{{form_label(edit_form.opciones) }}</div>
     <div class="col-md-4">{{form_widget(edit_form.opciones) }}        </div>    
 </div>
+        </div>
 <div class="row formulario-row">
     <div class="col-md-12">        
         <ul class="list-inline">
             <li >
-                    {{form_row(edit_form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default' } }) }}                
+                    {{form_row(edit_form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default btn-success' } }) }}                
             </li>                
             <li >
                 <a href="{{ path('pregunta') }}" class="btn btn-default">

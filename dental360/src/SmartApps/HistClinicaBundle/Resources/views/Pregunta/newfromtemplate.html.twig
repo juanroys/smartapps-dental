@@ -1,15 +1,26 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
-        <h2>Crear pregunta desde template</h2>
+<div  class="headerdiv">
+    <h3>Crear pregunta desde template</h3>
+</div>
         <form action="{{ path('pregunta_savefromtemplate') }}" method="post">
-        Template:        
-        <select name="templateId">
+            
+            <div class="formbody" style="margin-bottom: 3px;">
+                <div class="row formulario-row">
+                <div class="col-md-2"><div  style="padding-top: 5px; padding-left: 8px;">Template</div></div>
+                <div class="col-md-4"><select name="templateId">
          {% for entity in entities %}
                 <option value="{{entity.id}}">{{entity.descripcion}}</option>
          {% endfor %}
-        </select>
-        Enunciado: <input type="text" name="enunciado"  />
-        <input type="submit" value="Crear" />
+        </select>       </div> 
+                <div class="col-md-2"> <div  style="padding-top: 5px; padding-left: 8px;">Enunciado</div></div>
+                <div class="col-md-4"><input type="text" name="enunciado" style="width: 350px; border-radius: 4px; border: 1 solid #ccc; box-shadow: inset 0 1px 1px rgba(0,0,0,.075); padding-top: 6px;padding-bottom: 6px;padding-left: 12px;padding-right: 12px;" /></div> 
+        </div>
+        </div>
+        <input type="submit" value="Crear"  class="btn btn-default btn-success"/>
+        <a href="{{ path('pregunta') }}" class="btn btn-default">                    Volver al listado                </a>
         </form>
+        
+        
 {% endblock %}

@@ -2,8 +2,12 @@
 
 {% block body %}
 {% form_theme form 'HistClinicaBundle:Form:form_template.html.twig' %}
-    <h2>Registrar grupo de preguntas</h2>
+    
+    <div  class="headerdiv">
+    <h3>Registrar Grupo de Preguntas</h3>
+</div>
     {{ form_start(form) }}        
+<div class="formbody">
     <div class="row formulario-row">
         <div class="col-md-2">{{form_label(form.titulo) }}</div>
         <div class="col-md-4">{{form_widget(form.titulo) }}</div>   
@@ -14,11 +18,13 @@
         <div class="col-md-4">{{form_widget(form.orden) }}</div>    
         <div class= "col-md-4">{{form_errors(form.orden)}}</div>
     </div>
+        </div>
+
     <div class="row formulario-row">
         <div class="col-md-12">        
         <ul class="list-inline">
                 <li >
-                    {{form_row(form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default' } }) }}                
+                    {{form_row(form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default btn-success' } }) }}                
                 </li>                
                 <li >
                     <a href="{{ path('grupo') }}" class="btn btn-default">

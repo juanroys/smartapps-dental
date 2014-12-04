@@ -14,7 +14,9 @@
         }
     }
 </script>
-<h1>Historia Clinica</h1>
+<div  class="headerdiv" style="border-radius: 7px; margin-bottom: 3px;">
+    <h3>Historia Cl&iacute;nica</h3>
+</div>
 <form action="{{path('historiaClinica_create')}}" method="post">
     <input type="hidden" name="paciente_id" value="{{paciente.id}}">
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -22,7 +24,7 @@
     {%set ban=1%}
     {%set columnaDibujada = 1%}
         <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="headingOne">
+            <div class="panel-heading" role="tab" id="headingOne"  style="background-color: #20508E; background-image: none; color: white;">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{grupo.titulo|replace({" ":"_","(":"-",")":"-"})}}{{loop.index}}" aria-expanded="true" aria-controls="collapse{{grupo.titulo|replace({" ":"_","(":"-",")":"-"})}}{{loop.index}}">
                         {{grupo.titulo}} 
@@ -30,10 +32,10 @@
                 </h4>
             </div>       
             <div id="collapse{{grupo.titulo|replace({" ":"_","(":"-",")":"-"})}}{{loop.index}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading{{grupo.titulo|replace({" ":"_","(":"-",")":"-"})}}{{loop.index}}">
-                <div class="panel-body">
+                <div class="panel-body" style="padding: 0;">
 
                     <div class="pregunta"><!-- <div class="pregunta panel-body">-->
-                        <table class="records_list table table-striped table-bordered" >
+                        <table class="records_list table table-striped table-bordered" style="margin: 0;" >
     {% for pregunta in grupo.preguntas %}
                 {# Imprimir Errores#}
                 {%if errores is defined and attribute(errores,pregunta.id) is defined%}
@@ -57,7 +59,9 @@
                     {%set orden = pregunta.orden%}
                 {%endif%}
                 {%if pregunta.estaActiva %}
-                                <td rowspan="{{pregunta.rowspan}}" colspan="{{pregunta.colspan}}"  >
+                                <td rowspan="{{pregunta.rowspan}}" colspan="{{pregunta.colspan}}" 
+                                    style="padding-left: 8px; padding-top: 4px; padding-bottom: 4px; padding-right: 8px;" >
+                                    
                                     <table cellspacing="0" cellpadding="0" >
                                         <tr>
                             {%if pregunta.enunciado != null and pregunta.enunciado!='' %}
@@ -121,7 +125,7 @@
 
                                             </td>
                             {%elseif pregunta.tipoEntrada == tipoEntrada.Iframe %} 
-                                        <iframe onload="iframeLoaded(this)"src="{{path(pregunta.opciones,{'historiaId': historiaClinica.id})}}" width="100%" ></iframe>                            
+                                        <iframe onload="iframeLoaded(this)"src="{{path(pregunta.opciones,{'historiaId': historiaClinica.id})}}" width="100%" frameborder="0"    ></iframe>                            
                             {%elseif pregunta.tipoEntrada == tipoEntrada.Odontograma %} 
                                         <iframe onload="iframeLoaded(this)" src="{{path(pregunta.opciones,{'historiaId': historiaClinica.id, 'grupoId':grupo.id })}}" width="100%" height="430" frameborder="0"></iframe>
                             {%endif%}
@@ -143,6 +147,9 @@
         </div>
 {% endfor%}
     </div>
-    <input type="submit" value="Guardar" class="btn btn-default" />
+    <input type="submit" value="Guardar" class="btn btn-default btn-success" />
+    <a href="{{ path('paciente') }}" class="btn btn-default">
+                        Cancelar
+                    </a>
 </form>
 {% endblock %}

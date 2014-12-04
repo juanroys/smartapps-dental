@@ -2,19 +2,23 @@
 
 {% block body -%}
 {% form_theme edit_form 'HistClinicaBundle:Form:form_template.html.twig' %}
-<h2>Editar procedimiento</h2>
 
+<div  class="headerdiv">
+    <h3>Editar procedimiento</h3>
+</div>    
       {{ form_start(edit_form) }}        
+<div class="formbody">
 <div class="row formulario-row">
     <div class="col-md-2">{{form_label(edit_form.descripcion) }}</div>
     <div class="col-md-4">{{form_widget(edit_form.descripcion) }}</div>  
-    <div class= "col-md-4">{{form_errors(edit_form.nombreConvenio)}}</div>
+    <div class= "col-md-4">{{form_errors(edit_form.descripcion)}}</div>
 </div>
+        </div>
 <div class="row formulario-row">
     <div class="col-md-12">        
         <ul class="list-inline">
             <li >
-                    {{form_row(edit_form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default' } }) }}                
+                    {{form_row(edit_form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default btn-success' } }) }}                
             </li>                
             <li >
                 <a href="{{ path('procedimiento') }}" class="btn btn-default">

@@ -1,12 +1,14 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
+
+<div class="headerdiv">
      <div class="row">
-        <div class="col-md-7">
-            <h2>Tarifas por convenio</h2>
+        <div class="col-md-12">
+            <h3>Tarifas por convenio</h3>
         </div>
     </div>
-
+</div>
     <form action="{{path('costoProcedimiento_guardar')}}" method="post">
         <input type="hidden" name="convenioId" value="{{ convenioId }}" />
         <table class="records_list table table-striped table-condensed table-bordered">
@@ -28,7 +30,7 @@
         </tbody>        
         </table>
         
-        <input type="submit" value="Guardar" class="btn btn-default" />
+        <input type="submit" value="Guardar" class="btn btn-default  btn-success" />
         <a href="{{ path('convenio') }}" class="btn btn-default">
             Listado convenios
         </a>

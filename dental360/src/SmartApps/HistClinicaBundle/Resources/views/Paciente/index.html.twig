@@ -1,25 +1,27 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
+<div class="headerdiv">
    <div class="row">
-        <div class="col-md-7">
-            <h2>Pacientes</h2>
+        <div class="col-md-10">
+            <h3>Pacientes</h3>
         </div>
-        <div class="col-md-5" style="padding-top: 20px; text-align: right;">
+        <div class="col-md-2" style="padding-top: 0px; text-align: right;">
             <ul class="list-inline">
                 <li >
-                    <a href="{{ path('paciente_new') }}" class="btn btn-default">
+                    <a href="{{ path('paciente_new') }}" class="btn btn-default btn-register">
+                        <img src="{{ asset('bundles/histclinica/images/icons/plus-20.png') }}" width="20px" alt="Crear" title="Crear"/>
                         Registrar paciente
                     </a>
                 </li>                
             </ul>
         </div>
     </div>
-        
+        </div>
     <table class="records_list table table-striped table-condensed table-bordered">
         <thead>
             <tr>
-                <th>C&oacute;digo</th>
+                
                 <th>Nombre Completo</th>
                <!-- <th>Fechanacimiento</th>
                 <th>Lugarnacimiento</th> -->
@@ -28,74 +30,33 @@
                 <th>Email</th>
                 <th>Estado civil</th>
                 <th>Sexo</th>
-              <!--  <th>Ocupacion</th>
-                <th>Empresa</th>
-                <th>Cargo</th> -->
                 <th>Eps</th>
-               <!-- <th>Cotizantebeneficiario</th>
-                <th>Responnombrecompleto</th>
-                <th>Responnoidentificacion</th>
-                <th>Responparentesco</th>
-                <th>Residenciamunicipio</th>
-                <th>Residenciadepartamento</th>
-                <th>Residenciadireccion</th>
-                <th>Residenciatelefono</th>
-                <th>Trabajomunicipio</th>
-                <th>Trabajodepartamento</th>
-                <th>Trabajodireccion</th>
-                <th>Trabajotelefono</th>
-                <th>Responubicaciondepartamento</th>
-                <th>Responubicacionmunicipio</th>
-                <th>Responubicaciondireccion</th>
-                <th>Responubicaciontelefono</th>-->
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td>{{ entity.id }}</td>
-                <td>{{ entity.nombres }} {{ entity.apellido1 }} {{ entity.apellido2 }}</td>                
-                <!-- <td>{% if entity.fechaNacimiento %}{{ entity.fechaNacimiento|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ entity.lugarNacimiento }}</td> -->
+                
+                <td>{{ entity.nombres }} {{ entity.apellido1 }} {{ entity.apellido2 }}</td>                                
                 <td>{{ tipoIdentificacion[entity.tipoIdentificacion] }}  </td>                
                  
                 <td>{{ entity.noIdentificacion }}</td>
                 <td>{{ entity.email }}</td>                
                 <td>{{ estadoCivil[entity.estadoCivil] }}</td> 
                 <td> {{ genero[entity.sexo] }}</td>
-               <!--  <td>{{ entity.ocupacion }}</td>
-                <td>{{ entity.empresa }}</td>
-                <td>{{ entity.cargo }}</td> -->
                 
                 <td>{{ entity.ePS }}</td>
-             <!--   <td>{{ entity.cotizanteBeneficiario }}</td>
-                <td>{{ entity.responNombreCompleto }}</td>
-                <td>{{ entity.responNoIdentificacion }}</td>
-                <td>{{ entity.responParentesco }}</td>
-                <td>{{ entity.residenciaMunicipio }}</td>
-                <td>{{ entity.residenciaDepartamento }}</td>
-                <td>{{ entity.residenciaDireccion }}</td>
-                <td>{{ entity.residenciaTelefono }}</td>
-                <td>{{ entity.trabajoMunicipio }}</td>
-                <td>{{ entity.trabajoDepartamento }}</td>
-                <td>{{ entity.trabajoDireccion }}</td>
-                <td>{{ entity.trabajoTelefono }}</td>
-                <td>{{ entity.responUbicacionDepartamento }}</td>
-                <td>{{ entity.responUbicacionMunicipio }}</td>
-                <td>{{ entity.responUbicacionDireccion }}</td>
-                <td>{{ entity.responUbicacionTelefono }}</td> -->
-                <td>
-                
+            <td class="tdactions">                
                    <ul class="list-inline">
                     <li>
-                        <a href="{{ path('paciente_edit', { 'id': entity.id }) }}">Editar</a>
+                        <a href="{{ path('paciente_edit', { 'id': entity.id }) }}"><img src="{{ asset('bundles/histclinica/images/icons/edit-20.png') }}" width="20px" alt="Editar" title="Editar"/></a>
                     </li>
                     <li>
-                        <a href="{{ path('paciente_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar el paciente?');" >Borrar</a>
+                        <a href="{{ path('paciente_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar el paciente?');" ><img src="{{ asset('bundles/histclinica/images/icons/cancel-22.png') }}" width="20px" alt="Borrar"  title="Borrar"/></a>
                     </li>
                     <li>
-                        <a href="{{ path('historiaClinica_new', { 'id': entity.id }) }}">[Historia Cl&iacute;nica]</a>
+                        <a href="{{ path('historiaClinica_new', { 'id': entity.id }) }}"><img src="{{ asset('bundles/histclinica/images/icons/history.png') }}" width="20px" alt="Historia clínica"  title="Historia clínica"/></a>
                     </li>
                 </ul>
                 </td>

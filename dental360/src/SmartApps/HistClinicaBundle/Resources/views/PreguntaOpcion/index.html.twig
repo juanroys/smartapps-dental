@@ -1,49 +1,50 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
+<div class="headerdiv">
     <div class="row">
-        <div class="col-md-7">
-            <h2>Opciones de pregunta</h2>
+        <div class="col-md-10">
+            <h3>Opciones de pregunta</h3>
         </div>
-        <div class="col-md-5" style="padding-top: 20px; text-align: right;">
+        <div class="col-md-2" style="padding-top: 0px; text-align: right;">
             <ul class="list-inline">
                 <li >
-                    <a href="{{ path('preguntaopcion_newopcion', { 'idpreg': idpreg }) }}" class="btn btn-default">
+                    <a href="{{ path('preguntaopcion_newopcion', { 'idpreg': idpreg }) }}" class="btn btn-default btn-register">
+                        <img src="{{ asset('bundles/histclinica/images/icons/plus-20.png') }}" width="20px" alt="Crear" title="Crear"/>
                         Registrar opcion
                     </a>
                 </li>                
             </ul>
         </div>
     </div>
-        
+        </div>
     <table class="records_list table table-striped table-condensed table-bordered">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Orden</th>
                 <th>Enunciado</th>
-                <th>Valortexto</th>
-                <th>Valornumero</th>
+                <th>Valor Texto</th>
+                <th>Valor N&uacute;mero</th>
                 <th>Opciones</th>
-                <th>Actions</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td>{{ entity.id }}</td>
+                
                 <td>{{ entity.orden }}</td>
                 <td>{{ entity.enunciado }}</td>
                 <td>{{ entity.valorTexto }}</td>
                 <td>{{ entity.valorNumero }}</td>
                 <td>{{ entity.opciones }}</td>
-                <td>
+                <td class="tdactions">
 <ul class="list-inline">                    
                     <li>
-                        <a href="{{ path('preguntaopcion_edit', { 'id': entity.id }) }}">Editar</a>
+                        <a href="{{ path('preguntaopcion_edit', { 'id': entity.id }) }}"><img src="{{ asset('bundles/histclinica/images/icons/edit-20.png') }}" width="20px" alt="Editar" title="Editar"/></a>
                     </li>
                     <li>
-                        <a href="{{ path('preguntaopcion_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar la opcion?');" >Borrar</a>
+                        <a href="{{ path('preguntaopcion_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar la opcion?');" ><img src="{{ asset('bundles/histclinica/images/icons/cancel-22.png') }}" width="20px" alt="Borrar"  title="Borrar"/></a>
                     </li>
                 </ul>
                 </td>
@@ -53,6 +54,7 @@
     </table>
         
         <a href="{{ path('pregunta') }}" class="btn btn-default">
+                <img src="{{ asset('bundles/histclinica/images/icons/back16.png') }}" width="20px" alt="Atras"  title="Atras"/>
                         Listado preguntas
                     </a>
  
