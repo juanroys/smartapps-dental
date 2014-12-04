@@ -225,19 +225,19 @@ class OpcionRespuestaController extends Controller
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('HistClinicaBundle:OpcionRespuesta')->find($id);
-
+            $idpreg = $entity->getTipoPregunta()->getId();
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find OpcionRespuesta entity.');
             }
 
             $em->remove($entity);
             $em->flush();
-        }
+        
 
-        return $this->redirect($this->generateUrl('opcionrespuesta'));
+        return $this->redirect($this->generateUrl('opcionrespuesta_listado', array('id' => $idpreg)));
     }
 
     /**
