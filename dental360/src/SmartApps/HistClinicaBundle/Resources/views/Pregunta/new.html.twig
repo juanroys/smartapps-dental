@@ -2,17 +2,22 @@
 
 {% block body -%}
 {% form_theme form 'HistClinicaBundle:Form:form_template.html.twig' %}
-<h2>Registrar Pregunta</h2>
-    {{ form_start(form) }}        
-<div class="row formulario-row">            
-    <div class= "col-md-6">{{form_errors(form.grupo)}}</div>
-    <div class= "col-md-6">{{form_errors(form.tipoEntrada)}}</div>
+
+<div  class="headerdiv">
+    <h3>Registrar Pregunta</h3>
 </div>
+    {{ form_start(form) }}
+<div class="formbody">
+
 <div class="row formulario-row">
     <div class="col-md-2">{{form_label(form.grupo) }}</div>
     <div class="col-md-4">{{form_widget(form.grupo) }}        </div> 
     <div class="col-md-2">{{form_label(form.tipoEntrada) }}</div>
     <div class="col-md-4">{{form_widget(form.tipoEntrada) }}</div> 
+</div>
+    <div class="row formulario-row">            
+    <div class= "col-md-6">{{form_errors(form.grupo)}}</div>
+    <div class= "col-md-6">{{form_errors(form.tipoEntrada)}}</div>
 </div>
 <div class="row formulario-row">            
     <div class= "col-md-6">{{form_errors(form.enunciado)}}</div>
@@ -54,11 +59,12 @@
     <div class="col-md-2">{{form_label(form.opciones) }}</div>
     <div class="col-md-4">{{form_widget(form.opciones) }}        </div>  
 </div>
+        </div>
 <div class="row formulario-row">
     <div class="col-md-12">        
         <ul class="list-inline">
             <li >
-                    {{form_row(form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default' } }) }}                
+                    {{form_row(form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default btn-success' } }) }}                
             </li>                
             <li >
                 <a href="{{ path('pregunta') }}" class="btn btn-default">

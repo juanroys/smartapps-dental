@@ -1,9 +1,12 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-{% form_theme edit_form 'HistClinicaBundle:Form:form_template.html.twig' %}
-     <h2>Editar grupo de preguntas</h2>
+{% form_theme edit_form 'HistClinicaBundle:Form:form_template.html.twig' %}     
+     <div  class="headerdiv">
+    <h3>Editar Grupo de Preguntas</h3>
+</div>
     {{ form_start(edit_form) }}        
+<div class="formbody">
     <div class="row formulario-row">
         <div class="col-md-2">{{form_label(edit_form.titulo) }}</div>
         <div class="col-md-4">{{form_widget(edit_form.titulo) }}</div>
@@ -14,11 +17,12 @@
         <div class="col-md-4">{{form_widget(edit_form.orden) }}</div>
         <div class= "col-md-4">{{form_errors(edit_form.orden)}}</div>
     </div>
+        </div>
     <div class="row formulario-row">
         <div class="col-md-12">        
         <ul class="list-inline">
                 <li >
-                    {{form_row(edit_form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default' } }) }}                
+                    {{form_row(edit_form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default  btn-success' } }) }}                
                 </li>                
                 <li >
                     <a href="{{ path('grupo') }}" class="btn btn-default">

@@ -2,8 +2,12 @@
 
 {% block body -%}
 {% form_theme form 'HistClinicaBundle:Form:form_template.html.twig' %}
-<h2>Registrar Opcion</h2>
-    {{ form_start(form) }}        
+
+<div  class="headerdiv">
+    <h3>Registrar opci&oacute;n</h3>
+</div>
+    {{ form_start(form) }}     
+<div class="formbody">
 <div class="row formulario-row">            
     <div class= "col-md-6">{{form_errors(form.orden)}}</div>
     <div class= "col-md-6">{{form_errors(form.enunciado)}}</div>
@@ -32,11 +36,12 @@
     <div class="col-md-4">{{form_widget(form.opciones) }}        </div> 
 </div>
 <input type="hidden" value="{{ idpreg }}" name="idpreg" id="idpreg"/>
+</div>
 <div class="row formulario-row">
     <div class="col-md-12">        
         <ul class="list-inline">
             <li >
-                    {{form_row(form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default' } }) }}                
+                    {{form_row(form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default btn-success' } }) }}                
             </li>                
             <li >
                 <a href="{{ path('preguntaopcion_listado', { 'id': idpreg }) }}" class="btn btn-default">

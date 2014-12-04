@@ -2,12 +2,14 @@
 
 {% block body -%}
 {% form_theme edit_form 'HistClinicaBundle:Form:form_template.html.twig' %}
-<h2>Editar Paciente</h2>
+<div  class="headerdiv" style="border-radius: 7px; margin-bottom: 3px;">
+    <h3>Editar Paciente</h3>
+</div>
     {{ form_start(edit_form) }}        
 
 <div class="panel-group" id="accordion">
     <div class="panel panel-default">
-        <div class="panel-heading">
+        <div class="panel-heading" style="background-color: #20508E; background-image: none; color: white;">
             <h4 class="panel-title">
 
                 1. Datos personales del paciente
@@ -143,7 +145,7 @@
         </div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading">
+        <div class="panel-heading" style="background-color: #20508E; background-image: none; color: white;">
             <h4 class="panel-title">
 
                 1.1 Datos persona resposable
@@ -201,7 +203,7 @@
     <div class="col-md-12">        
         <ul class="list-inline">
             <li >
-                    {{form_row(edit_form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default' } }) }}                
+                    {{form_row(edit_form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default btn-success' } }) }}                
             </li>                
             <li >
                 <a href="{{ path('paciente') }}" class="btn btn-default">

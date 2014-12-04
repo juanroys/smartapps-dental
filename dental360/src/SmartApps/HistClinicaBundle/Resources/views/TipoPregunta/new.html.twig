@@ -2,8 +2,11 @@
 
 {% block body -%}
 {% form_theme form 'HistClinicaBundle:Form:form_template.html.twig' %}
-<h2>Registrar Template    </h2>    
+<div  class="headerdiv">
+    <h3>Registrar Template</h3>
+</div> 
     {{ form_start(form) }}        
+<div class="formbody">
 <div class="row formulario-row">            
     <div class= "col-md-6">{{form_errors(form.descripcion)}}</div>
     <div class= "col-md-6">{{form_errors(form.tipoEntrada)}}</div>
@@ -14,11 +17,12 @@
     <div class="col-md-2">{{form_label(form.tipoEntrada) }}</div>
     <div class="col-md-4">{{form_widget(form.tipoEntrada) }}        </div>    
 </div>    
+        </div>
 <div class="row formulario-row">
     <div class="col-md-12">        
         <ul class="list-inline">
             <li >
-                    {{form_row(form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default' } }) }}                
+                    {{form_row(form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default btn-success' } }) }}                
             </li>                
             <li >
                 <a href="{{ path('tipopregunta') }}" class="btn btn-default">
