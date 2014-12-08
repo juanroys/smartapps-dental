@@ -15,6 +15,11 @@ class MedicoRepository extends EntityRepository
     public function findMedicoPorUsuario($usuarioId){
         $em =$this->getEntityManager();
         $consulta=$em->createQuery('SELECT m FROM AgendaBundle:Medico m WHERE m.usuario = '.$usuarioId);
-        return $consulta->getSingleResult();
+        return $consulta->getOneOrNullResult();
+    }
+    public function queryTodosLosMedicos(){
+        $em=  $this->getEntityManager();
+        $consulta=$em->createQuery("SELECT m FROM AgendaBundle:Medico m");
+        return $consulta;
     }
 }

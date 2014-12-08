@@ -32,6 +32,7 @@ class Medico {
      * @var string
      *
      * @ORM\Column(name="nombreCompleto", type="string", length=256)
+     * @Assert\NotBlank(message = "Por favor, escribe un nombre")
      */
     private $nombreCompleto;
 
@@ -39,6 +40,7 @@ class Medico {
      * @var string
      *
      * @ORM\Column(name="titulosEspecialidad", type="string", length=1024)
+     * @Assert\NotBlank(message = "Por favor, escribe una especialidad o titulo")
      */
     private $titulosEspecialidad;
 
@@ -46,6 +48,7 @@ class Medico {
      * @var string
      *
      * @ORM\Column(name="pathFirma", type="string", length=1024)
+     * 
      */
     private $pathFirma;
 

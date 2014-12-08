@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <div class="headerdiv">
+<div class="headerdiv">
     <div class="row">
         <div class="col-md-10">
             <h3>Medicos</h3>
@@ -17,23 +17,23 @@
             </ul>
         </div>
     </div>
-        </div>
-    <table class="records_list table table-striped table-condensed table-bordered">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Titulos y/o Especialidad</th>
-                <th>Firma</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
+</div>
+<table class="records_list table table-striped table-condensed table-bordered">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Titulos y/o Especialidad</th>
+            <th>Firma</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for entity in entities %}
-            <tr>
-                <td>{{ entity.nombreCompleto }}</td>
-                <td>{{ entity.titulosEspecialidad }}</td>
-                <td>{{ entity.pathFirma }}</td>
-                <td class="tdactions">
+        <tr>
+            <td>{{ entity.nombreCompleto }}</td>
+            <td>{{ entity.titulosEspecialidad }}</td>
+            <td>{{ entity.pathFirma }}</td>
+            <td class="tdactions">
                 <ul class="list-inline">
                     <li>
                         <a href="{{ path('medico_edit', { 'id': entity.id }) }}"><img src="{{ asset('bundles/histclinica/images/icons/edit-20.png') }}" width="20px" alt="Editar" title="Editar"/></a>
@@ -52,10 +52,26 @@
                         <a href="{{ path('medico_disponible', { 'id': entity.id }) }}" ><img src="{{ asset('bundles/histclinica/images/icons/calendar.png') }}" width="20px" alt="Disponibilidad" title="Disponibilidad"/></a>
                     </li>
                 </ul>
-                </td>
-            </tr>
+            </td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
+{{ simple_paginator_render('medico',null,{
+                    'container_class':'pagination',
+                    'firstPageText':'|<',
+                    'firstEnabledClass':'',
+                    'firstDisabledClass':'disabled',
+                    'previousPageText': '<<',
+                    'previousEnabledClass':'',
+                    'previousDisabledClass':'disabled',
+                    'currentClass': 'active',
+                    'nextPageText': '>>',
+                    'nextEnabledClass':'',
+                    'nextDisabledClass':'disabled', 
+                    'lastPageText':'>|',
+                    'lastEnabledClass': '',
+                    'lastDisabledClass': 'disabled'
+                    })}}
 
     {% endblock %}

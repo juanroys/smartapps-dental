@@ -1,18 +1,58 @@
 {% extends '::extranet.html.twig' %}
 {% block body -%}
 <script>
+    $(document).ready(function() {
+        var elems = document.getElementsByTagName('iframe');
+        for (i = 0; i < elems.length; i++) {
+            elems[i].src = elems[i].name;
+        }
+    });
     function iframeLoaded(iFrameID) {
-        var minHeight=350;
+        var minHeight = 350;
         if (iFrameID) {
-            iFrameID.width = iFrameID.contentWindow.document.body.scrollWidth + "px";
-            var actHeight = iFrameID.contentWindow.document.body.scrollHeight;
-            if(actHeight >  minHeight){
-                 iFrameID.height=actHeight+"px";
-            }else{
-                iFrameID.height=minHeight+"px";
+            var title = iFrameID.contentDocument.title;
+            if (title == "Dental 360") {
+                iFrameID.width = iFrameID.contentWindow.document.body.scrollWidth + "px";
+                var actHeight = iFrameID.contentWindow.document.body.scrollHeight;
+                if (actHeight > minHeight) {
+                    iFrameID.height = actHeight + "px";
+                } else {
+                    iFrameID.height = minHeight + "px";
+                }
             }
+            else {
+                iFrameID.src = iFrameID.src;
+            }
+        } else {
+            iFrameID.src = iFrameID.src;
         }
     }
+    function iFrameCheck(iFrame) {
+        var ttle = iFrame.contents().find('title').text();
+
+        setTimeout(function() {
+            if (ttle.indexOf('404 - File or directory not found.') == -1) {
+                return false;
+            } else {
+                $('#iFrameAlert').toggleClass('hidden');
+            }
+        }, 2000);
+    }
+    function justNumbers(e)
+    {
+        var keynum = window.event ? window.event.keyCode : e.which;
+        if ((keynum == 8) || (keynum == 46))
+            return true;
+
+        return /\d/.test(String.fromCharCode(keynum));
+    }
+    ;
+    $(function() {
+        $('.datetimepicker').datetimepicker({
+            pickTime: false,
+            language: 'es-ES'
+        });
+    });
 </script>
 <div  class="headerdiv" style="border-radius: 7px; margin-bottom: 3px;">
     <h3>Historia Cl&iacute;nica</h3>
@@ -61,7 +101,7 @@
                 {%if pregunta.estaActiva %}
                                 <td rowspan="{{pregunta.rowspan}}" colspan="{{pregunta.colspan}}" 
                                     style="padding-left: 8px; padding-top: 4px; padding-bottom: 4px; padding-right: 8px;" >
-                                    
+
                                     <table cellspacing="0" cellpadding="0" >
                                         <tr>
                             {%if pregunta.enunciado != null and pregunta.enunciado!='' %}
@@ -70,28 +110,28 @@
 
                             {%if pregunta.tipoEntrada == tipoEntrada.Texto %}
                                             <td>
-                                                <input required="{{pregunta.obligatoria ? 'true' : 'false' }}" type="text" name="{{ pregunta.id }}" 
+                                                <input {{pregunta.obligatoria ? 'required'}} type="text" name="{{ pregunta.id }}" 
                                        {%if respuestas[pregunta.id] is defined  %}
-                                                       value="{{respuestas[pregunta.id]}}"
+                                                                                             value="{{respuestas[pregunta.id]}}"
                                        {%endif%}
-                                                       />
+                                                                                             />
                                             </td>
                             {%elseif pregunta.tipoEntrada == tipoEntrada.Numero %}
                                             <td>    
-                                                <input required="{{pregunta.obligatoria ? 'true' : 'false' }}" type="number" name="{{pregunta.id}}" class="" min="0"
+                                                <input {{pregunta.obligatoria ? 'required'}} type="number" name="{{pregunta.id}}" class="" min="0"
                                        {%if respuestas[pregunta.id] is defined  %}
-                                                       value="{{respuestas[pregunta.id]}}"
+                                                                                             value="{{respuestas[pregunta.id]}}"
                                        {%endif%}
-                                                       />
+                                                                                             onkeypress="return justNumbers(event);"/>
                                             </td>
                             {%elseif pregunta.tipoEntrada == tipoEntrada.Radio %}
                                             <td style="display: inline; white-space: nowrap;">
                                 {%for preguntaopcion in pregunta.preguntaOpciones%}                                                                        
-                                                <input required="{{pregunta.obligatoria ? 'true' : 'false' }}" type="radio" name="{{pregunta.id}}" class="" value="{{preguntaopcion.valorTexto}}" 
+                                                <input {{pregunta.obligatoria ? 'required'}} type="radio" name="{{pregunta.id}}" class="" value="{{preguntaopcion.valorTexto}}" 
                                            {%if respuestas[pregunta.id] is defined and respuestas[pregunta.id] == preguntaopcion.valorTexto  %}
-                                                       checked="checked"
+                                                                                             checked="checked"
                                            {%endif%}
-                                                       /> {{preguntaopcion.enunciado}}                                
+                                                                                             /> {{preguntaopcion.enunciado}}                                
                                 {%endfor%} 
 
                                             </td>
@@ -99,17 +139,17 @@
                                 {% set contador = 0 %}
                                             <td  style="display: inline">
                                 {%for preguntaopcion in pregunta.preguntaOpciones%}                                
-                                                <input required="{{pregunta.obligatoria ? 'true' : 'false' }}" type="checkbox" name="{{pregunta.id}}|{{contador}}" class="" value="{{preguntaopcion.valorTexto}}" 
+                                                <input {{pregunta.obligatoria ? 'required' }} type="checkbox" name="{{pregunta.id}}|{{contador}}" class="" value="{{preguntaopcion.valorTexto}}" 
                                            {%if respuestas[pregunta.id ~ "|" ~ preguntaopcion.valorTexto|replace({ (' '): '_' }) ] is defined %}
-                                                       checked="checked"
+                                                                                              checked="checked"
                                            {%endif%}
-                                                       /> {{preguntaopcion.enunciado}}
+                                                                                              /> {{preguntaopcion.enunciado}}
                                     {% set contador = contador + 1 %}                                
                                 {%endfor%}  
                                             </td>
                             {%elseif pregunta.tipoEntrada == tipoEntrada.AreaTexto %}    
                                             <td>
-                                                <textarea required="{{pregunta.obligatoria ? 'true' : 'false' }}" name="{{pregunta.id}}"  rows="4" cols="50">{%if respuestas[pregunta.id] is defined  %}{{respuestas[pregunta.id]}}{%endif%}</textarea>
+                                                <textarea {{pregunta.obligatoria ? 'required' }} name="{{pregunta.id}}"  rows="4" cols="50">{%if respuestas[pregunta.id] is defined  %}{{respuestas[pregunta.id]}}{%endif%}</textarea>
                                             </td>
                             {%elseif pregunta.tipoEntrada == tipoEntrada.ComboBox %}    
                                             <td>
@@ -124,10 +164,29 @@
                                                 </select>
 
                                             </td>
+                            {%elseif pregunta.tipoEntrada==tipoEntrada.Fecha%}
+                                            <td>
+                                                <div class="datetimepicker" class="input-append date" style="display: inline;">
+                                                    <input placeholder="Fecha" data-format="yyyy-MM-dd" type="text" name="{{pregunta.id}}" readonly="true" value="{%if respuestas[pregunta.id] is defined  %}{{respuestas[pregunta.id]}}{%endif%}"></input>
+                                                    <span class="add-on">
+                                                        <img src="{{ asset('bundles/histclinica/images/calendar.png') }}">
+                                                    </span>
+                                                </div>                        
+                                            </td>
                             {%elseif pregunta.tipoEntrada == tipoEntrada.Iframe %} 
-                                        <iframe onload="iframeLoaded(this)"src="{{path(pregunta.opciones,{'historiaId': historiaClinica.id})}}" width="100%" frameborder="0"    ></iframe>                            
+                                            {%set dir=path(pregunta.opciones,{'historiaId': historiaClinica.id})%}
+                                        <iframe id="{{pregunta.id}}" 
+                                                name="{{path(pregunta.opciones,{'historiaId': historiaClinica.id})}}" 
+                                                onload="iframeLoaded(this)" 
+                                                src="" width="100%" frameborder="0"    ></iframe>                            
                             {%elseif pregunta.tipoEntrada == tipoEntrada.Odontograma %} 
-                                        <iframe onload="iframeLoaded(this)" src="{{path(pregunta.opciones,{'historiaId': historiaClinica.id, 'grupoId':grupo.id })}}" width="100%" height="430" frameborder="0"></iframe>
+                                        {%set dir=path(pregunta.opciones,{'historiaId': historiaClinica.id, 'grupoId':grupo.id })%}
+                                        <iframe id="{{pregunta.id}}}" 
+                                                name="{{path(pregunta.opciones,{'historiaId': historiaClinica.id, 'grupoId':grupo.id })}}" 
+                                                onload="iframeLoaded(this)" 
+                                                src="" 
+                                                width="100%" height="430" frameborder="0">
+                                        </iframe>
                             {%endif%}
                             </tr>
                         </table>
@@ -149,7 +208,7 @@
     </div>
     <input type="submit" value="Guardar" class="btn btn-default btn-success" />
     <a href="{{ path('paciente') }}" class="btn btn-default">
-                        Cancelar
-                    </a>
+        Cancelar
+    </a>
 </form>
 {% endblock %}

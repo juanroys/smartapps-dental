@@ -1,31 +1,33 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
+{% form_theme form 'AgendaBundle:Form:form_template.html.twig' %}
 <div  class="headerdiv">
     <h3>Registrar Unidad de Atenci&oacute;n</h3>
 </div>
- 
+
     {{ form_start(form) }}        
 <div class="formbody">
     <div class="row formulario-row">
         <div class="col-md-2">{{form_label(form.descripcion, 'Descripción') }}</div>
-        <div class="col-md-4">{{form_widget(form.descripcion) }}        </div>    
-        </div>    
-   </div>
-    <div class="row formulario-row">
-        <div class="col-md-12">        
+        <div class="col-md-4">{{form_widget(form.descripcion) }}        </div>
+        <div class="col-md-4">{{form_errors(form.descripcion) }}        </div>    
+    </div>    
+</div>
+<div class="row formulario-row">
+    <div class="col-md-12">        
         <ul class="list-inline">
-                <li >
+            <li >
                     {{form_row(form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default btn-success' } }) }}                
-                </li>                
-                <li >
-                    <a href="{{ path('unidadatencion') }}" class="btn btn-default">
-                        Volver al listado
-                    </a>
-                </li>                
-            </ul>        
-        </div>
+            </li>                
+            <li >
+                <a href="{{ path('unidadatencion') }}" class="btn btn-default">
+                    Volver al listado
+                </a>
+            </li>                
+        </ul>        
     </div>
+</div>
     {{ form_end(form)}}    
 
 {% endblock %}

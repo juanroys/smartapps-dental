@@ -13,7 +13,8 @@ class Util
             5 => 'AreaTexto', 
             6 => 'ComboBox',
             7 => 'Iframe',
-            8 => 'Odontograma');
+            8 => 'Odontograma',
+            9=>'Fecha');
     }
     
     static public function TipoIdentificacionEnum(){

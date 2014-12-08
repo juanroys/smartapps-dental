@@ -23,7 +23,11 @@ class MedicoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AgendaBundle:Medico')->findAll();
+        //$entities = $em->getRepository('AgendaBundle:Medico')->findAll();
+        $paginador=  $this->get('ideup.simple_paginator');
+        $entities=$paginador->paginate(
+                $em->getRepository("AgendaBundle:Medico")->queryTodosLosMedicos()
+                )->getResult();
 
         return $this->render('AgendaBundle:Medico:index.html.twig', array(
             'entities' => $entities,

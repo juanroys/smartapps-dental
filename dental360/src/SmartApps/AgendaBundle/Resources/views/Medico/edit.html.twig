@@ -1,6 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}    
+{% form_theme edit_form 'AgendaBundle:Form:form_template.html.twig' %}
 <div  class="headerdiv">
     <h3>Editar Medico</h3>
 </div>
@@ -9,10 +10,12 @@
     <div class="row formulario-row">
         <div class="col-md-2">{{form_label(edit_form.nombreCompleto) }}</div>
         <div class="col-md-4">{{form_widget(edit_form.nombreCompleto) }}        </div>    
+        <div class="col-md-4">{{form_errors(edit_form.nombreCompleto) }}        </div>   
         </div>    
     <div class="row formulario-row">
         <div class="col-md-2">{{form_label(edit_form.titulosEspecialidad) }}</div>
-        <div class="col-md-4">{{form_widget(edit_form.titulosEspecialidad) }}        </div>    
+        <div class="col-md-4">{{form_widget(edit_form.titulosEspecialidad) }}        </div> 
+        <div class="col-md-4">{{form_errors(edit_form.titulosEspecialidad) }}        </div>
     </div>
     
     <div class="row formulario-row">
@@ -21,7 +24,8 @@
     </div>
     <div class="row formulario-row">
         <div class="col-md-2">{{form_label(edit_form.file, 'Firma nueva') }}</div>
-        <div class="col-md-4">{{form_widget(edit_form.file) }}        </div>    
+        <div class="col-md-4">{{form_widget(edit_form.file) }}        </div> 
+        <div class="col-md-4">{{form_errors(edit_form.file) }}        </div> 
     </div>    
         </div>
     <div class="row formulario-row">

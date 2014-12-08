@@ -24,7 +24,10 @@ class UsuarioController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('UsuarioBundle:Usuario')->findAll();
-
+        //$paginador=  $this->get('ideup.simple_paginator');
+        /*$entities=$paginador->paginate(
+                $em->getRepository("UsuarioBundle:Usuario")->queryTodosLosUsuarios()
+                )->getResult();*/
         return $this->render('UsuarioBundle:Usuario:index.html.twig', array(
             'entities' => $entities,
         ));
