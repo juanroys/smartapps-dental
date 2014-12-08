@@ -1,7 +1,35 @@
+{% form_theme form 'HistClinicaBundle:Form:form_template.html.twig' %}
+<div  class="headerdiv">
+    <h3>Editar Perfil</h3>
+</div>
 <form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit">
-    {{ form_widget(form) }}
-    <div>
-        <a href="{{path('fos_user_profile_show')}}"> Volver </a>
-        <input type="submit" value="{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}" />
+    <div class="formbody">
+        <div class="row formulario-row">
+            <div class="col-md-2">{{form_label(form.username) }}</div>
+            <div class="col-md-4">{{form_widget(form.username) }} </div>       
+            <div class= "col-md-4">{{form_errors(form.username)}}</div>
+        </div>
+        <div class="row formulario-row">
+            <div class="col-md-2">{{form_label(form.email) }}</div>
+            <div class="col-md-4">{{form_widget(form.email) }} </div>       
+            <div class= "col-md-4">{{form_errors(form.email)}}</div>
+        </div>
+        <div class="row formulario-row">
+            <div class="col-md-2">{{form_label(form.current_password) }}</div>
+            <div class="col-md-4">{{form_widget(form.current_password) }} </div>       
+            <div class= "col-md-4">{{form_errors(form.current_password)}}</div>
+        </div>   
+    </div>
+    <div class="row formulario-row">
+        <div class="col-md-12">        
+            <ul class="list-inline">               
+                <li >
+                    <a href="{{path('fos_user_profile_show')}}" class="btn btn-default"> Volver </a>
+                </li>                 
+                <li >
+                    <input class="btn btn-default btn-success"type="submit" value="{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}"/>              
+                </li> 
+            </ul>        
+        </div>
     </div>
 </form>

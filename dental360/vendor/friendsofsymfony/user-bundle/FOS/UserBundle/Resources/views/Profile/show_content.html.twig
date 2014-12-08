@@ -1,7 +1,36 @@
-<div class="fos_user_user_show">
-    <p>{{ 'profile.show.username'|trans({}, 'FOSUserBundle') }}: {{ user.username }}</p>
-    <p>{{ 'profile.show.email'|trans({}, 'FOSUserBundle') }}: {{ user.email }}</p>
-    <a href="{{path('fos_user_profile_edit')}}">Editar</a> <a href="{{path('fos_user_change_password')}}">[Cambiar Contraseña]</a>
-    
-    
+<div  class="headerdiv">
+    <h3>Perfil</h3>
 </div>
+<div class="fos_user_user_show">
+    <div class="formbody">
+        <div class="row">
+            <div class="col-md-2">
+                <label>{{ 'profile.show.username'|trans({}, 'FOSUserBundle') }}:</label>
+            </div>
+            <div class="col-md-2">
+                <label>{{ user.username }}</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label>{{ 'profile.show.email'|trans({}, 'FOSUserBundle') }}:</label>
+            </div>
+            <div class="col-md-2">
+                <label>{{ user.email }}</label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row formulario-row">
+    <div class="col-md-12">        
+        <ul class="list-inline">               
+            <li >
+                <a href="{{path('fos_user_profile_edit')}}" class="btn btn-default">Editar</a>
+            </li>                 
+            <li >
+                <a href="{{path('fos_user_change_password')}}" class="btn btn-default">Cambiar Contraseña</a> 
+            </li> 
+        </ul>        
+    </div>
+</div>  
+
