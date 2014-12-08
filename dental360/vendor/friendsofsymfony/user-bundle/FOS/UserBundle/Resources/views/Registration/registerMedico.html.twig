@@ -10,7 +10,7 @@
     <div class="row formulario-row">
         <div class="col-md-2">{{form_label(form.username) }}</div>
         <div class="col-md-4">{{form_widget(form.username) }}        </div>    
-        </div>    
+    </div>    
     <div class="row formulario-row">
         <div class="col-md-2">{{form_label(form.email) }}</div>
         <div class="col-md-4">{{form_widget(form.email) }}        </div>    
@@ -18,31 +18,30 @@
     <div class="row formulario-row">
         <div class="col-md-6">{{form_widget(form.plainPassword) }}        </div>    
     </div>    
-            
-        </div>
-    <div class="row formulario-row">
-        <div class="col-md-12">        
+</div>
+<div class="row formulario-row">
+    <div class="col-md-12">        
         <ul class="list-inline">
-                <li >
-<input type="submit" value="Guardar"  class="btn btn-default btn-success"/>
-                </li>                
-                <li >
-                    <a href="{{ path('medico') }}" class="btn btn-default">
-                        Volver al listado
-                    </a>
-                </li>                
-            </ul>        
-        </div>
+            <li >
+                <input type="submit" value="Guardar"  class="btn btn-default btn-success"/>
+            </li>                
+            <li >
+                <a href="{{ path('medico') }}" class="btn btn-default">
+                    Volver al listado
+                </a>
+            </li>                
+        </ul>        
     </div>
+</div>
     {{ form_end(form)}}
 <script src="{{ asset('bundles/histclinica/js/jquery.js') }}"></script>
-<script>   
-    jQuery(document).ready(function(){        
-        
-        jQuery("input[type='text']").attr('class','form-control');
-        jQuery("input[type='password']").attr('class','form-control');
-        jQuery("input[type='email']").attr('class','form-control');        
+<script>
+    jQuery(document).ready(function() {
+
+        jQuery("input[type='text']").attr('class', 'form-control');
+        jQuery("input[type='password']").attr('class', 'form-control');
+        jQuery("input[type='email']").attr('class', 'form-control');
     });
-    </script>
+</script>
 
 {% endblock fos_user_content %}
