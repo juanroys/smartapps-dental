@@ -39,6 +39,7 @@ twig:
             ComboBox: 6
             Iframe: 7
             Odontograma: 8
+            Fecha: 9
 
 # Assetic Configuration
 assetic:
