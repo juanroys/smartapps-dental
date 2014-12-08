@@ -1,6 +1,19 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
+<script type="text/javascript" lang="javascript">
+    $(document).ready(function() {
+        var inputNoIdentificacion = document.getElementById('smartapps_histclinicabundle_paciente_noIdentificacion');
+        inputNoIdentificacion.onkeypress = justNumbers;
+    });
+    function justNumbers(e)
+        {
+            var keynum = window.event ? window.event.keyCode : e.which;
+            if ((keynum == 8) || (keynum == 46))
+                return true;
+            return /\d/.test(String.fromCharCode(keynum));
+        };
+</script>
 {% form_theme form 'HistClinicaBundle:Form:form_template.html.twig' %}
 <div  class="headerdiv" style="border-radius: 7px; margin-bottom: 3px;">
     <h3>Registrar Paciente</h3>

@@ -1,65 +1,112 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
+<script type="text/javascript" lang="javascript">
+    $(document).ready(function() {
+        var inputTipoPregunta = document.getElementById('smartapps_histclinicabundle_pregunta_tipoEntrada');
+        inputTipoPregunta.onchange = cargarOpciones;
+    });
+    function cargarOpciones() {
+        if (this.value == 7) {
+            var selectOptions = document.createElement("select");
+            var options = document.getElementById("smartapps_histclinicabundle_pregunta_opciones");
+            selectOptions.id = "smartapps_histclinicabundle_pregunta_opciones";
+            selectOptions.style.width = "300px";
+            selectOptions.name = "smartapps_histclinicabundle_pregunta_opciones";
+            var optionSelectOne = document.createElement("option");
+            optionSelectOne.value = "sugerencia";
+            optionSelectOne.text = "sugerencia";
+            var optionSelectTwo = document.createElement("option");
+            optionSelectTwo.value = "atencion";
+            optionSelectTwo.text = "atencion";
+            selectOptions.appendChild(optionSelectOne);
+            selectOptions.appendChild(optionSelectTwo);
+            var parent = options.parentNode;
+            parent.replaceChild(selectOptions, options);
+        } else {
+            if (this.value == 8) {
+                var selectOptions = document.createElement("select");
+                var options = document.getElementById("smartapps_histclinicabundle_pregunta_opciones");
+                selectOptions.id = "smartapps_histclinicabundle_pregunta_opciones";
+                selectOptions.style.width = "300px";
+                selectOptions.name = "smartapps_histclinicabundle_pregunta_opciones";
+                var optionSelectOne = document.createElement("option");
+                optionSelectOne.value = "odontograma";
+                optionSelectOne.text = "odontograma";
+                selectOptions.appendChild(optionSelectOne);
+                var parent = options.parentNode;
+                parent.replaceChild(selectOptions, options);
+            } else {
+                var inputOptions = document.createElement("input");
+                var options = document.getElementById("smartapps_histclinicabundle_pregunta_opciones");
+                inputOptions.id = "smartapps_histclinicabundle_pregunta_opciones";
+                inputOptions.className = "form-control";
+                inputOptions.type="text";
+                inputOptions.name = "smartapps_histclinicabundle_pregunta_opciones";
+                var parent = options.parentNode;
+                parent.replaceChild(inputOptions, options);
+            }
+        }
+    }
+</script>
 {% form_theme form 'HistClinicaBundle:Form:form_template.html.twig' %}
 
 <div  class="headerdiv">
     <h3>Registrar Pregunta</h3>
 </div>
     {{ form_start(form) }}
-<div class="formbody">
-
-<div class="row formulario-row">
-    <div class="col-md-2">{{form_label(form.grupo) }}</div>
-    <div class="col-md-4">{{form_widget(form.grupo) }}        </div> 
-    <div class="col-md-2">{{form_label(form.tipoEntrada) }}</div>
-    <div class="col-md-4">{{form_widget(form.tipoEntrada) }}</div> 
-</div>
+<div class="formbody">    
     <div class="row formulario-row">            
-    <div class= "col-md-6">{{form_errors(form.grupo)}}</div>
-    <div class= "col-md-6">{{form_errors(form.tipoEntrada)}}</div>
+        <div class= "col-md-6">{{form_errors(form.grupo)}}</div>
+        <div class= "col-md-6">{{form_errors(form.tipoEntrada)}}</div>
+    </div>
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(form.grupo) }}</div>
+        <div class="col-md-4">{{form_widget(form.grupo) }}        </div> 
+        <div class="col-md-2">{{form_label(form.tipoEntrada) }}</div>
+        <div class="col-md-4">{{form_widget(form.tipoEntrada) }}</div> 
+    </div>
+    <div class="row formulario-row">            
+        <div class= "col-md-6">{{form_errors(form.enunciado)}}</div>
+        <div class= "col-md-6">{{form_errors(form.obligatoria)}}</div>
+    </div>
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(form.enunciado) }}</div>
+        <div class="col-md-4">{{form_widget(form.enunciado) }}        </div> 
+        <div class="col-md-2">{{form_label(form.obligatoria) }}</div>
+        <div class="col-md-4">{{form_widget(form.obligatoria) }}        </div> 
+    </div>
+    <div class="row formulario-row">            
+        <div class= "col-md-6">{{form_errors(form.orden)}}</div>
+        <div class= "col-md-6">{{form_errors(form.noColumna)}}</div>
+    </div>
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(form.orden) }}</div>
+        <div class="col-md-4">{{form_widget(form.orden) }}        </div> 
+        <div class="col-md-2">{{form_label(form.noColumna) }}</div>
+        <div class="col-md-4">{{form_widget(form.noColumna) }}        </div> 
+    </div>
+    <div class="row formulario-row">            
+        <div class= "col-md-6">{{form_errors(form.colspan)}}</div>
+        <div class= "col-md-6">{{form_errors(form.rowspan)}}</div>
+    </div>
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(form.colspan) }}</div>
+        <div class="col-md-4">{{form_widget(form.colspan) }}        </div> 
+        <div class="col-md-2">{{form_label(form.rowspan) }}</div>
+        <div class="col-md-4">{{form_widget(form.rowspan) }}        </div> 
+    </div>
+    <div class="row formulario-row">            
+        <div class= "col-md-6">{{form_errors(form.estaActiva)}}</div>
+        <div class= "col-md-6">{{form_errors(form.opciones)}}</div>
+    </div>
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(form.estaActiva) }}</div>
+        <div class="col-md-4">{{form_widget(form.estaActiva) }}        </div> 
+        <div class="col-md-2">{{form_label(form.opciones) }}</div>
+        <div class="col-md-4">{{form_widget(form.opciones) }}        </div>  
+    </div>
 </div>
-<div class="row formulario-row">            
-    <div class= "col-md-6">{{form_errors(form.enunciado)}}</div>
-    <div class= "col-md-6">{{form_errors(form.obligatoria)}}</div>
-</div>
-<div class="row formulario-row">
-    <div class="col-md-2">{{form_label(form.enunciado) }}</div>
-    <div class="col-md-4">{{form_widget(form.enunciado) }}        </div> 
-    <div class="col-md-2">{{form_label(form.obligatoria) }}</div>
-    <div class="col-md-4">{{form_widget(form.obligatoria) }}        </div> 
-</div>
-<div class="row formulario-row">            
-    <div class= "col-md-6">{{form_errors(form.orden)}}</div>
-    <div class= "col-md-6">{{form_errors(form.noColumna)}}</div>
-</div>
-<div class="row formulario-row">
-    <div class="col-md-2">{{form_label(form.orden) }}</div>
-    <div class="col-md-4">{{form_widget(form.orden) }}        </div> 
-    <div class="col-md-2">{{form_label(form.noColumna) }}</div>
-    <div class="col-md-4">{{form_widget(form.noColumna) }}        </div> 
-</div>
-<div class="row formulario-row">            
-    <div class= "col-md-6">{{form_errors(form.colspan)}}</div>
-    <div class= "col-md-6">{{form_errors(form.rowspan)}}</div>
-</div>
-<div class="row formulario-row">
-    <div class="col-md-2">{{form_label(form.colspan) }}</div>
-    <div class="col-md-4">{{form_widget(form.colspan) }}        </div> 
-    <div class="col-md-2">{{form_label(form.rowspan) }}</div>
-    <div class="col-md-4">{{form_widget(form.rowspan) }}        </div> 
-</div>
-<div class="row formulario-row">            
-    <div class= "col-md-6">{{form_errors(form.estaActiva)}}</div>
-    <div class= "col-md-6">{{form_errors(form.opciones)}}</div>
-</div>
-<div class="row formulario-row">
-    <div class="col-md-2">{{form_label(form.estaActiva) }}</div>
-    <div class="col-md-4">{{form_widget(form.estaActiva) }}        </div> 
-    <div class="col-md-2">{{form_label(form.opciones) }}</div>
-    <div class="col-md-4">{{form_widget(form.opciones) }}        </div>  
-</div>
-        </div>
 <div class="row formulario-row">
     <div class="col-md-12">        
         <ul class="list-inline">

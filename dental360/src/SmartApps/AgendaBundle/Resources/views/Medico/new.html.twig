@@ -1,6 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
+{% form_theme form 'AgendaBundle:Form:form_template.html.twig' %}
  <div  class="headerdiv">
     <h3>Registrar Medico</h3>
 </div>
@@ -8,15 +9,18 @@
 <div class="formbody">
     <div class="row formulario-row">
         <div class="col-md-2">{{form_label(form.nombreCompleto) }}</div>
-        <div class="col-md-4">{{form_widget(form.nombreCompleto) }}        </div>    
+        <div class="col-md-4">{{form_widget(form.nombreCompleto) }}        </div> 
+        <div class= "col-md-4">{{form_errors(form.nombreCompleto)}}</div>
         </div>    
     <div class="row formulario-row">
         <div class="col-md-2">{{form_label(form.titulosEspecialidad) }}</div>
-        <div class="col-md-4">{{form_widget(form.titulosEspecialidad) }}        </div>    
+        <div class="col-md-4">{{form_widget(form.titulosEspecialidad) }}        </div> 
+        <div class= "col-md-4">{{form_errors(form.titulosEspecialidad)}}</div>
     </div>
     <div class="row formulario-row">
         <div class="col-md-2">{{form_label(form.file, 'Firma') }}</div>
-        <div class="col-md-4">{{form_widget(form.file) }}        </div>    
+        <div class="col-md-4">{{form_widget(form.file) }}        </div> 
+        <div class="col-md-4">{{form_errors(form.file) }}        </div>   
     </div>    
         </div>
     <div class="row formulario-row">

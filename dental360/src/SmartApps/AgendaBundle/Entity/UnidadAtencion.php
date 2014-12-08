@@ -3,6 +3,7 @@
 namespace SmartApps\AgendaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Medico
@@ -25,15 +26,10 @@ class UnidadAtencion
     /**
      * @var string
      *
-     * @ORM\Column(name="descripcion", type="string", length=256)
+     * @ORM\Column(name="descripcion", type="string", length=256)     * 
+     * @Assert\NotBlank(message = "Por favor, escribe una descripción")
      */
     private $descripcion;
-    
-      
-
-    public function __construct() {
-        
-    }
 
     /**
      * Get id

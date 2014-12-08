@@ -1,63 +1,155 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
+<script type="text/javascript" lang="javascript">
+    $(document).ready(function() {
+        var inputTipoPregunta = document.getElementById('smartapps_histclinicabundle_pregunta_tipoEntrada');
+        if (inputTipoPregunta.value == 7) {
+            var selectOptions = document.createElement("select");
+            var options = document.getElementById("smartapps_histclinicabundle_pregunta_opciones");
+            var optionsValue=options.value;
+            selectOptions.id = "smartapps_histclinicabundle_pregunta_opciones";
+            selectOptions.style.width = "300px";
+            selectOptions.name = "smartapps_histclinicabundle_pregunta_opciones";
+            var optionSelectOne = document.createElement("option");
+            optionSelectOne.value = "sugerencia";
+            optionSelectOne.text = "sugerencia";
+            var optionSelectTwo = document.createElement("option");
+            optionSelectTwo.value = "atencion";
+            optionSelectTwo.text = "atencion";
+            selectOptions.appendChild(optionSelectOne);
+            selectOptions.appendChild(optionSelectTwo);
+            selectOptions.value=optionsValue;
+            var parent = options.parentNode;
+            parent.replaceChild(selectOptions, options);
+        } else {
+            if (inputTipoPregunta.value == 8) {
+                var selectOptions = document.createElement("select");
+                var options = document.getElementById("smartapps_histclinicabundle_pregunta_opciones");
+                var optionsValue=options.value;
+                selectOptions.id = "smartapps_histclinicabundle_pregunta_opciones";
+                selectOptions.style.width = "300px";
+                selectOptions.name = "smartapps_histclinicabundle_pregunta_opciones";
+                var optionSelectOne = document.createElement("option");
+                optionSelectOne.value = "odontograma";
+                optionSelectOne.text = "odontograma";
+                selectOptions.appendChild(optionSelectOne);
+                selectOptions.value=optionsValue;
+                var parent = options.parentNode;
+                parent.replaceChild(selectOptions, options);
+            } else {
+                var inputOptions = document.createElement("input");
+                var options = document.getElementById("smartapps_histclinicabundle_pregunta_opciones");
+                inputOptions.id = "smartapps_histclinicabundle_pregunta_opciones";
+                inputOptions.className = "form-control";
+                inputOptions.type = "text";
+                inputOptions.name = "smartapps_histclinicabundle_pregunta_opciones";
+                var parent = options.parentNode;
+                parent.replaceChild(inputOptions, options);
+            }
+        }
+        inputTipoPregunta.onchange = cargarOpciones;
+    });
+    function cargarOpciones() {
+        if (this.value == 7) {
+            var selectOptions = document.createElement("select");
+            var options = document.getElementById("smartapps_histclinicabundle_pregunta_opciones");
+            selectOptions.id = "smartapps_histclinicabundle_pregunta_opciones";
+            selectOptions.style.width = "300px";
+            selectOptions.name = "smartapps_histclinicabundle_pregunta_opciones";
+            var optionSelectOne = document.createElement("option");
+            optionSelectOne.value = "sugerencia";
+            optionSelectOne.text = "sugerencia";
+            var optionSelectTwo = document.createElement("option");
+            optionSelectTwo.value = "atencion";
+            optionSelectTwo.text = "atencion";
+            selectOptions.appendChild(optionSelectOne);
+            selectOptions.appendChild(optionSelectTwo);
+            var parent = options.parentNode;
+            parent.replaceChild(selectOptions, options);
+        } else {
+            if (this.value == 8) {
+                var selectOptions = document.createElement("select");
+                var options = document.getElementById("smartapps_histclinicabundle_pregunta_opciones");
+                selectOptions.id = "smartapps_histclinicabundle_pregunta_opciones";
+                selectOptions.style.width = "300px";
+                selectOptions.name = "smartapps_histclinicabundle_pregunta_opciones";
+                var optionSelectOne = document.createElement("option");
+                optionSelectOne.value = "odontograma";
+                optionSelectOne.text = "odontograma";
+                selectOptions.appendChild(optionSelectOne);
+                var parent = options.parentNode;
+                parent.replaceChild(selectOptions, options);
+            } else {
+                var inputOptions = document.createElement("input");
+                var options = document.getElementById("smartapps_histclinicabundle_pregunta_opciones");
+                inputOptions.id = "smartapps_histclinicabundle_pregunta_opciones";
+                inputOptions.className = "form-control";
+                inputOptions.type = "text";
+                inputOptions.name = "smartapps_histclinicabundle_pregunta_opciones";
+                var parent = options.parentNode;
+                parent.replaceChild(inputOptions, options);
+            }
+        }
+    }
+</script>
 {% form_theme edit_form 'HistClinicaBundle:Form:form_template.html.twig' %}
 <div  class="headerdiv">
     <h3>Editar Pregunta</h3>
 </div>
     {{ form_start(edit_form) }} 
 <div class="formbody">
-<div class="row formulario-row">            
-    <div class= "col-md-6">{{form_errors(edit_form.grupo)}}</div>
-    <div class= "col-md-6">{{form_errors(edit_form.tipoEntrada)}}</div>
+    <div class="row formulario-row">            
+        <div class= "col-md-6">{{form_errors(edit_form.grupo)}}</div>
+        <div class= "col-md-6">{{form_errors(edit_form.tipoEntrada)}}</div>
+    </div>
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(edit_form.grupo) }}</div>
+        <div class="col-md-4">{{form_widget(edit_form.grupo) }}        </div>    
+        <div class="col-md-2">{{form_label(edit_form.tipoEntrada) }}</div>
+        <div class="col-md-4">{{form_widget(edit_form.tipoEntrada) }}        </div>    
+    </div>
+    <div class="row formulario-row">            
+        <div class= "col-md-6">{{form_errors(edit_form.enunciado)}}</div>
+        <div class= "col-md-6">{{form_errors(edit_form.obligatoria)}}</div>
+    </div>
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(edit_form.enunciado) }}</div>
+        <div class="col-md-4">{{form_widget(edit_form.enunciado) }}        </div>    
+        <div class="col-md-2">{{form_label(edit_form.obligatoria) }}</div>
+        <div class="col-md-4">{{form_widget(edit_form.obligatoria) }}        </div>    
+    </div>
+    <div class="row formulario-row">            
+        <div class= "col-md-6">{{form_errors(edit_form.orden)}}</div>
+        <div class= "col-md-6">{{form_errors(edit_form.noColumna)}}</div>
+    </div>
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(edit_form.orden) }}</div>
+        <div class="col-md-4">{{form_widget(edit_form.orden) }}        </div>    
+        <div class="col-md-2">{{form_label(edit_form.noColumna) }}</div>
+        <div class="col-md-4">{{form_widget(edit_form.noColumna) }}        </div>    
+    </div>
+    <div class="row formulario-row">            
+        <div class= "col-md-6">{{form_errors(edit_form.colspan)}}</div>
+        <div class= "col-md-6">{{form_errors(edit_form.rowspan)}}</div>
+    </div>
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(edit_form.colspan) }}</div>
+        <div class="col-md-4">{{form_widget(edit_form.colspan) }}        </div>    
+        <div class="col-md-2">{{form_label(edit_form.rowspan) }}</div>
+        <div class="col-md-4">{{form_widget(edit_form.rowspan) }}        </div>    
+    </div>
+    <div class="row formulario-row">            
+        <div class= "col-md-6">{{form_errors(edit_form.estaActiva)}}</div>
+        <div class= "col-md-6">{{form_errors(edit_form.opciones)}}</div>
+    </div>
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(edit_form.estaActiva) }}</div>
+        <div class="col-md-4">{{form_widget(edit_form.estaActiva) }}        </div>    
+        <div class="col-md-2">{{form_label(edit_form.opciones) }}</div>
+        <div class="col-md-4">{{form_widget(edit_form.opciones) }}        </div>    
+    </div>
 </div>
-<div class="row formulario-row">
-    <div class="col-md-2">{{form_label(edit_form.grupo) }}</div>
-    <div class="col-md-4">{{form_widget(edit_form.grupo) }}        </div>    
-    <div class="col-md-2">{{form_label(edit_form.tipoEntrada) }}</div>
-    <div class="col-md-4">{{form_widget(edit_form.tipoEntrada) }}        </div>    
-</div>
-<div class="row formulario-row">            
-    <div class= "col-md-6">{{form_errors(edit_form.enunciado)}}</div>
-    <div class= "col-md-6">{{form_errors(edit_form.obligatoria)}}</div>
-</div>
-<div class="row formulario-row">
-    <div class="col-md-2">{{form_label(edit_form.enunciado) }}</div>
-    <div class="col-md-4">{{form_widget(edit_form.enunciado) }}        </div>    
-    <div class="col-md-2">{{form_label(edit_form.obligatoria) }}</div>
-    <div class="col-md-4">{{form_widget(edit_form.obligatoria) }}        </div>    
-</div>
-<div class="row formulario-row">            
-    <div class= "col-md-6">{{form_errors(edit_form.orden)}}</div>
-    <div class= "col-md-6">{{form_errors(edit_form.noColumna)}}</div>
-</div>
-<div class="row formulario-row">
-    <div class="col-md-2">{{form_label(edit_form.orden) }}</div>
-    <div class="col-md-4">{{form_widget(edit_form.orden) }}        </div>    
-    <div class="col-md-2">{{form_label(edit_form.noColumna) }}</div>
-    <div class="col-md-4">{{form_widget(edit_form.noColumna) }}        </div>    
-</div>
-<div class="row formulario-row">            
-    <div class= "col-md-6">{{form_errors(edit_form.colspan)}}</div>
-    <div class= "col-md-6">{{form_errors(edit_form.rowspan)}}</div>
-</div>
-<div class="row formulario-row">
-    <div class="col-md-2">{{form_label(edit_form.colspan) }}</div>
-    <div class="col-md-4">{{form_widget(edit_form.colspan) }}        </div>    
-    <div class="col-md-2">{{form_label(edit_form.rowspan) }}</div>
-    <div class="col-md-4">{{form_widget(edit_form.rowspan) }}        </div>    
-</div>
-<div class="row formulario-row">            
-    <div class= "col-md-6">{{form_errors(edit_form.estaActiva)}}</div>
-    <div class= "col-md-6">{{form_errors(edit_form.opciones)}}</div>
-</div>
-<div class="row formulario-row">
-    <div class="col-md-2">{{form_label(edit_form.estaActiva) }}</div>
-    <div class="col-md-4">{{form_widget(edit_form.estaActiva) }}        </div>    
-    <div class="col-md-2">{{form_label(edit_form.opciones) }}</div>
-    <div class="col-md-4">{{form_widget(edit_form.opciones) }}        </div>    
-</div>
-        </div>
 <div class="row formulario-row">
     <div class="col-md-12">        
         <ul class="list-inline">
