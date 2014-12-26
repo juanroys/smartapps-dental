@@ -22,6 +22,16 @@ class SugerenciaController extends Controller {
                     'sugerencias' => $sugerencias,
         ));
     }
+    public function exportarAction($historiaId) {
+        $em = $this->getDoctrine()->getManager();
+        $historiaClinica = $em->getRepository('HistClinicaBundle:HistoriaClinica')->find($historiaId);
+        $sugerencias = $em->getRepository('HistClinicaBundle:Sugerencia')->findSugerenciaPorHistoria($historiaId);
+        $paciente = $historiaClinica->getPaciente();
+        return $this->render('HistClinicaBundle:Sugerencia:exportar.html.twig', array(
+                    'paciente' => $paciente,
+                    'sugerencias' => $sugerencias,
+        ));
+    }
 
     public function createAction() {
         $datos = $_POST;

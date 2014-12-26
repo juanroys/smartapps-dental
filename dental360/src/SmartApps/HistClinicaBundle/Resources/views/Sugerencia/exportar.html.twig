@@ -1,0 +1,43 @@
+{% extends '::base.html.twig' %}
+{%block barraNavegacion%}
+{%endblock%}
+{%block footer%}
+{%endblock%}
+{%block pacejs%}{%endblock%}
+{%block pacecss%}{%endblock%}
+{% block container %}{%endblock%}
+{% block endcontainer %}{%endblock%}
+{% block body%}
+
+<div class="row" style="width: 1100px;">
+    <div class="col-md-12" >
+        <table class="records_list table table-condensed table-bordered" id="sugerencias">
+            <thead>
+                <tr>
+                    <th style="background-color: #1CA9A3; border-color: #1CA9A3">Fecha</th>
+                    <th style="background-color: #1CA9A3; border-color: #1CA9A3">Plan de Tratamiento</th>
+                    <th style="background-color: #1CA9A3; border-color: #1CA9A3">Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+            {%if sugerencias is defined and sugerencias!=null%}
+            {%for sugerencia in sugerencias%}
+                <tr id="{{sugerencia.id}}">
+                    <td>
+                {{sugerencia.fechaPlanificacion|date('Y-m-d')}}
+                    </td>
+                    <td>
+                {{sugerencia.procedimiento.descripcion}}
+                    </td>
+                    <td>
+                {{sugerencia.costo}}
+                    </td>
+                </tr>
+            {%endfor%}
+            {%endif%}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock%}

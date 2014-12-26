@@ -17,21 +17,21 @@
             </ul>
         </div>
     </div>
-        </div>
-    <table class="records_list table table-striped table-condensed table-bordered">
-        <thead>
-            <tr>                
-                <th>Título</th>
-                <th>Orden</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
+</div>
+<table class="records_list table table-striped table-condensed table-bordered">
+    <thead>
+        <tr>                
+            <th>Título</th>
+            <th>Orden</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for entity in entities %}
-            <tr>                
-                <td>{{ entity.titulo }}</td>
-                <td style="text-align: center;">{{ entity.orden }}</td>
-                <td class="tdactions">
+        <tr>                
+            <td>{{ entity.titulo }}</td>
+            <td style="text-align: center;">{{ entity.orden }}</td>
+            <td class="tdactions">
                 <ul class="list-inline">
                     <li>
                         <a href="{{ path('grupo_edit', { 'id': entity.id }) }}"><img src="{{ asset('bundles/histclinica/images/icons/edit-20.png') }}" width="20px" alt="Editar" title="Editar"/></a>
@@ -40,11 +40,26 @@
                         <a href="{{ path('grupo_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar el grupo?');" ><img src="{{ asset('bundles/histclinica/images/icons/cancel-22.png') }}" width="20px" alt="Borrar"  title="Borrar"/></a>
                     </li>
                 </ul>
-                </td>
-            </tr>
+            </td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
+<form action="{{path('grupo_search')}}" method="post">
+    <div class="col-md-3" style="padding-left: 30px; padding-top: 5px; padding-bottom: 5px;">
+        <input autocomplete="off" required="" value="{%if search is defined%}{{search}}{%endif%}" type="search" class="form-control" name="search" placeholder="Buscar por Título"/> 
+    </div>
+    {%if search is defined%}
+    <div class="col-md-1" style="padding-top: 8px; padding-bottom: 5px; width: 5%; padding-right: 0px; padding-left: 0px;">
+        <a href="{{ path('grupo') }}" class="btn btn-default btn-register">
+            <img src="{{ asset('bundles/histclinica/images/icons/cancel.png') }}" width="20px" alt="Quitar Filtro" title="Quitar Filtro"/>
+        </a>
+    </div>
+    {%endif%}
+    <div class="col-md-1" style="padding-left: 0px; padding-top: 5px; padding-bottom: 5px;">
+        <input class="btn btn-default" type="submit" value="Buscar"/>
+    </div>
+</form> 
     {{ simple_paginator_render('grupo',null,{
                     'container_class':'pagination',
                     'firstPageText':'|<',

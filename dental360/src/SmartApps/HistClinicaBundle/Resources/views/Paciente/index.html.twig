@@ -2,7 +2,7 @@
 
 {% block body %}
 <div class="headerdiv">
-   <div class="row">
+    <div class="row">
         <div class="col-md-10">
             <h3>Pacientes</h3>
         </div>
@@ -17,53 +17,73 @@
             </ul>
         </div>
     </div>
-        </div>
-    <table class="records_list table table-striped table-condensed table-bordered">
-        <thead>
-            <tr>
-                
-                <th>Nombre Completo</th>
-               <!-- <th>Fechanacimiento</th>
-                <th>Lugarnacimiento</th> -->
-                <th>Tipo Id.</th>
-                <th>No Id.</th>
-                <th>Email</th>
-                <th>Estado civil</th>
-                <th>Sexo</th>
-                <th>Eps</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
+</div>
+<table class="records_list table table-striped table-condensed table-bordered">
+    <thead>
+        <tr>
+
+            <th>Nombre Completo</th>
+            <!-- <th>Fechanacimiento</th>
+             <th>Lugarnacimiento</th> -->
+            <th>Tipo Id.</th>
+            <th>No Id.</th>
+            <th>Email</th>
+            <th>Estado civil</th>
+            <th>Sexo</th>
+            <th>Eps</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for entity in entities %}
-            <tr>
-                
-                <td>{{ entity.nombres }} {{ entity.apellido1 }} {{ entity.apellido2 }}</td>                                
-                <td>{{ tipoIdentificacion[entity.tipoIdentificacion] }}  </td>                
-                 
-                <td>{{ entity.noIdentificacion }}</td>
-                <td>{{ entity.email }}</td>                
-                <td>{{ estadoCivil[entity.estadoCivil] }}</td> 
-                <td> {{ genero[entity.sexo] }}</td>
-                
-                <td>{{ entity.ePS }}</td>
+        <tr>
+
+            <td>{{ entity.nombres }} {{ entity.apellido1 }} {{ entity.apellido2 }}</td>                                
+            <td>{{ tipoIdentificacion[entity.tipoIdentificacion] }}  </td>                
+
+            <td>{{ entity.noIdentificacion }}</td>
+            <td>{{ entity.email }}</td>                
+            <td>{{ estadoCivil[entity.estadoCivil] }}</td> 
+            <td> {{ genero[entity.sexo] }}</td>
+
+            <td>{{ entity.ePS }}</td>
             <td class="tdactions">                
-                   <ul class="list-inline">
+                <ul class="list-inline">
                     <li>
                         <a href="{{ path('paciente_edit', { 'id': entity.id }) }}"><img src="{{ asset('bundles/histclinica/images/icons/edit-20.png') }}" width="20px" alt="Editar" title="Editar"/></a>
                     </li>
                     <li>
                         <a href="{{ path('paciente_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar el paciente?');" ><img src="{{ asset('bundles/histclinica/images/icons/cancel-22.png') }}" width="20px" alt="Borrar"  title="Borrar"/></a>
                     </li>
+                    {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_MEDICO")%}
                     <li>
                         <a href="{{ path('historiaClinica_new', { 'id': entity.id }) }}"><img src="{{ asset('bundles/histclinica/images/icons/history.png') }}" width="20px" alt="Historia clínica"  title="Historia clínica"/></a>
                     </li>
+                    <li>
+                        <a href="{{ path('exportar_llamarExportar', { 'id': entity.id }) }}"><img src="{{ asset('bundles/histclinica/images/icons/print.png') }}" width="20px" alt="Imprimir Historia clínica"  title="Imprimir Historia clínica"/></a>
+                    </li>
+                    {%endif%}
                 </ul>
-                </td>
-            </tr>
+            </td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
+<form action="{{path('paciente_search')}}" method="post">
+    <div class="col-md-3" style="padding-left: 30px; padding-top: 5px; padding-bottom: 5px;">
+        <input autocomplete="off" required="" value="{%if search is defined%}{{search}}{%endif%}" type="search" class="form-control" name="search" placeholder="Buscar por Nombre, No Id, Email"/> 
+    </div>
+    {%if search is defined%}
+    <div class="col-md-1" style="padding-top: 8px; padding-bottom: 5px; width: 5%; padding-right: 0px; padding-left: 0px;">
+        <a href="{{ path('paciente') }}" class="btn btn-default btn-register">
+            <img src="{{ asset('bundles/histclinica/images/icons/cancel.png') }}" width="20px" alt="Quitar Filtro" title="Quitar Filtro"/>
+        </a>
+    </div>
+    {%endif%}
+    <div class="col-md-1" style="padding-left: 0px; padding-top: 5px; padding-bottom: 5px;">
+        <input class="btn btn-default" type="submit" value="Buscar"/>
+    </div>
+</form>
         {{ simple_paginator_render('paciente',null,{
                     'container_class':'pagination',
                     'firstPageText':'|<',

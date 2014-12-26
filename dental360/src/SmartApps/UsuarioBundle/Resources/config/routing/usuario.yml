@@ -27,4 +27,7 @@ usuario_update:
 usuario_delete:
     path:     /{id}/delete
     defaults: { _controller: "UsuarioBundle:Usuario:delete" }
-    requirements: { _method: post|delete }
+    
+usuario_search:
+    path:     /search
+    defaults: { _controller: "UsuarioBundle:Usuario:search"}

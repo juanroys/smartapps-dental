@@ -36,3 +36,6 @@ pregunta_savefromtemplate:
     path:     /savefromtemplate
     defaults: { _controller: "HistClinicaBundle:Pregunta:savefromtemplate" }
  
+pregunta_search:
+    path:     /search
+    defaults: { _controller: "HistClinicaBundle:Pregunta:search" }

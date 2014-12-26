@@ -38,6 +38,22 @@ class ProcedimientoController extends Controller
             'entities' => $entities,
         ));
     }
+    public function searchAction() {
+        $search=filter_input(INPUT_POST, 'search',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $em = $this->getDoctrine()->getManager();
+        $paginador = $this->get('ideup.simple_paginator');
+        $paginador->paginate($em->getRepository("HistClinicaBundle:Procedimiento")->queryBuscarProcedimientos($search));
+        if ($paginador->getTotalItems() > 0) {
+            $paginador->setItemsPerPage($paginador->getTotalItems());
+        }
+        $entities = $paginador->paginate(
+                        $em->getRepository("HistClinicaBundle:Procedimiento")->queryBuscarProcedimientos($search)
+                )->getResult();
+        return $this->render('HistClinicaBundle:Procedimiento:index.html.twig', array(
+                    'entities' => $entities,
+                    'search' => $search
+        ));
+    }
     /**
      * Creates a new Procedimiento entity.
      *

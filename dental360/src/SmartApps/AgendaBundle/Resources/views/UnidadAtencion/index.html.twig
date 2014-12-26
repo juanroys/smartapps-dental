@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-   <div class="headerdiv">
+<div class="headerdiv">
     <div class="row">
         <div class="col-md-10">
             <h3>Unidades de atenci&oacute;n</h3>
@@ -17,31 +17,63 @@
             </ul>
         </div>
     </div>
-        </div>
-    <table class="records_list table table-striped table-condensed table-bordered">
-        <thead>
-            <tr>
-                <th>Descripci&oacute;n</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
+</div>
+<table class="records_list table table-striped table-condensed table-bordered">
+    <thead>
+        <tr>
+            <th>Descripci&oacute;n</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for entity in entities %}
-            <tr>
-                <td>{{ entity.descripcion }}</td>
-                <td class="tdactions">
+        <tr>
+            <td>{{ entity.descripcion }}</td>
+            <td class="tdactions">
                 <ul class="list-inline">
                     <li>
                         <a href="{{ path('unidadatencion_edit', { 'id': entity.id }) }}"><img src="{{ asset('bundles/histclinica/images/icons/edit-20.png') }}" width="20px" alt="Editar" title="Editar"/></a>
                     </li>
-                    
+
                     <li>
                         <a href="{{ path('unidadatencion_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar el medico?');" ><img src="{{ asset('bundles/histclinica/images/icons/cancel-22.png') }}" width="20px" alt="Borrar"  title="Borrar"/></a>
                     </li>
                 </ul>
-                </td>
-            </tr>
+            </td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
+<form action="{{path('unidadatencion_search')}}" method="post">
+    <div class="col-md-3" style="padding-left: 30px; padding-top: 5px; padding-bottom: 5px;">
+        <input autocomplete="off" required="" value="{%if search is defined%}{{search}}{%endif%}" type="search" class="form-control" name="search" placeholder="Buscar por Descripción"/> 
+    </div>
+    {%if search is defined%}
+    <div class="col-md-1" style="padding-top: 8px; padding-bottom: 5px; width: 5%; padding-right: 0px; padding-left: 0px;">
+        <a href="{{ path('unidadatencion') }}" class="btn btn-default btn-register">
+            <img src="{{ asset('bundles/histclinica/images/icons/cancel.png') }}" width="20px" alt="Quitar Filtro" title="Quitar Filtro"/>
+        </a>
+    </div>
+    {%endif%}
+    <div class="col-md-1" style="padding-left: 0px; padding-top: 5px; padding-bottom: 5px;">
+        <input class="btn btn-default" type="submit" value="Buscar"/>
+    </div>
+</form> 
+{{ simple_paginator_render('medico',null,{
+                    'container_class':'pagination',
+                    'firstPageText':'|<',
+                    'firstEnabledClass':'',
+                    'firstDisabledClass':'disabled',
+                    'previousPageText': '<<',
+                    'previousEnabledClass':'',
+                    'previousDisabledClass':'disabled',
+                    'currentClass': 'active',
+                    'nextPageText': '>>',
+                    'nextEnabledClass':'',
+                    'nextDisabledClass':'disabled', 
+                    'lastPageText':'>|',
+                    'lastEnabledClass': '',
+                    'lastDisabledClass': 'disabled'
+                    })}}
+
     {% endblock %}

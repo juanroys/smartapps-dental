@@ -28,3 +28,6 @@ unidadatencion_delete:
     path:     /{id}/delete
     defaults: { _controller: "AgendaBundle:UnidadAtencion:delete" }
 
+unidadatencion_search:
+    path:     /search
+    defaults: { _controller: "AgendaBundle:UnidadAtencion:search" }

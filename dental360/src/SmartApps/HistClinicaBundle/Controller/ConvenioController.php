@@ -4,7 +4,6 @@ namespace SmartApps\HistClinicaBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use SmartApps\HistClinicaBundle\Entity\Convenio;
 use SmartApps\HistClinicaBundle\Form\ConvenioType;
 
@@ -12,33 +11,48 @@ use SmartApps\HistClinicaBundle\Form\ConvenioType;
  * Convenio controller.
  *
  */
-class ConvenioController extends Controller
-{
+class ConvenioController extends Controller {
 
     /**
      * Lists all Convenio entities.
      *
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
-        $paginador=  $this->get('ideup.simple_paginator');
-        $entities=$paginador->paginate(
-                $em->getRepository("HistClinicaBundle:Convenio")->queryTodosLosConvenios()
+        $paginador = $this->get('ideup.simple_paginator');
+        $entities = $paginador->paginate(
+                        $em->getRepository("HistClinicaBundle:Convenio")->queryTodosLosConvenios()
                 )->getResult();
 
         //$entities = $em->getRepository('HistClinicaBundle:Convenio')->findAll();
 
         return $this->render('HistClinicaBundle:Convenio:index.html.twig', array(
-            'entities' => $entities,
+                    'entities' => $entities,
         ));
     }
+
+    public function searchAction() {
+        $search=filter_input(INPUT_POST, 'search',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $em = $this->getDoctrine()->getManager();
+        $paginador = $this->get('ideup.simple_paginator');
+        $paginador->paginate($em->getRepository("HistClinicaBundle:Convenio")->queryBuscarConvenios($search));
+        if ($paginador->getTotalItems() > 0) {
+            $paginador->setItemsPerPage($paginador->getTotalItems());
+        }
+        $entities = $paginador->paginate(
+                        $em->getRepository("HistClinicaBundle:Convenio")->queryBuscarConvenios($search)
+                )->getResult();
+        return $this->render('HistClinicaBundle:Convenio:index.html.twig', array(
+                    'entities' => $entities,
+                    'search' => $search
+        ));
+    }
+
     /**
      * Creates a new Convenio entity.
      *
      */
-    public function createAction(Request $request)
-    {
+    public function createAction(Request $request) {
         $entity = new Convenio();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
@@ -52,8 +66,8 @@ class ConvenioController extends Controller
         }
 
         return $this->render('HistClinicaBundle:Convenio:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+                    'entity' => $entity,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -64,8 +78,7 @@ class ConvenioController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Convenio $entity)
-    {
+    private function createCreateForm(Convenio $entity) {
         $form = $this->createForm(new ConvenioType(), $entity, array(
             'action' => $this->generateUrl('convenio_create'),
             'method' => 'POST',
@@ -80,14 +93,13 @@ class ConvenioController extends Controller
      * Displays a form to create a new Convenio entity.
      *
      */
-    public function newAction()
-    {
+    public function newAction() {
         $entity = new Convenio();
-        $form   = $this->createCreateForm($entity);
+        $form = $this->createCreateForm($entity);
 
         return $this->render('HistClinicaBundle:Convenio:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+                    'entity' => $entity,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -95,8 +107,7 @@ class ConvenioController extends Controller
      * Finds and displays a Convenio entity.
      *
      */
-    public function showAction($id)
-    {
+    public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('HistClinicaBundle:Convenio')->find($id);
@@ -108,8 +119,8 @@ class ConvenioController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('HistClinicaBundle:Convenio:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
+                    'entity' => $entity,
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -117,8 +128,7 @@ class ConvenioController extends Controller
      * Displays a form to edit an existing Convenio entity.
      *
      */
-    public function editAction($id)
-    {
+    public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('HistClinicaBundle:Convenio')->find($id);
@@ -131,21 +141,20 @@ class ConvenioController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('HistClinicaBundle:Convenio:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
-    * Creates a form to edit a Convenio entity.
-    *
-    * @param Convenio $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Convenio $entity)
-    {
+     * Creates a form to edit a Convenio entity.
+     *
+     * @param Convenio $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(Convenio $entity) {
         $form = $this->createForm(new ConvenioType(), $entity, array(
             'action' => $this->generateUrl('convenio_update', array('id' => $entity->getId())),
             'method' => 'PUT',
@@ -155,12 +164,12 @@ class ConvenioController extends Controller
 
         return $form;
     }
+
     /**
      * Edits an existing Convenio entity.
      *
      */
-    public function updateAction(Request $request, $id)
-    {
+    public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('HistClinicaBundle:Convenio')->find($id);
@@ -178,29 +187,29 @@ class ConvenioController extends Controller
 
             return $this->redirect($this->generateUrl('convenio'));
         }
-            
+
         return $this->render('HistClinicaBundle:Convenio:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
+
     /**
      * Deletes a Convenio entity.
      *
      */
-    public function deleteAction($id)
-    {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('HistClinicaBundle:Convenio')->find($id);
+    public function deleteAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('HistClinicaBundle:Convenio')->find($id);
 
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Convenio entity.');
-            }
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Convenio entity.');
+        }
 
-            $em->remove($entity);
-            $em->flush();
-      
+        $em->remove($entity);
+        $em->flush();
+
 
         return $this->redirect($this->generateUrl('convenio'));
     }
@@ -212,13 +221,13 @@ class ConvenioController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
-    {
+    private function createDeleteForm($id) {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('convenio_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
+                        ->setAction($this->generateUrl('convenio_delete', array('id' => $id)))
+                        ->setMethod('DELETE')
+                        ->add('submit', 'submit', array('label' => 'Delete'))
+                        ->getForm()
         ;
     }
+
 }

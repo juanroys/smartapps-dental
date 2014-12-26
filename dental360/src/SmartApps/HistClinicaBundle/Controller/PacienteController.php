@@ -4,43 +4,61 @@ namespace SmartApps\HistClinicaBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use SmartApps\HistClinicaBundle\Entity\Paciente;
 use SmartApps\HistClinicaBundle\Entity\HistoriaClinica;
 use SmartApps\HistClinicaBundle\Form\PacienteType;
 use Symfony\Component\HttpFoundation\Response;
+
 /**
  * Paciente controller.
  *
  */
-class PacienteController extends Controller
-{
+class PacienteController extends Controller {
 
     /**
      * Lists all Paciente entities.
      *
      */
-    public function indexAction()
-    {  
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
-       // $entities = $em->getRepository('HistClinicaBundle:Paciente')->findAll();
-        $paginador=  $this->get('ideup.simple_paginator');
-        $entities=$paginador->paginate(
-                $em->getRepository("HistClinicaBundle:Paciente")->queryTodosLosPacientes()
-                )->getResult(); 
+        // $entities = $em->getRepository('HistClinicaBundle:Paciente')->findAll();
+        $paginador = $this->get('ideup.simple_paginator');
+        $entities = $paginador->paginate(
+                        $em->getRepository("HistClinicaBundle:Paciente")->queryTodosLosPacientes()
+                )->getResult();
         return $this->render('HistClinicaBundle:Paciente:index.html.twig', array(
-            'entities' => $entities,
-            'tipoIdentificacion' => \SmartApps\HistClinicaBundle\Util\Util::TipoIdentificacionEnum(),
-            'estadoCivil' => \SmartApps\HistClinicaBundle\Util\Util::EstadoCivilEnum(),
-            'genero' => \SmartApps\HistClinicaBundle\Util\Util::GeneroEnum(),
+                    'entities' => $entities,
+                    'tipoIdentificacion' => \SmartApps\HistClinicaBundle\Util\Util::TipoIdentificacionEnum(),
+                    'estadoCivil' => \SmartApps\HistClinicaBundle\Util\Util::EstadoCivilEnum(),
+                    'genero' => \SmartApps\HistClinicaBundle\Util\Util::GeneroEnum(),
         ));
     }
+
+    public function searchAction() {
+        $search=filter_input(INPUT_POST, 'search',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $em = $this->getDoctrine()->getManager();
+        $paginador = $this->get('ideup.simple_paginator');
+        $paginador->paginate($em->getRepository("HistClinicaBundle:Paciente")->queryBuscarPacientes($search));
+        if ($paginador->getTotalItems() > 0) {
+            $paginador->setItemsPerPage($paginador->getTotalItems());
+        }
+        $entities = $paginador->paginate(
+                        $em->getRepository("HistClinicaBundle:Paciente")->queryBuscarPacientes($search)
+                )->getResult();
+        return $this->render('HistClinicaBundle:Paciente:index.html.twig', array(
+                    'entities' => $entities,
+                    'search' => $search,
+                    'tipoIdentificacion' => \SmartApps\HistClinicaBundle\Util\Util::TipoIdentificacionEnum(),
+                    'estadoCivil' => \SmartApps\HistClinicaBundle\Util\Util::EstadoCivilEnum(),
+                    'genero' => \SmartApps\HistClinicaBundle\Util\Util::GeneroEnum(),
+        ));
+    }
+
     /**
      * Creates a new Paciente entity.
      *
      */
-    public function createAction(Request $request)
-    {
+    public function createAction(Request $request) {
         $entity = new Paciente();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
@@ -48,19 +66,19 @@ class PacienteController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
-            
+
             $historia = new HistoriaClinica();
             $historia->setPaciente($entity);
             $em->persist($historia);
-            
+
             $em->flush();
 
             return $this->redirect($this->generateUrl('paciente', array('id' => $entity->getId())));
         }
 
         return $this->render('HistClinicaBundle:Paciente:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+                    'entity' => $entity,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -71,8 +89,7 @@ class PacienteController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Paciente $entity)
-    {
+    private function createCreateForm(Paciente $entity) {
         $form = $this->createForm(new PacienteType(), $entity, array(
             'action' => $this->generateUrl('paciente_create'),
             'method' => 'POST',
@@ -87,14 +104,13 @@ class PacienteController extends Controller
      * Displays a form to create a new Paciente entity.
      *
      */
-    public function newAction()
-    {
+    public function newAction() {
         $entity = new Paciente();
-        $form   = $this->createCreateForm($entity);
+        $form = $this->createCreateForm($entity);
 
         return $this->render('HistClinicaBundle:Paciente:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+                    'entity' => $entity,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -102,8 +118,7 @@ class PacienteController extends Controller
      * Finds and displays a Paciente entity.
      *
      */
-    public function showAction($id)
-    {
+    public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('HistClinicaBundle:Paciente')->find($id);
@@ -115,8 +130,8 @@ class PacienteController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('HistClinicaBundle:Paciente:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
+                    'entity' => $entity,
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -124,8 +139,7 @@ class PacienteController extends Controller
      * Displays a form to edit an existing Paciente entity.
      *
      */
-    public function editAction($id)
-    {
+    public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('HistClinicaBundle:Paciente')->find($id);
@@ -136,23 +150,22 @@ class PacienteController extends Controller
 
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
-        
+
         return $this->render('HistClinicaBundle:Paciente:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
-    * Creates a form to edit a Paciente entity.
-    *
-    * @param Paciente $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Paciente $entity)
-    {
+     * Creates a form to edit a Paciente entity.
+     *
+     * @param Paciente $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(Paciente $entity) {
         $form = $this->createForm(new PacienteType(), $entity, array(
             'action' => $this->generateUrl('paciente_update', array('id' => $entity->getId())),
             'method' => 'PUT',
@@ -162,12 +175,12 @@ class PacienteController extends Controller
 
         return $form;
     }
+
     /**
      * Edits an existing Paciente entity.
      *
      */
-    public function updateAction(Request $request, $id)
-    {
+    public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('HistClinicaBundle:Paciente')->find($id);
@@ -184,35 +197,33 @@ class PacienteController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('paciente', array('id' => $id)));
-        }
-        else
-        {
+        } else {
             echo 'Formulario Invalido';
         }
 
         return $this->render('HistClinicaBundle:Paciente:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
+
     /**
      * Deletes a Paciente entity.
      *
      */
-    public function deleteAction( $id)
-    {
-      
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('HistClinicaBundle:Paciente')->find($id);
+    public function deleteAction($id) {
 
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Paciente entity.');
-            }
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('HistClinicaBundle:Paciente')->find($id);
 
-            $em->remove($entity);
-            $em->flush();
-        
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Paciente entity.');
+        }
+
+        $em->remove($entity);
+        $em->flush();
+
 
         return $this->redirect($this->generateUrl('paciente'));
     }
@@ -224,19 +235,17 @@ class PacienteController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
-    {
+    private function createDeleteForm($id) {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('paciente_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
+                        ->setAction($this->generateUrl('paciente_delete', array('id' => $id)))
+                        ->setMethod('DELETE')
+                        ->add('submit', 'submit', array('label' => 'Delete'))
+                        ->getForm()
         ;
     }
-    
-    public function registroRapidoAction()
-    {
-        $apellido1 =   $_POST['apellido1'];
+
+    public function registroRapidoAction() {
+        $apellido1 = $_POST['apellido1'];
         $apellido2 = $_POST['apellido2'];
         $nombres = $_POST['nombres'];
         $telefonos = $_POST['telefonos'];
@@ -244,10 +253,10 @@ class PacienteController extends Controller
         $noId = $_POST['noId'];
         $eps = $_POST['eps'];
         $convenio = $_POST['convenio'];
-        
-        $em = $this->getDoctrine()->getManager();        
-        $entity = new Paciente();            
-        
+
+        $em = $this->getDoctrine()->getManager();
+        $entity = new Paciente();
+
         $entity->setApellido1($apellido1);
         $entity->setApellido2($apellido2);
         $entity->setNombres($nombres);
@@ -255,19 +264,19 @@ class PacienteController extends Controller
         $entity->setTipoIdentificacion($tipoId);
         $entity->setNoIdentificacion($noId);
         $entity->setEPS($eps);
-        
-        if($convenio > 0 )
-        {
-            $entity->setConvenio($em->getRepository('HistClinicaBundle:Convenio')->find($convenio));                    
+
+        if ($convenio > 0) {
+            $entity->setConvenio($em->getRepository('HistClinicaBundle:Convenio')->find($convenio));
         }
         $em->persist($entity);
-        $em->flush();            
-        
-         $response = array(
+        $em->flush();
+
+        $response = array(
             "sucess" => "ok",
-             "idpaciente" => $entity->getId(),
+            "idpaciente" => $entity->getId(),
         );
-         
+
         return new Response(json_encode($response));
     }
+
 }

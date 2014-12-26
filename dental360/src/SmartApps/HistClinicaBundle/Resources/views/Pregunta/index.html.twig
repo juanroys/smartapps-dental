@@ -24,39 +24,39 @@
             </ul>
         </div>
     </div>
-        </div>
-    <table class="records_list table table-striped table-condensed table-bordered">
-        <thead>
-            <tr>
-                <th>Tipo entrada</th>
-                <th>Enunciado</th>
-                <th>Obligatoria</th>
-                <th>Orden</th>
-                <th>Colspan</th>
-                <th>Rowspan</th>
-                <th>No columna</th>
-                <th>Esta activa</th>
-                <th>Opciones</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
+</div>
+<table class="records_list table table-striped table-condensed table-bordered">
+    <thead>
+        <tr>
+            <th>Tipo entrada</th>
+            <th>Enunciado</th>
+            <th>Obligatoria</th>
+            <th>Orden</th>
+            <th>Colspan</th>
+            <th>Rowspan</th>
+            <th>No columna</th>
+            <th>Esta activa</th>
+            <th>Opciones</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for entity in entities %}
-            <tr>
-                <td>{{ tipoentrada[entity.tipoEntrada] }}</td>
-                
-                <td>{{ entity.enunciado }}</td>
-                <td style="text-align: center;">{{ sinoenum[entity.obligatoria] }}</td>
-                
-                <td style="text-align: center;">{{ entity.orden }}</td>
-                <td style="text-align: center;">{{ entity.colspan }}</td>
-                <td style="text-align: center;">{{ entity.rowspan }}</td>
-                <td style="text-align: center;">{{ entity.noColumna }}</td>
-                <td style="text-align: center;">{{ sinoenum[entity.estaActiva] }}</td>
-                <td>{{ entity.opciones }}</td>
-                <td class="tdactions">
+        <tr>
+            <td>{{ tipoentrada[entity.tipoEntrada] }}</td>
+
+            <td>{{ entity.enunciado }}</td>
+            <td style="text-align: center;">{{ sinoenum[entity.obligatoria] }}</td>
+
+            <td style="text-align: center;">{{ entity.orden }}</td>
+            <td style="text-align: center;">{{ entity.colspan }}</td>
+            <td style="text-align: center;">{{ entity.rowspan }}</td>
+            <td style="text-align: center;">{{ entity.noColumna }}</td>
+            <td style="text-align: center;">{{ sinoenum[entity.estaActiva] }}</td>
+            <td>{{ entity.opciones }}</td>
+            <td class="tdactions">
                 <ul class="list-inline">
-                    
+
                     <li>
                         <a href="{{ path('pregunta_edit', { 'id': entity.id }) }}"><img src="{{ asset('bundles/histclinica/images/icons/edit-20.png') }}" width="20px" alt="Editar" title="Editar"/></a>
                     </li>
@@ -67,11 +67,26 @@
                         <a href="{{ path('preguntaopcion_listado', { 'id': entity.id }) }}"><img src="{{ asset('bundles/histclinica/images/icons/list-16.png') }}" width="20px" alt="Opciones respuesta"  title="Opciones de respuesta"/></a>
                     </li>
                 </ul>
-                </td>
-            </tr>
+            </td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
+<form action="{{path('pregunta_search')}}" method="post">
+    <div class="col-md-3" style="padding-left: 30px; padding-top: 5px; padding-bottom: 5px;">
+        <input autocomplete="off" required="" value="{%if search is defined%}{{search}}{%endif%}" type="search" class="form-control" name="search" placeholder="Buscar por Enunciado"/> 
+    </div>
+    {%if search is defined%}
+    <div class="col-md-1" style="padding-top: 8px; padding-bottom: 5px; width: 5%; padding-right: 0px; padding-left: 0px;">
+        <a href="{{ path('pregunta') }}" class="btn btn-default btn-register">
+            <img src="{{ asset('bundles/histclinica/images/icons/cancel.png') }}" width="20px" alt="Quitar Filtro" title="Quitar Filtro"/>
+        </a>
+    </div>
+    {%endif%}
+    <div class="col-md-1" style="padding-left: 0px; padding-top: 5px; padding-bottom: 5px;">
+        <input class="btn btn-default" type="submit" value="Buscar"/>
+    </div>
+</form> 
                 {{ simple_paginator_render('pregunta',null,{
                     'container_class':'pagination',
                     'firstPageText':'|<',

@@ -9,8 +9,6 @@
 {%block footer%}
 {%endblock%}
 {% block body%}
-    
-    {#definicion de variables#}
 {% set medidaDienteOdontograma=12.5 %}
 {% set medidaDientePanel=32 %}
 {% set superiorExterior="superiorExterior"%}
@@ -20,8 +18,6 @@
 {% set izquierda="izquierda"%}
 {% set derecha="derecha"%}
 {% set centro="centro"%}
-    {#fin definicion de variables#} 
-    
     <script>
         var idGrupo
         //color seleccionado en el comboBox de colores
@@ -51,19 +47,6 @@
 
 
         jQuery(document).ready(function() {
-            //funciones sobre el modal del panel de control (mostrar y ocultar)
-            jQuery('#closeDieModal').click(function() {
-                jQuery("#dienteModal").modal('hide');
-            });
-            jQuery('#saveDieModal').click(function() {
-                jQuery("#dienteModal").modal('hide');
-                guardarDiagnostico();
-                persistirDiagnosticoActual();
-            });
-            cambiarColor();
-            cambiarDiagnostico('none', 'none');
-            document.getElementById('ningunoParcial').checked = true;
-            document.getElementById('ningunoCompleto').checked = true;
             construirOdontograma();
         });
         function construirOdontograma() {
@@ -169,11 +152,6 @@
                         }
                     }
                 }
-                function panelDesdeDiv(elemento) {
-                    var idDiente = elemento.id.split('-')[1];
-                    var diente = document.getElementById(idDiente);
-                    mostrarPanel(diente);
-                }
                 function guardarDiagnostico() {
                     var idDiente = dienteActual.id;
                     reiniciarDienteActual();
@@ -201,7 +179,6 @@
                                         oImg.style.zIndex = 4;
                                         oImg.style.top = 0;
                                         oImg.style.left = 0;
-                                        oImg.style.cursor = "pointer";
                                         break;
                                     case 1:
                                         div = document.getElementById('item-{{superiorExterior}}_' + idDiente);
@@ -269,36 +246,6 @@
                     }
                 }
 
-                function persistirDiagnosticoActual() {
-                    var dienteId = dienteActual.id;
-                    $.post('{{path('odontograma_create')}}',
-                            {
-                                dienteId: dienteId,
-                                indiceActual: indiceActual,
-                                arrayDiagActual: arrayDiagActual,
-                                historiaId: {{historiaClinica.id}},
-                                odontogramaId: {{odontograma.id}}
-                            },
-                    function(response) {
-                    }, "json");
-                }
-                function mostrarPanel(elemento) {
-                    jQuery("#dienteModal").modal('show');
-                    dienteActual = elemento;
-                    reiniciarPanel();
-                    buscarIndiceDienteActual();
-                    arrayDiagActual = new Array(8);
-                    if (indiceActual >= 0) {
-                        for (i = 0; i < arrayDiagActual.length; i++) {
-                            if (arrayDiagnosticos[indiceActual][i] != null) {
-                                arrayDiagActual[i] = arrayDiagnosticos[indiceActual][i].slice(0);
-                            }
-                        }
-                        //arrayDiagActual = arrayDiagnosticos[indiceActual].slice(0);
-                    }
-                    cargarDiagnostico();
-                }
-
                 function buscarIndiceDienteActual() {
                     for (i = 0; i < arrayDientes.length; i++) {
                         if (arrayDientes[i] == dienteActual.id) {
@@ -307,124 +254,6 @@
                         } else {
                             indiceActual = -1;
                         }
-                    }
-                }
-
-                function cargarDiagnostico() {
-                    for (i = 0; i < arrayDiagActual.length; i++) {
-                        if (arrayDiagActual[i] != null && arrayDiagActual[i][0] != "none") {
-                            for (j = 0; j < arrayDiagActual[i].length; j++) {
-                                var div = null;
-                                var elemento = null;
-                                switch (i) {
-                                    case 0:
-                                        var diente_panel = document.getElementById('div-diente_panel');
-                                        if (imageNow != null) {
-                                            diente_panel.removeChild(imageNow);
-                                        }
-                                        var oImg = document.createElement("img");
-                                        var auxPath = "{{ asset('ROUTE') }}";
-                                        var path = auxPath.replace('ROUTE', 'bundles/histclinica/images/' + arrayDiagActual[i][2] + '.png');
-                                        oImg.setAttribute('src', path);
-                                        oImg.setAttribute('height', '{{medidaDientePanel*5}}px');
-                                        oImg.setAttribute('width', '{{medidaDientePanel*5}}px');
-                                        diente_panel.appendChild(oImg);
-                                        oImg.style.position = 'absolute';
-                                        oImg.style.zIndex = 4;
-                                        oImg.style.top = 0;
-                                        oImg.style.left = {{medidaDientePanel/2}};
-                                        imageNow = oImg;
-                                        document.getElementById('radioCompleto-' + arrayDiagActual[i][0]).checked = true;
-                                        imageSelect = arrayDiagActual[i][2].split('_')[0];
-                                        colorSelect = arrayDiagActual[i][2].split('_')[1].split('.')[0];
-                                        colorSelect = document.getElementById('colores').value=colorSelect;
-                                        diagnosticoActual = arrayDiagActual[i][0];
-                                        break;
-                                    case 1:
-                                        div = document.getElementById('{{superiorExterior}}_item');
-                                        elemento = document.getElementById('{{superiorExterior}}');
-                                        break;
-                                    case 2:
-                                        div = document.getElementById('{{superior}}_item');
-                                        elemento = document.getElementById('{{superior}}');
-                                        break;
-                                    case 3:
-                                        div = document.getElementById('{{izquierda}}_item');
-                                        elemento = document.getElementById('{{izquierda}}');
-                                        break;
-                                    case 4:
-                                        div = document.getElementById('{{centro}}_item');
-                                        elemento = document.getElementById('{{centro}}');
-                                        break;
-                                    case 5:
-                                        div = document.getElementById('{{derecha}}_item');
-                                        elemento = document.getElementById('{{derecha}}');
-                                        break;
-                                    case 6:
-                                        div = document.getElementById('{{inferior}}_item');
-                                        elemento = document.getElementById('{{inferior}}');
-                                        break;
-                                    case 7:
-                                        div = document.getElementById('{{inferiorExterior}}_item');
-                                        elemento = document.getElementById('{{inferiorExterior}}');
-                                        break;
-                                }
-                                if (div != null) {
-                                    div.style.backgroundRepeat = "no-repeat";
-                                    div.style.backgroundPosition = "center";
-
-                                    if (arrayDiagActual[i][1] == "color") {
-                                        elemento.style.fill = arrayDiagActual[i][2];
-                                        div.style.background = "white";
-                                        div.style.backgroundSize = "0px";
-                                        div.style.zIndex = -1;
-                                    } else {
-                                        if (arrayDiagActual[i][1] == "imagen") {
-                                            div.style.background = "url(../../../../bundles/histclinica/images/" + arrayDiagActual[i][2] + ".png)";
-                                            div.style.backgroundSize = "{{medidaDientePanel}}px";
-                                            div.style.zIndex = 1;
-                                            elemento.style.fill = "white";
-                                        }
-                                        else {
-                                            elemento.style.fill = "white";
-                                            div.style.background = "white";
-                                            div.style.backgroundSize = "0px";
-                                            div.style.zIndex = -1;
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            arrayDiagActual[i] = null;
-                        }
-                    }
-                }
-
-                function cambiarColor() {
-                    colorSelect = document.getElementById('colores').value;
-                    var diente_panel = document.getElementById('div-diente_panel');
-                    if (imageNow != null) {
-                        if (imageSelect != null && imageSelect != 'none') {
-                            arrayDiagActual[0][2] = imageSelect + '_' + colorSelect;
-                        }
-                        diente_panel.removeChild(imageNow);
-                        var oImg = document.createElement("img");
-                        var auxPath = "{{ asset('ROUTE') }}";
-                        var path = auxPath.replace('ROUTE', 'bundles/histclinica/images/' + imageSelect + '_' + colorSelect + '.png');
-                        oImg.setAttribute('src', path);
-                        oImg.setAttribute('height', '{{medidaDientePanel*5}}px');
-                        oImg.setAttribute('width', '{{medidaDientePanel*5}}px');
-                        diente_panel.appendChild(oImg);
-                        oImg.style.position = 'absolute';
-                        oImg.style.zIndex = 4;
-                        oImg.style.top = 0;
-                        oImg.style.left = {{medidaDientePanel/2}};
-                        imageNow = oImg;
-                    }
-                    if (imageNowType == "color") {
-                        backgroundSelect = colorSelect;
-                    } else {
-                        backgroundSelect = iconoNow + '_' + colorSelect;
                     }
                 }
                 function cambiarDiagnostico(diagnostico, icono, tipo) {
@@ -444,7 +273,6 @@
                 }
                 function cambiarImagen(diagnostico, imagen) {
                     imageSelect = imagen;
-                    colorSelect = document.getElementById('colores').value;
                     var auxArray = new Array(3);
                     auxArray[0] = diagnostico;
                     auxArray[1] = "imagenFull";
@@ -534,12 +362,6 @@
                     }
                 }
 
-                function aplicarDesdeDiv(elemento) {
-                    var id = elemento.id;
-                    var idPoligono = id.split("_")[0];
-                    var poligono = document.getElementById(idPoligono);
-                    aplicar(poligono);
-                }
     </script>
     <style>
         #controlPanel {
@@ -553,7 +375,6 @@
             border-radius: 10px
         }
         .svg-diente {
-            cursor: pointer;
             background: white;
             display: inline-block;
             width: {{medidaDienteOdontograma*5}}px;
@@ -610,79 +431,18 @@
             fill-rule:evenodd; 
             z-index: 3
         }
-
-        .polygon-diente_panel{
-            cursor: pointer;
-            fill:white;
-            stroke:black;
-            stroke-width:2;
-            fill-rule:evenodd; 
-            z-index: 3
-        }
         .itemPoligono{
             height: {{medidaDientePanel}}px;
             width: {{medidaDientePanel}}px;
             position: absolute;
             z-index: -1;
-            cursor: pointer;
         }
         .itemPoligonoOdontograma{
             height: {{medidaDienteOdontograma}}px;
             width: {{medidaDienteOdontograma}}px;
             position: absolute;
             z-index: -1;
-            cursor: pointer;
             background: blue;
-        }
-
-        #{{superiorExterior}}_item{ 
-            margin-left: {{medidaDientePanel*2}}px;
-            margin-right: {{medidaDientePanel*2}}px;
-            margin-top: 0px;
-            margin-bottom: {{medidaDientePanel*4}}px;
-        }
-
-        #{{superior}}_item{
-            margin-left: {{medidaDientePanel*2}}px;
-            margin-right: {{medidaDientePanel*2}}px;
-            margin-top: {{medidaDientePanel}}px;
-            margin-bottom: {{medidaDientePanel*3}}px;
-        }
-
-        #{{izquierda}}_item{
-            margin-left: {{medidaDientePanel}}px;
-            margin-right: {{medidaDientePanel*3}}px;
-            margin-top: {{medidaDientePanel*2}}px;
-            margin-bottom: {{medidaDientePanel*2}}px;
-        }
-
-        #{{centro}}_item{
-            margin-left: {{medidaDientePanel*2}}px;
-            margin-right: {{medidaDientePanel*2}}px;
-            margin-top: {{medidaDientePanel*2}}px;
-            margin-bottom: {{medidaDientePanel*2}}px;
-        }
-
-        #{{derecha}}_item{ 
-            margin-left: {{medidaDientePanel*3}}px;
-            margin-right: {{medidaDientePanel}}px;
-            margin-top: {{medidaDientePanel*2}}px;
-            margin-bottom: {{medidaDientePanel*2}}px;
-        }
-
-        #{{inferior}}_item{
-            margin-left: {{medidaDientePanel*2}}px;
-            margin-right: {{medidaDientePanel*2}}px;
-            margin-top: {{medidaDientePanel*3}}px;
-            margin-bottom: {{medidaDientePanel}}px;
-        }
-
-        #{{inferiorExterior}}_item{ 
-            margin-left: {{medidaDientePanel*2}}px;
-            margin-right: {{medidaDientePanel*2}}px;
-            margin-top: {{medidaDientePanel*4}}px;
-            margin-bottom: 0px;
-
         }
 
         .{{superiorExterior}}_item{ 
@@ -802,7 +562,7 @@
         {%endif%}
         {%endif%}
 
-            <div class="div-diente" id="div_diente-{{numeroCuadrante}}_{{numeroActual | abs}}_{{i}}" onclick="panelDesdeDiv(this)">
+            <div class="div-diente" id="div_diente-{{numeroCuadrante}}_{{numeroActual | abs}}_{{i}}" >
 
                 <!-- item poligono superior exterior -->
                 <div class="itemPoligonoOdontograma {{superiorExterior}}_item" id="item-{{superiorExterior}}_{{numeroCuadrante}}_{{numeroActual | abs}}_{{i}}"></div>
@@ -820,7 +580,7 @@
                 <div class="itemPoligonoOdontograma {{inferiorExterior}}_item" id="item-{{inferiorExterior}}_{{numeroCuadrante}}_{{numeroActual | abs}}_{{i}}" ></div>
 
 
-                <svg class="svg-diente" id="{{numeroCuadrante}}_{{numeroActual | abs}}_{{i}}" onclick="mostrarPanel(this)">
+                <svg class="svg-diente" id="{{numeroCuadrante}}_{{numeroActual | abs}}_{{i}}" >
                 <!--cuadro central-->
                 <polygon points="{{medidaDienteOdontograma*2}},{{medidaDienteOdontograma*2}} {{medidaDienteOdontograma*3}},{{medidaDienteOdontograma*2}} {{medidaDienteOdontograma*3}},{{medidaDienteOdontograma*3}} {{medidaDienteOdontograma*2}},{{medidaDienteOdontograma*3}} " 
                          id="pol-{{centro}}_{{numeroCuadrante}}_{{numeroActual | abs}}_{{i}}" class="polygon-diente_odontograma"/>
@@ -882,100 +642,5 @@
         {%endfor%}
         </div>
 
-    </div>
-
-    <div id="dienteModal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header" style="text-align: center">
-                    <h3>Panel de Control</h3>
-                </div>
-                <div class="modal-body" style="margin-left:10px; margin-right: 10px;">
-                    <div class="row" style="z-index:2;" id="1_1">
-                        <div class="col-md-4" id="div-diente_panel" style="position: relative;">
-                            <!-- item poligono superior exterior -->
-                            <div class="itemPoligono" id="{{superiorExterior}}_item" onclick="aplicarDesdeDiv(this)"></div>
-                            <!-- item poligono superior -->
-                            <div class="itemPoligono" id="{{superior}}_item" onclick="aplicarDesdeDiv(this)"></div>
-                            <!-- item poligono izquierda  -->
-                            <div  class="itemPoligono" id="{{izquierda}}_item" onclick="aplicarDesdeDiv(this)"></div>
-                            <!-- item poligono central -->
-                            <div class="itemPoligono" id="{{centro}}_item" onclick="aplicarDesdeDiv(this)"></div>
-                            <!-- item poligono derecha -->
-                            <div class="itemPoligono" id="{{derecha}}_item" onclick="aplicarDesdeDiv(this)"></div>
-                            <!-- item poligono inferior -->
-                            <div class="itemPoligono" id="{{inferior}}_item" onclick="aplicarDesdeDiv(this)"></div>
-                            <!-- item poligono inferior externo -->
-                            <div class="itemPoligono" id="{{inferiorExterior}}_item" onclick="aplicarDesdeDiv(this)"></div>
-
-                            <svg class="svg-diente_panel">
-
-                            <!--cuadro central-->
-                            <polygon points="{{medidaDientePanel*2}},{{medidaDientePanel*2}} {{medidaDientePanel*3}},{{medidaDientePanel*2}} {{medidaDientePanel*3}},{{medidaDientePanel*3}} {{medidaDientePanel*2}},{{medidaDientePanel*3}} "
-                                     class="polygon-diente_panel" onclick="aplicar(this)" id="{{centro}}"/>
-                            <!--poligono superior-->
-                            <polygon points="{{medidaDientePanel}},{{medidaDientePanel}} {{medidaDientePanel*4}},{{medidaDientePanel}} {{medidaDientePanel*3}},{{medidaDientePanel*2}} {{medidaDientePanel*2}},{{medidaDientePanel*2}}"
-                                     class="polygon-diente_panel" onclick="aplicar(this)" id="{{superior}}"/>
-                            <!--poligono inferior-->
-                            <polygon points="{{medidaDientePanel}},{{medidaDientePanel*4}} {{medidaDientePanel*4}},{{medidaDientePanel*4}} {{medidaDientePanel*3}},{{medidaDientePanel*3}} {{medidaDientePanel*2}},{{medidaDientePanel*3}}"
-                                     class="polygon-diente_panel" onclick="aplicar(this)" id="{{inferior}}"/>
-                            <!--poligono izquierdo-->
-                            <polygon points="{{medidaDientePanel}},{{medidaDientePanel}} {{medidaDientePanel}},{{medidaDientePanel*4}} {{medidaDientePanel*2}},{{medidaDientePanel*3}} {{medidaDientePanel*2}},{{medidaDientePanel*2}}"
-                                     class="polygon-diente_panel" onclick="aplicar(this)" id="{{izquierda}}"/>
-
-                            <!--poligono derecho-->
-                            <polygon points="{{medidaDientePanel*3}},{{medidaDientePanel*2}} {{medidaDientePanel*4}},{{medidaDientePanel}} {{medidaDientePanel*4}},{{medidaDientePanel*4}} {{medidaDientePanel*3}},{{medidaDientePanel*3}}"
-                                     class="polygon-diente_panel" onclick="aplicar(this)" id="{{derecha}}"/>
-                            <!--poligono exterior superior-->
-                            <polygon points="5,0 {{(medidaDientePanel*5)-5}},0 {{medidaDientePanel*4}},{{medidaDientePanel}} {{medidaDientePanel}},{{medidaDientePanel}}"
-                                     class="polygon-diente_panel" onclick="aplicar(this)"id="{{superiorExterior}}"/>
-
-                            <!--poligono exterior inferior-->
-                            <polygon points="5,{{medidaDientePanel*5}} {{medidaDientePanel}},{{medidaDientePanel*4}} {{medidaDientePanel*4}},{{medidaDientePanel*4}} {{(medidaDientePanel*5)-5}},{{medidaDientePanel*5}}"
-                                     class="polygon-diente_panel" onclick="aplicar(this)"id="{{inferiorExterior}}"/>
-
-                            </svg> 
-                        </div>      
-                        <div class="col-md-4">
-                            <div class="row">
-                                <span>Color </span>
-                                <select name="select" id="colores" onchange="cambiarColor()">                            
-                            {%for color in colores%}
-                                    <option value="{{color.color}}" style="background-color: {{color.color}}; color: white;">{{color.nombre}}</option>
-                            {%endfor%}
-                                </select>
-                            </div>
-                            <div class="row"><p>Parcial</p></div>
-                            <div class="row">
-                                <input type="radio" name="convencionPar" id="ningunoParcial" value="none" onchange="cambiarDiagnostico('none', 'none', 'none');" checked="true"/> Ninguno
-                            </div>
-                        {%for convencion in convenParcial%}
-                            <div class="row">
-                                <input type="radio" name="convencionPar" value="{{convencion.nombre}}" onchange="cambiarDiagnostico('{{convencion.nombre}}', '{{convencion.icono}}', '{{convencion.tipo}}');"/>
-                        {{convencion.nombre}}
-                            </div>
-                        {%endfor%}
-                        </div>
-                        <div class="col-md-4">
-                            <div class="row"><p>Completo</p></div>
-                            <div class="row">
-                                <input type="radio" name="convencionCom" id="ningunoCompleto" value="none" onchange="cambiarImagen('none', 'none');" checked="true"/> Ninguno
-                            </div>
-                        {%for convencion in convenCompleto%}
-                            <div class="row">
-                                <input type="radio" name="convencionCom" id="radioCompleto-{{convencion.nombre}}" value="{{convencion.nombre}}" onchange="cambiarImagen('{{convencion.nombre}}', '{{convencion.imagen}}')
-                                                ;"/>
-                        {{convencion.nombre}}
-                            </div>
-                        {%endfor%}
-                        </div>
-                    </div> 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" id="closeDieModal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="saveDieModal">Guardar</button>
-                </div>
-            </div>
-        </div>
     </div>
 {%endblock%}

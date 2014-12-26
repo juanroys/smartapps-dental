@@ -27,3 +27,7 @@ convenio_update:
 convenio_delete:
     path:     /{id}/delete
     defaults: { _controller: "HistClinicaBundle:Convenio:delete" }
+
+convenio_search:
+    path:     /search
+    defaults: { _controller: "HistClinicaBundle:Convenio:search" }

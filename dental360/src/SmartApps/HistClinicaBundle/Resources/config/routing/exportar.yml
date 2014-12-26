@@ -1,0 +1,19 @@
+exportar_historia:
+    path:     /historia/{id}
+    defaults: { _controller: "HistClinicaBundle:HistoriaClinica:exportarHistoria"}
+
+exportar_llamarExportar:
+    path:     /llamarExportar/{id}
+    defaults: { _controller: "HistClinicaBundle:HistoriaClinica:llamarExportar"}
+
+exportar_odontograma:
+    path: /odontograma/{historiaId}/{grupoId}
+    defaults: { _controller: "HistClinicaBundle:Odontograma:exportar" }
+    
+exportar_atencion:
+    path: /atencion/{historiaId}
+    defaults: { _controller: "HistClinicaBundle:Atencion:exportar" }
+
+exportar_sugerencia:
+    path: /sugerencia/{historiaId}
+    defaults: { _controller: "HistClinicaBundle:Sugerencia:exportar" }
