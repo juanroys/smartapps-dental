@@ -24,8 +24,8 @@ security:
         - { path: ^/convenio/*, role: ROLE_ADMIN }
         - { path: ^/procedimiento/*, role: ROLE_ADMIN }
         - { path: ^/atencion/, role: ROLE_MEDICO }
-        - { path: ^/paciente/, role: [ROLE_MEDICO, ROLE_ASISTENTE, ROLE_ADMIN] }
-        - { path: ^/medico/, role: [ROLE_ASISTENTE, ROLE_ADMIN] }
+        - { path: ^/paciente/, role: [ROLE_MEDICO, ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/medico/, role: [ROLE_USER, ROLE_ADMIN] }
         - { path: ^/grupo/*, role: ROLE_ADMIN }
         - { path: ^/tipoPregunta/*, role: ROLE_ADMIN }
         - { path: ^/pregunta/*, role: ROLE_ADMIN }
@@ -35,9 +35,10 @@ security:
         - { path: ^/tipoPregunta/*, role: ROLE_ADMIN }
         - { path: ^/costoProcedimiento/*, role: ROLE_ADMIN }
         - { path: ^/historiaClinica/*, role: [ROLE_MEDICO, ROLE_ADMIN]}
-        - { path: ^/cita/*, role: [ROLE_MEDICO, ROLE_ASISTENTE, ROLE_ADMIN]}
+        - { path: ^/cita/*, role: [ROLE_MEDICO, ROLE_USER, ROLE_ADMIN]}
         - { path: ^/unidadatencion/*, role: [ROLE_ADMIN]}
-        - { path: ^/tarifamedicoproc/*, role: [ROLE_MEDICO, ROLE_ADMIN]}
+        - { path: ^/tarifamedicoproc/*, role: [ROLE_MEDICO, ROLE_ADMIN, ROLE_USER]}
+        - { path: ^/sugerencia/*, role: [ROLE_MEDICO, ROLE_ADMIN]}
         
     role_hierarchy:
-        ROLE_ADMIN:       [ROLE_ASISTENTE, ROLE_MEDICO]
+        ROLE_ADMIN:       [ROLE_USER, ROLE_MEDICO]
