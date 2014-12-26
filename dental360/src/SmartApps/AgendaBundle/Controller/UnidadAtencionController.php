@@ -22,11 +22,28 @@ class UnidadAtencionController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('AgendaBundle:UnidadAtencion')->findAll();
+        //$entities = $em->getRepository('HistClinicaBundle:Grupo')->findAll();
+        $paginador=  $this->get('ideup.simple_paginator');
+        $entities=$paginador->paginate(
+                $em->getRepository("AgendaBundle:UnidadAtencion")->queryTodasLasUnidades()
+                )->getResult();
 
         return $this->render('AgendaBundle:UnidadAtencion:index.html.twig', array(
             'entities' => $entities,
+        ));
+    }
+    public function searchAction() {
+        $search=filter_input(INPUT_POST, 'search',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $em = $this->getDoctrine()->getManager();
+        $paginador = $this->get('ideup.simple_paginator');
+        $paginador->paginate($em->getRepository("AgendaBundle:UnidadAtencion")->queryBuscarUnidades($search));
+        if ($paginador->getTotalItems() > 0) {
+            $paginador->setItemsPerPage($paginador->getTotalItems());
+        }
+        $entities = $paginador->paginate($em->getRepository("AgendaBundle:UnidadAtencion")->queryBuscarUnidades($search))->getResult();
+        return $this->render('AgendaBundle:UnidadAtencion:index.html.twig', array(
+                    'entities' => $entities,
+                    'search' => $search
         ));
     }
     /**

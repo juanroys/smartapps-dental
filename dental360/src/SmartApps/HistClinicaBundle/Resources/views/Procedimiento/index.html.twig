@@ -9,29 +9,29 @@
         <div class="col-md-2" style="padding-top: 0px; text-align: right;">
             <ul class="list-inline">
                 <li >                    
-                <a href="{{ path('procedimiento_new') }}" class="btn btn-default btn-register" >
-                <img src="{{ asset('bundles/histclinica/images/icons/plus-20.png') }}" width="20px" alt="Crear" title="Crear"/>
-                Registrar
-            </a>
+                    <a href="{{ path('procedimiento_new') }}" class="btn btn-default btn-register" >
+                        <img src="{{ asset('bundles/histclinica/images/icons/plus-20.png') }}" width="20px" alt="Crear" title="Crear"/>
+                        Registrar
+                    </a>
                 </li>                
             </ul>
         </div>
     </div>
 </div>            
-     
 
-    <table class="records_list table table-striped table-condensed table-bordered">
-        <thead>
-            <tr>
-                <th>Descripci&oacute;n</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
+
+<table class="records_list table table-striped table-condensed table-bordered">
+    <thead>
+        <tr>
+            <th>Descripci&oacute;n</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for entity in entities %}
-            <tr>
-                <td>{{ entity.descripcion }}</td>
-                <td class="tdactions">
+        <tr>
+            <td>{{ entity.descripcion }}</td>
+            <td class="tdactions">
                 <ul class="list-inline">
                     <li>
                         <a href="{{ path('procedimiento_edit', { 'id': entity.id }) }}">
@@ -44,12 +44,27 @@
                         </a>
                     </li>
                 </ul>
-                </td>
-            </tr>
+            </td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
-    
+    </tbody>
+</table>
+<form action="{{path('procedimiento_search')}}" method="post">
+    <div class="col-md-3" style="padding-left: 30px; padding-top: 5px; padding-bottom: 5px;">
+        <input autocomplete="off" required="" value="{%if search is defined%}{{search}}{%endif%}" type="search" class="form-control" name="search" placeholder="Buscar por Descripcion"/> 
+    </div>
+    {%if search is defined%}
+    <div class="col-md-1" style="padding-top: 8px; padding-bottom: 5px; width: 5%; padding-right: 0px; padding-left: 0px;">
+        <a href="{{ path('procedimiento') }}" class="btn btn-default btn-register">
+            <img src="{{ asset('bundles/histclinica/images/icons/cancel.png') }}" width="20px" alt="Quitar Filtro" title="Quitar Filtro"/>
+        </a>
+    </div>
+    {%endif%}
+    <div class="col-md-1" style="padding-left: 0px; padding-top: 5px; padding-bottom: 5px;">
+        <input class="btn btn-default" type="submit" value="Buscar"/>
+    </div>
+</form> 
+
     {{ simple_paginator_render('procedimiento',null,{
                     'container_class':'pagination',
                     'firstPageText':'|<',

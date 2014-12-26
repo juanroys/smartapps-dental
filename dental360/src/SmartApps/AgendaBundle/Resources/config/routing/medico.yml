@@ -31,4 +31,8 @@ medico_delete:
 medico_disponible:
     path:     /{id}/disponible
     defaults: { _controller: "AgendaBundle:Medico:disponible" }
+    
+medico_search:
+    path:     /search
+    defaults: { _controller: "AgendaBundle:Medico:search" }
 

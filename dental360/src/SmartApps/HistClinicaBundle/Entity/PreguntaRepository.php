@@ -10,4 +10,11 @@ class PreguntaRepository extends EntityRepository{
         $consulta=$em->createQuery("SELECT p FROM HistClinicaBundle:Pregunta p");
         return $consulta;
     }
+    public function queryBuscarPreguntas($search){
+        $em=  $this->getEntityManager();
+        $consulta=$em->createQuery("SELECT p FROM HistClinicaBundle:Pregunta p "
+                . "WHERE p.enunciado LIKE :search");
+        $consulta->setParameter('search','%'.$search.'%');
+        return $consulta;
+    }
 }

@@ -2,7 +2,7 @@
 
 {% block body -%}
 {% form_theme form 'AgendaBundle:Form:form_template.html.twig' %}
- <div  class="headerdiv">
+<div  class="headerdiv">
     <h3>Registrar Medico</h3>
 </div>
     {{ form_start(form) }}        
@@ -11,7 +11,7 @@
         <div class="col-md-2">{{form_label(form.nombreCompleto) }}</div>
         <div class="col-md-4">{{form_widget(form.nombreCompleto) }}        </div> 
         <div class= "col-md-4">{{form_errors(form.nombreCompleto)}}</div>
-        </div>    
+    </div>    
     <div class="row formulario-row">
         <div class="col-md-2">{{form_label(form.titulosEspecialidad) }}</div>
         <div class="col-md-4">{{form_widget(form.titulosEspecialidad) }}        </div> 
@@ -19,24 +19,24 @@
     </div>
     <div class="row formulario-row">
         <div class="col-md-2">{{form_label(form.file, 'Firma') }}</div>
-        <div class="col-md-4">{{form_widget(form.file) }}        </div> 
+        <div class="col-md-4">{{form_widget(form.file, {'attr': {'required':'true' }}) }}</div> 
         <div class="col-md-4">{{form_errors(form.file) }}        </div>   
     </div>    
-        </div>
-    <div class="row formulario-row">
-        <div class="col-md-12">        
+</div>
+<div class="row formulario-row">
+    <div class="col-md-12">        
         <ul class="list-inline">
-                <li >
+            <li >
                     {{form_row(form.submit, {'label': 'Guardar', 'attr' : { 'class' :'btn btn-default  btn-success' } }) }}                
-                </li>                
-                <li >
-                    <a href="{{ path('medico') }}" class="btn btn-default">
-                        Volver al listado
-                    </a>
-                </li>                
-            </ul>        
-        </div>
+            </li>                
+            <li >
+                <a href="{{ path('medico') }}" class="btn btn-default">
+                    Volver al listado
+                </a>
+            </li>                
+        </ul>        
     </div>
+</div>
     {{ form_end(form)}}
 
 {% endblock %}

@@ -1,0 +1,69 @@
+{% extends '::base.html.twig' %}
+{%block barraNavegacion%}
+{%endblock%}
+{%block footer%}
+{%endblock%}
+{%block pacejs%}{%endblock%}
+{%block pacecss%}{%endblock%}
+{% block container %}{%endblock%}
+{% block endcontainer %}{%endblock%}
+{% block body%}
+<div class="row" style="width: 1100px; ">
+    <div class="col-md-12">
+        <table class="records_list table table-striped table-condensed table-bordered" id="tratamientos">
+            <thead>
+                <tr>
+                    <th style="background-color: #1CA9A3; border-color: #1CA9A3">Fecha</th>
+                    <th style="background-color: #1CA9A3; border-color: #1CA9A3">Diente</th>
+                    <th style="background-color: #1CA9A3; border-color: #1CA9A3">Hora</th>
+                    <th style="background-color: #1CA9A3; border-color: #1CA9A3">Tratamiento Ejecutado</th>
+                    <th style="background-color: #1CA9A3; border-color: #1CA9A3">Firma Paciente</th>
+                    <th style="background-color: #1CA9A3; border-color: #1CA9A3">Firma Odontólogo</th>
+                    <th style="background-color: #1CA9A3; border-color: #1CA9A3">Recibo No</th>
+                    <th style="background-color: #1CA9A3; border-color: #1CA9A3">Abono </th>
+                    <th style="background-color: #1CA9A3; border-color: #1CA9A3">Saldo</th>
+                </tr>
+            </thead>
+            <tbody>
+            {%if atenciones is defined and atenciones!=null%}
+            {%for atencion in atenciones%}
+            {%for tratamiento in atencion.tratamientos%}
+                <tr id="{{tratamiento.id}}">
+                    <td>
+                {{atencion.fechaHora|date('Y-m-d')}}
+                    </td>
+                    <td>
+                {{tratamiento.diente}}
+                    </td>
+                    <td>
+                {{atencion.fechaHora|date('H:i:s')}}
+                    </td>
+                    <td>
+                {{tratamiento.procedimiento.descripcion}}
+                    </td>
+                    <td>
+                        <img id="firmaP_{{tratamiento.id}}" src="{{asset('uploads/pacientes/'~atencion.firmaPaciente)}}" style="max-width: 150px;" >
+                    </td>
+                    <td>
+                        <img id="firmaM_{{tratamiento.id}}" src="{{asset('uploads/medicos/'~atencion.medico.pathFirma)}}" style="max-width: 150px;" >
+                    </td>
+                    <td>
+                {% if atencion.recibo!=null%}
+                    {{atencion.recibo.numero}}
+                {%endif%}
+                    </td>
+                    <td>
+                {{atencion.abono}}
+                    </td>
+                    <td>
+                {{atencion.saldo}}
+                    </td>
+                </tr>
+            {%endfor%}
+            {%endfor%}
+            {%endif%}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock%}

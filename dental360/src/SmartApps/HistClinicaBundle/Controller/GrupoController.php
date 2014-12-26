@@ -32,6 +32,20 @@ class GrupoController extends Controller
             'entities' => $entities,
         ));
     }
+    public function searchAction() {
+        $search=filter_input(INPUT_POST, 'search',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $em = $this->getDoctrine()->getManager();
+        $paginador = $this->get('ideup.simple_paginator');
+        $paginador->paginate($em->getRepository("HistClinicaBundle:Grupo")->queryBuscarGrupos($search));
+        if ($paginador->getTotalItems() > 0) {
+            $paginador->setItemsPerPage($paginador->getTotalItems());
+        }
+        $entities = $paginador->paginate($em->getRepository("HistClinicaBundle:Grupo")->queryBuscarGrupos($search))->getResult();
+        return $this->render('HistClinicaBundle:Grupo:index.html.twig', array(
+                    'entities' => $entities,
+                    'search' => $search
+        ));
+    }
     /**
      * Creates a new Grupo entity.
      *

@@ -27,3 +27,7 @@ grupo_update:
 grupo_delete:
     path:     /{id}/delete
     defaults: { _controller: "HistClinicaBundle:Grupo:delete" }    
+
+grupo_search:
+    path:     /search
+    defaults: { _controller: "HistClinicaBundle:Grupo:search" }

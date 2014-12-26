@@ -31,4 +31,8 @@ paciente_delete:
 paciente_registroRapido:
     path:     /registroRapido
     defaults: { _controller: "HistClinicaBundle:Paciente:registroRapido" }
+
+paciente_search:
+    path:     /search
+    defaults: { _controller: "HistClinicaBundle:Paciente:search" }
     

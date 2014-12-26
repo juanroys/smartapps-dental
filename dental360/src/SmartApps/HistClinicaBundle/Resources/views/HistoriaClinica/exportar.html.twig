@@ -1,0 +1,360 @@
+{% extends '::extranet.html.twig' %}
+{%block barraNavegacion%}
+{%endblock%}    
+{%block pacejs%}{%endblock%}
+{%block pacecss%}{%endblock%}
+{%block footer%}
+{%endblock%}
+{% block body -%}
+<script>
+    $(document).ready(function() {
+        var elems = document.getElementsByTagName('iframe');
+        for (i = 0; i < elems.length; i++) {
+            elems[i].src = elems[i].name;
+        }
+    });
+    function iframeLoaded(iFrameID) {
+        var minHeight = 350;
+        if (iFrameID) {
+            var title = iFrameID.contentDocument.title;
+            if (title == "Dental 360") {
+                iFrameID.width = iFrameID.contentWindow.document.body.scrollWidth + "px";
+                var actHeight = iFrameID.contentWindow.document.body.scrollHeight;
+                if (actHeight > minHeight) {
+                    iFrameID.height = actHeight + "px";
+                } else {
+                    iFrameID.height = minHeight + "px";
+                }
+            }
+            else {
+                iFrameID.src = iFrameID.src;
+            }
+        } else {
+            iFrameID.src = iFrameID.src;
+        }
+    }
+    function iFrameCheck(iFrame) {
+        var ttle = iFrame.contents().find('title').text();
+
+        setTimeout(function() {
+            if (ttle.indexOf('404 - File or directory not found.') == -1) {
+                return false;
+            } else {
+                $('#iFrameAlert').toggleClass('hidden');
+            }
+        }, 2000);
+    }
+    function justNumbers(e)
+    {
+        var keynum = window.event ? window.event.keyCode : e.which;
+        if ((keynum == 8) || (keynum == 46))
+            return true;
+
+        return /\d/.test(String.fromCharCode(keynum));
+    }
+    ;
+    $(function() {
+        $('.datetimepicker').datetimepicker({
+            pickTime: false,
+            language: 'es-ES'
+        });
+    });
+</script>
+<div  class="panel-group" style="border-radius: 7px; margin-bottom: 3px;">
+    <div class="panel-default">
+        <div>
+            <img alt="Dental 360" src="{{ asset('bundles/histclinica/images/logoDental.jpg') }}" width="250px" >   
+        </div>
+    </div>
+    <div class="panel-default headerdiv">
+        <h3>Historia Cl&iacute;nica</h3>
+    </div>
+</div>
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingOne"  style="background-color: #20508E; background-image: none; color: white;">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse_datos_personales" aria-expanded="true" aria-controls="collapse_datos_personales">
+                    Datos Personales Del Paciente
+                </a>
+            </h4>
+        </div>       
+        <div id="collapse_datos_personales" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading_datos_personales">
+            <div class="panel-body" style="padding: 0;">
+                <div class="pregunta">
+                    <table class="records_list table table-striped table-bordered" style="margin: 0;" >
+                        <tr>
+                            <td><strong><i>Primer Apellido </i></strong></td>
+                            <td>{{paciente.apellido1}}</td>
+                            <td><strong><i>Segundo Apellido</i></strong></td>
+                            <td>{{paciente.apellido2}}</td>
+                            <td><strong><i>Nombres </i></strong></td>
+                            <td>{{paciente.nombres}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong><i>Fecha de Nacimiento</i></strong></td>
+                            <td colspan="3">
+                                <table><tr>
+                                        <td><strong><i>Dia: </i></strong> {{paciente.fechaNacimiento|date('d')}}</td>
+                                        <td><strong><i>Mes: </i></strong> {{paciente.fechaNacimiento|date('m')}}</td>
+                                        <td><strong><i>Año: </i></strong> {{paciente.fechaNacimiento|date('Y')}}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td><strong><i>Edad</i></strong></td>
+                            <td>{{paciente.fechaNacimiento|age}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong><i>Identificacion</i></strong></td>
+                            <td>
+                                {%if paciente.tipoIdentificacion==0%}
+                                CC
+                                {%elseif paciente.tipoIdentificacion==1%}
+                                RC
+                                {%elseif paciente.tipoIdentificacion==2%}
+                                CE
+                                {%elseif paciente.tipoIdentificacion==3%}
+                                TI
+                                {%endif%}
+                            </td>
+                            <td><strong><i>Numero</i></strong></td>
+                            <td>{{paciente.noIdentificacion}}</td>
+                            <td><strong><i>Email</i></strong></td>
+                            <td>{{paciente.email}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong><i>Estado Civil</i></strong></td>
+                            <td>
+                                {%if paciente.estadoCivil == 1%}
+                                Soltero/a
+                                {%elseif paciente.estadoCivil == 2%}
+                                Casado/a
+                                {%elseif paciente.estadoCivil == 3%}
+                                Union Libre
+                                {%elseif paciente.estadoCivil == 4%}
+                                Viudo/a
+                                {%endif%}
+                            </td>
+                            <td><strong><i>Sexo</i></strong></td>
+                            <td>
+                                {%if paciente.sexo==1%}
+                                M
+                                {%elseif paciente.sexo==2%}
+                                F
+                                {%endif%}
+                            </td>
+                            <td><strong><i>Ocupacion</i></strong></td>
+                            <td>{{paciente.ocupacion}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong><i>Departamento</i></strong></td>
+                            <td colspan="2">{{paciente.residenciaDepartamento}}</td>
+                            <td><strong><i>Municipio</i></strong></td>
+                            <td colspan="2">{{paciente.residenciaMunicipio}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong><i>Direccion Residencia</i></strong></td>
+                            <td colspan="2">{{paciente.residenciaDireccion}}</td>
+                            <td><strong><i>Tel. Residencia</i></strong></td>
+                            <td colspan="2">{{paciente.residenciaTelefono}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong><i>Direccion Trabajo</i></strong></td>
+                            <td colspan="2">{{paciente.trabajoDireccion}}</td>
+                            <td><strong><i>Tel. Empresa</i></strong></td>
+                            <td colspan="2">{{paciente.trabajoTelefono}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong><i>Nombre Empresa</i></strong></td>
+                            <td colspan="2">{{paciente.empresa}}</td>
+                            <td><strong><i>Cargo</i></strong></td>
+                            <td colspan="2">{{paciente.cargo}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong><i>EPS</i></strong></td>
+                            <td>{{paciente.eps}}</td>
+                            <td><strong><i>Cotizante</i></strong></td>
+                            <td>
+                                {%if paciente.cotizanteBeneficiario==1%}
+                                Si
+                                {%else%}
+                                No
+                                {%endif%}
+                            </td>
+                            <td><strong><i>Beneficiario</i></strong></td>
+                            <td>
+                                {%if paciente.cotizanteBeneficiario==2%}
+                                Si
+                                {%else%}
+                                No
+                                {%endif%}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingOne"  style="background-color: #20508E; background-image: none; color: white;">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse_datos_responsable" aria-expanded="true" aria-controls="collapse_datos_responsable">
+                    Datos Persona Responsable
+                </a>
+            </h4>
+        </div>       
+        <div id="collapse_datos_responsable" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading_datos_responsable">
+            <div class="panel-body" style="padding: 0;">
+                <div class="pregunta">
+                    <table class="records_list table table-striped table-bordered" style="margin: 0;" >
+                        <tr>
+                            <td><strong><i>Nombre </i></strong></td>
+                            <td>{{paciente.responNombreCompleto}}</td>
+                            <td><strong><i>Cedula</i></strong></td>
+                            <td>{{paciente.responNoIdentificacion}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong><i>Parentesco </i></strong></td>
+                            <td>{{paciente.responParentesco}}</td>
+                            <td><strong><i>Departamento</i></strong></td>
+                            <td>{{paciente.responUbicacionDepartamento}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong><i>Municipio </i></strong></td>
+                            <td>{{paciente.responUbicacionMunicipio}}</td>
+                            <td><strong><i>Direccion</i></strong></td>
+                            <td>{{paciente.responUbicacionDireccion}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong><i>Telefono </i></strong></td>
+                            <td>{{paciente.responUbicacionTelefono}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% for grupo in grupos %}
+    {%set ban=1%}
+    {%set columnaDibujada = 1%}
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingOne"  style="background-color: #20508E; background-image: none; color: white;">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{grupo.titulo|replace({" ":"_","(":"-",")":"-"})}}{{loop.index}}" aria-expanded="true" aria-controls="collapse{{grupo.titulo|replace({" ":"_","(":"-",")":"-"})}}{{loop.index}}">
+                        {{grupo.titulo}} 
+                </a>
+            </h4>
+        </div>       
+        <div id="collapse{{grupo.titulo|replace({" ":"_","(":"-",")":"-"})}}{{loop.index}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading{{grupo.titulo|replace({" ":"_","(":"-",")":"-"})}}{{loop.index}}">
+            <div class="panel-body" style="padding: 0;">
+                <div class="pregunta">
+                    <table class="records_list table table-striped table-bordered" style="margin: 0;" >
+    {% for pregunta in grupo.preguntas %}
+                {# Bajar de Colunmna cuando la pregunta pertenezca a el siguiente orden#}
+                {%if orden is defined%}
+                    {%if orden != pregunta.orden%}
+                        {%if ban==1%}
+                            {%set ban=0%}
+                        {%else%}
+                        </tr>
+                        {%endif%}
+                        <tr>
+                       {%set orden=pregunta.orden%}
+                    {%endif%}
+                {%else%}
+                    {%set orden = pregunta.orden%}
+                {%endif%}
+                {%if pregunta.estaActiva %}
+                            <td rowspan="{{pregunta.rowspan}}" colspan="{{pregunta.colspan}}" 
+                                style="padding-left: 8px; padding-top: 4px; padding-bottom: 4px; padding-right: 8px;" >
+
+                                <table cellspacing="0" cellpadding="0" >
+                                    <tr>
+                            {%if pregunta.enunciado != null and pregunta.enunciado!='' %}
+                                        <td style="width: 150px; "><strong><i>{{ pregunta.enunciado }}</i></strong></td>
+                            {%endif%}
+
+                            {%if pregunta.tipoEntrada == tipoEntrada.Texto %}
+                                        <td> 
+                                       {%if respuestas[pregunta.id] is defined  %}
+                                                {{respuestas[pregunta.id]}}
+                                       {%endif%}
+                                        </td>
+                            {%elseif pregunta.tipoEntrada == tipoEntrada.Numero %}
+                                        <td>                                               
+                                       {%if respuestas[pregunta.id] is defined  %}
+                                                {{respuestas[pregunta.id]}}
+                                       {%endif%}                                                                                             
+                                        </td>
+                            {%elseif pregunta.tipoEntrada == tipoEntrada.Radio %}
+                                        <td style="display: inline; white-space: nowrap;">
+                                {%for preguntaopcion in pregunta.preguntaOpciones%} 
+                                           {%if respuestas[pregunta.id] is defined and respuestas[pregunta.id] == preguntaopcion.valorTexto  %}
+                                                                                             {{preguntaopcion.enunciado}}
+                                           {%endif%}                              
+                                {%endfor%} 
+                                        </td>
+                            {%elseif pregunta.tipoEntrada == tipoEntrada.Check %}    
+                                {% set contador = 0 %}
+                                        <td  style="display: inline">
+                                {%for preguntaopcion in pregunta.preguntaOpciones%}                                
+                                            <input {{pregunta.obligatoria ? 'required' }} type="checkbox" name="{{pregunta.id}}|{{contador}}" class="" value="{{preguntaopcion.valorTexto}}" 
+                                           {%if respuestas[pregunta.id ~ "|" ~ preguntaopcion.valorTexto|replace({ (' '): '_' }) ] is defined %}
+                                                                                          checked="checked"
+                                           {%endif%}
+                                                                                          /> {{preguntaopcion.enunciado}}
+                                    {% set contador = contador + 1 %}                                
+                                {%endfor%}  
+                                        </td>
+                            {%elseif pregunta.tipoEntrada == tipoEntrada.AreaTexto %}    
+                                        <td>
+                                                {%if respuestas[pregunta.id] is defined  %}{{respuestas[pregunta.id]}}{%endif%}
+                                        </td>
+                            {%elseif pregunta.tipoEntrada == tipoEntrada.ComboBox %}    
+                                        <td>
+                                {%for preguntaopcion in pregunta.preguntaOpciones%}                         
+                                            {%if respuestas[pregunta.id] is defined and respuestas[pregunta.id] == preguntaopcion.valorTexto  %}
+                                                            {{preguntaopcion.enunciado}}
+                                           {%endif%}
+                                {%endfor%}          
+                                        </td>
+                            {%elseif pregunta.tipoEntrada==tipoEntrada.Fecha%}
+                                        <td>
+                                                    {%if respuestas[pregunta.id] is defined  %}{{respuestas[pregunta.id]}}{%endif%}                                                                           
+                                        </td>
+                            {%elseif pregunta.tipoEntrada == tipoEntrada.Iframe %} 
+                                    <iframe id="{{pregunta.id}}" 
+                                            name="{{path('exportar_'~pregunta.opciones,{'historiaId': historiaClinica.id})}}" 
+                                            onload="iframeLoaded(this)" 
+                                            src="" width="100%" frameborder="0"    ></iframe>                            
+                            {%elseif pregunta.tipoEntrada == tipoEntrada.Odontograma %} 
+                                    <iframe id="{{pregunta.id}}}" 
+                                            name="{{path('exportar_'~pregunta.opciones,{'historiaId': historiaClinica.id, 'grupoId':grupo.id })}}" 
+                                            onload="iframeLoaded(this)" 
+                                            src="" 
+                                            width="100%" height="430" frameborder="0">
+                                    </iframe>
+                            {%endif%}
+                        </tr>
+                    </table>
+                    </td>                
+                {%endif%}
+
+
+    {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <div class="grupo">
+        <p> No hay grupos de preguntas guardados</p>
+    </div>
+{% endfor%}
+</div>
+{% endblock %}

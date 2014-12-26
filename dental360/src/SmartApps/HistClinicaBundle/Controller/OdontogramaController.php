@@ -28,6 +28,23 @@ class OdontogramaController extends Controller {
                     'odontograma' => $odontograma
         ));
     }
+    public function exportarAction($historiaId, $grupoId) {
+        $em = $this->getDoctrine()->getManager();
+        $historiaClinica = $em->getRepository('HistClinicaBundle:HistoriaClinica')->find($historiaId);
+        $diagnosticos = $em->getRepository('HistClinicaBundle:DiagnosticoDiente')->findDiagnosticoPorHistoria($historiaId, $grupoId);
+        $odontograma = $em->getRepository('HistClinicaBundle:Odontograma')->findOneBy(array('grupo' => $grupoId));
+        $convenParcial = Util::OdontConvenDienParcialEnum();
+        $convenCompleto = Util::OdontConvenDienCompletoEnum();
+        $colores = Util::OdontConvenColores();
+        return $this->render('HistClinicaBundle:Odontograma:exportar.html.twig', array(
+                    'historiaClinica' => $historiaClinica,
+                    'diagnosticos' => $diagnosticos,
+                    'convenParcial' => $convenParcial,
+                    'convenCompleto' => $convenCompleto,
+                    'colores' => $colores,
+                    'odontograma' => $odontograma
+        ));
+    }
 
     public function createAction() {
         $datos = $_POST;

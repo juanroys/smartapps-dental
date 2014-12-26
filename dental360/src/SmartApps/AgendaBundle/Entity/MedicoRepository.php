@@ -22,4 +22,11 @@ class MedicoRepository extends EntityRepository
         $consulta=$em->createQuery("SELECT m FROM AgendaBundle:Medico m");
         return $consulta;
     }
+    public function queryBuscarMedicos($search){
+        $em=  $this->getEntityManager();
+        $consulta=$em->createQuery("SELECT m FROM AgendaBundle:Medico m "
+                . "WHERE m.nombreCompleto LIKE :search OR m.titulosEspecialidad LIKE :search");
+        $consulta->setParameter('search', '%'.$search.'%');
+        return $consulta;
+    }
 }

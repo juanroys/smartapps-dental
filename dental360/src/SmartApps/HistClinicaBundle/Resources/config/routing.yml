@@ -53,3 +53,7 @@ HistClinicaBundle_atencion:
 HistClinicaBundle_odontograma:
         resource: "@HistClinicaBundle/Resources/config/routing/odontograma.yml"
         prefix:   /odontograma
+
+HistClinicaBundle_exportar:
+        resource: "@HistClinicaBundle/Resources/config/routing/exportar.yml"
+        prefix:   /exportar

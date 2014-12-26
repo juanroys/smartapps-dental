@@ -31,6 +31,24 @@ class PreguntaController extends Controller {
                     'tipoentrada' => \SmartApps\HistClinicaBundle\Util\Util::TipoPreguntaEnum(),
         ));
     }
+    public function searchAction() {
+        $search=filter_input(INPUT_POST, 'search',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $em = $this->getDoctrine()->getManager();
+        $paginador = $this->get('ideup.simple_paginator');
+        $paginador->paginate($em->getRepository("HistClinicaBundle:Pregunta")->queryBuscarPreguntas($search));
+        if($paginador->getTotalItems()){
+            $paginador->setItemsPerPage($paginador->getTotalItems());
+        }
+        $entities = $paginador->paginate(
+                        $em->getRepository("HistClinicaBundle:Pregunta")->queryBuscarPreguntas($search)
+                )->getResult();
+        return $this->render('HistClinicaBundle:Pregunta:index.html.twig', array(
+                    'entities' => $entities,
+                    'sinoenum' => \SmartApps\HistClinicaBundle\Util\Util::SiNoEnum(),
+                    'tipoentrada' => \SmartApps\HistClinicaBundle\Util\Util::TipoPreguntaEnum(),
+                    'search'=>$search
+        ));
+    }
 
     /**
      * Creates a new Pregunta entity.

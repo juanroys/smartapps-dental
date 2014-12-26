@@ -25,6 +25,16 @@ class AtencionController extends Controller {
                     'medico' => $medico,
         ));
     }
+    public function exportarAction($historiaId) {
+        $em = $this->getDoctrine()->getManager();
+        $historiaClinica = $em->getRepository('HistClinicaBundle:HistoriaClinica')->find($historiaId);
+        $atenciones = $em->getRepository('HistClinicaBundle:Atencion')->findAtencionPorHistoria($historiaId);
+        $paciente = $historiaClinica->getPaciente();
+        return $this->render('HistClinicaBundle:Atencion:exportar.html.twig', array(
+                    'paciente' => $paciente,
+                    'atenciones' => $atenciones
+        ));
+    }
 
     public function loadFileAction() {
         $pacienteId = $_POST['pacienteId'];

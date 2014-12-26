@@ -20,4 +20,12 @@ class ProcedimientoRepository extends EntityRepository{
                 . 'WHERE c.id = cp.procedimiento.id AND p.id=cp.convenio.id');
         return $consulta->getResult();
     }
+    
+    public function queryBuscarProcedimientos($search){
+        $em=  $this->getEntityManager();
+        $consulta=$em->createQuery("SELECT p FROM HistClinicaBundle:Procedimiento p "
+                . "WHERE p.descripcion LIKE :search ");
+        $consulta->setParameter('search', '%'.$search.'%');
+        return $consulta;
+    }
 }
