@@ -16,7 +16,7 @@
         {% endblock %}
         {% block javascripts %}
         {%block pacecss%}
-         <script src="{{ asset('bundles/histclinica/js/pace.min.js') }}"></script>
+        <script src="{{ asset('bundles/histclinica/js/pace.min.js') }}"></script>
         {%endblock%}
         <script src="{{ asset('bundles/histclinica/js/jquery.js') }}"></script>
         <script src="{{ asset('bundles/histclinica/js/bootstrap.js') }}"></script>
@@ -30,44 +30,55 @@
         <div class="container">
         {% endblock %}   
          {% block barraNavegacion %} 
-                <div class="row">
-                    <div class="col-md-3" style="">
+            <div class="row">
+                <div class="col-md-3" style="">
                     <img alt="Dental 360" src="{{ asset('bundles/histclinica/images/logoDental.jpg') }}" width="250px" >
-                    </div>
-                    <div class="col-md-9"  style=" padding-top: 8px;">
+                </div>
+                <div class="col-md-9"  style=" padding-top: 8px;">
                         {%block login%}
-                         <div style="text-align: right;">
+                    <div style="text-align: right;">
                         {% if is_granted("ROLE_USER") %}                    
-                            <a href="{{path('fos_user_profile_show')}}">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} </a>&nbsp;&nbsp;&nbsp;
-                            <a href="{{ path('fos_user_security_logout') }}"  ><img src="{{ asset('bundles/histclinica/images/icons/logout16.png') }}" width="16px" alt="Salir" title="Salir"/>{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a>
+                        <a href="{{path('fos_user_profile_show')}}">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} </a>&nbsp;&nbsp;&nbsp;
+                        <a href="{{ path('fos_user_security_logout') }}"  ><img src="{{ asset('bundles/histclinica/images/icons/logout16.png') }}" width="16px" alt="Salir" title="Salir"/>{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a>
                         {% else %}
-                            <a href="{{ path('fos_user_security_login') }}"  class="btn btn-default"><img src="{{ asset('bundles/histclinica/images/icons/login.png') }}" width="32px" alt="Ingresar" title="Ingresar"/> {{ 'layout.login'|trans({}, 'FOSUserBundle') }}
-                                </a>
+                        <a href="{{ path('fos_user_security_login') }}"  class="btn btn-default"><img src="{{ asset('bundles/histclinica/images/icons/login.png') }}" width="32px" alt="Ingresar" title="Ingresar"/> {{ 'layout.login'|trans({}, 'FOSUserBundle') }}
+                        </a>
                         {% endif %}              
-                           </div>
+                    </div>
                         {%endblock%}                                                    
                     <!-- BARRA DE NAVEGACION ------------------------------------ --> 
                         {% if is_granted("ROLE_USER") %}                
-                        <div class="navbar navbar-default" role="navigation" >
-                            <div class="container-fluid">
-                                <div class="navbar-collapse collapse">
+                    <nav class="navbar navbar-default" role="navigation" >
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                            </div>
+
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
                                         {% if is_granted("ROLE_ADMIN") %}
                                         {% include 'nav_admin.html.twig'%}
                                         {%elseif is_granted("ROLE_MEDICO") %}
                                         {% include 'nav_medico.html.twig'%}
-                                        {%elseif is_granted("ROLE_ASISTENTE")%}
+                                        {%elseif is_granted("ROLE_USER")%}
                                         {%include 'nav_asistente.html.twig'%}
-                                        {%endif%}                                        
-                                            
-                                </div><!--/.nav-collapse -->
-                            </div><!--/.container-fluid -->
-                        </div>
+                                        {%endif%}                                     
+
+                            </div><!--/.nav-collapse -->
+                        </div><!--/.container-fluid -->
+                    </nav>                    
                         {% endif %}                                         
                     <!-- FIN BARRA DE NAVEGACION ------------------------------------ --> 
-                    </div>
                 </div>
-                                                           
-             
+            </div>
+
+
             {%endblock%}
         {% block body %}{% endblock %}     
         {%block footer%}
