@@ -52,7 +52,7 @@ class RegistrationController extends ContainerAware
 
             if ($authUser) {
                 $user->addRole('ROLE_ASISTENTE');
-                $this->authenticateUser($user, $response);
+                //$this->authenticateUser($user, $response);
             }
 
             return $response;
