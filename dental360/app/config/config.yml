@@ -90,4 +90,19 @@ fos_user:
     firewall_name: main
     user_class: SmartApps\UsuarioBundle\Entity\Usuario
 
+#knp_snappy:
+#    pdf:
+#        enabled:    true
+#        binary:     /usr/local/bin/wkhtmltopdf
+#        options:    []
+#    image:
+#        enabled:    true
+#        binary:     /usr/local/bin/wkhtmltoimage
+#        options:    []
+        
+services:
+    twig.extension.utilidades:
+        class: SmartApps\HistClinicaBundle\Twig\Extension\UtilidadesExtension
+        tags: 
+            - { name: twig.extension }
 
