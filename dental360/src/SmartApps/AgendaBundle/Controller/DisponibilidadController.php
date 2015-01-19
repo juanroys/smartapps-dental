@@ -333,6 +333,9 @@ class DisponibilidadController extends Controller
         return new Response(json_encode($response));
     }
     
+    
+    
+    /// Genera el listado de eventos que corresponden a la disponibilidad de un medico en particular
     public function getEventsAction($id, $conttype){
         $start = $_GET['start'];
         $end = $_GET['end'];        
@@ -385,8 +388,8 @@ class DisponibilidadController extends Controller
                         }                        
                     } 
                     $event = new CalendarEvent($oDispo->getId(), $contenido, 
-                    $recorre->format('Y-m-d') . ' ' . $oDispo->getHoraInicio()->format('H:i:s'), 
-                    $recorre->format('Y-m-d') . ' ' . $oDispo->getHoraFin()->format('H:i:s'));
+                                                $recorre->format('Y-m-d') . ' ' . $oDispo->getHoraInicio()->format('H:i:s'), 
+                                                $recorre->format('Y-m-d') . ' ' . $oDispo->getHoraFin()->format('H:i:s'));
                     $output_arrays[] = $event->toArray();
                 }                                
                 $recorre = $recorre->add(new DateInterval('P1D'));
