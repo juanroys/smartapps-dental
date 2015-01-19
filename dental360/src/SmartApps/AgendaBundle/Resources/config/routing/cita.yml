@@ -48,3 +48,11 @@ cita_getCita:
 cita_remove:
     path:     /remove
     defaults: { _controller: "AgendaBundle:Cita:remove" }
+    
+cita_citasmedico:
+    path:     /citasmedico
+    defaults: { _controller: "AgendaBundle:Cita:citasmedico" }
+
+cita_getMedicCalendar:
+    path:     /getMedicCalendar/{medicoid}
+    defaults: { _controller: "AgendaBundle:Cita:getMedicCalendar" }

@@ -34,7 +34,6 @@ function parseDateTimeCita($string, $timezone=null) {
 	return $date;
 }
 
-
 class CitaEvent {
 
 	// Tests whether the given ISO8601 string has a time-of-day or not
@@ -46,6 +45,7 @@ class CitaEvent {
 	public $end; // a DateTime, or null
 	public $properties = array(); // an array of other misc properties
         public $id;
+        public $color;
         
 	public function __construct($id, $title, $start, $end, $timezone=null)
 	{
@@ -53,6 +53,7 @@ class CitaEvent {
 		$this->start = parseDateTimeCita($start, $timezone);
 		$this->end = parseDateTimeCita($end, $timezone);
                 $this->id = $id;
+                $this->color = "#428BCA";
 	}
       
 	// Converts this Event object back to a plain data array, to be used for generating JSON
@@ -62,7 +63,7 @@ class CitaEvent {
 		$array = $this->properties;
 		$array['title'] = $this->title;
                 $array['id'] = $this->id;
-                $array['backgroundColor'] = "#428BCA";
+                $array['backgroundColor'] = $this->color;
 		// Figure out the date format. This essentially encodes allDay into the date string.
 		if ($this->allDay) {
 			$format = 'Y-m-d'; // output like "2013-12-29"
@@ -128,6 +129,277 @@ class CitaController extends Controller
         ));
     }
     
+     public function citasmedicoAction()
+    {    
+        //$formato = 'Y-m-d';                 
+        //$inicio = date("Y-m-d", time());
+         $medicoId = -1;
+        if(isset($_POST['medicoId']))
+        {
+         $medicoId = $_POST['medicoId'];   
+        }         
+         $em = $this->getDoctrine()->getManager();
+        $medicos = $em->getRepository('AgendaBundle:Medico')->findAll();
+        $pacientes = $em->getRepository('HistClinicaBundle:Paciente')->findAll();
+        //$tratamientos = $em->getRepository('HistClinicaBundle:Tratamiento')->findAll();
+        $unidades = $em->getRepository('AgendaBundle:UnidadAtencion')->findAll();
+        $convenios = $em->getRepository('HistClinicaBundle:Convenio')->findAll();
+        //$hasta = DateTime::createFromFormat($formato, $inicio); //->add(new DateInterval('P90D'));        
+        //$desde = DateTime::createFromFormat($formato, $inicio);
+        //$horario =  $this->getHorarioLaboral($desde->format("Y-m-d"), $hasta->format("Y-m-d"));        
+        return $this->render('AgendaBundle:Cita:citasmedico.html.twig', array(
+            'pacientes' => $pacientes, 
+            'medicos' => $medicos,
+            'unidades' => $unidades,
+            'convenios' => $convenios,
+            'idmedico' => $medicoId,
+        ));
+    }
+    
+    public function getDisponibilidades($startDate, $endDate)
+    {
+         /* $start = $_GET['start'];
+        $end = $_GET['end'];        
+        $formato = 'Y-m-d';                
+        $interval = new DateInterval( "P1D" ); 
+        $interval->invert = 1;        
+        $startDate = DateTime::createFromFormat($formato, $start)->add($interval);        
+        $endDate = DateTime::createFromFormat($formato, $end);
+        */
+        
+        $em = $this->getDoctrine()->getManager();                
+        $dispos = $em->getRepository('AgendaBundle:Disponibilidad')->getPorFecha( $startDate, $endDate);
+        
+        // Parse the timezone parameter if it is present.
+        $timezone = null;
+        if (isset($_GET['timezone'])) {
+                $timezone = new DateTimeZone($_GET['timezone']);
+        } 
+        
+        $output_arrays = array();
+        
+        foreach($dispos as $oDispo)
+        {            
+            $dispStartDate = $oDispo->getFechaDesde();
+            if($dispStartDate < $startDate ){
+                $dispStartDate = clone $startDate;
+            }
+            //$origHasta = clone $oDispo->getFechaHasta();
+            $dispEndDate = $oDispo->getFechaHasta()->add(new DateInterval('P1D'));
+            if($dispEndDate > $endDate){
+                //echo 'fambia fecha hasta';
+                $dispEndDate = clone $endDate;                        
+            }                       
+            $recorre = $dispStartDate;            
+            while($recorre <= $dispEndDate)
+            {   
+                if($this->includeDate($recorre,$oDispo->getDiasSemana()))
+                {
+                    $contenido = '';
+                    $contenido = $oDispo->getMedico()->getId();
+                    /*if($conttype == 1)
+                    {
+                        if($oDispo->getFechaDesde() != $origHasta){
+                                $contenido = $contenido . 'Desde: ' . $oDispo->getFechaDesde()->format('Y/m/d') . ' Hasta: ' . $oDispo->getFechaHasta()->format('Y/m/d') . ' ';
+                            $contenido = $contenido . 'Días: ' . $this->getDiasString($oDispo->getDiasSemana()) ;
+                        }                        
+                    } */
+                    $event = new CitaEvent($oDispo->getId(), $contenido, 
+                                                $recorre->format('Y-m-d') . ' ' . $oDispo->getHoraInicio()->format('H:i:s'), 
+                                                $recorre->format('Y-m-d') . ' ' . $oDispo->getHoraFin()->format('H:i:s'));
+                    $output_arrays[] = $event;
+                }                                
+                $recorre = $recorre->add(new DateInterval('P1D'));
+            } 
+        }
+        // Sort by start date
+        /*usort($output_arrays, function($a, $b) {
+              if ($a->start == $b->start) {
+                return 0;
+              }
+              return $a->start < $b->start ? 1 : -1;
+        });  */
+        return $output_arrays;
+    }
+    
+    public function getDisponibilidadesMedico($startDate, $endDate, $medicoid)
+    {
+         /* $start = $_GET['start'];
+        $end = $_GET['end'];        
+        $formato = 'Y-m-d';                
+        $interval = new DateInterval( "P1D" ); 
+        $interval->invert = 1;        
+        $startDate = DateTime::createFromFormat($formato, $start)->add($interval);        
+        $endDate = DateTime::createFromFormat($formato, $end);
+        */
+        
+        $em = $this->getDoctrine()->getManager();                
+        $dispos = $em->getRepository('AgendaBundle:Disponibilidad')->getPorMedicoYFecha($medicoid, $startDate, $endDate);
+        
+        // Parse the timezone parameter if it is present.
+        $timezone = null;
+        if (isset($_GET['timezone'])) {
+                $timezone = new DateTimeZone($_GET['timezone']);
+        } 
+        
+        $output_arrays = array();
+        
+        foreach($dispos as $oDispo)
+        {            
+            $dispStartDate = $oDispo->getFechaDesde();
+            if($dispStartDate < $startDate ){
+                $dispStartDate = clone $startDate;
+            }
+            //$origHasta = clone $oDispo->getFechaHasta();
+            $dispEndDate = $oDispo->getFechaHasta()->add(new DateInterval('P1D'));
+            if($dispEndDate > $endDate){
+                //echo 'fambia fecha hasta';
+                $dispEndDate = clone $endDate;                        
+            }                       
+            $recorre = $dispStartDate;            
+            while($recorre <= $dispEndDate)
+            {   
+                if($this->includeDate($recorre,$oDispo->getDiasSemana()))
+                {
+                    $contenido = '';
+                    $contenido = $oDispo->getMedico()->getId();
+                    /*if($conttype == 1)
+                    {
+                        if($oDispo->getFechaDesde() != $origHasta){
+                                $contenido = $contenido . 'Desde: ' . $oDispo->getFechaDesde()->format('Y/m/d') . ' Hasta: ' . $oDispo->getFechaHasta()->format('Y/m/d') . ' ';
+                            $contenido = $contenido . 'Días: ' . $this->getDiasString($oDispo->getDiasSemana()) ;
+                        }                        
+                    } */
+                    $event = new CitaEvent($oDispo->getId(), $contenido, 
+                                                $recorre->format('Y-m-d') . ' ' . $oDispo->getHoraInicio()->format('H:i:s'), 
+                                                $recorre->format('Y-m-d') . ' ' . $oDispo->getHoraFin()->format('H:i:s'));
+                    $output_arrays[] = $event;
+                }                                
+                $recorre = $recorre->add(new DateInterval('P1D'));
+            } 
+        }
+        // Sort by start date
+        /*usort($output_arrays, function($a, $b) {
+              if ($a->start == $b->start) {
+                return 0;
+              }
+              return $a->start < $b->start ? 1 : -1;
+        });  */
+        return $output_arrays;
+    }
+    
+    function includeDate($fecha, $diasValue)
+    {
+        $diaSemana = $fecha->format('w');   
+        if($diaSemana == 1){ $modulo = $diasValue % 2; }
+        if($diaSemana == 2){ $modulo = $diasValue % 3; }
+        if($diaSemana == 3){ $modulo = $diasValue % 5; }
+        if($diaSemana == 4){ $modulo = $diasValue % 7; }
+        if($diaSemana == 5){ $modulo = $diasValue % 11; }
+        if($diaSemana == 6){ $modulo = $diasValue % 13; }
+        if($diaSemana == 0){ $modulo = $diasValue % 17; }
+        
+        if($modulo == 0) 
+            return true;
+        else
+            return false; 
+    }
+    
+    public function getMedicCalendarAction($medicoid)
+    {
+        $start = $_GET['start'];
+        $end = $_GET['end'];        
+        $formato = 'Y-m-d';                
+        $interval = new DateInterval( "P1D" ); 
+        $interval->invert = 1;        
+        $startDate = DateTime::createFromFormat($formato, $start)->add($interval);
+        
+        $endDate = DateTime::createFromFormat($formato, $end);
+        
+        $em = $this->getDoctrine()->getManager();                
+        $citas = $em->getRepository('AgendaBundle:Cita')->getPorFechaMedico( $startDate, $endDate, $medicoid);
+        
+        /* ***************************************** */
+        // Parse the timezone parameter if it is present.
+        $timezone = null;
+        if (isset($_GET['timezone'])) {
+                $timezone = new DateTimeZone($_GET['timezone']);
+        } 
+        $output_arrays = array();
+        foreach($citas as $cita)
+        {               
+            $contenido = $cita->getPaciente()->getNombreCompleto();
+            
+            $event = new CitaEvent($cita->getId(), $contenido, 
+            $cita->getFecha()->format('Y-m-d') . ' ' . $cita->getHoraInicio()->format('H:i:s'), 
+            $cita->getFecha()->format('Y-m-d') . ' ' . $cita->getHoraFin()->format('H:i:s'));
+            $output_arrays[] = $event->toArray();
+                        
+        }
+        // Send JSON to the client.
+        //echo json_encode($output_arrays);
+        
+        // Se obtienen todas las disponibilidades
+        $disponibilidades = $this->getDisponibilidadesMedico($startDate, $endDate, $medicoid);
+        // Se genera un array para poder encontrar las no-disponibilidades
+        $lst_end_start = array();
+        foreach($disponibilidades as $dispo)
+        {
+            $lst_end_start[] = Array( "type" => "A",
+                                      "time" =>  $dispo->start->format('YmdHis'),
+                                      "realTime" => $dispo->start);
+            $lst_end_start[] = Array( "type" => "B",
+                                      "time" =>  $dispo->end->format('YmdHis'),
+                                      "realTime" => $dispo->end);
+        }        
+        usort($lst_end_start, function($a, $b) { 
+            $rdiff = $a['time'] - $b['time'];
+            if ($rdiff) return $rdiff; 
+            return $a['type'] - $b['type']; 
+        });
+        // Se recorre el array de marcas de disponibilidad para generar las no-disponibilidades
+        $noStart = clone $startDate;        
+        $stack = array();
+        foreach($lst_end_start as $item)
+        {
+            if($item['type'] == 'A')
+            {
+                // Si la cola esta vacia es porque se termina una no-disponibilidad
+                if(count($stack) == 0)
+                {
+                    $noEnd = clone $item['realTime'];
+                    $event = new CitaEvent('nodisp' , '', 
+                    $noStart->format('Y-m-d') . ' ' . $noStart->format('H:i:s'), 
+                    $noEnd->format('Y-m-d') . ' ' . $noEnd->format('H:i:s'));
+                    $event->color = "#1CA9A3";
+                    $output_arrays[] = $event->toArray();
+                }
+                array_push($stack, 'A');                
+            }
+            else
+            {
+                array_pop($stack);
+            }
+            // si la cola queda vacia se inicia una no-disponibilidad
+            if(count($stack) == 0)
+            {
+                $noStart = clone $item['realTime'];
+            }            
+        }
+        $noEnd = clone $endDate;
+        $event = new CitaEvent('nodisp'  , '', 
+        $noStart->format('Y-m-d') . ' ' . $noStart->format('H:i:s'), 
+        $noEnd->format('Y-m-d') . ' ' . $noEnd->format('H:i:s'));
+        $event->color = "#1CA9A3";
+        $output_arrays[] = $event->toArray();
+        
+       // echo json_encode($lst_end_start);
+        
+        return new Response(json_encode($output_arrays));
+        
+    }
+    
+    // Genera un listado de eventos que corresponden a las citas programadas entre dos fechas
     public function getAllCalendarAction()
     {
         $start = $_GET['start'];
@@ -161,6 +433,63 @@ class CitaController extends Controller
         }
         // Send JSON to the client.
         //echo json_encode($output_arrays);
+        
+        // Se obtienen todas las disponibilidades
+        $disponibilidades = $this->getDisponibilidades($startDate, $endDate);
+        // Se genera un array para poder encontrar las no-disponibilidades
+        $lst_end_start = array();
+        foreach($disponibilidades as $dispo)
+        {
+            $lst_end_start[] = Array( "type" => "A",
+                                      "time" =>  $dispo->start->format('YmdHis'),
+                                      "realTime" => $dispo->start);
+            $lst_end_start[] = Array( "type" => "B",
+                                      "time" =>  $dispo->end->format('YmdHis'),
+                                      "realTime" => $dispo->end);
+        }        
+        usort($lst_end_start, function($a, $b) { 
+            $rdiff = $a['time'] - $b['time'];
+            if ($rdiff) return $rdiff; 
+            return $a['type'] - $b['type']; 
+        });
+        // Se recorre el array de marcas de disponibilidad para generar las no-disponibilidades
+        $noStart = clone $startDate;        
+        $stack = array();
+        foreach($lst_end_start as $item)
+        {
+            if($item['type'] == 'A')
+            {
+                // Si la cola esta vacia es porque se termina una no-disponibilidad
+                if(count($stack) == 0)
+                {
+                    $noEnd = clone $item['realTime'];
+                    $event = new CitaEvent('nodisp' , '', 
+                    $noStart->format('Y-m-d') . ' ' . $noStart->format('H:i:s'), 
+                    $noEnd->format('Y-m-d') . ' ' . $noEnd->format('H:i:s'));
+                    $event->color = "#1CA9A3";
+                    $output_arrays[] = $event->toArray();
+                }
+                array_push($stack, 'A');                
+            }
+            else
+            {
+                array_pop($stack);
+            }
+            // si la cola queda vacia se inicia una no-disponibilidad
+            if(count($stack) == 0)
+            {
+                $noStart = clone $item['realTime'];
+            }            
+        }
+        $noEnd = clone $endDate;
+        $event = new CitaEvent('nodisp'  , '', 
+        $noStart->format('Y-m-d') . ' ' . $noStart->format('H:i:s'), 
+        $noEnd->format('Y-m-d') . ' ' . $noEnd->format('H:i:s'));
+        $event->color = "#1CA9A3";
+        $output_arrays[] = $event->toArray();
+        
+       // echo json_encode($lst_end_start);
+        
         return new Response(json_encode($output_arrays));
         
     }

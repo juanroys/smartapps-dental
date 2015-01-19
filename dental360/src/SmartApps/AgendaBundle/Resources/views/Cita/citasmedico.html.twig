@@ -30,9 +30,12 @@
     <script src="{{ asset('bundles/histclinica/js/bootstrap-datetimepicker.min.js') }}"></script>
 
     <script language="javascript" type="text/javascript">
+        var _calendarEnabled = false;        
         var _actualEvent = null;        
         var _actualEventId= -1;
-        $(document).ready(function() {
+              
+        function startCalendar()
+        {
             $('#calendar').fullCalendar({
                 header: {
                     left: 'prev,next today',
@@ -50,7 +53,7 @@
                 selectable: true,
                 selectHelper: true,
                 events: {
-                    url: '{{path('cita_getAllCalendar')}}',                    
+                    url: '{{path('cita_getMedicCalendar', { 'medicoid': idmedico} )}}',                    
                     error: function() {
                             $('#script-warning').show();
                     }   
@@ -100,6 +103,13 @@
                 },
                   
             });
+        }
+                  
+        
+        $(document).ready(function() {
+            {%if idmedico > 0 %}
+                    startCalendar();   
+            {%endif%}            
         });
         
         jQuery(document).ready(function() {
@@ -127,7 +137,7 @@
                 var fecha = jQuery('#fecha').val();
                 var horaInicio =  jQuery('#horaInicio').val() + ':00';
                 var horaFin = jQuery('#horaFin').val() + ':00';                            
-                var medicoId = jQuery('#selMedico').val();      
+                var medicoId = {{ idmedico }};      
                 
                 var estado = jQuery("#selEstado").val();
                 var unidadId = jQuery("#selUnidad").val();
@@ -293,15 +303,12 @@
                              <div class="col-md-2">
                                 Medico
                             </div>
-                            <div class="col-md-3">
-                                <select id="selMedico" >
-                                    <option value="-1"> </option>
-                                 {% for medico in medicos %}
-                                        <option value="{{ medico.id }}">
-                                            {{ medico.nombreCompleto }}
-                                            </option>                                        
+                            <div class="col-md-3">                                
+                                 {% for medico in medicos %}                                        
+                                            {%if idmedico==medico.id%}
+                                                {{ medico.nombreCompleto }}                                               
+                                            {%endif%}
                                 {% endfor %}
-                                </select>
                             </div>
                         </div>
                         
@@ -414,7 +421,26 @@
         
         <div style="margin-bottom: 10px;">
         <div style="background-color: #1CA9A3; border-radius: 8px; text-align: center; color: white; padding-top: 3px; padding-bottom: 3px;  width: 900px; margin: 0 auto; ">
-                   <h3>Programaci&oacute;n de citas</h3>
+                   <h3>Programaci&oacute;n de citas por m&eacute;dico</h3>
+        </div>
+                <div style="text-align: center; width: 900px;  margin: 0 auto; padding-top: 10px;">
+            <form action="{{path('cita_citasmedico')}}" method="POST" >
+                Seleccione el médico:
+                <select id="medicoId" name="medicoId" >
+                   <option value="-1"> </option>
+                {% for medico in medicos %}
+                       <option value="{{ medico.id }}" 
+                               {%if idmedico==medico.id%}
+                                   selected="selected"
+                               {%endif%}>
+                           {{ medico.nombreCompleto }}
+
+                           </option>                                        
+               {% endfor %}
+               </select>
+                <input type="submit" value="cargar" /> 
+            </form>
+         
         </div>
                 </div>
         
