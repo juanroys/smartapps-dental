@@ -12,7 +12,7 @@
             var options = document.getElementById("smartapps_histclinicabundle_pregunta_opciones");
             selectOptions.id = "smartapps_histclinicabundle_pregunta_opciones";
             selectOptions.style.width = "300px";
-            selectOptions.name = "smartapps_histclinicabundle_pregunta_opciones";
+            selectOptions.name = "smartapps_histclinicabundle_pregunta[opciones]";
             var optionSelectOne = document.createElement("option");
             optionSelectOne.value = "sugerencia";
             optionSelectOne.text = "sugerencia";
@@ -29,7 +29,7 @@
                 var options = document.getElementById("smartapps_histclinicabundle_pregunta_opciones");
                 selectOptions.id = "smartapps_histclinicabundle_pregunta_opciones";
                 selectOptions.style.width = "300px";
-                selectOptions.name = "smartapps_histclinicabundle_pregunta_opciones";
+                selectOptions.name = "smartapps_histclinicabundle_pregunta[opciones]";
                 var optionSelectOne = document.createElement("option");
                 optionSelectOne.value = "odontograma";
                 optionSelectOne.text = "odontograma";
@@ -42,7 +42,7 @@
                 inputOptions.id = "smartapps_histclinicabundle_pregunta_opciones";
                 inputOptions.className = "form-control";
                 inputOptions.type="text";
-                inputOptions.name = "smartapps_histclinicabundle_pregunta_opciones";
+                inputOptions.name = "smartapps_histclinicabundle_pregunta[opciones]";
                 var parent = options.parentNode;
                 parent.replaceChild(inputOptions, options);
             }

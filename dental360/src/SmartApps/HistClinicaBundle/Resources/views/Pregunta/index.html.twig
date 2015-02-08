@@ -63,9 +63,11 @@
                     <li>
                         <a href="{{ path('pregunta_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar la pregunta?');" ><img src="{{ asset('bundles/histclinica/images/icons/cancel-22.png') }}" width="20px" alt="Borrar"  title="Borrar"/></a>
                     </li>
+                    {%if entity.tipoEntrada == tipoEntrada.Radio or entity.tipoEntrada == tipoEntrada.Check%}
                     <li>
                         <a href="{{ path('preguntaopcion_listado', { 'id': entity.id }) }}"><img src="{{ asset('bundles/histclinica/images/icons/list-16.png') }}" width="20px" alt="Opciones respuesta"  title="Opciones de respuesta"/></a>
                     </li>
+                    {%endif%}
                 </ul>
             </td>
         </tr>

@@ -27,7 +27,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for entity in entities %}
+        {% for entity in entities if entity.activo%}
         <tr>                
             <td>{{ entity.titulo }}</td>
             <td style="text-align: center;">{{ entity.orden }}</td>
