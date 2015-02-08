@@ -894,34 +894,53 @@
     </div>
 
     <div class="container">
-        <div class="headerdiv">
-            <h3><strong>Aplicar a Diente Completo</strong></h3>
-        </div>
+        
         <div class="row">
-                        {%for convencion in convenCompleto%}
-            <div class="radio-inline">
-                <input type="radio" name="convencionCom" id="radioCompleto-{{convencion.nombre}}" value="{{convencion.nombre}}-{{convencion.imagen}}"/>
-                <label for="radioCompleto-{{convencion.nombre}}" >{{convencion.nombre}}</label>          
-            </div>
-                        {%endfor%}
+                        
+            {% set counter = 0 %}
+            <div class="col-md-12">
+                <table cellpadding="0" cellspacing="0" >
+                    <tr>
+                        <td rowspan="2" style="background-color: #1ca9a3; color: white; padding-left: 7px; padding-right: 7px;" >
+                <h4>Diente completo</h4>                        
+                        </td>
+                        <td rowspan="2">
+                        <div class="radio-inline">
+                            <input type="radio" name="convencionCom" id="verPanel" value="panel-panel" checked="true"/>
+                            <label for="verPanel">Ninguno</label>
+                        </div>
+                        </td>
+                    {%for convencion in convenCompleto%}
+                        <td>
+                         <div class="radio-inline">
+                             <input type="radio" name="convencionCom" id="radioCompleto-{{convencion.nombre}}" value="{{convencion.nombre}}-{{convencion.imagen}}"/>
+                             <label for="radioCompleto-{{convencion.nombre}}" >{{convencion.nombre}}</label>          
+                         </div>
+                            </td>
+                        {% set counter = counter + 1 %}
+                    {% if counter == 4 %}
+                    </tr><tr>
+                    {% endif %}
+                        {%endfor%}                 
+                        <td>
+                        <div class="radio-inline">
+                            <input type="radio" name="convencionCom" id="ningunoCompleto" value="none-none"/>
+                            <label for="ningunoCompleto">Borrar</label>
+                        </div>        
+                            </td>
+                        
+                    </tr>                    
+                </table>
+            </div>            
         </div>
-        <div class="row">
-            <div class="radio-inline">
-                <input type="radio" name="convencionCom" id="ningunoCompleto" value="none-none"/>
-                <label for="ningunoCompleto">Borrar</label>
-            </div>        
-            <div class="radio-inline">
-                <input type="radio" name="convencionCom" id="verPanel" value="panel-panel" checked="true"/>
-                <label for="verPanel">Ninguno</label>
-            </div>
-        </div>
+        
     </div>
 
     <div id="dienteModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header headerdiv" style="text-align: center">
-                    <h3>Aplicar A Sección</h3>
+                    <h3>Aplicar a Sección</h3>
                 </div>
                 <div class="modal-body" style="margin-left:10px; margin-right: 10px;">
                     <div class="row" style="z-index:2;" id="1_1">
@@ -971,12 +990,13 @@
                         </div>   
                         <div class="col-md-6">                       
                             <div class="row">
-                                <input type="radio" name="convencionPar" id="ningunoParcial" value="none-none-none" checked="true"/> Ninguno
+                                <input type="radio" name="convencionPar" id="ningunoParcial" value="none-none-none" checked="true"/>
+                                <label for="ningunoParcial">Ninguno</label>
                             </div>
                         {%for convencion in convenParcial%}
                             <div class="row">
-                                <input type="radio" name="convencionPar" value="{{convencion.nombre}}-{{convencion.icono}}-{{convencion.tipo}}"/>
-                        {{convencion.nombre}}
+                                <input type="radio" id="radioParcial-{{convencion.nombre}}" name="convencionPar" value="{{convencion.nombre}}-{{convencion.icono}}-{{convencion.tipo}}"/>
+                                <label for="radioParcial-{{convencion.nombre}}">{{convencion.nombre}}</label>
                             </div>
                         {%endfor%}
                         </div>
