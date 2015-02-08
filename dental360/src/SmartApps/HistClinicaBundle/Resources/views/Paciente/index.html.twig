@@ -35,7 +35,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for entity in entities %}
+        {% for entity in entities if entity.activo %}
         <tr>
 
             <td>{{ entity.nombres }} {{ entity.apellido1 }} {{ entity.apellido2 }}</td>                                
@@ -58,9 +58,9 @@
                     {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_MEDICO")%}
                     <li>
                         <a href="{{ path('historiaClinica_new', { 'id': entity.id }) }}"><img src="{{ asset('bundles/histclinica/images/icons/history.png') }}" width="20px" alt="Historia clínica"  title="Historia clínica"/></a>
-                    </li>
+                    </li>                    
                     <li>
-                        <a href="{{ path('exportar_llamarExportar', { 'id': entity.id }) }}"><img src="{{ asset('bundles/histclinica/images/icons/print.png') }}" width="20px" alt="Imprimir Historia clínica"  title="Imprimir Historia clínica"/></a>
+                        <a href="{{ path('exportar_historia', { 'id': entity.id }) }}"><img src="{{ asset('bundles/histclinica/images/icons/print.png') }}" width="20px" alt="Vista de impresión"  title="Imprimir Historia clínica"/></a>
                     </li>
                     {%endif%}
                 </ul>

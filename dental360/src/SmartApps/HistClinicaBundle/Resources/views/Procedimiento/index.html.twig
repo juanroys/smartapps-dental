@@ -28,7 +28,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for entity in entities %}
+        {% for entity in entities if entity.activo%}
         <tr>
             <td>{{ entity.descripcion }}</td>
             <td class="tdactions">

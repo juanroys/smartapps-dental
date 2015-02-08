@@ -41,9 +41,11 @@
                     <li>
                         <a href="{{ path('tipopregunta_delete', { 'id': entity.id }) }}" onclick="javascript: return confirm('¿Esta seguro de eliminar el template?');" ><img src="{{ asset('bundles/histclinica/images/icons/cancel-22.png') }}" width="20px" alt="Borrar"  title="Borrar"/></a>
                     </li>
+                    {%if entity.tipoEntrada == tipoEntrada.Radio or entity.tipoEntrada == tipoEntrada.Check%}
                     <li>
                         <a href="{{ path('opcionrespuesta_listado', { 'id': entity.id }) }}"><img src="{{ asset('bundles/histclinica/images/icons/list-16.png') }}" width="20px" alt="Opciones respuesta"  title="Opciones de respuesta"/></a>
                     </li>
+                    {%endif%}
                 </ul>
                 </td>
             </tr>
