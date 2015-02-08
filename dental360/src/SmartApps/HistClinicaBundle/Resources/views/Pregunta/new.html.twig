@@ -5,6 +5,8 @@
     $(document).ready(function() {
         var inputTipoPregunta = document.getElementById('smartapps_histclinicabundle_pregunta_tipoEntrada');
         inputTipoPregunta.onchange = cargarOpciones;
+        $(document).ready(function() { $("#smartapps_histclinicabundle_pregunta_tipoEntrada").select2(); });
+        $(document).ready(function() { $("#smartapps_histclinicabundle_pregunta_grupo").select2(); });  
     });
     function cargarOpciones() {
         if (this.value == 7) {

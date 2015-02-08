@@ -35,20 +35,20 @@ class Util
     static public function OdontConvenDienParcialEnum(){
         return array(
             0 => array("nombre" => "Caries", "icono"=>"none", "tipo"=>"color"),
-            1 => array("nombre" => "Obturado", "icono"=>"obturado", "tipo"=>"imagen"),
-            2 => array("nombre" => "Sellante", "icono"=>"sellante", "tipo"=>"imagen"),
-            3 => array("nombre" => "Prótesis", "icono"=>"protPar", "tipo"=>"imagen")
+            1 => array("nombre" => "Obturado", "icono"=>"obturado_green", "tipo"=>"imagen"),
+            2 => array("nombre" => "Sellante", "icono"=>"sellante_blue", "tipo"=>"imagen"),
+            3 => array("nombre" => "Prótesis", "icono"=>"protPar_red", "tipo"=>"imagen")
             );
     }
     static public function OdontConvenDienCompletoEnum(){
         return array(
-            0 => array("nombre" => "Corona Completa", "imagen"=>"ccompleta"),
-            1 => array("nombre" => "Ausente", "imagen"=>"ausente"),
-            2 => array("nombre" => "Exodoncia Indicada", "imagen"=>"exoInd"),            
-            3 => array("nombre" => "Endodoncia", "imagen"=>"endodoncia"),            
-            4 => array("nombre" => "Incluido", "imagen"=>"incluido"),
-            5 => array("nombre" => "Endodoncia Indicada", "imagen"=>"endInd"),
-            6 => array("nombre" => "Prótesis", "imagen"=>"protCom"),
+            0 => array("nombre" => "Corona Completa", "imagen"=>"ccompleta_blue"),
+            1 => array("nombre" => "Ausente", "imagen"=>"ausente_blue"),
+            2 => array("nombre" => "Exodoncia Indicada", "imagen"=>"exoInd_blue"),            
+            3 => array("nombre" => "Endodoncia", "imagen"=>"endodoncia_blue"),            
+            4 => array("nombre" => "Incluido", "imagen"=>"incluido_blue"),            
+            6 => array("nombre" => "Prótesis", "imagen"=>"protCom_blue"),
+            5 => array("nombre" => "Endodoncia Indicada", "imagen"=>"endInd_blue"),
             );
     }
     static public function OdontConvenColores(){
