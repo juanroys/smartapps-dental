@@ -6,22 +6,21 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ConvenioType extends AbstractType
-{
-        /**
+class ConvenioType extends AbstractType {
+
+    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder->add('nombreConvenio');
+    public function buildForm(FormBuilderInterface $builder, array $options) {
+        $builder->add('nombreConvenio')
+                ->add('activo', 'hidden', array('data' => 1,));
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
+    public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'SmartApps\HistClinicaBundle\Entity\Convenio'
         ));
@@ -30,8 +29,8 @@ class ConvenioType extends AbstractType
     /**
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return 'smartapps_histclinicabundle_convenio';
     }
+
 }
