@@ -24,13 +24,13 @@ class Respuesta
 
     /**
      * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\Pregunta")
-     * @ORM\JoinColumn(name="preguntaId",referencedColumnName="preguntaId")
+     * @ORM\JoinColumn(name="preguntaId",referencedColumnName="preguntaId", onDelete="RESTRICT")
      */
     private $pregunta;
 
     /**
      * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\HistoriaClinica")
-     * @ORM\JoinColumn(name="historiaClinicaId",referencedColumnName="historiaClinicaId")
+     * @ORM\JoinColumn(name="historiaClinicaId",referencedColumnName="historiaClinicaId", onDelete="RESTRICT")
      */
     private $historiaClinica;
 

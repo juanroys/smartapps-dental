@@ -25,7 +25,7 @@ class PreguntaOpcion
 
     /**
      * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\Pregunta", inversedBy="preguntaOpciones")
-     * @ORM\JoinColumn(name="preguntaId",referencedColumnName="preguntaId")
+     * @ORM\JoinColumn(name="preguntaId",referencedColumnName="preguntaId",onDelete="CASCADE")
      */
     private $pregunta;
 

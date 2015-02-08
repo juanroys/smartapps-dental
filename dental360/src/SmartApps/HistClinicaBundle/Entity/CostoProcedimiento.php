@@ -25,7 +25,7 @@ class CostoProcedimiento
 
     /**
      * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\Procedimiento", inversedBy="costosProcedimientos")
-     * @ORM\JoinColumn(name="procedimientoId",referencedColumnName="procedimientoId")
+     * @ORM\JoinColumn(name="procedimientoId",referencedColumnName="procedimientoId", onDelete="CASCADE")
      */
     private $procedimiento;
 

@@ -24,13 +24,13 @@ class DiagnosticoDiente
 
     /**
      * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\HistoriaClinica")
-     * @ORM\JoinColumn(name="historiaClinicaId",referencedColumnName="historiaClinicaId")
+     * @ORM\JoinColumn(name="historiaClinicaId",referencedColumnName="historiaClinicaId", onDelete="RESTRICT")
      */
     private $historiaClinica;
 
     /**
      * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\ItemOdontograma")
-     * @ORM\JoinColumn(name="itemOdontogramaId",referencedColumnName="itemOdontogramaId")
+     * @ORM\JoinColumn(name="itemOdontogramaId",referencedColumnName="itemOdontogramaId", onDelete="RESTRICT")
      */
     private $itemOdontograma;
 

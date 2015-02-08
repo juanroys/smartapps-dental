@@ -11,8 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="SmartApps\HistClinicaBundle\Entity\GrupoRepository")
  */
-class Grupo
-{
+class Grupo {
+
     /**
      * @var integer
      *
@@ -21,7 +21,7 @@ class Grupo
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Pregunta", mappedBy="grupo")
      */
@@ -44,8 +44,16 @@ class Grupo
      */
     private $orden;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="activo", type="boolean",nullable=false,options={"default":0})
+     * @Assert\NotBlank(message = "Por favor, selecciona una opción")
+     */
+    private $activo;
+
     public function __construct() {
-        $this->preguntas=new \Doctrine\Common\Collections\ArrayCollection();
+        $this->preguntas = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -53,12 +61,11 @@ class Grupo
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
-    
-    public function getPreguntas(){
+
+    public function getPreguntas() {
         return $this->preguntas;
     }
 
@@ -68,8 +75,7 @@ class Grupo
      * @param string $titulo
      * @return Grupo
      */
-    public function setTitulo($titulo)
-    {
+    public function setTitulo($titulo) {
         $this->titulo = $titulo;
 
         return $this;
@@ -80,8 +86,7 @@ class Grupo
      *
      * @return string 
      */
-    public function getTitulo()
-    {
+    public function getTitulo() {
         return $this->titulo;
     }
 
@@ -91,8 +96,7 @@ class Grupo
      * @param integer $orden
      * @return Grupo
      */
-    public function setOrden($orden)
-    {
+    public function setOrden($orden) {
         $this->orden = $orden;
 
         return $this;
@@ -103,12 +107,33 @@ class Grupo
      *
      * @return integer 
      */
-    public function getOrden()
-    {
+    public function getOrden() {
         return $this->orden;
     }
-    
+
+    /**
+     * Set activo
+     *
+     * @param boolean activo
+     * @return Grupo
+     */
+    public function setActivo($activo) {
+        $this->activo = $activo;
+
+        return $this;
+    }
+
+    /**
+     * Get activo
+     *
+     * @return boolean 
+     */
+    public function getActivo() {
+        return $this->activo;
+    }
+
     public function __toString() {
         return $this->titulo;
     }
+
 }

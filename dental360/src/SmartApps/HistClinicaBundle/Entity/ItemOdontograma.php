@@ -24,7 +24,7 @@ class ItemOdontograma
 
     /**
      * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\Odontograma")
-     * @ORM\JoinColumn(name="odontogramaId",referencedColumnName="odontogramaId")
+     * @ORM\JoinColumn(name="odontogramaId",referencedColumnName="odontogramaId", onDelete="RESTRICT")
      */
     private $odontograma;
 
