@@ -236,7 +236,7 @@ class ProcedimientoController extends Controller
                 throw $this->createNotFoundException('Unable to find Procedimiento entity.');
             }
 
-            $em->remove($entity);
+            $entity->setActivo(false);
             $em->flush();       
 
         return $this->redirect($this->generateUrl('procedimiento'));

@@ -221,7 +221,8 @@ class PacienteController extends Controller {
             throw $this->createNotFoundException('Unable to find Paciente entity.');
         }
 
-        $em->remove($entity);
+        //$em->remove($entity);
+        $entity->setActivo(false);
         $em->flush();
 
 
