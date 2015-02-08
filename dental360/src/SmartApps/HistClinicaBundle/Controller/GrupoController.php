@@ -211,7 +211,8 @@ class GrupoController extends Controller
                 throw $this->createNotFoundException('Unable to find Grupo entity.');
             }
 
-            $em->remove($entity);
+            //$em->remove($entity);
+            $entity->setActivo(false);
             $em->flush();
         
 

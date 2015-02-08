@@ -207,7 +207,8 @@ class ConvenioController extends Controller {
             throw $this->createNotFoundException('Unable to find Convenio entity.');
         }
 
-        $em->remove($entity);
+        //$em->remove($entity);
+        $entity->setActivo(false);
         $em->flush();
 
 

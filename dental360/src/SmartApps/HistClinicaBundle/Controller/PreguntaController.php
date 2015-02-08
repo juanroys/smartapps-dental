@@ -31,12 +31,13 @@ class PreguntaController extends Controller {
                     'tipoentrada' => \SmartApps\HistClinicaBundle\Util\Util::TipoPreguntaEnum(),
         ));
     }
+
     public function searchAction() {
-        $search=filter_input(INPUT_POST, 'search',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $search = filter_input(INPUT_POST, 'search', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $em = $this->getDoctrine()->getManager();
         $paginador = $this->get('ideup.simple_paginator');
         $paginador->paginate($em->getRepository("HistClinicaBundle:Pregunta")->queryBuscarPreguntas($search));
-        if($paginador->getTotalItems()){
+        if ($paginador->getTotalItems()) {
             $paginador->setItemsPerPage($paginador->getTotalItems());
         }
         $entities = $paginador->paginate(
@@ -46,7 +47,7 @@ class PreguntaController extends Controller {
                     'entities' => $entities,
                     'sinoenum' => \SmartApps\HistClinicaBundle\Util\Util::SiNoEnum(),
                     'tipoentrada' => \SmartApps\HistClinicaBundle\Util\Util::TipoPreguntaEnum(),
-                    'search'=>$search
+                    'search' => $search
         ));
     }
 
@@ -66,7 +67,9 @@ class PreguntaController extends Controller {
                 $odontograma = $em->getRepository('HistClinicaBundle:Odontograma')->findBy(array('grupo' => $entity->getGrupo()));
                 //si no existe algun odontograma en ese grupo entonces se crean sus items y el odontograma
                 if ($odontograma == null || !$odontograma) {
-                    $this->crearOdontograma($entity->getGrupo(),$em);
+                    $this->crearOdontograma($entity->getGrupo(), $em);
+                } else {
+                    $odontograma[0]->setActivo(true);
                 }
             }
             $em->persist($entity);
@@ -81,10 +84,11 @@ class PreguntaController extends Controller {
         ));
     }
 
-    private function crearOdontograma($grupo,$em) {    
-        $odontograma=new \SmartApps\HistClinicaBundle\Entity\Odontograma();
+    private function crearOdontograma($grupo, $em) {
+        $odontograma = new \SmartApps\HistClinicaBundle\Entity\Odontograma();
         $odontograma->setGrupo($grupo);
         $odontograma->setDescripcion($grupo->getTitulo());
+        $odontograma->setActivo(true);
         $em->persist($odontograma);
         for ($i = 1; $i <= 4; $i++) {
             if ($i <= 2) {
@@ -108,7 +112,7 @@ class PreguntaController extends Controller {
                         $em->persist($item);
                     }
             }
-        }        
+        }
     }
 
     /**
@@ -243,15 +247,17 @@ class PreguntaController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('HistClinicaBundle:Pregunta')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Pregunta entity.');
         }
-
-        $em->remove($entity);
+        //$em->remove($entity);
+        $entity->setEstaActiva(false);
+        $odontograma = $em->getRepository('HistClinicaBundle:Odontograma')->findBy(array('grupo' => $entity->getGrupo()));
+        //si no existe algun odontograma en ese grupo entonces se crean sus items y el odontograma
+        if ($odontograma != null && $odontograma) {
+            $odontograma[0]->setActivo(false);
+        }
         $em->flush();
-
-
         return $this->redirect($this->generateUrl('pregunta'));
     }
 
