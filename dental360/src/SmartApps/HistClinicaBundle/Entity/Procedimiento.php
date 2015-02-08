@@ -35,6 +35,13 @@ class Procedimiento
      *  @Assert\NotBlank(message = "Por favor, escribe una descripción")
      */
     private $descripcion;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="activo", type="boolean",nullable=false,options={"default":0})
+     */
+    private $activo;
 
     public function __construct() {
         $this->costosProcedimientos=new \Doctrine\Common\Collections\ArrayCollection();
@@ -79,6 +86,27 @@ class Procedimiento
     public function getDescripcion()
     {
         return $this->descripcion;
+    }
+    
+    /**
+     * Set activo
+     *
+     * @param boolean activo
+     * @return Procedimiento
+     */
+    public function setActivo($activo) {
+        $this->activo = $activo;
+
+        return $this;
+    }
+
+    /**
+     * Get activo
+     *
+     * @return boolean 
+     */
+    public function getActivo() {
+        return $this->activo;
     }
     
     public function __toString() {

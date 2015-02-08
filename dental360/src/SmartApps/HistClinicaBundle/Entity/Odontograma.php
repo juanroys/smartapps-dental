@@ -10,9 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Odontograma
-{
-   
+class Odontograma {
+
     /**
      * @var integer
      *
@@ -24,7 +23,7 @@ class Odontograma
 
     /**
      * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\Grupo")
-     * @ORM\JoinColumn(name="grupoId",referencedColumnName="grupoId")
+     * @ORM\JoinColumn(name="grupoId",referencedColumnName="grupoId", onDelete="RESTRICT")
      */
     private $grupo;
 
@@ -35,26 +34,29 @@ class Odontograma
      */
     private $descripcion;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="activo", type="boolean",nullable=false,options={"default":0})
+     */
+    private $activo;
 
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
-    public function setGrupo(\SmartApps\HistClinicaBundle\Entity\Grupo $grupo)
-    {
+    public function setGrupo(\SmartApps\HistClinicaBundle\Entity\Grupo $grupo) {
         $this->grupo = $grupo;
 
         return $this;
     }
 
-    public function getGrupo()
-    {
+    public function getGrupo() {
         return $this->grupo;
     }
 
@@ -64,8 +66,7 @@ class Odontograma
      * @param string $descripcion
      * @return Odontograma
      */
-    public function setDescripcion($descripcion)
-    {
+    public function setDescripcion($descripcion) {
         $this->descripcion = $descripcion;
 
         return $this;
@@ -76,8 +77,29 @@ class Odontograma
      *
      * @return string 
      */
-    public function getDescripcion()
-    {
+    public function getDescripcion() {
         return $this->descripcion;
     }
+
+    /**
+     * Set activo
+     *
+     * @param boolean activo
+     * @return Odontograma
+     */
+    public function setActivo($activo) {
+        $this->activo = $activo;
+
+        return $this;
+    }
+
+    /**
+     * Get activo
+     *
+     * @return boolean 
+     */
+    public function getActivo() {
+        return $this->activo;
+    }
+
 }

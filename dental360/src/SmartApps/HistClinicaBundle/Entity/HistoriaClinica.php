@@ -24,7 +24,7 @@ class HistoriaClinica
 
     /**
      * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\Paciente")
-     * @ORM\JoinColumn(name="pacienteId",referencedColumnName="pacienteId")
+     * @ORM\JoinColumn(name="pacienteId",referencedColumnName="pacienteId",onDelete="RESTRICT")
      */
     private $paciente;
 

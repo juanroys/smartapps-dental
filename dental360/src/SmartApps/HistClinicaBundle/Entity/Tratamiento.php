@@ -21,7 +21,7 @@ class Tratamiento {
 
     /**
      * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\Procedimiento")
-     * @ORM\JoinColumn(name="procedimientoId",referencedColumnName="procedimientoId")
+     * @ORM\JoinColumn(name="procedimientoId",referencedColumnName="procedimientoId", onDelete="RESTRICT")
      */
     private $procedimiento;
 

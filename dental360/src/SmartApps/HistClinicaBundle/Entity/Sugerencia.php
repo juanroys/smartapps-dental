@@ -29,13 +29,13 @@ class Sugerencia
     
     /**
      * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\Procedimiento")
-     * @ORM\JoinColumn(name="procedimientoId",referencedColumnName="procedimientoId")
+     * @ORM\JoinColumn(name="procedimientoId",referencedColumnName="procedimientoId", onDelete="RESTRICT")
      */
     private $procedimiento;
 
     /**
      * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\HistoriaClinica")
-     * @ORM\JoinColumn(name="historiaClinicaId",referencedColumnName="historiaClinicaId")
+     * @ORM\JoinColumn(name="historiaClinicaId",referencedColumnName="historiaClinicaId", onDelete="RESTRICT")
      */
     private $historiaClinica;
 

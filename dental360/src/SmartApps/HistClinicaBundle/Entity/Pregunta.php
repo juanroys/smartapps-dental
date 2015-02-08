@@ -24,7 +24,7 @@ class Pregunta {
 
     /**
      * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\Grupo", inversedBy="preguntas")
-     * @ORM\JoinColumn(name="grupoId",referencedColumnName="grupoId")
+     * @ORM\JoinColumn(name="grupoId",referencedColumnName="grupoId", onDelete="RESTRICT")
      *  @Assert\NotBlank(message = "Por favor, selecciona un grupo")
      */
     private $grupo;
@@ -33,7 +33,7 @@ class Pregunta {
      * @var integer
      *
      * @ORM\Column(name="tipoEntrada", type="integer")
-     *  @Assert\NotBlank(message = "Por favor, selecciona un tipo de entrada")
+     * @Assert\NotBlank(message = "Por favor, selecciona un tipo de entrada")
      * @Assert\NotEqualTo(value=0, message = "Por favor, selecciona un tipo de entrada")
      */
     private $tipoEntrada;

@@ -35,6 +35,14 @@ class Convenio
      * @Assert\NotBlank(message = "Por favor, escribe un nombre")
      */
     private $nombreConvenio;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="activo", type="boolean",nullable=false,options={"default":0})
+     * @Assert\NotBlank(message = "Por favor, selecciona una opción")
+     */
+    private $activo;
 
     public function __construct() {
         $this->costosProcedimientos= new \Doctrine\Common\Collections\ArrayCollection();
@@ -81,6 +89,27 @@ class Convenio
     
     public function getCostosProcedimientos(){
         return $this->costosProcedimientos;
+    }
+    
+    /**
+     * Set activo
+     *
+     * @param boolean activo
+     * @return Convenio
+     */
+    public function setActivo($activo) {
+        $this->activo = $activo;
+
+        return $this;
+    }
+
+    /**
+     * Get activo
+     *
+     * @return boolean 
+     */
+    public function getActivo() {
+        return $this->activo;
     }
     
     public function __toString() {

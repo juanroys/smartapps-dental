@@ -24,13 +24,13 @@ class Atencion
 
     /**
      * @ORM\ManyToOne(targetEntity="SmartApps\HistClinicaBundle\Entity\HistoriaClinica")
-     * @ORM\JoinColumn(name="historiaClinicaId",referencedColumnName="historiaClinicaId")
+     * @ORM\JoinColumn(name="historiaClinicaId",referencedColumnName="historiaClinicaId",onDelete="RESTRICT")
      */
     private $historiaClinica;
 
     /**
      * @ORM\ManyToOne(targetEntity="SmartApps\AgendaBundle\Entity\Medico")
-     * @ORM\JoinColumn(name="medicoId",referencedColumnName="medicoId")
+     * @ORM\JoinColumn(name="medicoId",referencedColumnName="medicoId", onDelete="RESTRICT")
      */
     private $medico;
 

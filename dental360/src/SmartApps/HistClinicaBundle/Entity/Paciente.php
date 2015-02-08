@@ -245,6 +245,13 @@ class Paciente {
      *  @Assert\NotBlank(message = "Por favor, selecciona un convenio")
      */
     private $convenio;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="activo", type="boolean",nullable=false,options={"default":0})
+     */
+    private $activo;
 
     /**
      * Get id
@@ -908,6 +915,27 @@ class Paciente {
 
     public function getNombreCompleto() {
         return $this->nombres . ' ' . $this->apellido1 . ' ' . $this->apellido2;
+    }
+
+    /**
+     * Set activo
+     *
+     * @param boolean activo
+     * @return Paciente
+     */
+    public function setActivo($activo) {
+        $this->activo = $activo;
+
+        return $this;
+    }
+
+    /**
+     * Get activo
+     *
+     * @return boolean 
+     */
+    public function getActivo() {
+        return $this->activo;
     }
 
     public function __toString() {
