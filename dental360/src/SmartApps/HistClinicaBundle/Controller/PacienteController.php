@@ -245,7 +245,29 @@ class PacienteController extends Controller {
         ;
     }
 
+    public function detallesRapidosAction()
+    {
+        $idpaciente = $_POST['id'];
+        $em = $this->getDoctrine()->getManager();
+        $paciente = $em->getRepository('HistClinicaBundle:Paciente')->find($idpaciente);
+        
+        $response = array(
+            "sucess" => "ok",
+            "idpaciente" => $paciente->getId(),
+            "nombres" => $paciente->getNombres(),
+            "apellido1" => $paciente->getApellido1(),
+            "apellido2" => $paciente->getApellido2(),
+            "telefono" => $paciente->getResidenciaTelefono(),
+            "tipoid" => $paciente->getTipoIdentificacion(),
+            "noid" => $paciente->getNoIdentificacion(),
+            "eps" => $paciente->getEPS(),
+            "convenio" => $paciente->getConvenio()->getId(),
+        );
+        return new Response(json_encode($response)); 
+    }
+    
     public function registroRapidoAction() {
+        $id = $_POST['id'];
         $apellido1 = $_POST['apellido1'];
         $apellido2 = $_POST['apellido2'];
         $nombres = $_POST['nombres'];
@@ -256,8 +278,15 @@ class PacienteController extends Controller {
         $convenio = $_POST['convenio'];
 
         $em = $this->getDoctrine()->getManager();
-        $entity = new Paciente();
-
+        if($id == -1)
+        {
+            $entity = new Paciente();    
+        }
+        else
+        {
+            $entity  = $em->getRepository('HistClinicaBundle:Paciente')->find($id);
+        }
+        
         $entity->setApellido1($apellido1);
         $entity->setApellido2($apellido2);
         $entity->setNombres($nombres);
@@ -265,6 +294,10 @@ class PacienteController extends Controller {
         $entity->setTipoIdentificacion($tipoId);
         $entity->setNoIdentificacion($noId);
         $entity->setEPS($eps);
+        $entity->setSexo(1);
+        $entity->setEstadoCivil(1);
+        $entity->setCotizanteBeneficiario(0);
+        $entity->setActivo(1);
 
         if ($convenio > 0) {
             $entity->setConvenio($em->getRepository('HistClinicaBundle:Convenio')->find($convenio));

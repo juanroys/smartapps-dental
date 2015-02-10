@@ -333,7 +333,9 @@ class DisponibilidadController extends Controller
         return new Response(json_encode($response));
     }
     
-    
+    public function CalculateMedicDayLimit($startDate, $endDate, $medicoid){                       
+        
+    }
     
     /// Genera el listado de eventos que corresponden a la disponibilidad de un medico en particular
     public function getEventsAction($id, $conttype){

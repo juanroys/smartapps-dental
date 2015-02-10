@@ -98,10 +98,7 @@ class CitaController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $entities = $em->getRepository('AgendaBundle:Cita')->findAll();
-        
-        
         return $this->render('AgendaBundle:Cita:index.html.twig', array(
             'entities' => $entities,
         ));
@@ -109,18 +106,11 @@ class CitaController extends Controller
     
      public function programacionAction()
     {    
-        //$formato = 'Y-m-d';                 
-        //$inicio = date("Y-m-d", time());
-         $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $medicos = $em->getRepository('AgendaBundle:Medico')->findAll();
         $pacientes = $em->getRepository('HistClinicaBundle:Paciente')->findAll();
-        //$tratamientos = $em->getRepository('HistClinicaBundle:Tratamiento')->findAll();
         $unidades = $em->getRepository('AgendaBundle:UnidadAtencion')->findAll();
         $convenios = $em->getRepository('HistClinicaBundle:Convenio')->findAll();
-        //$hasta = DateTime::createFromFormat($formato, $inicio); //->add(new DateInterval('P90D'));        
-        //$desde = DateTime::createFromFormat($formato, $inicio);
-        //$horario =  $this->getHorarioLaboral($desde->format("Y-m-d"), $hasta->format("Y-m-d"));
-        
         return $this->render('AgendaBundle:Cita:programacion.html.twig', array(
             'pacientes' => $pacientes, 
             'medicos' => $medicos,
@@ -129,11 +119,13 @@ class CitaController extends Controller
         ));
     }
     
+    // *************************************************************************
+    // Permite la incializacion del calendario de citas para un medico en particular
+    // recibe por parametro el medico seleccionado
+    // *************************************************************************
      public function citasmedicoAction()
     {    
-        //$formato = 'Y-m-d';                 
-        //$inicio = date("Y-m-d", time());
-         $medicoId = -1;
+        $medicoId = -1;
         if(isset($_POST['medicoId']))
         {
          $medicoId = $_POST['medicoId'];   
@@ -141,12 +133,8 @@ class CitaController extends Controller
          $em = $this->getDoctrine()->getManager();
         $medicos = $em->getRepository('AgendaBundle:Medico')->findAll();
         $pacientes = $em->getRepository('HistClinicaBundle:Paciente')->findAll();
-        //$tratamientos = $em->getRepository('HistClinicaBundle:Tratamiento')->findAll();
         $unidades = $em->getRepository('AgendaBundle:UnidadAtencion')->findAll();
         $convenios = $em->getRepository('HistClinicaBundle:Convenio')->findAll();
-        //$hasta = DateTime::createFromFormat($formato, $inicio); //->add(new DateInterval('P90D'));        
-        //$desde = DateTime::createFromFormat($formato, $inicio);
-        //$horario =  $this->getHorarioLaboral($desde->format("Y-m-d"), $hasta->format("Y-m-d"));        
         return $this->render('AgendaBundle:Cita:citasmedico.html.twig', array(
             'pacientes' => $pacientes, 
             'medicos' => $medicos,
@@ -156,17 +144,43 @@ class CitaController extends Controller
         ));
     }
     
+    // *************************************************************************
+    // Permite la inicializacion del calendario de citas para el medico logueado 
+    // en el sistema al momento de la consulta
+    // *************************************************************************
+    public function miprogramacionAction()
+    {
+        /*
+        $medicoId = -1;
+        if(isset($_POST['medicoId']))
+        {
+         $medicoId = $_POST['medicoId'];   
+        }         */
+        $em = $this->getDoctrine()->getManager();
+        
+        $username = $this->get('security.context')->getToken()->getUser();
+        $medico = $em->getRepository('AgendaBundle:Medico')->findMedicoPorUsuario($username->getId());
+        $medicoId = $medico->getId();
+        
+        $medicos = $em->getRepository('AgendaBundle:Medico')->findAll();
+        $pacientes = $em->getRepository('HistClinicaBundle:Paciente')->findAll();
+        $unidades = $em->getRepository('AgendaBundle:UnidadAtencion')->findAll();
+        $convenios = $em->getRepository('HistClinicaBundle:Convenio')->findAll();
+        return $this->render('AgendaBundle:Cita:miprogramacion.html.twig', array(
+            'pacientes' => $pacientes, 
+            'medicos' => $medicos,
+            'unidades' => $unidades,
+            'convenios' => $convenios,
+            'idmedico' => $medicoId,
+        ));
+    }
+    
+    // *************************************************************************
+    // Permite obtener todas las disponibilidades de todos los medicos para una 
+    // rango de fechas recibido por parametro
+    // *************************************************************************
     public function getDisponibilidades($startDate, $endDate)
     {
-         /* $start = $_GET['start'];
-        $end = $_GET['end'];        
-        $formato = 'Y-m-d';                
-        $interval = new DateInterval( "P1D" ); 
-        $interval->invert = 1;        
-        $startDate = DateTime::createFromFormat($formato, $start)->add($interval);        
-        $endDate = DateTime::createFromFormat($formato, $end);
-        */
-        
         $em = $this->getDoctrine()->getManager();                
         $dispos = $em->getRepository('AgendaBundle:Disponibilidad')->getPorFecha( $startDate, $endDate);
         
@@ -184,11 +198,10 @@ class CitaController extends Controller
             if($dispStartDate < $startDate ){
                 $dispStartDate = clone $startDate;
             }
-            //$origHasta = clone $oDispo->getFechaHasta();
+     
             $dispEndDate = $oDispo->getFechaHasta()->add(new DateInterval('P1D'));
             if($dispEndDate > $endDate){
-                //echo 'fambia fecha hasta';
-                $dispEndDate = clone $endDate;                        
+                     $dispEndDate = clone $endDate;                        
             }                       
             $recorre = $dispStartDate;            
             while($recorre <= $dispEndDate)
@@ -197,13 +210,6 @@ class CitaController extends Controller
                 {
                     $contenido = '';
                     $contenido = $oDispo->getMedico()->getId();
-                    /*if($conttype == 1)
-                    {
-                        if($oDispo->getFechaDesde() != $origHasta){
-                                $contenido = $contenido . 'Desde: ' . $oDispo->getFechaDesde()->format('Y/m/d') . ' Hasta: ' . $oDispo->getFechaHasta()->format('Y/m/d') . ' ';
-                            $contenido = $contenido . 'Días: ' . $this->getDiasString($oDispo->getDiasSemana()) ;
-                        }                        
-                    } */
                     $event = new CitaEvent($oDispo->getId(), $contenido, 
                                                 $recorre->format('Y-m-d') . ' ' . $oDispo->getHoraInicio()->format('H:i:s'), 
                                                 $recorre->format('Y-m-d') . ' ' . $oDispo->getHoraFin()->format('H:i:s'));
@@ -212,26 +218,15 @@ class CitaController extends Controller
                 $recorre = $recorre->add(new DateInterval('P1D'));
             } 
         }
-        // Sort by start date
-        /*usort($output_arrays, function($a, $b) {
-              if ($a->start == $b->start) {
-                return 0;
-              }
-              return $a->start < $b->start ? 1 : -1;
-        });  */
         return $output_arrays;
     }
     
+    // *************************************************************************
+    // Permite obtener las disponibilidades de un medico especifico para un rango
+    // de fechas particular
+    // *************************************************************************
     public function getDisponibilidadesMedico($startDate, $endDate, $medicoid)
     {
-         /* $start = $_GET['start'];
-        $end = $_GET['end'];        
-        $formato = 'Y-m-d';                
-        $interval = new DateInterval( "P1D" ); 
-        $interval->invert = 1;        
-        $startDate = DateTime::createFromFormat($formato, $start)->add($interval);        
-        $endDate = DateTime::createFromFormat($formato, $end);
-        */
         
         $em = $this->getDoctrine()->getManager();                
         $dispos = $em->getRepository('AgendaBundle:Disponibilidad')->getPorMedicoYFecha($medicoid, $startDate, $endDate);
@@ -263,13 +258,6 @@ class CitaController extends Controller
                 {
                     $contenido = '';
                     $contenido = $oDispo->getMedico()->getId();
-                    /*if($conttype == 1)
-                    {
-                        if($oDispo->getFechaDesde() != $origHasta){
-                                $contenido = $contenido . 'Desde: ' . $oDispo->getFechaDesde()->format('Y/m/d') . ' Hasta: ' . $oDispo->getFechaHasta()->format('Y/m/d') . ' ';
-                            $contenido = $contenido . 'Días: ' . $this->getDiasString($oDispo->getDiasSemana()) ;
-                        }                        
-                    } */
                     $event = new CitaEvent($oDispo->getId(), $contenido, 
                                                 $recorre->format('Y-m-d') . ' ' . $oDispo->getHoraInicio()->format('H:i:s'), 
                                                 $recorre->format('Y-m-d') . ' ' . $oDispo->getHoraFin()->format('H:i:s'));
@@ -278,16 +266,12 @@ class CitaController extends Controller
                 $recorre = $recorre->add(new DateInterval('P1D'));
             } 
         }
-        // Sort by start date
-        /*usort($output_arrays, function($a, $b) {
-              if ($a->start == $b->start) {
-                return 0;
-              }
-              return $a->start < $b->start ? 1 : -1;
-        });  */
         return $output_arrays;
     }
     
+    // *************************************************************************
+    // Funcion auxiliar utilizada para el manejo de recursividad de eventos
+    // *************************************************************************
     function includeDate($fecha, $diasValue)
     {
         $diaSemana = $fecha->format('w');   
@@ -305,6 +289,10 @@ class CitaController extends Controller
             return false; 
     }
     
+    // ***********************************************************************
+    // Esta funcion permite generar los eventos de no-disponibilidades para un medico en particular
+    // se utiliza para cargar las zonas Verdes en el calendario para programacion de citas
+    // ***********************************************************************
     public function getMedicCalendarAction($medicoid)
     {
         $start = $_GET['start'];
@@ -399,7 +387,10 @@ class CitaController extends Controller
         
     }
     
+    // *************************************************************************
     // Genera un listado de eventos que corresponden a las citas programadas entre dos fechas
+    // permite cargar todas las citas configuradas para las fechas especificas
+    // *************************************************************************
     public function getAllCalendarAction()
     {
         $start = $_GET['start'];
@@ -494,6 +485,9 @@ class CitaController extends Controller
         
     }
     
+    // *************************************************************************
+    // Permite el registro de una nueva cita desde el popup del calendario
+    // *************************************************************************
     public function registerAction()
     {
         $medicoId = $_POST['medicoId'];
@@ -544,6 +538,10 @@ class CitaController extends Controller
         return new Response(json_encode($response));
     }
     
+    // *************************************************************************
+    // Permite consultar los detalles de una cita para ser desplegados en el poup 
+    // del calendario
+    // *************************************************************************
     public function getCitaAction()
     {
         $id = $_POST['citaId'];
@@ -581,6 +579,9 @@ class CitaController extends Controller
         return new Response(json_encode($response));
     }
     
+    // *************************************************************************
+    // Permite eliminar una cita particular
+    // *************************************************************************
     public function removeAction()
     {
         $em = $this->getDoctrine()->getManager();

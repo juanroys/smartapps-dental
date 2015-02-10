@@ -56,3 +56,7 @@ cita_citasmedico:
 cita_getMedicCalendar:
     path:     /getMedicCalendar/{medicoid}
     defaults: { _controller: "AgendaBundle:Cita:getMedicCalendar" }
+    
+cita_miprogramacion:
+    path:     /miprogramacion
+    defaults: { _controller: "AgendaBundle:Cita:miprogramacion" }
