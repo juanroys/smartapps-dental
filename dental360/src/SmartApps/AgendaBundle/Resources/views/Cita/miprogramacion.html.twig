@@ -61,7 +61,7 @@
                 editable: false,
                 eventLimit: true, // allow "more" link when too many events
                 allDaySlot: false, 
-                slotDuration: '00:10:00',                
+                slotDuration: '00:15:00',                
                 minTime: '07:00:00',
                 maxTime: '19:00:00',
                 selectable: true,
@@ -83,7 +83,7 @@
                     jQuery("input[name='fecha']").val(start.format('YYYY-MM-DD'));                                    
                     jQuery("input[name='horaInicio']").val(start.format('HH:mm'));
                     jQuery("input[name='horaFin']").val(end.format('HH:mm'));
-                    jQuery('#deleteDispButton').hide();
+                    //jQuery('#deleteDispButton').hide();
                     jQuery("#myModal").modal('show');
                 },    
                 eventClick: function(calEvent, jsEvent, view) {                    
@@ -102,7 +102,7 @@
                                 jQuery("#selPaciente").val(response.pacienteId);
                                 jQuery("#selEstado").val(response.estado);
                                 jQuery("#selUnidad").val(response.unidadId);
-                                jQuery('#deleteDispButton').show();
+                      //          jQuery('#deleteDispButton').show();
                                 jQuery("#selPaciente").select2(); 
                                 loaddetails();
                                 jQuery("#myModal").modal('show');                                 
@@ -110,8 +110,8 @@
                             else{
                                 clearForm();
                                 jQuery("#resultMessage").html('<span>' + response.error + '</span>');
-                                jQuery('#deleteDispButton').hide();
-                                jQuery('#saveCiteButton').hide();
+                    //            jQuery('#deleteDispButton').hide();
+                                //jQuery('#saveCiteButton').hide();
                                 jQuery("#myModal").modal('show');
                             }                            
                         }, "json"); 
@@ -149,9 +149,9 @@
                                 jQuery('#h3title').html('Detalles paciente');       
                                 //jQuery("#btnAddPaciente").hide();       
                                 jQuery("#divRegistrarPaciente").show();       
-                                jQuery("#btnCancelarGuardado").hide();       
-                                jQuery("#btnGuardarPaciente").hide();                                      
-                                jQuery("#btnActualizarPaciente").show(); 
+                                //jQuery("#btnCancelarGuardado").hide();       
+                                //jQuery("#btnGuardarPaciente").hide();                                      
+                                //jQuery("#btnActualizarPaciente").show(); 
 
                             }
                         }, "json");
@@ -177,17 +177,18 @@
                 jQuery(this).hide();
                 jQuery("#divRegistrarPaciente").show();       
                 jQuery('#h3title').text('Registrar paciente');  
-                jQuery("#btnCancelarGuardado").show();       
-                jQuery("#btnGuardarPaciente").show();                                      
-                jQuery("#btnActualizarPaciente").hide(); 
+              //  jQuery("#btnCancelarGuardado").show();       
+              //  jQuery("#btnGuardarPaciente").show();                                      
+              //  jQuery("#btnActualizarPaciente").hide(); 
             });
+            /*
             jQuery("#btnCancelarGuardado").click(function(){
                 //jQuery("#divRegistrarPaciente").hide();
                 //jQuery("#btnAddPaciente").show();
                 loaddetails(); 
-            });   
+            });   */
                         
-            jQuery('#saveCiteButton').click(function() {
+           /* jQuery('#saveCiteButton').click(function() {
                 var pacienteID = jQuery("#selPaciente").val();
                 if(pacienteID <= 0){
                     jQuery("#resultMessage").html('<span>¡Debe seleccionar un paciente!</span>');
@@ -219,7 +220,7 @@
                         }, "json"); 
                 
             });
-            
+            */ /*
             jQuery('#btnGuardarPaciente').click(function(){
                 var apellido1 = jQuery('#txtapellido1').val();
                 var apellido2 = jQuery('#txtapellido2').val();
@@ -251,7 +252,8 @@
                         }, "json"); 
                 
             });
-            
+            */
+           /*
             jQuery('#btnActualizarPaciente').click(function(){
                 var apellido1 = jQuery('#txtapellido1').val();
                 var apellido2 = jQuery('#txtapellido2').val();
@@ -283,7 +285,8 @@
                         }, "json"); 
                 
             });
-            
+            */
+           /*
             jQuery('#deleteDispButton').click(function() {
                 if(!confirm('¿Esta seguro de borrar la cita?')) return;
                 _actualEventId = jQuery("#citaIdHidden").val();
@@ -301,7 +304,7 @@
                         }, "json");
                 jQuery("#myModal").modal('hide');
             });
-            
+            */
             jQuery("#cancelButton").click(function(){
                 jQuery("#myModal").modal('hide');
                 clearEvent();
@@ -325,7 +328,7 @@
             jQuery("#selUnidad").val(-1);
             jQuery("#citaIdHidden").val(-1);
             jQuery("#divRegistrarPaciente").hide();           
-            jQuery("#btnAddPaciente").show();
+            //jQuery("#btnAddPaciente").show();
             jQuery("#selconvenio").val(-1);
             jQuery("#seleps").val('');
             jQuery("#seltipoid").val(-1);
@@ -464,7 +467,7 @@
                                            <option value="{{ paciente.id }}">{{ paciente.getIdentificacionCompleta() }}</option>                                        
                                     {% endfor %}
                                 </select>
-                                <button type="button" class="btn btn-default" id="btnAddPaciente"  style="padding-top: 3px; padding-bottom: 3px;">+</button>
+                                
                             </div>                                
                         </div>
                        
@@ -518,22 +521,13 @@
                                         </select>
                                    </div>        
                                </div>
-                               <div class="row">
-                                   <div class="col-md-12" style="text-align: right;">
-                                   <button type="button" class="btn btn-default" id="btnCancelarGuardado" >Cancelar</button>
-                                   <button type="button" class="btn btn-default" id="btnGuardarPaciente" >Guardar</button>
-                                   <button type="button" class="btn btn-default" id="btnActualizarPaciente" >Actualizar</button>
-                                   </div>
-                               </div>
                            </div>
                        </div>
                        
                         <div style="color: red; font-weight: bold;" id="resultMessage" ></div>     
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" id="cancelButton">Cancelar</button>
-                        <button type="button" class="btn btn-primary" id="deleteDispButton">Borrar</button>
-                        <button type="button" class="btn btn-primary" id="saveCiteButton">Guardar</button>
+                        <button type="button" class="btn btn-default" id="cancelButton">Cerrar</button>                        
                     </div>
                         
                 </div>
@@ -542,29 +536,10 @@
         
         
         <div style="margin-bottom: 10px;">
-        <div style="background-color: #1CA9A3; border-radius: 8px; text-align: center; color: white; padding-top: 3px; padding-bottom: 3px;  width: 900px; margin: 0 auto; ">
-                   <h3>Programaci&oacute;n de citas por m&eacute;dico</h3>
+            <div style="background-color: #1CA9A3; border-radius: 8px; text-align: center; color: white; padding-top: 3px; padding-bottom: 3px;  width: 900px; margin: 0 auto; ">
+                        <h3>Citas programadas</h3>
+            </div>
         </div>
-                <div style="text-align: center; width: 900px;  margin: 0 auto; padding-top: 10px;">
-            <form action="{{path('cita_citasmedico')}}" method="POST" >
-                Seleccione el médico:
-                <select id="medicoId" name="medicoId" >
-                   <option value="-1"> </option>
-                {% for medico in medicos %}
-                       <option value="{{ medico.id }}" 
-                               {%if idmedico==medico.id%}
-                                   selected="selected"
-                               {%endif%}>
-                           {{ medico.nombreCompleto }}
-
-                           </option>                                        
-               {% endfor %}
-               </select>
-                <input type="submit" value="cargar" /> 
-            </form>
-         
-        </div>
-                </div>
         
         <div id='calendar'></div>
 

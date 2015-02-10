@@ -36,3 +36,7 @@ paciente_search:
     path:     /search
     defaults: { _controller: "HistClinicaBundle:Paciente:search" }
     
+paciente_detallesRapidos:
+    path:     /detallesRapidos
+    defaults: { _controller: "HistClinicaBundle:Paciente:detallesRapidos" }
+

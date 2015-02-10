@@ -20,14 +20,17 @@ class Util
     static public function TipoIdentificacionEnum(){
         return array( 0 => 'Cédula de ciudadanía', 1 => 'Registro civil', 2 => 'Cédula extrangería', 3=> 'Tarjeta de identidad');
     }
+    static public function TipoIdentificacionMinEnum(){
+        return array( 0 => 'CC', 1 => 'RC', 2 => 'CE', 3=> 'TI');
+    }
     static public function GeneroEnum(){
-        return array( '' => '', 1 => 'Masculino', 2 => 'Femenino');
+        return array( 1 => 'Masculino', 2 => 'Femenino');
     }
     static public function TipoAfiliacionEnum(){
-        return array( 1 => 'Cotizante', 2 => 'Beneficiario');
+        return array(0 => 'Ninguno', 1 => 'Cotizante', 2 => 'Beneficiario');
     }
     static public function EstadoCivilEnum(){
-        return array( '' => '', 1 => 'Soltero', 2 => 'Casado', 3 => 'Unión libre' , 4 => 'Viudo');
+        return array(1 => 'Soltero', 2 => 'Casado', 3 => 'Unión libre' , 4 => 'Viudo');
     }
     static public function SiNoEnum(){
         return array(  0 => 'No', 1 => 'Si');

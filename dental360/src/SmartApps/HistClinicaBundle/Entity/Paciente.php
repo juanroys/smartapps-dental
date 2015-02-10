@@ -917,6 +917,14 @@ class Paciente {
         return $this->nombres . ' ' . $this->apellido1 . ' ' . $this->apellido2;
     }
 
+    public function getIdentificacionCompleta()
+    {
+        $enum =  \SmartApps\HistClinicaBundle\Util\Util::TipoIdentificacionMinEnum();        
+        return $enum[$this->tipoIdentificacion] . ' ' . $this->noIdentificacion . ' ' . $this->getNombreCompleto();
+        
+        //return $this->tipoIdentificacion . ' ' . $this->noIdentificacion;
+    }
+    
     /**
      * Set activo
      *
