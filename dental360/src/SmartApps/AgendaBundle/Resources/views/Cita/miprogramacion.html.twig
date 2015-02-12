@@ -152,6 +152,8 @@
                                 //jQuery("#btnCancelarGuardado").hide();       
                                 //jQuery("#btnGuardarPaciente").hide();                                      
                                 //jQuery("#btnActualizarPaciente").show(); 
+                                var lnkhistoria = jQuery("#lnkHistoria");
+                                lnkhistoria.attr("href", lnkhistoria.attr("baseref").replace("_ID_PACIENTE_",validpaciente ));
 
                             }
                         }, "json");
@@ -521,6 +523,12 @@
                                         </select>
                                    </div>        
                                </div>
+                                   <div class="row">
+                                       <div class="col-md-12" style="text-align: right;">                                       
+                                            <a href="#" baseref="{{ path('historiaClinica_new', { 'id': '_ID_PACIENTE_'}) }}" id="lnkHistoria" target="_blank">HISTORIA CLINICA</a>
+                                       </div>
+                                   </div>
+                                        
                            </div>
                        </div>
                        
