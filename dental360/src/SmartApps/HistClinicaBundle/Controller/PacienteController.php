@@ -34,6 +34,62 @@ class PacienteController extends Controller {
         ));
     }
 
+    public function consentimientosAction() {
+        
+        $em = $this->getDoctrine()->getManager();
+        $medicos = $em->getRepository('AgendaBundle:Medico')->findAll();
+        $pacientes = $em->getRepository('HistClinicaBundle:Paciente')->findAll();
+        return $this->render('HistClinicaBundle:Paciente:consentimientos.html.twig', array(
+            'pacientes' => $pacientes, 
+            'medicos' => $medicos, 
+            'path' => '',
+            'medicoid' => -1,
+            'pacienteid' => -1,
+            'procedimiento' => '',
+        ));
+    }
+    
+    public function consentimientoGeneradoAction() {
+        
+        $medicoid = $_POST['selMedico'];
+        $pacienteid = $_POST['selPaciente'];
+        $procedimiento =$_POST['selProcedimiento'];
+        
+        $em = $this->getDoctrine()->getManager();
+        $paciente = $em->getRepository('HistClinicaBundle:Paciente')->find($pacienteid);
+        $medico = $em->getRepository('AgendaBundle:Medico')->find($medicoid);
+        
+        $base_path =  __DIR__ . '/../../../../web/bundles/histclinica/Templates/';
+        
+        $path = $base_path . $procedimiento . ".xml";
+        $myfile = fopen($path, "r") or die("Unable to open file!");
+        $original =  fread($myfile,filesize($path));
+        fclose($myfile);
+        
+       $original = str_replace("[__NOMBREPACIENTE__]", $paciente->getNombreCompleto() ,$original);
+       $original = str_replace("[__IDENTIFICACIONPACIENTE__]",$paciente->getNoIdentificacion(),$original);
+       $original = str_replace("[__NOMBREMEDICO__]",$medico->getNombreCompleto(),$original);
+        
+        
+        $finalname = $procedimiento . '-' . $pacienteid . '-' . $medicoid . ".doc";        
+        $path = $base_path . $finalname;
+        $output = fopen($path, "w") or die("Unable to open file!");        
+        fwrite($output, $original);
+        fclose($output);
+                
+        $medicos = $em->getRepository('AgendaBundle:Medico')->findAll();
+        $pacientes = $em->getRepository('HistClinicaBundle:Paciente')->findAll();
+        return $this->render('HistClinicaBundle:Paciente:consentimientos.html.twig', array(
+            'pacientes' => $pacientes, 
+            'medicos' => $medicos,  
+            'path' => "bundles/histclinica/Templates/" . $finalname,
+            'medicoid' => $medicoid,
+            'pacienteid' => $pacienteid,
+            'procedimiento' => $procedimiento,
+        ));
+        
+    }
+    
     public function searchAction() {
         $search=filter_input(INPUT_POST, 'search',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $em = $this->getDoctrine()->getManager();

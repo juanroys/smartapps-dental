@@ -1,0 +1,90 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<style>
+
+        #calendar {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .jornadalaboral{
+            background-color: #a8a8ff;
+            width: 50px;
+        }
+        .select2-container{
+            width: 600px;       
+        }
+        .row{
+            margin-bottom: 4px;            
+        }
+        select{
+            padding: 0px;
+            min-width: 180px;
+        }
+    </style>
+
+<div class="headerdiv">
+    <div class="row">
+        <div class="col-md-10">
+            <h3>Generar consentimiento</h3>
+        </div>        
+    </div>
+</div>
+<form action="{{path('paciente_consentimientoGenerado')}}" method="POST">
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-md-2">Paciente</div>
+        <div class="col-md-10"><select id="selPaciente" name="selPaciente">
+           <option value="-1"> </option>
+          {% for paciente in pacientes %}
+                 <option value="{{ paciente.id }}" {%if pacienteid==paciente.id%}
+                                   selected="selected"
+                               {%endif%}>{{ paciente.getIdentificacionCompleta() }}</option>                                        
+          {% endfor %}
+      </select></div>        
+    </div>
+        <div class="row">
+        <div class="col-md-2">Medico</div>
+        <div class="col-md-10"><select id="selMedico" name="selMedico" >
+        <option value="-1"> </option>
+     {% for medico in medicos %}
+        <option value="{{ medico.id }}"  {%if medicoid==medico.id%}
+                                   selected="selected"
+                               {%endif%}>{{ medico.nombreCompleto }}</option>                                        
+    {% endfor %}
+    </select></div>        
+    </div>
+        <div class="row">
+        <div class="col-md-2">Procedmiento</div>
+        <div class="col-md-10"><select id="selProcedimiento"  name="selProcedimiento" >
+        <option value="ANESTESIA" {%if procedimiento=='ANESTESIA'%} selected="selected" {%endif%}>Anestecia</option>
+        <option value="ENDODONCIA" {%if procedimiento=='ENDODONCIA'%} selected="selected" {%endif%}>Endodoncia</option>
+        <option value="OPERATORIADENTAL" {%if procedimiento=='OPERATORIADENTAL'%} selected="selected" {%endif%}>Operatoria dental</option>
+        <option value="ORTODONCIA" {%if procedimiento=='ORTODONCIA'%} selected="selected" {%endif%}>Ortodoncia</option>
+        <option value="PERIODONCIA" {%if procedimiento=='PERIODONCIA'%} selected="selected" {%endif%}>Periodoncia</option>
+        <option value="REHABILITACIONORAL" {%if procedimiento=='REHABILITACIONORAL'%} selected="selected" {%endif%}>Rehabilitacion Oral</option>
+        <option value="BLANQUEAMIENTO" {%if procedimiento=='BLANQUEAMIENTO'%} selected="selected" {%endif%}>Blanqueamiento Dental</option>
+        <option value="CIRUGIAORAL" {%if procedimiento=='CIRUGIAORAL'%} selected="selected" {%endif%}>Cirujia Oral</option>                                
+     </select></div>        
+    </div>
+        <div class="row">
+        <div class="col-md-6" style="text-align: center;"><input type="submit" value="Generar" /></div>       
+        
+    </div>
+        <div class="row">
+        <div class="col-md-6" style="text-align: center; font-size: 18px;">        
+            {%if path != '' %}
+                <a href="{{ asset(path) }}" download>¡¡DESCARGUE DOCUMENTO AQUI!!</a>
+            {%endif%}
+        </div>
+        </div>
+
+</form>
+<script type="text/javascript" lang="javascript">
+    jQuery(document).ready(function(){
+        jQuery("#selPaciente").select2();
+    });
+</script>
+
+
+ {% endblock %}

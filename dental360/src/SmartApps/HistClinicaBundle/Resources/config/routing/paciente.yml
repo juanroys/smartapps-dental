@@ -40,3 +40,10 @@ paciente_detallesRapidos:
     path:     /detallesRapidos
     defaults: { _controller: "HistClinicaBundle:Paciente:detallesRapidos" }
 
+paciente_consentimientos:
+    path:     /consentimientos
+    defaults: { _controller: "HistClinicaBundle:Paciente:consentimientos" }
+    
+paciente_consentimientoGenerado:
+    path:     /consentimientoGenerado
+    defaults: { _controller: "HistClinicaBundle:Paciente:consentimientoGenerado" }
