@@ -16,6 +16,7 @@ class ProcedimientoType extends AbstractType
     {
         $builder
             ->add('descripcion')
+            ->add('codigo')
             ->add('activo', 'hidden', array('data' => 1,));
     }
     
