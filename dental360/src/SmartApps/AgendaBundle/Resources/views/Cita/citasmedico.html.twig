@@ -198,8 +198,8 @@
                 var fecha = jQuery('#fecha').val();
                 var horaInicio =  jQuery('#horaInicio').val() + ':00';
                 var horaFin = jQuery('#horaFin').val() + ':00';                            
-                var medicoId = {{ idmedico }};      
-                
+                   
+                var medicoId = jQuery("#selMedico").val();
                 var estado = jQuery("#selEstado").val();
                 var unidadId = jQuery("#selUnidad").val();
                 var citaId = jQuery("#citaIdHidden").val();
@@ -319,7 +319,7 @@
             jQuery('#fecha').val('1900-01-01');
             jQuery('#horaInicio').val('01:00:00') ;
             jQuery('#horaFin').val('01:10:00');                            
-            jQuery('#selMedico').val(-1);      
+            jQuery('#selMedico').val({{idmedico}});      
             jQuery("#selPaciente").val(-1);
             jQuery("#selEstado").val(-1);
             jQuery("#selUnidad").val(-1);
@@ -418,12 +418,14 @@
                              <div class="col-md-2">
                                 Medico
                             </div>
-                            <div class="col-md-3">                                
-                                 {% for medico in medicos %}                                        
-                                            {%if idmedico==medico.id%}
-                                                {{ medico.nombreCompleto }}                                               
-                                            {%endif%}
+                            
+                            <div class="col-md-3">
+                                <select id="selMedico" >
+                                    <option value="-1"> </option>
+                                 {% for medico in medicos %}
+                                    <option value="{{ medico.id }}" {%if idmedico==medico.id%} selected="selected" {%endif%}                                                 >{{ medico.nombreCompleto }}</option>                                        
                                 {% endfor %}
+                                </select>
                             </div>
                         </div>
                         

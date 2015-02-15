@@ -3,7 +3,7 @@
 {% block body %}
 <div class="headerdiv">
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-8">
             <h3>Pacientes</h3>
         </div>
         <div class="col-md-2" style="padding-top: 0px; text-align: right;">
@@ -12,6 +12,16 @@
                     <a href="{{ path('paciente_new') }}" class="btn btn-default btn-register">
                         <img src="{{ asset('bundles/histclinica/images/icons/plus-20.png') }}" width="20px" alt="Crear" title="Crear"/>
                         Registrar paciente
+                    </a>
+                </li>                
+            </ul>
+        </div>
+            <div class="col-md-2" style="padding-top: 0px; text-align: right;">
+            <ul class="list-inline">
+                <li >
+                    <a href="{{ path('paciente_consentimientos') }}" class="btn btn-default btn-register">
+                        <img src="{{ asset('bundles/histclinica/images/icons/docs.png') }}" width="20px" alt="Crear" title="Crear"/>
+                        Consentimientos
                     </a>
                 </li>                
             </ul>
@@ -28,7 +38,6 @@
             <th>Tipo Id.</th>
             <th>No Id.</th>
             <th>Email</th>
-            <th>Estado civil</th>
             <th>Sexo</th>
             <th>Eps</th>
             <th>Acciones</th>
@@ -43,7 +52,6 @@
 
             <td>{{ entity.noIdentificacion }}</td>
             <td>{{ entity.email }}</td>                
-            <td>{{ estadoCivil[entity.estadoCivil] }}</td> 
             <td> {{ genero[entity.sexo] }}</td>
 
             <td>{{ entity.ePS }}</td>
