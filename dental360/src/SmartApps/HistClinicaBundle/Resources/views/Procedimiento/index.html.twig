@@ -23,6 +23,7 @@
 <table class="records_list table table-striped table-condensed table-bordered">
     <thead>
         <tr>
+            <th>C&oacute;digo</th>
             <th>Descripci&oacute;n</th>
             <th>Acciones</th>
         </tr>
@@ -30,6 +31,7 @@
     <tbody>
         {% for entity in entities if entity.activo%}
         <tr>
+            <td>{{ entity.codigo }}</td>
             <td>{{ entity.descripcion }}</td>
             <td class="tdactions">
                 <ul class="list-inline">

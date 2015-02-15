@@ -30,7 +30,7 @@
                         <option value="">Seleccionar</option>
                     {%for procedimiento in procedimientos%}
                         <option value="{{procedimiento.id}}">
-                            {{procedimiento.descripcion}}
+                            {{procedimiento.descripcioncompleta()}}
                         </option>
                     {%endfor%}
                     </select>
@@ -206,6 +206,10 @@
                             $('#datetimepicker').datetimepicker({
                                 pickTime: false
                             });
+                        });
+                        
+                        jQuery(document).ready(function(){
+                            jQuery("#procedimientoId").select2(); 
                         });
                         </script>
 {% endblock%}

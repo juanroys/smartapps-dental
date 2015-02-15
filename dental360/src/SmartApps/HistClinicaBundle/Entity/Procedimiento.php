@@ -37,6 +37,14 @@ class Procedimiento
     private $descripcion;
     
     /**
+     * @var string
+     *
+     * @ORM\Column(name="codigo", type="string", length=255)
+     *  @Assert\NotBlank(message = "Por favor, escribe un código")
+     */
+    private $codigo;
+    
+    /**
      * @var boolean
      *
      * @ORM\Column(name="activo", type="boolean",nullable=false,options={"default":0})
@@ -89,6 +97,29 @@ class Procedimiento
     }
     
     /**
+     * Set codigo
+     *
+     * @param string $codigo
+     * @return Procedimiento
+     */
+    public function setCodigo($codigo)
+    {
+        $this->codigo = $codigo;
+
+        return $this;
+    }
+
+    /**
+     * Get codigo
+     *
+     * @return string 
+     */
+    public function getCodigo()
+    {
+        return $this->codigo;
+    }
+    
+    /**
      * Set activo
      *
      * @param boolean activo
@@ -111,5 +142,10 @@ class Procedimiento
     
     public function __toString() {
         return $this->descripcion;
+    }
+    
+    public function descripcioncompleta()
+    {
+        return $this->codigo . ' - ' . $this->descripcion;
     }
 }

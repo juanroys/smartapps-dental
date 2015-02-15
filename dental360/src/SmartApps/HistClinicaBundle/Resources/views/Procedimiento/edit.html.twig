@@ -8,6 +8,11 @@
 </div>    
       {{ form_start(edit_form) }}        
 <div class="formbody">
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(edit_form.codigo, 'Código') }}</div>
+        <div class="col-md-4">{{form_widget(edit_form.codigo) }}        </div>   
+        <div class= "col-md-4">{{form_errors(edit_form.codigo)}}</div>
+    </div>
 <div class="row formulario-row">
     <div class="col-md-2">{{form_label(edit_form.descripcion) }}</div>
     <div class="col-md-4">{{form_widget(edit_form.descripcion) }}</div>  

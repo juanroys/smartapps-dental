@@ -59,7 +59,7 @@
                                         <option value="">Seleccionar</option>
             {%for procedimiento in procedimientos%}
                                         <option value="{{procedimiento.id}}">
-                {{procedimiento.descripcion}}
+                {{procedimiento.descripcioncompleta()}}
                                             </option>
             {%endfor%}
                                         </select></td>
@@ -404,6 +404,7 @@
                                                                     });
                                                                 });
                                                                 $(document).ready(function() {
+                                                                    jQuery("#procedimiento").select2(); 
                                                                     var inputProcedimiento = document.getElementById('procedimiento');
                                                                     var inputDiente = document.getElementById('diente');
                                                                     var inputCostoProcedimiento = document.getElementById('costoProcedimiento');
@@ -418,6 +419,8 @@
                                                                     divDienteError.setAttribute('id', diente + '_' + numRows.toString() + '_errors');
                                                                     divRowProcedimiento.setAttribute('id', rorwProcedimiento + '_' + numRows.toString());
                                                                     div_Borrar.setAttribute('id', divBorrar + '_' + numRows.toString());
+                                                                    
+                                                                    
                                                                 });
 
                                                                 var uploader = document.getElementById('firmaPaciente');
