@@ -4,21 +4,7 @@
 </div>
 <form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit">
     <div class="formbody">
-        <div class="row formulario-row">
-            <div class="col-md-2">{{form_label(form.username) }}</div>
-            <div class="col-md-4">{{form_widget(form.username) }} </div>       
-            <div class= "col-md-4">{{form_errors(form.username)}}</div>
-        </div>
-        <div class="row formulario-row">
-            <div class="col-md-2">{{form_label(form.email) }}</div>
-            <div class="col-md-4">{{form_widget(form.email) }} </div>       
-            <div class= "col-md-4">{{form_errors(form.email)}}</div>
-        </div>
-        <div class="row formulario-row">
-            <div class="col-md-2">{{form_label(form.current_password) }}</div>
-            <div class="col-md-4">{{form_widget(form.current_password) }} </div>       
-            <div class= "col-md-4">{{form_errors(form.current_password)}}</div>
-        </div>   
+    {{ form_widget(form) }}
     </div>
     <div class="row formulario-row">
         <div class="col-md-12">        
