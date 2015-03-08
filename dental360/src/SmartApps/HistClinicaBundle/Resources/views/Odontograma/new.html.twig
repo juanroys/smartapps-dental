@@ -79,7 +79,7 @@
             });
             $('input[name=convencionPar]').on('ifChecked', function(event) {
                 var auxArray = this.value.split('-');
-                cambiarDiagnostico(auxArray[0], auxArray[1], auxArray[2]);
+                cambiarDiagnostico(auxArray[0], auxArray[1], auxArray[2],auxArray[3]);
             });
             cambiarDiagnostico('none', 'none');
             cambiarDiagDienCompl('panel', 'panel');
@@ -436,9 +436,10 @@
                         }
                     }
                 }                
-                function cambiarDiagnostico(diagnostico, icono, tipo) {
+                function cambiarDiagnostico(diagnostico, icono, tipo,color) {
                     imageNowType = tipo;
                     diagnosticoActual = diagnostico;
+                    colorSelect=color;
                     if (imageNowType == "color") {
                         backgroundSelect = colorSelect;
                     } else {
@@ -990,12 +991,12 @@
                         </div>   
                         <div class="col-md-6">                       
                             <div class="row">
-                                <input type="radio" name="convencionPar" id="ningunoParcial" value="none-none-none" checked="true"/>
+                                <input type="radio" name="convencionPar" id="ningunoParcial" value="none-none-none-none" checked="true"/>
                                 <label for="ningunoParcial">Ninguno</label>
                             </div>
                         {%for convencion in convenParcial%}
                             <div class="row">
-                                <input type="radio" id="radioParcial-{{convencion.nombre}}" name="convencionPar" value="{{convencion.nombre}}-{{convencion.icono}}-{{convencion.tipo}}"/>
+                                <input type="radio" id="radioParcial-{{convencion.nombre}}" name="convencionPar" value="{{convencion.nombre}}-{{convencion.icono}}-{{convencion.tipo}}-{{convencion.color}}"/>
                                 <label for="radioParcial-{{convencion.nombre}}">{{convencion.nombre}}</label>
                             </div>
                         {%endfor%}

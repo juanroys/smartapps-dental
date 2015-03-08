@@ -12,7 +12,7 @@ class SugerenciaController extends Controller {
 
     public function newAction($historiaId) {
         $em = $this->getDoctrine()->getManager();
-        $procedimientos = $em->getRepository('HistClinicaBundle:Procedimiento')->findAll();
+        $procedimientos = $em->getRepository('HistClinicaBundle:Procedimiento')->findBy(array('activo'=>1));
         $historiaClinica = $em->getRepository('HistClinicaBundle:HistoriaClinica')->find($historiaId);
         $sugerencias = $em->getRepository('HistClinicaBundle:Sugerencia')->findSugerenciaPorHistoria($historiaId);
         $paciente = $historiaClinica->getPaciente();

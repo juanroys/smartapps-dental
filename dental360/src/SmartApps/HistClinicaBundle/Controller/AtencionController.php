@@ -14,7 +14,7 @@ class AtencionController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $username = $this->get('security.context')->getToken()->getUser();
         $medico = $em->getRepository('AgendaBundle:Medico')->findMedicoPorUsuario($username->getId());
-        $procedimientos = $em->getRepository('HistClinicaBundle:Procedimiento')->findAll();
+        $procedimientos = $em->getRepository('HistClinicaBundle:Procedimiento')->findBy(array('activo'=>1));
         $historiaClinica = $em->getRepository('HistClinicaBundle:HistoriaClinica')->find($historiaId);
         $atenciones = $em->getRepository('HistClinicaBundle:Atencion')->findAtencionPorHistoria($historiaId);
         $paciente = $historiaClinica->getPaciente();
@@ -58,10 +58,13 @@ class AtencionController extends Controller {
         //se cambia el nombre de procedimientos a tratamientos solo durante el envio de los datos
         $tratamientos = $datos["tratamientos"];
         $firmaPaciente = $datos["firmaPaciente"];
-        $abono = $datos["abono"];
-        $reciboNo = $datos["recibo"];
-        $saldo = $datos["saldo"];
-        $total = $datos["total"];
+        //$abono = $datos["abono"];
+        $abono=0;
+        //$reciboNo = $datos["recibo"];
+        $reciboNo=0;
+        $total = $datos["total"];        
+        //$saldo = $datos["saldo"];
+        $saldo=$total*-1;
         $pacienteId = $datos["pacienteId"];
 
         //cargando historia clinica del paciente
@@ -115,13 +118,8 @@ class AtencionController extends Controller {
             $tratamiento["procedimiento"]=$tr->getProcedimiento()->getDescripcion();
             $tratamiento["firmaOdontologo"]=$atencionPersist->getMedico()->getPathFirma();
             $tratamiento["firmaPaciente"]=$atencionPersist->getFirmaPaciente();
-            if($atencionPersist->getRecibo()!=null){
-            $tratamiento["recibo"]=$atencionPersist->getRecibo()->getNumero();
-            }else{
-                $tratamiento["recibo"]='';
-            }
-            $tratamiento["abono"]=$atencionPersist->getAbono();
-            $tratamiento["saldo"]=$atencionPersist->getSaldo();
+            $tratamiento["costoTotal"]=$tr->getCostoProcedimiento();
+            
             $response[$cont]=$tratamiento;
             $cont++;
         }

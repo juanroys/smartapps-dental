@@ -336,7 +336,10 @@ class PacienteController extends Controller {
         $em = $this->getDoctrine()->getManager();
         if($id == -1)
         {
-            $entity = new Paciente();    
+            $entity = new Paciente(); 
+            $historia = new HistoriaClinica();
+            $historia->setPaciente($entity);
+            $em->persist($historia);
         }
         else
         {

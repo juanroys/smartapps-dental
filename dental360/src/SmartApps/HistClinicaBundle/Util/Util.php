@@ -37,21 +37,42 @@ class Util
     }
     static public function OdontConvenDienParcialEnum(){
         return array(
-            0 => array("nombre" => "Caries", "icono"=>"none", "tipo"=>"color"),
-            1 => array("nombre" => "Obturado", "icono"=>"obturado_green", "tipo"=>"imagen"),
-            2 => array("nombre" => "Sellante", "icono"=>"sellante_blue", "tipo"=>"imagen"),
-            3 => array("nombre" => "Prótesis", "icono"=>"protPar_red", "tipo"=>"imagen")
+            0 => array("nombre" => "Caries", 
+                "icono"=>"none", 
+                "tipo"=>"color",
+                "color"=>"red"),
+            1 => array("nombre" => "Obturado Resina", 
+                "icono"=>"none", 
+                "tipo"=>"color",
+                "color"=>"blue"),
+            2 => array("nombre" => "Obturado Amalgama", 
+                "icono"=>"none", 
+                "tipo"=>"color",
+                "color"=>"black"),            
+            3 => array("nombre" => "Desadaptada", 
+                "icono"=>"none", 
+                "tipo"=>"color",
+                "color"=>"green"),
+            4 => array("nombre" => "Sellante", 
+                "icono"=>"sellante_blue", 
+                "tipo"=>"imagen",
+                "color"=>"blue"),
+            5 => array("nombre" => "Prótesis", 
+                "icono"=>"protPar_blue", 
+                "tipo"=>"imagen",
+                "color"=>"blue")
+
             );
     }
     static public function OdontConvenDienCompletoEnum(){
         return array(
             0 => array("nombre" => "Corona Completa", "imagen"=>"ccompleta_blue"),
             1 => array("nombre" => "Ausente", "imagen"=>"ausente_blue"),
-            2 => array("nombre" => "Exodoncia Indicada", "imagen"=>"exoInd_blue"),            
+            2 => array("nombre" => "Exodoncia Indicada", "imagen"=>"exoInd_red"),            
             3 => array("nombre" => "Endodoncia", "imagen"=>"endodoncia_blue"),            
             4 => array("nombre" => "Incluido", "imagen"=>"incluido_blue"),            
             6 => array("nombre" => "Prótesis", "imagen"=>"protCom_blue"),
-            5 => array("nombre" => "Endodoncia Indicada", "imagen"=>"endInd_blue"),
+            5 => array("nombre" => "Endodoncia Indicada", "imagen"=>"endInd_red"),
             );
     }
     static public function OdontConvenColores(){

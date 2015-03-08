@@ -36,7 +36,7 @@
                     </select>
                 </td>
                 <td style="padding-right: 8px;"><label for="costoProcedimiento">Costo</label></td>
-                <td style="padding-right: 20px;"><input placeholder="Costo" class="form-control" type="text" readonly="true" name="costoProcedimiento" id="costoProcedimiento" /></td>
+                <td style="padding-right: 20px;"><input placeholder="Costo" class="form-control" type="text" name="costoProcedimiento" id="costoProcedimiento" /></td>
                 <td><a onclick="agregarSugerencia()" id="boton"><img src="{{ asset('bundles/histclinica/images/icons/plus-32.png') }}" width="32px" alt="Adicionar" title="Adicionar"/></a></td>
             </tr>
         </table>
@@ -64,7 +64,7 @@
                 {{sugerencia.procedimiento.descripcion}}
                                     </td>
                                     <td>
-                {{sugerencia.costo}}
+                $ {{sugerencia.costo}}
                                         </td>
                                         <td class="tdactions">
                                             <a onclick="editarSugerencia({{sugerencia.id}})" ><img src="{{ asset('bundles/histclinica/images/icons/edit-20.png') }}" width="20px" alt="Editar" title="Editar"/></a>
@@ -103,7 +103,7 @@
                                         var accion = row.insertCell(3);
                                         fechaCell.innerHTML = response.fecha;
                                         procedimientoCell.innerHTML = response.procedimiento;
-                                        costoCell.innerHTML = response.costo;
+                                        costoCell.innerHTML = '$ ' + response.costo;
                                         //bundles/histclinica/images/icons/edit-20.png
                                         accion.innerHTML = '<a onclick="editarSugerencia(' + response.sugerenciaId + ')" ><img src="{{ asset('bundles/histclinica/images/icons/edit-20.png') }}" width="20px" alt="Editar" title="Editar"/></a> <a onclick="borrarSugerencia(' + response.sugerenciaId + ', this)" ><img src="{{ asset('bundles/histclinica/images/icons/cancel-22.png') }}" width="20px" alt="Borrar"  title="Borrar"/></a>';
                                         accion.setAttribute("class", "tdactions");
@@ -129,7 +129,7 @@
                                         var accion = row.insertCell(3);
                                         fechaCell.innerHTML = response.fecha;
                                         procedimientoCell.innerHTML = response.procedimiento;
-                                        costoCell.innerHTML = response.costo;
+                                        costoCell.innerHTML = '$ ' + response.costo;
                                         accion.innerHTML = '<a onclick="editarSugerencia(' + response.sugerenciaId + ')" ><img src="{{ asset('bundles/histclinica/images/icons/edit-20.png') }}" width="20px" alt="Editar" title="Editar"/> </a><a onclick="borrarSugerencia(' + response.sugerenciaId + ', this)"><img src="{{ asset('bundles/histclinica/images/icons/cancel-22.png') }}" width="20px" alt="Borrar"  title="Borrar"/></a>';
                                         accion.setAttribute("class", "tdactions");
                                         document.getElementById("fecha").value = "";

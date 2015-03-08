@@ -96,8 +96,8 @@
                             <td><strong><i>Fecha de Nacimiento</i></strong></td>
                             <td colspan="3">
                                 <table><tr>
-                                        <td><strong><i>Dia: </i></strong> {{paciente.fechaNacimiento|date('d')}}</td>
-                                        <td><strong><i>Mes: </i></strong> {{paciente.fechaNacimiento|date('m')}}</td>
+                                        <td><strong><i>Dia: </i></strong> {{paciente.fechaNacimiento|date('d')}}&nbsp;&nbsp;</td>
+                                        <td><strong><i>Mes: </i></strong> {{paciente.fechaNacimiento|date('m')}}&nbsp;&nbsp;</td>
                                         <td><strong><i>Año: </i></strong> {{paciente.fechaNacimiento|date('Y')}}</td>
                                     </tr>
                                 </table>
@@ -275,7 +275,11 @@
                                 <table cellspacing="0" cellpadding="0" >
                                     <tr>
                             {%if pregunta.enunciado != null and pregunta.enunciado!='' %}
-                                        <td style="width: 150px; "><strong><i>{{ pregunta.enunciado }}</i></strong></td>
+                                     {%if pregunta.tipoEntrada == tipoEntrada.Radio %}
+                                            <td style="width: 220px; "><strong><i>{{ pregunta.enunciado }}</i></strong></td>
+                                     {% else %}
+                                            <td style="width: 150px; "><strong><i>{{ pregunta.enunciado }}</i></strong></td>
+                                     {%endif%}
                             {%endif%}
 
                             {%if pregunta.tipoEntrada == tipoEntrada.Texto %}

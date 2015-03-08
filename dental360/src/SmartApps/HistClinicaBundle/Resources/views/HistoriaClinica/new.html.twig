@@ -85,8 +85,8 @@
                                 <td><strong><i>Fecha de Nacimiento</i></strong></td>
                                 <td colspan="3">
                                     <table><tr>
-                                            <td><strong><i>Dia: </i></strong> {{paciente.fechaNacimiento|date('d')}}</td>
-                                            <td><strong><i>Mes: </i></strong> {{paciente.fechaNacimiento|date('m')}}</td>
+                                            <td><strong><i>Dia: </i></strong> {{paciente.fechaNacimiento|date('d')}}&nbsp;&nbsp;</td>
+                                            <td><strong><i>Mes: </i></strong> {{paciente.fechaNacimiento|date('m')}}&nbsp;&nbsp;</td>
                                             <td><strong><i>Año: </i></strong> {{paciente.fechaNacimiento|date('Y')}}</td>
                                         </tr>
                                     </table>
@@ -270,8 +270,12 @@
 
                                     <table cellspacing="0" cellpadding="0" >
                                         <tr>
-                            {%if pregunta.enunciado != null and pregunta.enunciado!='' %}
+                            {%if pregunta.enunciado != null and pregunta.enunciado!='' %}                                            
+                                     {%if pregunta.tipoEntrada == tipoEntrada.Radio %}
+                                            <td style="width: 220px; ">{{ pregunta.enunciado }}</td>
+                                     {% else %}
                                             <td style="width: 150px; ">{{ pregunta.enunciado }}</td>
+                                     {%endif%}
                             {%endif%}
 
                             {%if pregunta.tipoEntrada == tipoEntrada.Texto %}
@@ -315,7 +319,7 @@
                                             </td>
                             {%elseif pregunta.tipoEntrada == tipoEntrada.AreaTexto %}    
                                             <td>
-                                                <textarea {{pregunta.obligatoria ? 'required' }} name="{{pregunta.id}}"  rows="4" cols="50">{%if respuestas[pregunta.id] is defined  %}{{respuestas[pregunta.id]}}{%endif%}</textarea>
+                                                <textarea {{pregunta.obligatoria ? 'required' }} name="{{pregunta.id}}"  rows="4" cols="50" style="{{pregunta.opciones}}" >{%if respuestas[pregunta.id] is defined  %}{{respuestas[pregunta.id]}}{%endif%}</textarea>
                                             </td>
                             {%elseif pregunta.tipoEntrada == tipoEntrada.ComboBox %}    
                                             <td>
