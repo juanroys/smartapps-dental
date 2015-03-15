@@ -110,4 +110,15 @@ class AtencionController extends Controller {
         return new Response(json_encode($response));
     }
 
+    public function registradescripcionAction()
+    {
+        $tratamientoId = $_POST['tratamientoId'];
+        $descripcin = $_POST['descripcion'];
+        
+        $em = $this->getDoctrine()->getManager();
+        $tratamiento = $em->getRepository('HistClinicaBundle:Tratamiento')->find($tratamientoId);
+        $tratamiento->setDescripcion($descripcin);
+        $em->flush();
+        return new Response(json_encode(true));
+    }    
 }

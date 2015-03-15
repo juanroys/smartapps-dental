@@ -9,3 +9,8 @@ atencion_loadFile:
 atencion_create:
     path: /create
     defaults: { _controller: "HistClinicaBundle:Atencion:create"}
+
+atencion_registradescripcion:
+    path: /registradescripcion
+    defaults: { _controller: "HistClinicaBundle:Atencion:registradescripcion"}
+    

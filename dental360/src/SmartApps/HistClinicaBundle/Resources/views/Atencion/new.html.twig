@@ -97,12 +97,13 @@
         <table class="records_list table table-striped table-condensed table-bordered" id="tratamientos">
             <thead>
                 <tr>
-                    <th style="background-color: #1CA9A3; border-color: #1CA9A3">Fecha</th>                    
+                    <th style="background-color: #1CA9A3; border-color: #1CA9A3;">Fecha</th>                    
                     <th style="background-color: #1CA9A3; border-color: #1CA9A3">Hora</th>
                     <th style="background-color: #1CA9A3; border-color: #1CA9A3">Diente</th>
-                    <th style="background-color: #1CA9A3; border-color: #1CA9A3">Tratamiento Ejecutado</th>
-                    <th style="background-color: #1CA9A3; border-color: #1CA9A3">Firma Odontólogo</th>
+                    <th style="background-color: #1CA9A3; border-color: #1CA9A3">Tratamiento Ejecutado</th>                    
                     <th style="background-color: #1CA9A3; border-color: #1CA9A3">Costo</th>
+                    <th style="background-color: #1CA9A3; border-color: #1CA9A3">Firma Odontólogo</th>
+                    <th style="background-color: #1CA9A3; border-color: #1CA9A3"></th>
                 </tr>
             </thead>
             <tbody>
@@ -110,26 +111,25 @@
             {%for atencion in atenciones%}
             {%for tratamiento in atencion.tratamientos%}
                 <tr id="{{tratamiento.id}}">
-                    <td>
-                {{atencion.fechaHora|date('Y-m-d')}}
-                    </td>
-                    <td>
-                {{atencion.fechaHora|date('H:i:s')}}
-                    </td>                    
-                    <td>
-                {{tratamiento.diente}}
-                    </td>
-                    <td>
-                {{tratamiento.procedimiento.descripcion}}
-                    </td>
-                    <td>
+                    <td style="width: 100px;">{{atencion.fechaHora|date('Y-m-d')}}</td>
+                    <td style="width: 100px;">{{atencion.fechaHora|date('H:i:s')}}</td>                    
+                    <td>{{tratamiento.diente}}</td>
+                    <td>{{tratamiento.procedimiento.descripcion}}</td>                    
+                    <td style="width: 100px; text-align: right;">$ {{tratamiento.costoProcedimiento}}</td>
+                    <td rowspan="2">
                         <img id="firmaM_{{tratamiento.id}}" src="{{asset('uploads/medicos/'~atencion.medico.pathFirma)}}" style="max-width: 150px; max-height: 50px" >
                     </td>
-                    <td>
-                        $ {{tratamiento.costoProcedimiento}}
-                    </td>
+                    <td rowspan="2"  id="tdlink{{tratamiento.id}}">                        
+                        {%if tratamiento.descripcion ==null%}
+                        <a href="#" onclick="displayModal({{tratamiento.id}});"><img src="{{ asset('bundles/histclinica/images/icons/edit-20.png') }}" width="20px" alt="Editar" title="Editar"></a>    
+                        {%endif%}
+                    </td>                                        
+                </tr>                
+                <tr id="descripcion{{tratamiento.id}}">
+                    {%if tratamiento.descripcion !=null%}
+                        <td colspan="5">{{tratamiento.descripcion}}</td>
+                    {%endif%}            
                 </tr>
-
             {%endfor%}
             {%endfor%}
             {%endif%}
@@ -137,6 +137,26 @@
         </table>
     </div>
 </div>
+
+<div id="modalDescripcion" class="modal fade">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header" style="text-align: center" >
+                <h4>Descripción del tratamiento</h4>
+            </div>
+            <!-- dialog body -->
+            <div class="modal-body" id="modalDescripcion">
+                <textarea required id="txtdescripcion"  rows="4" style="width: 568px;"></textarea>
+            </div>
+            <!-- dialog buttons -->
+            <div class="modal-footer">                
+            <button type="button" class="btn" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" onclick="registrarDescripcin()">Guardar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
 <script type="text/javascript" lang="javascript">
     var numRows = 1;
     var procedimiento = 'procedimiento';
@@ -147,6 +167,30 @@
     var msj_required = "<img src='{{ asset('bundles/histclinica/images/icons/alert.png') }}' width='20px' />";
     var divBorrar = "divBorrar";
     var listaSugerencias;
+    
+    var tratamiento_actual = -1;
+    
+    function displayModal(tratamientoId)
+    {   
+        tratamiento_actual = tratamientoId;
+        jQuery("#modalDescripcion").modal('show');
+        $("#txtdescripcion").val('');
+    }
+    
+    function registrarDescripcin()
+    {
+        var strdescripcion  = $("#txtdescripcion").val();
+         $.post('{{path('atencion_registradescripcion')}}',
+            {
+                        tratamientoId: tratamiento_actual,
+                        descripcion: strdescripcion
+            },
+            function(response) {
+                jQuery("#modalDescripcion").modal('hide');                
+                jQuery("#descripcion" + tratamiento_actual).get(0).innerHTML = "<td colspan='5'>" + strdescripcion + "</td>";
+                jQuery("#tdlink" + tratamiento_actual).get(0).innerHTML = '';
+            }, "json");   
+    }
 
     function getCostoProcedimiento(elemento) {
         var procedimientoId = elemento.value;
@@ -322,12 +366,24 @@
                     var row = table.insertRow(rowCount);
                     row.id = response[i].tratamientoId;
                     var fechaCell = row.insertCell(0);
+                    fechaCell.setAttribute('style', 'width: 100px;');
                     var horaCell = row.insertCell(1);
+                    horaCell.setAttribute('style', 'width: 100px;');
                     var dienteCell = row.insertCell(2);
-                    var tratamientoCell = row.insertCell(3);
-                    var firmaOdontologoCell = row.insertCell(4);
-                    var costoCell = row.insertCell(5);
-
+                    var tratamientoCell = row.insertCell(3);                                        
+                    var costoCell = row.insertCell(4);
+                    costoCell.setAttribute('style', 'width: 100px; text-align: right;');
+                    var firmaOdontologoCell = row.insertCell(5);
+                    firmaOdontologoCell.setAttribute('rowspan', '2');
+                    
+                    var editCell = row.insertCell(6);
+                    editCell.setAttribute('rowspan', '2');
+                    editCell.id = "tdlink" + response[i].tratamientoId;   
+                    editCell.innerHTML = '<a href="#" onclick="displayModal(' + response[i].tratamientoId + ');"><img src="{{ asset('bundles/histclinica/images/icons/edit-20.png') }}" width="20px" alt="Editar" title="Editar"></a>';    
+                                        
+                    var rowdescription = table.insertRow(rowCount + 1);
+                    rowdescription.id = 'descripcion' + response[i].tratamientoId;                    
+                    
                     fechaCell.innerHTML = response[i].fecha;
                     dienteCell.innerHTML = response[i].diente;
                     horaCell.innerHTML = response[i].hora;

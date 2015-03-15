@@ -25,21 +25,18 @@
             {%for atencion in atenciones%}
             {%for tratamiento in atencion.tratamientos%}
                 <tr id="{{tratamiento.id}}">
-                    <td>
-                {{atencion.fechaHora|date('Y-m-d')}}
-                    </td>                    
-                    <td>
-                {{atencion.fechaHora|date('H:i:s')}}
-                    </td>
-                    <td>
-                {{tratamiento.diente}}
-                    </td>
-                    <td>
-                {{tratamiento.procedimiento.descripcion}}
-                    </td>
-                    <td>
+                <td style="width: 100px;">{{atencion.fechaHora|date('Y-m-d')}}    </td>                    
+                <td style="width: 100px;">{{atencion.fechaHora|date('H:i:s')}}</td>
+                    <td>{{tratamiento.diente}}</td>
+                    <td>{{tratamiento.procedimiento.descripcion}}</td>
+                    <td rowspan="2">
                         <img id="firmaM_{{tratamiento.id}}" src="{{asset('uploads/medicos/'~atencion.medico.pathFirma)}}" style="max-width: 150px;" >
                     </td>
+                </tr>
+                <tr>
+                    {%if tratamiento.descripcion !=null%}
+                        <td colspan="4">{{tratamiento.descripcion}}</td>
+                    {%endif%}   
                 </tr>
             {%endfor%}
             {%endfor%}
