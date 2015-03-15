@@ -18,14 +18,20 @@
             <tr>
                 <td style="padding-right: 10px;"><label for="fecha">Fecha</label></td>
                 <td>
-                    <div id="datetimepicker" class="input-append date" style="display: inline;">
+                    <div id="datetimepicker" class="input-append datetimepicker" style="display: inline;">
                         <input placeholder="Fecha" data-format="yyyy-MM-dd hh:mm:ss" type="text" name="fecha" id="fecha" readonly="true"></input>
                         <span class="add-on">
                             <img src="{{ asset('bundles/histclinica/images/calendar.png') }}">
                         </span>
-                    </div>                        
+                    </div>  
+                    
                 </td>
                 <td style="padding-right: 20px;"><div style="color: #800" id="fecha_errors"></div></td>
+                <td>
+                    <a onclick="cargarProcedimientos();" class="btn btn-default">
+                        <img src="{{ asset('bundles/histclinica/images/icons/reload.png') }}" width="20px" alt="Recargar" title="Recargar"/>
+                     </a>
+                </td>
             </tr>
         </table>
     </div>
@@ -41,9 +47,10 @@
                             <tr>
                                 <td style="padding-right: 10px;"><label for="procedimiento">Procedimiento </label></td>
                                 <td> 
-                                    <select class="form-control" name="procedimiento" id="procedimiento" onchange="getCostoProcedimiento(this)" onfocus="cargarProcedimientos(this)">
+                                    <select class="form-control" name="procedimiento" id="procedimiento" onchange="getCostoProcedimiento(this)" >
                                         <option value="">Seleccionar</option>
-                                    </select>
+                                    </select>                                        
+                                        
                                 </td>
                                 <td style="padding-right: 20px;"><div style="color: #800" id="procedimiento_errors"></div></td>
                                 <td style="padding-right: 10px;"><label class="" for="diente">Diente </label></td>
@@ -160,8 +167,9 @@
         }
     }
 
-    function cargarProcedimientos(selectProcedimiento) {   
-         selectProcedimiento.innerHTML = '<option value="">Seleccionar</option>';
+    function cargarProcedimientos() {   
+        
+        
         var pacienteId = document.getElementById("pacienteId").value;
         $.post('{{path('sugerencia_cargarProcedimientos')}}',
                 {
@@ -171,12 +179,16 @@
             if (response != null) {
                 listaSugerencias = response;
             }
-            for (i = 0; i < response.length; i++) {
-                var option = document.createElement('option');
-                option.value = response[i].procedimientoId;
-                option.innerHTML = response[i].descripcion;
-                selectProcedimiento.appendChild(option);
-            }
+            var selectProcedimientos = $("select[name='procedimiento']");
+            selectProcedimientos.each(function(){
+                $(this).get(0).innerHTML = '<option value="">Seleccionar</option>';
+                for (i = 0; i < response.length; i++) {
+                    var option = document.createElement('option');
+                    option.value = response[i].procedimientoId;
+                    option.innerHTML = response[i].descripcion;
+                    $(this).get(0).appendChild(option);
+                }
+            });
         }, "json");
     }
 
@@ -332,7 +344,7 @@
     }
     $(document).ready(function() {
         $('#datetimepicker').datetimepicker({
-            language: 'es-ES'
+            language: 'es'
         });
         var inputProcedimiento = document.getElementById('procedimiento');
         var inputDiente = document.getElementById('diente');
@@ -350,6 +362,8 @@
         divCostProcedError.setAttribute('id', costoProcedimiento + '_' + numRows.toString() + '_errors');
         divRowProcedimiento.setAttribute('id', rorwProcedimiento + '_' + numRows.toString());
         div_Borrar.setAttribute('id', divBorrar + '_' + numRows.toString());
+        
+        cargarProcedimientos();
     });
 
     function borrarProcedimiento(elemento) {

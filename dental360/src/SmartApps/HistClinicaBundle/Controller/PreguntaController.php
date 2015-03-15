@@ -313,6 +313,7 @@ class PreguntaController extends Controller {
             $opcion->setValorNumero($opcionitem->getValorNumero());
             $opcion->setOpciones($opcionitem->getOpciones());
             $opcion->setEnunciado($opcionitem->getEnunciado());
+            $opcion->setDefecto($opcionitem->getDefecto());
             $em->persist($opcion);
         }
 
