@@ -74,6 +74,12 @@ class OpcionRespuestaController extends Controller
             $em = $this->getDoctrine()->getManager();
             $pregunta = $em->getRepository("HistClinicaBundle:TipoPregunta")->find($variablepreg);
             $entity->setTipoPregunta($pregunta);
+            if($entity->getDefecto()==true){
+                $opciones=$em->getRepository('HistClinicaBundle:OpcionRespuesta')->findBy(array('tipoPregunta'=>$pregunta->getId(),'defecto'=>1));
+                foreach ($opciones as $opcion){
+                    $opcion->setDefecto(0);
+                }
+            }
             $em->persist($entity);
             $em->flush();
             return $this->redirect($this->generateUrl('opcionrespuesta_listado', array('id' => $variablepreg)));
@@ -204,6 +210,12 @@ class OpcionRespuestaController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            if($entity->getDefecto()==true){
+                $opciones=$em->getRepository('HistClinicaBundle:OpcionRespuesta')->findBy(array('tipoPregunta'=>$idpreg,'defecto'=>1));
+                foreach ($opciones as $opcion){
+                    $opcion->setDefecto(0);
+                }
+            }
             $em->flush();
             
             return $this->redirect($this->generateUrl('opcionrespuesta_listado', array('id' => $idpreg)));

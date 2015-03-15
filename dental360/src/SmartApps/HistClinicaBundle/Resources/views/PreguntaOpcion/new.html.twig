@@ -30,10 +30,13 @@
 </div>
 <div class="row formulario-row">            
     <div class= "col-md-6">{{form_errors(form.opciones)}}</div>
+    <div class= "col-md-6">{{form_errors(form.defecto)}}</div>
 </div>
 <div class="row formulario-row">
     <div class="col-md-2">{{form_label(form.opciones) }}</div>
     <div class="col-md-4">{{form_widget(form.opciones) }}        </div> 
+    <div class="col-md-2">{{form_label(form.defecto) }}</div>
+    <div class="col-md-4">{{form_widget(form.defecto) }}        </div> 
 </div>
 <input type="hidden" value="{{ idpreg }}" name="idpreg" id="idpreg"/>
 </div>

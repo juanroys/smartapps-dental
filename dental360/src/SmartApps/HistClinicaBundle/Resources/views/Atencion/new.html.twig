@@ -9,8 +9,6 @@
 {% block endcontainer %}{%endblock%}
 {% block body%}
 <div class="row">
-
-
 </div>
 <div class="row" style="width: 1100px;">
     <div class="col-md-12">
@@ -35,24 +33,18 @@
 
 <div class="row" style="width: 1100px;">
     <div class="col-md-12" style="padding-top: 8px;">
-
         <table>
             <tr>
                 <td>
                     <div id="rowProcedimiento">
-
-
                         <table cellpadding="0" cellspacing="0">
                             <tr>
                                 <td style="padding-right: 10px;"><label for="procedimiento">Procedimiento </label></td>
-                                <td> <select class="form-control" name="procedimiento" id="procedimiento" onchange="getCostoProcedimiento(this)">
+                                <td> 
+                                    <select class="form-control" name="procedimiento" id="procedimiento" onchange="getCostoProcedimiento(this)" onfocus="cargarProcedimientos(this)">
                                         <option value="">Seleccionar</option>
-            {%for procedimiento in procedimientos%}
-                                        <option value="{{procedimiento.id}}">
-                {{procedimiento.descripcioncompleta()}}
-                                        </option>
-            {%endfor%}
-                                    </select></td>
+                                    </select>
+                                </td>
                                 <td style="padding-right: 20px;"><div style="color: #800" id="procedimiento_errors"></div></td>
                                 <td style="padding-right: 10px;"><label class="" for="diente">Diente </label></td>
                                 <td><input placeholder="Diente" type="text" name="diente" id="diente" class="form-control"/></td>
@@ -76,7 +68,6 @@
             </tr>
         </table>
     </div>
-
 </div>
 <div class="row">         
 
@@ -86,7 +77,7 @@
     <div class="col-md-12" style="padding-top: 15px; padding-bottom: 5px;">
         <table>
             <tr>
-               <td><a onclick="agregarAtencion()" class="btn btn-default {% if is_granted('ROLE_ADMIN') %} disabled {% endif %}" id="btnAgregarProcedimiento">                 
+                <td><a onclick="agregarAtencion()" class="btn btn-default {% if is_granted('ROLE_ADMIN') %} disabled {% endif %}" id="btnAgregarProcedimiento">                 
                         <img src='{{ asset('bundles/histclinica/images/icons/save-16.png') }}' width='16px' />
                         Guardar
                     </a></td>
@@ -128,7 +119,7 @@
                         <img id="firmaM_{{tratamiento.id}}" src="{{asset('uploads/medicos/'~atencion.medico.pathFirma)}}" style="max-width: 150px; max-height: 50px" >
                     </td>
                     <td>
-                $ {{tratamiento.costoProcedimiento}}
+                        $ {{tratamiento.costoProcedimiento}}
                     </td>
                 </tr>
 
@@ -148,23 +139,45 @@
     var pathFirma = '{{ asset('bundles/histclinica/images/no_image.png') }}';
     var msj_required = "<img src='{{ asset('bundles/histclinica/images/icons/alert.png') }}' width='20px' />";
     var divBorrar = "divBorrar";
+    var listaSugerencias;
 
     function getCostoProcedimiento(elemento) {
-        var pacienteId = document.getElementById("pacienteId").value;
         var procedimientoId = elemento.value;
         var indice = elemento.id.toString().split("_")[1];
+        var ban=false;
         if (procedimientoId.trim() != "") {
-            $.post('{{path('sugerencia_cargarPrecio')}}',
-                    {pacienteId: pacienteId, procedimientoId: procedimientoId},
-            function(response) {
-                if (response.costoProcedimiento != 0) {
-                    document.getElementById(costoProcedimiento + '_' + indice).value = response.costoProcedimiento;
-
-                } else {
-                    document.getElementById(costoProcedimiento + '_' + indice).value = "";
+            for(i=0;i<listaSugerencias.length && ban==false;i++){
+                if(listaSugerencias[i].procedimientoId==procedimientoId){
+                    document.getElementById(costoProcedimiento + '_' + indice).value = listaSugerencias[i].costo;
+                    ban=true;
+                }else{
+                    ban=false
                 }
-            }, "json");
-        } 
+            }
+            if (ban==false) {                
+                document.getElementById(costoProcedimiento + '_' + indice).value = "";
+            } 
+        }
+    }
+
+    function cargarProcedimientos(selectProcedimiento) {   
+         selectProcedimiento.innerHTML = '<option value="">Seleccionar</option>';
+        var pacienteId = document.getElementById("pacienteId").value;
+        $.post('{{path('sugerencia_cargarProcedimientos')}}',
+                {
+                    pacienteId: pacienteId
+                },
+        function(response) {
+            if (response != null) {
+                listaSugerencias = response;
+            }
+            for (i = 0; i < response.length; i++) {
+                var option = document.createElement('option');
+                option.value = response[i].procedimientoId;
+                option.innerHTML = response[i].descripcion;
+                selectProcedimiento.appendChild(option);
+            }
+        }, "json");
     }
 
     function agregarProcedimiento() {
@@ -297,9 +310,9 @@
                     var row = table.insertRow(rowCount);
                     row.id = response[i].tratamientoId;
                     var fechaCell = row.insertCell(0);
-                    var horaCell = row.insertCell(1);                    
+                    var horaCell = row.insertCell(1);
                     var dienteCell = row.insertCell(2);
-                    var tratamientoCell = row.insertCell(3);    
+                    var tratamientoCell = row.insertCell(3);
                     var firmaOdontologoCell = row.insertCell(4);
                     var costoCell = row.insertCell(5);
 

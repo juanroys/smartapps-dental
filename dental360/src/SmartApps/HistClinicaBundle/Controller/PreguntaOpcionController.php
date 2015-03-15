@@ -43,9 +43,13 @@ class PreguntaOpcionController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $pregunta = $em->getRepository("HistClinicaBundle:Pregunta")->find($variablepreg);
-
             $entity->setPregunta($pregunta);
-            
+            if($entity->getDefecto()==true){
+                $opciones=$em->getRepository('HistClinicaBundle:PreguntaOpcion')->findBy(array('pregunta'=>$variablepreg,'defecto'=>1));
+                foreach ($opciones as $opcion){
+                    $opcion->setDefecto(0);
+                }
+            }
             $em->persist($entity);
             $em->flush();
 
@@ -197,7 +201,7 @@ class PreguntaOpcionController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('HistClinicaBundle:PreguntaOpcion')->find($id);
-        $idpreg = $entity->getTipoPregunta()->getId();
+        $idpreg = $entity->getPregunta()->getId();
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find PreguntaOpcion entity.');
         }
@@ -207,7 +211,12 @@ class PreguntaOpcionController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-                        
+            if($entity->getDefecto()==true){
+                $opciones=$em->getRepository('HistClinicaBundle:PreguntaOpcion')->findBy(array('pregunta'=>$idpreg,'defecto'=>1));
+                foreach ($opciones as $opcion){
+                    $opcion->setDefecto(0);
+                }
+            }                        
             $em->flush();
             
             return $this->redirect($this->generateUrl('preguntaopcion_listado', array('id' => $idpreg)));

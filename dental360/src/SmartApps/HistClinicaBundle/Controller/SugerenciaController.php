@@ -144,5 +144,25 @@ class SugerenciaController extends Controller {
         );
         return new Response(json_encode($response));
     }
+    
+    public function cargarProcedimientosAction() {
+        $datos = $_POST;
+        $pacienteId = $datos["pacienteId"];
+        $em = $this->getDoctrine()->getManager();
+        $historiaClinica = $em->getRepository('HistClinicaBundle:HistoriaClinica')->findBy(array('paciente'=>$pacienteId));
+        $sugerencias = $em->getRepository('HistClinicaBundle:Sugerencia')->findBy(array('historiaClinica'=>$historiaClinica));
+        $response=array();
+        $cont=0;
+        foreach ($sugerencias as $sugerencia){
+            $procedimiento=$sugerencia->getProcedimiento();
+            $auxArray=array();
+            $auxArray["procedimientoId"]=$procedimiento->getId();
+            $auxArray["descripcion"]=$procedimiento->getDescripcion();       
+            $auxArray["costo"]=$sugerencia->getCosto(); 
+            $response[$cont]=$auxArray;
+            $cont++;
+        }
+        return new Response(json_encode($response));
+    }
 
 }

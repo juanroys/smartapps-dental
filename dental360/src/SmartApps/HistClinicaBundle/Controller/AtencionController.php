@@ -58,13 +58,8 @@ class AtencionController extends Controller {
         //se cambia el nombre de procedimientos a tratamientos solo durante el envio de los datos
         $tratamientos = $datos["tratamientos"];
         $firmaPaciente = $datos["firmaPaciente"];
-        //$abono = $datos["abono"];
-        $abono=0;
-        //$reciboNo = $datos["recibo"];
         $reciboNo=0;
-        $total = $datos["total"];        
-        //$saldo = $datos["saldo"];
-        $saldo=$total*-1;
+        $total = $datos["total"];       
         $pacienteId = $datos["pacienteId"];
 
         //cargando historia clinica del paciente
@@ -76,22 +71,11 @@ class AtencionController extends Controller {
         
         //creando objeto atencion
         $atencion = new Atencion();
-        $atencion->setAbono($abono);
         $atencion->setCostoTotal($total);
         $atencion->setFechaHora($fecha);
         $atencion->setFirmaPaciente($firmaPaciente);
         $atencion->setHistoriaClinica($historia);
-        $atencion->setSaldo($saldo);
         $atencion->setMedico($medico);
-        if (intval($abono) != 0 && trim($reciboNo)!="") {
-            $recibo = new \SmartApps\ContableBundle\Entity\Recibo();
-            $recibo->setAbono($abono);
-            $recibo->setFecha($fecha);
-            $recibo->setNumero($reciboNo);
-            $recibo->setAtencion($atencion);
-            $atencion->setRecibo($recibo);
-            $em->persist($recibo);
-        }
         $em->persist($atencion);
         
         foreach ($tratamientos as $tr){

@@ -60,7 +60,11 @@ class Util
             5 => array("nombre" => "Prótesis", 
                 "icono"=>"protPar_blue", 
                 "tipo"=>"imagen",
-                "color"=>"blue")
+                "color"=>"blue"),
+            5 => array("nombre" => "Bracket", 
+                "icono"=>"bracket_black", 
+                "tipo"=>"imagen",
+                "color"=>"black")
 
             );
     }
@@ -73,6 +77,7 @@ class Util
             4 => array("nombre" => "Incluido", "imagen"=>"incluido_blue"),            
             6 => array("nombre" => "Prótesis", "imagen"=>"protCom_blue"),
             5 => array("nombre" => "Endodoncia Indicada", "imagen"=>"endInd_red"),
+            7 => array("nombre" => "Implante", "imagen"=>"implante_black"),
             );
     }
     static public function OdontConvenColores(){

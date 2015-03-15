@@ -7,35 +7,38 @@
 </div>
     {{ form_start(edit_form) }}  
 <div class="formbody">
-<div class="row formulario-row">            
-    <div class= "col-md-6">{{form_errors(edit_form.orden)}}</div>
-    <div class= "col-md-6">{{form_errors(edit_form.enunciado)}}</div>
-</div>
-<div class="row formulario-row">
-    <div class="col-md-2">{{form_label(edit_form.orden) }}</div>
-    <div class="col-md-4">{{form_widget(edit_form.orden) }}        </div>    
-    <div class="col-md-2">{{form_label(edit_form.enunciado) }}</div>
-    <div class="col-md-4">{{form_widget(edit_form.enunciado) }}        </div>    
-</div>
-<div class="row formulario-row">            
-    <div class= "col-md-6">{{form_errors(edit_form.valorTexto)}}</div>
-    <div class= "col-md-6">{{form_errors(edit_form.valorNumero)}}</div>
-</div>
-<div class="row formulario-row">
-    <div class="col-md-2">{{form_label(edit_form.valorTexto) }}</div>
-    <div class="col-md-4">{{form_widget(edit_form.valorTexto) }}        </div>    
-    <div class="col-md-2">{{form_label(edit_form.valorNumero) }}</div>
-    <div class="col-md-4">{{form_widget(edit_form.valorNumero) }}        </div>    
-</div>
-<div class="row formulario-row">            
-    <div class= "col-md-6">{{form_errors(edit_form.opciones)}}</div>
-</div>
-<div class="row formulario-row">
-    <div class="col-md-2">{{form_label(edit_form.opciones) }}</div>
-    <div class="col-md-4">{{form_widget(edit_form.opciones) }}        </div>    
-</div>
+    <div class="row formulario-row">            
+        <div class= "col-md-6">{{form_errors(edit_form.orden)}}</div>
+        <div class= "col-md-6">{{form_errors(edit_form.enunciado)}}</div>
+    </div>
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(edit_form.orden) }}</div>
+        <div class="col-md-4">{{form_widget(edit_form.orden) }}        </div>    
+        <div class="col-md-2">{{form_label(edit_form.enunciado) }}</div>
+        <div class="col-md-4">{{form_widget(edit_form.enunciado) }}        </div>    
+    </div>
+    <div class="row formulario-row">            
+        <div class= "col-md-6">{{form_errors(edit_form.valorTexto)}}</div>
+        <div class= "col-md-6">{{form_errors(edit_form.valorNumero)}}</div>
+    </div>
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(edit_form.valorTexto) }}</div>
+        <div class="col-md-4">{{form_widget(edit_form.valorTexto) }}        </div>    
+        <div class="col-md-2">{{form_label(edit_form.valorNumero) }}</div>
+        <div class="col-md-4">{{form_widget(edit_form.valorNumero) }}        </div>    
+    </div>
+    <div class="row formulario-row">            
+        <div class= "col-md-6">{{form_errors(edit_form.opciones)}}</div>
+        <div class= "col-md-6">{{form_errors(edit_form.defecto)}}</div>
+    </div>
+    <div class="row formulario-row">
+        <div class="col-md-2">{{form_label(edit_form.opciones) }}</div>
+        <div class="col-md-4">{{form_widget(edit_form.opciones) }}        </div>    
+        <div class="col-md-2">{{form_label(edit_form.defecto) }}</div>
+        <div class="col-md-4">{{form_widget(edit_form.defecto) }}        </div>    
+    </div>
 
-<input type="hidden" value="{{ idpreg }}" name="idpreg" id="idpreg"/>
+    <input type="hidden" value="{{ idpreg }}" name="idpreg" id="idpreg"/>
 </div>
 <div class="row formulario-row">
     <div class="col-md-12">        
