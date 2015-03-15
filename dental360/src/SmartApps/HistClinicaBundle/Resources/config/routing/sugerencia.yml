@@ -21,3 +21,7 @@ sugerencia_load:
 sugerencia_edit:
     path: /edit
     defaults: {_controller: "HistClinicaBundle:Sugerencia:edit"}
+    
+sugerencia_cargarProcedimientos:
+    path: /cargarProcedimientos
+    defaults: {_controller: "HistClinicaBundle:Sugerencia:cargarProcedimientos"}

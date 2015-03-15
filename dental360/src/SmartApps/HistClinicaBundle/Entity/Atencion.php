@@ -60,20 +60,6 @@ class Atencion
     /**
      * @var integer
      *
-     * @ORM\Column(name="abono", type="bigint")
-     */
-    private $abono;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="saldo", type="bigint")
-     */
-    private $saldo;
-
-    /**
-     * @var integer
-     *
      * @ORM\Column(name="costoTotal", type="bigint")
      */
     private $costoTotal;
@@ -199,52 +185,6 @@ class Atencion
     public function getFechaHora()
     {
         return $this->fechaHora;
-    }
-
-    /**
-     * Set abono
-     *
-     * @param integer $abono
-     * @return Atencion
-     */
-    public function setAbono($abono)
-    {
-        $this->abono = $abono;
-
-        return $this;
-    }
-
-    /**
-     * Get abono
-     *
-     * @return integer 
-     */
-    public function getAbono()
-    {
-        return $this->abono;
-    }
-
-    /**
-     * Set saldo
-     *
-     * @param integer $saldo
-     * @return Atencion
-     */
-    public function setSaldo($saldo)
-    {
-        $this->saldo = $saldo;
-
-        return $this;
-    }
-
-    /**
-     * Get saldo
-     *
-     * @return integer 
-     */
-    public function getSaldo()
-    {
-        return $this->saldo;
     }
 
     /**

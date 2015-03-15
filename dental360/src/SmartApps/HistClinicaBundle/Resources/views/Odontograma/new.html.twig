@@ -79,7 +79,7 @@
             });
             $('input[name=convencionPar]').on('ifChecked', function(event) {
                 var auxArray = this.value.split('-');
-                cambiarDiagnostico(auxArray[0], auxArray[1], auxArray[2],auxArray[3]);
+                cambiarDiagnostico(auxArray[0], auxArray[1], auxArray[2], auxArray[3]);
             });
             cambiarDiagnostico('none', 'none');
             cambiarDiagDienCompl('panel', 'panel');
@@ -202,7 +202,7 @@
                         }
                         cargarArrayDiagActual();
                         arrayDiagActual[0] = arrayDiagCompActual.slice(0);
-                        guardarDiagnostico();               
+                        guardarDiagnostico();
                         persistirDiagnosticoActual();
                     }
                 }
@@ -210,7 +210,7 @@
                     var idDiente = dienteActual.id;
                     reiniciarDienteActual();
                     for (i = 0; i < arrayDiagActual.length; i++) {
-                        if (arrayDiagActual[i] != null && arrayDiagActual[i][0] != "none") {
+                        if (arrayDiagActual[i] != null && arrayDiagActual[i][0] != "none" && arrayDiagActual[i][0] != "panel") {
                             for (j = 0; j < arrayDiagActual[i].length; j++) {
                                 var div = null;
                                 var elemento = null;
@@ -356,29 +356,6 @@
                                 var div = null;
                                 var elemento = null;
                                 switch (i) {
-                                    /*case 0:
-                                     var diente_panel = document.getElementById('div-diente_panel');
-                                     if (imageNow != null) {
-                                     diente_panel.removeChild(imageNow);
-                                     }
-                                     var oImg = document.createElement("img");
-                                     var auxPath = "{{ asset('ROUTE') }}";
-                                     var path = auxPath.replace('ROUTE', 'bundles/histclinica/images/' + arrayDiagActual[i][2] + '.png');
-                                     oImg.setAttribute('src', path);
-                                     oImg.setAttribute('height', '{{medidaDientePanel*5}}px');
-                                     oImg.setAttribute('width', '{{medidaDientePanel*5}}px');
-                                     diente_panel.appendChild(oImg);
-                                     oImg.style.position = 'absolute';
-                                     oImg.style.zIndex = 4;
-                                     oImg.style.top = 0;
-                                     oImg.style.left = {{medidaDientePanel/2}};
-                                     imageNow = oImg;
-                                     document.getElementById('radioCompleto-' + arrayDiagActual[i][0]).checked = true;
-                                     imageSelect = arrayDiagActual[i][2].split('_')[0];
-                                     colorSelect = arrayDiagActual[i][2].split('_')[1].split('.')[0];
-                                     colorSelect = document.getElementById('colores').value = colorSelect;
-                                     diagnosticoActual = arrayDiagActual[i][0];
-                                     break;*/
                                     case 1:
                                         div = document.getElementById('{{superiorExterior}}_item');
                                         elemento = document.getElementById('{{superiorExterior}}');
@@ -435,11 +412,11 @@
                             }
                         }
                     }
-                }                
-                function cambiarDiagnostico(diagnostico, icono, tipo,color) {
+                }
+                function cambiarDiagnostico(diagnostico, icono, tipo, color) {
                     imageNowType = tipo;
                     diagnosticoActual = diagnostico;
-                    colorSelect=color;
+                    colorSelect = color;
                     if (imageNowType == "color") {
                         backgroundSelect = colorSelect;
                     } else {
@@ -549,7 +526,7 @@
                     aplicar(poligono);
                 }
     </script>
-    
+
     <style>
         #controlPanel {
             position:fixed;
@@ -614,7 +591,7 @@
 
         .polygon-diente_odontograma{
             fill:white;
-            stroke:black;
+            stroke:#1ca9a3;
             stroke-width:2;
             fill-rule:evenodd; 
             z-index: 3
@@ -623,7 +600,7 @@
         .polygon-diente_panel{
             cursor: pointer;
             fill:white;
-            stroke:black;
+            stroke:#1ca9a3;
             stroke-width:2;
             fill-rule:evenodd; 
             z-index: 3
@@ -750,7 +727,7 @@
         }
 
     </style>
-    
+
     <div id="odontograma">
         <div class="row">
         {#enumeracion de las columnas del odontograma#}
@@ -780,7 +757,7 @@
     {%if i==3%}
         <p style="display: inline-block">D</p>
         <svg id="svg-linea_horizontal">
-        <line x1="0" y1="{{medidaDienteOdontograma/2}}" x2="{{medidaDienteOdontograma*80}}" y2="{{medidaDienteOdontograma/2}}" style="stroke:black;stroke-width:2" />
+        <line x1="0" y1="{{medidaDienteOdontograma/2}}" x2="{{medidaDienteOdontograma*80}}" y2="{{medidaDienteOdontograma/2}}" style="stroke:#1ca9a3;stroke-width:2" />
         </svg>
         <p style="display: inline-block">I</p>
     {%endif%}
@@ -864,7 +841,7 @@
         {%set numeroActual=numeroActual-1%}
         {#dibujando linea horizontal#}
             <svg id="svg-linea_vertical">
-            <line x1="{{medidaDienteOdontograma/2}}" y1="0" x2="{{medidaDienteOdontograma/2}}" y2="{{medidaDienteOdontograma*5}}" style="stroke:black;stroke-width:2" />
+            <line x1="{{medidaDienteOdontograma/2}}" y1="0" x2="{{medidaDienteOdontograma/2}}" y2="{{medidaDienteOdontograma*5}}" style="stroke:#1ca9a3;stroke-width:2" />
             </svg>
         {%endif%}
         {%endfor%}
@@ -895,46 +872,46 @@
     </div>
 
     <div class="container">
-        
+
         <div class="row">
-                        
+
             {% set counter = 0 %}
             <div class="col-md-12">
-                <table cellpadding="0" cellspacing="0" >
+                <table cellpadding="0" cellspacing="0" style="font-size: 100%;" >
                     <tr>
-                        <td rowspan="2" style="background-color: #1ca9a3; color: white; padding-left: 7px; padding-right: 7px;" >
-                <h4>Diente completo</h4>                        
+                        <td rowspan="2" style="background-color: #1ca9a3; color: white; padding-left: 5px; padding-right: 5px;" >
+                            <h4>Diente completo</h4>                        
                         </td>
                         <td rowspan="2">
-                        <div class="radio-inline">
-                            <input type="radio" name="convencionCom" id="verPanel" value="panel-panel" checked="true"/>
-                            <label for="verPanel">Ninguno</label>
-                        </div>
+                            <div class="radio-inline">
+                                <input type="radio" name="convencionCom" id="verPanel" value="panel-panel" checked="true"/>
+                                <label for="verPanel">Ninguno</label>
+                            </div>
                         </td>
                     {%for convencion in convenCompleto%}
                         <td>
-                         <div class="radio-inline">
-                             <input type="radio" name="convencionCom" id="radioCompleto-{{convencion.nombre}}" value="{{convencion.nombre}}-{{convencion.imagen}}"/>
-                             <label for="radioCompleto-{{convencion.nombre}}" >{{convencion.nombre}}</label>          
-                         </div>
-                            </td>
+                            <div class="radio-inline">
+                                <input type="radio" name="convencionCom" id="radioCompleto-{{convencion.nombre}}" value="{{convencion.nombre}}-{{convencion.imagen}}"/>
+                                <label for="radioCompleto-{{convencion.nombre}}" >{{convencion.nombre}}</label>          
+                            </div>
+                        </td>
                         {% set counter = counter + 1 %}
                     {% if counter == 4 %}
                     </tr><tr>
                     {% endif %}
                         {%endfor%}                 
                         <td>
-                        <div class="radio-inline">
-                            <input type="radio" name="convencionCom" id="ningunoCompleto" value="none-none"/>
-                            <label for="ningunoCompleto">Borrar</label>
-                        </div>        
-                            </td>
-                        
+                            <div class="radio-inline">
+                                <input type="radio" name="convencionCom" id="ningunoCompleto" value="none-none"/>
+                                <label for="ningunoCompleto">Borrar</label>
+                            </div>        
+                        </td>
+
                     </tr>                    
                 </table>
             </div>            
         </div>
-        
+
     </div>
 
     <div id="dienteModal" class="modal fade">

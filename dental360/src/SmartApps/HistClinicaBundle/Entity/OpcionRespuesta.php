@@ -11,9 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="SmartApps\HistClinicaBundle\Entity\OpcionRespuestaRepository")
  */
-class OpcionRespuesta
-{
-    
+class OpcionRespuesta {
+
     /**
      * @var integer
      *
@@ -59,35 +58,46 @@ class OpcionRespuesta
      * @ORM\Column(name="opciones", type="string", length=512, nullable=true,options={"default":""})
      */
     private $opciones;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="enunciado", type="string", length=2048, nullable=true)
      */
     private $enunciado;
-    
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="defecto", type="boolean", options={"default" = 0}))
+     */
+    private $defecto;
 
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
-    
-    public function setTipoPregunta(\SmartApps\HistClinicaBundle\Entity\TipoPregunta $pregunta)
-    {
+    public function setDefecto($defecto) {
+        $this->defecto = $defecto;
+        return $this;
+    }
+
+    public function getDefecto() {
+        return $this->defecto;
+    }
+
+    public function setTipoPregunta(\SmartApps\HistClinicaBundle\Entity\TipoPregunta $pregunta) {
         $this->tipoPregunta = $pregunta;
 
         return $this;
     }
 
-    public function getTipoPregunta()
-    {
+    public function getTipoPregunta() {
         return $this->tipoPregunta;
     }
 
@@ -97,8 +107,7 @@ class OpcionRespuesta
      * @param integer $orden
      * @return OpcionRespuesta
      */
-    public function setOrden($orden)
-    {
+    public function setOrden($orden) {
         $this->orden = $orden;
 
         return $this;
@@ -109,8 +118,7 @@ class OpcionRespuesta
      *
      * @return integer 
      */
-    public function getOrden()
-    {
+    public function getOrden() {
         return $this->orden;
     }
 
@@ -120,8 +128,7 @@ class OpcionRespuesta
      * @param string $valorTexto
      * @return OpcionRespuesta
      */
-    public function setValorTexto($valorTexto)
-    {
+    public function setValorTexto($valorTexto) {
         $this->valorTexto = $valorTexto;
 
         return $this;
@@ -132,8 +139,7 @@ class OpcionRespuesta
      *
      * @return string 
      */
-    public function getValorTexto()
-    {
+    public function getValorTexto() {
         return $this->valorTexto;
     }
 
@@ -143,8 +149,7 @@ class OpcionRespuesta
      * @param string $valorNumero
      * @return OpcionRespuesta
      */
-    public function setValorNumero($valorNumero)
-    {
+    public function setValorNumero($valorNumero) {
         $this->valorNumero = $valorNumero;
 
         return $this;
@@ -155,19 +160,17 @@ class OpcionRespuesta
      *
      * @return string 
      */
-    public function getValorNumero()
-    {
+    public function getValorNumero() {
         return $this->valorNumero;
     }
-    
+
     /**
      * Set opciones
      *
      * @param string $opciones
      * @return OpcionRespuesta
      */
-    public function setOpciones($opciones)
-    {
+    public function setOpciones($opciones) {
         $this->opciones = $opciones;
 
         return $this;
@@ -178,19 +181,17 @@ class OpcionRespuesta
      *
      * @return string 
      */
-    public function getOpciones()
-    {
+    public function getOpciones() {
         return $this->opciones;
     }
-    
+
     /**
      * Set enunciado
      *
      * @param string $enunciado
      * @return OpcionRespuesta
      */
-    public function setEnunciado($valorTexto)
-    {
+    public function setEnunciado($valorTexto) {
         $this->enunciado = $valorTexto;
 
         return $this;
@@ -201,9 +202,8 @@ class OpcionRespuesta
      *
      * @return string 
      */
-    public function getEnunciado()
-    {
+    public function getEnunciado() {
         return $this->enunciado;
     }
-    
+
 }

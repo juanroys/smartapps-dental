@@ -226,7 +226,7 @@
         </div>
 
 
-{% for grupo in grupos %}
+{% for grupo in grupos if grupo.activo %}
     {%set ban=1%}
     {%set columnaDibujada = 1%}
         <div class="panel panel-default">
@@ -299,6 +299,8 @@
                                 {%for preguntaopcion in pregunta.preguntaOpciones%}                                                                        
                                                 <input {{pregunta.obligatoria ? 'required'}} type="radio" name="{{pregunta.id}}" class="" value="{{preguntaopcion.valorTexto}}" 
                                            {%if respuestas[pregunta.id] is defined and respuestas[pregunta.id] == preguntaopcion.valorTexto  %}
+                                                                                             checked="checked"
+                                           {%elseif preguntaopcion.defecto%}
                                                                                              checked="checked"
                                            {%endif%}
                                                                                              /> {{preguntaopcion.enunciado}}                                

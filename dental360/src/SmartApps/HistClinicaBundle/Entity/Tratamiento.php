@@ -44,6 +44,13 @@ class Tratamiento {
      * @ORM\Column(name="costoProcedimiento", type="bigint")
      */
     private $costoProcedimiento;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion", type="string", length=1023, nullable=true)
+     */
+    private $descripcion;
 
     /**
      * Get id
@@ -115,6 +122,26 @@ class Tratamiento {
      */
     public function getCostoProcedimiento() {
         return $this->costoProcedimiento;
+    }
+    
+    /**
+     * Set descripcion
+     *
+     * @param string descripcion
+     * @return Tratamiento
+     */
+    public function setDescripcion($descripcion) {
+        $this->descripcion = $descripcion;
+        return $this;
+    }
+
+    /**
+     * Get descripcion
+     *
+     * @return string 
+     */
+    public function getDescripcion() {
+        return $this->descripcion;
     }
 
     public function setAtencion(\SmartApps\HistClinicaBundle\Entity\Atencion $atencion) {

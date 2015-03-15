@@ -31,10 +31,13 @@
 </div>
 <div class="row formulario-row">            
     <div class= "col-md-6">{{form_errors(edit_form.opciones)}}</div>
+    <div class= "col-md-6">{{form_errors(edit_form.defecto)}}</div>
 </div>
 <div class="row formulario-row">
     <div class="col-md-2">{{form_label(edit_form.opciones) }}</div>
-    <div class="col-md-4">{{form_widget(edit_form.opciones) }}        </div>    
+    <div class="col-md-4">{{form_widget(edit_form.opciones) }}        </div>  
+    <div class="col-md-2">{{form_label(edit_form.defecto) }}</div>
+    <div class="col-md-4">{{form_widget(edit_form.defecto) }}        </div> 
 </div>
 <input type="hidden" value="{{ idpreg }}" name="idpreg" id="idpreg"/>
 </div>

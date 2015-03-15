@@ -65,6 +65,22 @@ class PreguntaOpcion
      * @ORM\Column(name="enunciado", type="string", length=2048, nullable=true)
      */
     private $enunciado;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="defecto", type="boolean", options={"default" = 0}))
+     */
+    private $defecto;
+
+    public function setDefecto($defecto) {
+        $this->defecto = $defecto;
+        return $this;
+    }
+
+    public function getDefecto() {
+        return $this->defecto;
+    }
 
     public function __construct() {
         

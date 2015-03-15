@@ -40,176 +40,180 @@
                 <td><a onclick="agregarSugerencia()" id="boton"><img src="{{ asset('bundles/histclinica/images/icons/plus-32.png') }}" width="32px" alt="Adicionar" title="Adicionar"/></a></td>
             </tr>
         </table>
-        </div>    
-    </div>
-    <div class="row" style="width: 1100px;">
-        <div class="col-md-12" >
-            <table class="records_list table table-condensed table-bordered" id="sugerencias">
-                <thead>
-                    <tr>
-                        <th style="background-color: #1CA9A3; border-color: #1CA9A3">Fecha</th>
-                        <th style="background-color: #1CA9A3; border-color: #1CA9A3">Plan de Tratamiento</th>
-                        <th style="background-color: #1CA9A3; border-color: #1CA9A3">Valor</th>
-                        <th style="background-color: #1CA9A3; border-color: #1CA9A3">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
+    </div>    
+</div>
+<div class="row" style="width: 1100px;">
+    <div class="col-md-12" >
+        <table class="records_list table table-condensed table-bordered" id="sugerencias">
+            <thead>
+                <tr>
+                    <th style="background-color: #1CA9A3; border-color: #1CA9A3">Fecha</th>
+                    <th style="background-color: #1CA9A3; border-color: #1CA9A3">Plan de Tratamiento</th>
+                    <th style="background-color: #1CA9A3; border-color: #1CA9A3">Valor</th>
+                    <th style="background-color: #1CA9A3; border-color: #1CA9A3">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
             {%if sugerencias is defined and sugerencias!=null%}
             {%for sugerencia in sugerencias%}
-                        <tr id="{{sugerencia.id}}">
-                            <td>
+                <tr id="{{sugerencia.id}}">
+                    <td>
                 {{sugerencia.fechaPlanificacion|date('Y-m-d')}}
-                                </td>
-                                <td>
+                    </td>
+                    <td>
                 {{sugerencia.procedimiento.descripcion}}
-                                    </td>
-                                    <td>
-                $ {{sugerencia.costo}}
-                                        </td>
-                                        <td class="tdactions">
-                                            <a onclick="editarSugerencia({{sugerencia.id}})" ><img src="{{ asset('bundles/histclinica/images/icons/edit-20.png') }}" width="20px" alt="Editar" title="Editar"/></a>
-                                            <a onclick="borrarSugerencia({{sugerencia.id}}, this)" ><img src="{{ asset('bundles/histclinica/images/icons/cancel-22.png') }}" width="20px" alt="Borrar"  title="Borrar"/></a>                                            
-                                        </td>
-                                    </tr>
+                    </td>
+                    <td>
+                        $ {{sugerencia.costo}}
+                    </td>
+                    <td class="tdactions">
+                        <a onclick="editarSugerencia({{sugerencia.id}})" ><img src="{{ asset('bundles/histclinica/images/icons/edit-20.png') }}" width="20px" alt="Editar" title="Editar"/></a>
+                        <a onclick="borrarSugerencia({{sugerencia.id}}, this)" ><img src="{{ asset('bundles/histclinica/images/icons/cancel-22.png') }}" width="20px" alt="Borrar"  title="Borrar"/></a>                                            
+                    </td>
+                </tr>
             {%endfor%}
             {%endif%}
-                                </tbody>
-                            </table>
-                        </div>
+            </tbody>
+        </table>
+    </div>
 
-                    </div>
-                    <script type="text/javascript" lang="javascript">
-                        var rowSelect = null;
-                        function agregarSugerencia() {
-                            var fecha = document.getElementById("fecha").value;
-                            var costoProcedimiento = document.getElementById("costoProcedimiento").value;
-                            var procedimientoId = document.getElementById("procedimientoId").value;
-                            var pacienteId = document.getElementById("pacienteId").value;
-                            if (fecha.trim() == "" || costoProcedimiento.trim() == "" || procedimientoId.trim() == "") {
-                                alert("Datos incompletos");
-                            } else {
-                                var sugerenciaId = document.getElementById("sugerenciaId").value;
-                                if (sugerenciaId == "0") {
-                                    $.post('{{path('sugerencia_create')}}',
-                                            {fecha: fecha, costoProcedimiento: costoProcedimiento, procedimientoId: procedimientoId, pacienteId: pacienteId},
-                                    function(response) {
-                                        var table = document.getElementById("sugerencias");
-                                        var rowCount = table.rows.length;
-                                        var row = table.insertRow(rowCount);
-                                        row.id = response.sugerenciaId;
-                                        var fechaCell = row.insertCell(0);
-                                        var procedimientoCell = row.insertCell(1);
-                                        var costoCell = row.insertCell(2);
-                                        var accion = row.insertCell(3);
-                                        fechaCell.innerHTML = response.fecha;
-                                        procedimientoCell.innerHTML = response.procedimiento;
-                                        costoCell.innerHTML = '$ ' + response.costo;
-                                        //bundles/histclinica/images/icons/edit-20.png
-                                        accion.innerHTML = '<a onclick="editarSugerencia(' + response.sugerenciaId + ')" ><img src="{{ asset('bundles/histclinica/images/icons/edit-20.png') }}" width="20px" alt="Editar" title="Editar"/></a> <a onclick="borrarSugerencia(' + response.sugerenciaId + ', this)" ><img src="{{ asset('bundles/histclinica/images/icons/cancel-22.png') }}" width="20px" alt="Borrar"  title="Borrar"/></a>';
-                                        accion.setAttribute("class", "tdactions");
-                                        document.getElementById("fecha").value = "";
-                                        document.getElementById("costoProcedimiento").value = "";
-                                        document.getElementById("procedimientoId").selectedIndex = "0";
-                                        document.getElementById("sugerenciaId").value = "0";
-                                    }, "json");
-                                } else {
-                                    $.post('{{path('sugerencia_edit')}}',
-                                            {fecha: fecha, costoProcedimiento: costoProcedimiento, procedimientoId: procedimientoId, pacienteId: pacienteId, sugerenciaId: sugerenciaId},
-                                    function(response) {
-                                        var rowDelete = document.getElementById(response.sugerenciaId);
-                                        var tabla = rowDelete.parentNode;
-                                        var index = rowDelete.rowIndex;
-                                        tabla.removeChild(rowDelete);
-                                        var table = document.getElementById("sugerencias");
-                                        var row = table.insertRow(index);
-                                        row.id = response.sugerenciaId;
-                                        var fechaCell = row.insertCell(0);
-                                        var procedimientoCell = row.insertCell(1);
-                                        var costoCell = row.insertCell(2);
-                                        var accion = row.insertCell(3);
-                                        fechaCell.innerHTML = response.fecha;
-                                        procedimientoCell.innerHTML = response.procedimiento;
-                                        costoCell.innerHTML = '$ ' + response.costo;
-                                        accion.innerHTML = '<a onclick="editarSugerencia(' + response.sugerenciaId + ')" ><img src="{{ asset('bundles/histclinica/images/icons/edit-20.png') }}" width="20px" alt="Editar" title="Editar"/> </a><a onclick="borrarSugerencia(' + response.sugerenciaId + ', this)"><img src="{{ asset('bundles/histclinica/images/icons/cancel-22.png') }}" width="20px" alt="Borrar"  title="Borrar"/></a>';
-                                        accion.setAttribute("class", "tdactions");
-                                        document.getElementById("fecha").value = "";
-                                        document.getElementById("costoProcedimiento").value = "";
-                                        document.getElementById("procedimientoId").selectedIndex = "0";
-                                        document.getElementById("sugerenciaId").value = "0";
-                                    }, "json");
-                                }
-                            }
+</div>
+<script type="text/javascript" lang="javascript">
+    var rowSelect = null;
+    function agregarSugerencia() {
+        var fecha = document.getElementById("fecha").value;
+        var costoProcedimiento = document.getElementById("costoProcedimiento").value;
+        var procedimientoId = document.getElementById("procedimientoId").value;
+        var pacienteId = document.getElementById("pacienteId").value;
+        if (fecha.trim() == "" || costoProcedimiento.trim() == "" || procedimientoId.trim() == "") {
+            alert("Datos incompletos");
+        } else {
+            var sugerenciaId = document.getElementById("sugerenciaId").value;
+            if (sugerenciaId == "0") {
+                $.post('{{path('sugerencia_create')}}',
+                        {
+                            fecha: fecha, 
+                            costoProcedimiento: costoProcedimiento, 
+                            procedimientoId: procedimientoId, 
+                            pacienteId: pacienteId
+                        },
+                function(response) {
+                    var table = document.getElementById("sugerencias");
+                    var rowCount = table.rows.length;
+                    var row = table.insertRow(rowCount);
+                    row.id = response.sugerenciaId;
+                    var fechaCell = row.insertCell(0);
+                    var procedimientoCell = row.insertCell(1);
+                    var costoCell = row.insertCell(2);
+                    var accion = row.insertCell(3);
+                    fechaCell.innerHTML = response.fecha;
+                    procedimientoCell.innerHTML = response.procedimiento;
+                    costoCell.innerHTML = '$ ' + response.costo;
+                    //bundles/histclinica/images/icons/edit-20.png
+                    accion.innerHTML = '<a onclick="editarSugerencia(' + response.sugerenciaId + ')" ><img src="{{ asset('bundles/histclinica/images/icons/edit-20.png') }}" width="20px" alt="Editar" title="Editar"/></a> <a onclick="borrarSugerencia(' + response.sugerenciaId + ', this)" ><img src="{{ asset('bundles/histclinica/images/icons/cancel-22.png') }}" width="20px" alt="Borrar"  title="Borrar"/></a>';
+                    accion.setAttribute("class", "tdactions");
+                    document.getElementById("fecha").value = "";
+                    document.getElementById("costoProcedimiento").value = "";
+                    document.getElementById("procedimientoId").selectedIndex = "0";
+                    document.getElementById("sugerenciaId").value = "0";
+                }, "json");
+            } else {
+                $.post('{{path('sugerencia_edit')}}',
+                        {fecha: fecha, costoProcedimiento: costoProcedimiento, procedimientoId: procedimientoId, pacienteId: pacienteId, sugerenciaId: sugerenciaId},
+                function(response) {
+                    var rowDelete = document.getElementById(response.sugerenciaId);
+                    var tabla = rowDelete.parentNode;
+                    var index = rowDelete.rowIndex;
+                    tabla.removeChild(rowDelete);
+                    var table = document.getElementById("sugerencias");
+                    var row = table.insertRow(index);
+                    row.id = response.sugerenciaId;
+                    var fechaCell = row.insertCell(0);
+                    var procedimientoCell = row.insertCell(1);
+                    var costoCell = row.insertCell(2);
+                    var accion = row.insertCell(3);
+                    fechaCell.innerHTML = response.fecha;
+                    procedimientoCell.innerHTML = response.procedimiento;
+                    costoCell.innerHTML = '$ ' + response.costo;
+                    accion.innerHTML = '<a onclick="editarSugerencia(' + response.sugerenciaId + ')" ><img src="{{ asset('bundles/histclinica/images/icons/edit-20.png') }}" width="20px" alt="Editar" title="Editar"/> </a><a onclick="borrarSugerencia(' + response.sugerenciaId + ', this)"><img src="{{ asset('bundles/histclinica/images/icons/cancel-22.png') }}" width="20px" alt="Borrar"  title="Borrar"/></a>';
+                    accion.setAttribute("class", "tdactions");
+                    document.getElementById("fecha").value = "";
+                    document.getElementById("costoProcedimiento").value = "";
+                    document.getElementById("procedimientoId").selectedIndex = "0";
+                    document.getElementById("sugerenciaId").value = "0";
+                }, "json");
+            }
+        }
+    }
 
-                        }
+    function getCostoProcedimiento() {
+        var pacienteId = document.getElementById("pacienteId").value;
+        var procedimientoId = document.getElementById("procedimientoId").value;
+        if (procedimientoId.trim() != "") {
+            $.post('{{path('sugerencia_cargarPrecio')}}',
+                    {pacienteId: pacienteId, procedimientoId: procedimientoId},
+            function(response) {
+                if (response.costoProcedimiento != 0) {
+                    document.getElementById("costoProcedimiento").value = response.costoProcedimiento;
+                } else {
+                    document.getElementById("costoProcedimiento").value = "";
+                }
+            }, "json");
+        }
+    }
 
-                        function getCostoProcedimiento() {
-                            var pacienteId = document.getElementById("pacienteId").value;
-                            var procedimientoId = document.getElementById("procedimientoId").value;
-                            if (procedimientoId.trim() != "") {
-                                $.post('{{path('sugerencia_cargarPrecio')}}',
-                                        {pacienteId: pacienteId, procedimientoId: procedimientoId},
-                                function(response) {
-                                    if (response.costoProcedimiento != 0) {
-                                        document.getElementById("costoProcedimiento").value = response.costoProcedimiento;
-                                    } else {
-                                        document.getElementById("costoProcedimiento").value = "";
-                                    }
-                                }, "json");
-                            }
-                        }
+    function borrarSugerencia(sugerenciaId, elemento) {
+        if (rowSelect != null) {
+            rowSelect.style.backgroundColor = "white";
+        }
+        $.post('{{path('sugerencia_delete')}}',
+                {sugerenciaId: sugerenciaId},
+        function(response) {
+            if (response.error) {
+                alert("El elemento que intenta borrar no exixte");
+            } else {
+                var cell = elemento.parentNode;
+                var row = cell.parentNode;
+                var table = row.parentNode;
+                table.removeChild(row);
+                document.getElementById("fecha").value = "";
+                document.getElementById("costoProcedimiento").value = "";
+                document.getElementById("procedimientoId").selectedIndex = "0";
+                document.getElementById("sugerenciaId").value = "0";
+            }
+        }, "json");
+    }
 
-                        function borrarSugerencia(sugerenciaId, elemento) {
-                            if (rowSelect != null) {
-                                rowSelect.style.backgroundColor = "white";
-                            }
-                            $.post('{{path('sugerencia_delete')}}',
-                                    {sugerenciaId: sugerenciaId},
-                            function(response) {
-                                if (response.error) {
-                                    alert("El elemento que intenta borrar no exixte");
-                                } else {
-                                    var cell = elemento.parentNode;
-                                    var row = cell.parentNode;
-                                    var table = row.parentNode;
-                                    table.removeChild(row);
-                                    document.getElementById("fecha").value = "";
-                                    document.getElementById("costoProcedimiento").value = "";
-                                    document.getElementById("procedimientoId").selectedIndex = "0";
-                                    document.getElementById("sugerenciaId").value = "0";
-                                }
-                            }, "json");
-                        }
+    function editarSugerencia(sugerenciaId) {
+        if (rowSelect != null) {
+            rowSelect.style.backgroundColor = "white";
+        }
+        rowSelect = document.getElementById(sugerenciaId);
+        rowSelect.style.backgroundColor = "#ccc";
+        $.post('{{path('sugerencia_load')}}',
+                {sugerenciaId: sugerenciaId},
+        function(response) {
+            if (response.error) {
+                alert("El elemento que intenta editar no exixte");
+            } else {
+                //document.getElementById("fecha").value=response.fecha;
+                var picker = $('#datetimepicker').data('datetimepicker');
+                picker.setDate(response.fecha);
+                document.getElementById("costoProcedimiento").value = response.costo;
+                document.getElementById("procedimientoId").value = response.procedimientoId;
+                document.getElementById("sugerenciaId").value = response.sugerenciaId;
+            }
+        }, "json");
+    }
 
-                        function editarSugerencia(sugerenciaId) {
-                            if (rowSelect != null) {
-                                rowSelect.style.backgroundColor = "white";
-                            }
-                            rowSelect = document.getElementById(sugerenciaId);
-                            rowSelect.style.backgroundColor = "#ccc";
-                            $.post('{{path('sugerencia_load')}}',
-                                    {sugerenciaId: sugerenciaId},
-                            function(response) {
-                                if (response.error) {
-                                    alert("El elemento que intenta editar no exixte");
-                                } else {
-                                    //document.getElementById("fecha").value=response.fecha;
-                                    var picker = $('#datetimepicker').data('datetimepicker');
-                                    picker.setDate(response.fecha);
-                                    document.getElementById("costoProcedimiento").value = response.costo;
-                                    document.getElementById("procedimientoId").value = response.procedimientoId;
-                                    document.getElementById("sugerenciaId").value = response.sugerenciaId;
-                                }
-                            }, "json");
-                        }
+    $(function() {
+        $('#datetimepicker').datetimepicker({
+            pickTime: false
+        });
+    });
 
-                        $(function() {
-                            $('#datetimepicker').datetimepicker({
-                                pickTime: false
-                            });
-                        });
-                        
-                        jQuery(document).ready(function(){
-                            jQuery("#procedimientoId").select2(); 
-                        });
-                        </script>
+    jQuery(document).ready(function() {
+        jQuery("#procedimientoId").select2();
+    });
+</script>
 {% endblock%}
